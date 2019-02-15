@@ -1,0 +1,174 @@
+<!--
+ 	This file is part of GROUCHO, originally developed at CNR-IASI.
+ 	For more information visit:
+ 	http://saks.iasi.cnr.it/tools/groucho
+ 	    
+ 	This is free software: you can redistribute it and/or modify
+ 	it under the terms of the GNU General Public License as 
+ 	published by the Free Software Foundation, either version 3 of the 
+ 	License, or (at your option) any later version.
+ 	
+ 	This software is distributed in the hope that it will be useful,
+ 	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ 	GNU General Public License for more details.
+    
+ 	You should have received a copy of the GNU General Public License
+ 	along with this source.  If not, see <http://www.gnu.org/licenses/>.
+-->
+ 
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>it.cnr.iasi.saks.groucho</groupId>
+  <artifactId>groucho-crochet</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>groucho-crochet</name>
+  <url>http://saks.iasi.cnr.it/tools/groucho</url>
+  
+  <parent>
+        <groupId>it.cnr.iasi.saks.groucho</groupId>
+        <artifactId>groucho</artifactId>
+        <version>1.0-SNAPSHOT</version>
+  </parent>
+    
+  <developers>
+		<developer>
+			<id>gulyx</id>
+			<name>Guglielmo De Angelis</name>
+		</developer>
+  </developers>
+  
+  <licenses>
+		<license>
+			<name>GNU General Public License (GPL ver.3)</name>
+			<url>http://www.gnu.org/licenses/gpl.txt</url>
+		</license>
+  </licenses>  
+
+  <properties>		
+        <junit.version>4.0</junit.version>
+        
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		
+        <scm.version>1.8.1</scm.version>
+		<scm.connection.crochet>scm:git:https://github.com/gulyx/crochet.git</scm.connection.crochet>
+        <scm.developerConnection.crochet>scm:git:https://USERNAMEHERE@github.com/gulyx/crochet.git</scm.developerConnection.crochet>
+		<scm.url.crochet>https://github.com/gulyx/crochet</scm.url.crochet>
+		<scm.scmVersion.crochet>groucho-dependency-branch</scm.scmVersion.crochet>
+        <scm.checkoutDirectory.crochet>${project.build.directory}/crochet</scm.checkoutDirectory.crochet>
+        
+        <org-codehaus-mojo.version>1.6.0</org-codehaus-mojo.version>
+        
+        <resources.version>3.1.0</resources.version>        
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  
+    <scm>
+        <connection>${scm.connection.crochet}</connection>
+<!--         <developerConnection>${scm.developerConnection.crochet}</developerConnection> -->
+        <url>${scm.url.crochet}</url>
+    </scm>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-scm-plugin</artifactId>
+                <version>${scm.version}</version>
+                <configuration> 
+                    <scmVersion>${scm.scmVersion.crochet}</scmVersion>
+                    <scmVersionType>branch</scmVersionType>
+                    <checkoutDirectory>${scm.checkoutDirectory.crochet}</checkoutDirectory>
+                    <goals>install</goals>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>scm-checkout-bootstrap</id>
+                        <goals>
+                            <goal>checkout</goal>
+                            <goal>bootstrap</goal>
+                        </goals>
+                        <phase>compile</phase>
+                    </execution>
+                </executions>                
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${resources.version}</version>
+                <executions>
+                    <execution>
+                        <id>copy-files-in-target</id>
+                        <!-- here the phase you need -->
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target</outputDirectory>
+                            <resources>          
+                                <resource>
+                                    <directory>${scm.checkoutDirectory.crochet}/target</directory>
+                                    <includes>
+                                        <include>*.jar</include>
+                                        <include>*.so</include>
+                                        <include>*.o</include>
+                                    </includes>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>              
+                        </configuration>            
+                    </execution>
+                    <execution>
+                        <id>copy-jre-inst-in-target</id>
+                        <!-- here the phase you need -->
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/jre-inst</outputDirectory>
+                            <resources>          
+                                <resource>
+                                    <directory>${scm.checkoutDirectory.crochet}/target/jre-inst</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>              
+                        </configuration>            
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${org-codehaus-mojo.version}</version>
+                <executions>
+                   <execution>
+                        <id>script-chmod</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>chmod</executable>
+                            <arguments>
+                                <argument>-R</argument>
+                                <argument>+x</argument>
+                                <argument>${basedir}/target/jre-inst/bin</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+             </plugin>            
+        </plugins>
+  </build>    
+</project>
