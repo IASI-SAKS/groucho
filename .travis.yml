@@ -1,0 +1,31 @@
+language: java
+jdk:
+    - oraclejdk8
+##script: bash build --debug
+script: mvn clean install 
+# We need to avoid sudo for caching on Travis
+# http://docs.travis-ci.com/user/caching/
+sudo: false
+
+addons:
+    apt:
+        packages:
+            - curl
+            - gcc
+            - make
+            - maven
+            - build-essential
+            - sed
+    
+cache:
+    directories:
+        - $HOME/.m2
+
+before_script:
+    - export JAVA_HOME=`dirname $(dirname $(readlink -f $(which javac)))`
+    - export MAVEN_SKIP_RC=true
+    - export MAVEN_OPTS="-Xms1024m -Xmx2g -XX:MaxPermSize=512m"
+
+### Copied form LeanPAd, commented by Gulyx
+# after_success:
+#    - bash <(curl -s https://codecov.io/bash)
