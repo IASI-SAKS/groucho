@@ -4,7 +4,10 @@ public class GovernanceManagerFactory {
 
 	private static GovernanceManagerFactory gmFactory = null;
 
+	private static AbstractGovernanceManager gm = null;
+
 	private GovernanceManagerFactory() {
+		gm = new SimpleGovernanceManager();
 	}
 
 	public synchronized static GovernanceManagerFactory getInstance() {
@@ -15,7 +18,10 @@ public class GovernanceManagerFactory {
 	}
 
 	public AbstractGovernanceManager getGovernanceManager() {
-		return new SimpleGovernanceManager();
+		return gm;
 	}
 
+	public ThreadHarness getThreadHarness() {
+		return gm;
+	}
 }
