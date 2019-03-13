@@ -108,9 +108,9 @@ public class CrochetMethodVisitor extends MethodVisitor {
 		Context context = new Context(instObj, instClass, instMethod, testClass, testMethod);
 		
 		AbstractGovernanceManager gm = GovernanceManagerFactory.getInstance().getGovernanceManager();		
-		if (gm.evaluateActivation(context)){
+//		if (gm.evaluateActivation(context)){
 			gm.runInvivoTestingSession(context);
-		}	
+//		}	
 	}
 	
 }
