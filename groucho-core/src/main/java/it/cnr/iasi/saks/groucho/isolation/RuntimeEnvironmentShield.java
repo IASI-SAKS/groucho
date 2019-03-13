@@ -2,17 +2,16 @@ package it.cnr.iasi.saks.groucho.isolation;
 
 import java.lang.ref.WeakReference;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import it.cnr.iasi.saks.groucho.callback.Context;
 import net.jonbell.crij.runtime.CRIJInstrumented;
 import net.jonbell.crij.runtime.CheckpointRollbackAgent;
 
-public class RuntimeEnvironmentShield {
+public class RuntimeEnvironmentShield{
 	
 	private static CheckpointRollbackAgent CROCHET_AGENT;
-	public static Set<WeakReference<CRIJInstrumented>> COLLECTED_ROOT_OBJECTS = new HashSet<>();
+	private static Set<WeakReference<CRIJInstrumented>> COLLECTED_ROOT_OBJECTS = new HashSet<>();
 	
 	public RuntimeEnvironmentShield(){
 		
