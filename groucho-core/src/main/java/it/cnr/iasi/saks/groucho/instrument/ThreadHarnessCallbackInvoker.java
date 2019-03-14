@@ -15,7 +15,10 @@
  * along with GROUCHO.  If not, see <https://www.gnu.org/licenses/>
  *
  */
-package it.cnr.iasi.saks.groucho.callback;
+package it.cnr.iasi.saks.groucho.instrument;
+
+import it.cnr.iasi.saks.groucho.callback.GovernanceManagerFactory;
+import it.cnr.iasi.saks.groucho.callback.ThreadHarness;
 
 public class ThreadHarnessCallbackInvoker {
 	public static void invokeCallback_IncThread(){
