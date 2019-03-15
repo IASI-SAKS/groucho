@@ -28,16 +28,22 @@ public class Context {
 	
 	private String invivoTestClass;
 	private String invivoTest;
+	private boolean pauseOtherThreadsFlag;
 	
 	private List<Object> otherReferencesInContext;
 	
 	public Context(Object instrumentedObject, String instrumentedClassName, String instrumentedMethodName, String invivoTestClass, String invivoTest) {
+		this(instrumentedObject, instrumentedClassName, instrumentedMethodName, invivoTestClass, invivoTest, true);
+	}
+
+	public Context(Object instrumentedObject, String instrumentedClassName, String instrumentedMethodName, String invivoTestClass, String invivoTest, boolean pauseOtherThreads) {
 		super();
 		this.instrumentedObject = instrumentedObject;
 		this.instrumentedClassName = instrumentedClassName;
 		this.instrumentedMethodName = instrumentedMethodName;
 		this.invivoTestClass = invivoTestClass;
 		this.invivoTest = invivoTest;
+		this.pauseOtherThreadsFlag = pauseOtherThreads;
 		
 		this.otherReferencesInContext = new ArrayList<Object>();
 	}
@@ -70,5 +76,8 @@ public class Context {
 		return invivoTest;
 	}
 
+	public boolean checkPauseForOtherThreads() {
+		return pauseOtherThreadsFlag;
+	}
 
 }
