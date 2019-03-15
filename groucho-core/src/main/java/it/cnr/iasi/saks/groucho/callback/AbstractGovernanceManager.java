@@ -49,7 +49,9 @@ public abstract class AbstractGovernanceManager implements ThreadHarness {
 	
 	@Override
 	public void enableEnactmentInvivoTestingSession () throws InterruptedException{
-		if ((!this.inVivoTestingSession.isInactive()) && (this.pauseOtherThreads)){
+// TODO: Not sure yet about this change. I need to think about it longer.		
+//		if ((!this.inVivoTestingSession.isInactive()) && (this.pauseOtherThreads)){
+		if ((this.inVivoTestingSession.isActivating()) && (this.pauseOtherThreads)){
 			boolean gotLock = INVIVO_SESSION_LOCK.tryLock();
 			if (! gotLock){
 				this.pauseMe();
