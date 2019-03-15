@@ -19,12 +19,14 @@ package it.cnr.iasi.saks.groucho.callback;
 
 import java.util.concurrent.locks.ReentrantLock;
 
+import it.cnr.iasi.saks.groucho.common.InVivoTestingSession;
 import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
 
 public abstract class AbstractGovernanceManager implements ThreadHarness {
 	
-	private volatile boolean isInVivoTestingEnabled;
-
+	private volatile InVivoTestingSession inVivoTestingSession;
+	private volatile boolean pauseOtherThreads;
+	
 	private RuntimeEnvironmentShield environmentShield;
 
 	private static volatile Object INTERNAL_LOCK = new Object();
@@ -36,14 +38,17 @@ public abstract class AbstractGovernanceManager implements ThreadHarness {
 	private static volatile int THREAD_INVIVO_SESSION_COUNTER = 0; // Count the thread that will ask for an Invivo Session
 	private static volatile int THREAD_THAT_WILL_PAUSE_COUNTER = 0; // Count the thread that will wait on the THREAD_LOCKER
 
+	private static volatile int INTERNAL_LOCK_WAIT_MAX = 10000;
+
 	public AbstractGovernanceManager(){
-		this.isInVivoTestingEnabled = false;
+		this.inVivoTestingSession = new InVivoTestingSession();
+		this.pauseOtherThreads = true;
 		this.environmentShield = new RuntimeEnvironmentShield();		
 	} 
 	
 	@Override
 	public void enableEnactmentInvivoTestingSession () throws InterruptedException{
-		if (this.isInVivoTestingEnabled){
+		if ((!this.inVivoTestingSession.isInactive()) && (this.pauseOtherThreads)){
 			boolean gotLock = INVIVO_SESSION_LOCK.tryLock();
 			if (! gotLock){
 				this.pauseMe();
@@ -80,9 +85,14 @@ public abstract class AbstractGovernanceManager implements ThreadHarness {
 			try{
 				System.out.println("Invivo SimpleThread: " + ID);
 				if (this.checkActivation(context)){
-					this.isInVivoTestingEnabled = true;
-					this.waitOtherThreadsPaused(ID);
+					this.updatePauseOtherThreads(context);
+					this.inVivoTestingSession.resetConfiguration();
+					this.inVivoTestingSession.goNextConfiguration();
+					if (this.pauseOtherThreads){
+						this.waitOtherThreadsPaused(ID);
+					}	
 				
+					this.inVivoTestingSession.goNextConfiguration();
 					System.out.println("the checkpoint of the considered object should be applied here ... ");		
 					this.environmentShield.applyCheckpointOnContext(context);				
 				
@@ -92,12 +102,20 @@ public abstract class AbstractGovernanceManager implements ThreadHarness {
 					this.notifyOtherThreads();
 				}
 			} finally {
-					this.isInVivoTestingEnabled = false;
+					this.inVivoTestingSession.resetConfiguration();
 					for (int unlockCount = INVIVO_SESSION_LOCK.getHoldCount(); unlockCount > 0; unlockCount--) {
 						INVIVO_SESSION_LOCK.unlock();
 					}
 			}
 			THREAD_INVIVO_SESSION_COUNTER --;
+		}	
+	}
+
+	private void updatePauseOtherThreads(Context context) {
+		if ( context!=null ){
+			this.pauseOtherThreads = context.checkPauseForOtherThreads();
+		}else{
+			this.pauseOtherThreads = true;
 		}	
 	}
 
@@ -116,7 +134,7 @@ public abstract class AbstractGovernanceManager implements ThreadHarness {
 			synchronized (INTERNAL_LOCK) {
 				while ( ! (THREAD_THAT_WILL_PAUSE_COUNTER + THREAD_INVIVO_SESSION_COUNTER >= THREAD_COUNTER) ){
 System.out.println("["+ID+"] Waiting: " + THREAD_THAT_WILL_PAUSE_COUNTER + ", InvivoReq: "+ THREAD_INVIVO_SESSION_COUNTER +",Thread: "+ THREAD_COUNTER );					
-					INTERNAL_LOCK.wait();
+					INTERNAL_LOCK.wait(INTERNAL_LOCK_WAIT_MAX);
 				}
 System.out.println("["+ID+"] Waiting: " + THREAD_THAT_WILL_PAUSE_COUNTER + ", InvivoReq: "+ THREAD_INVIVO_SESSION_COUNTER +",Thread: "+ THREAD_COUNTER );					
 			}	
@@ -158,11 +176,11 @@ System.out.println("["+ID+"] Count: " + count + ", InvivoReq: "+ THREAD_INVIVO_S
 	private void pauseMe() throws InterruptedException{
 		System.out.println("Ci Provo ... ");
 		synchronized (INTERNAL_LOCK) {
-			THREAD_THAT_WILL_PAUSE_COUNTER ++;
 			INTERNAL_LOCK.notify();
 		}
 		System.out.println("... notificato ...");
 		synchronized (THREAD_LOCKER) {
+			THREAD_THAT_WILL_PAUSE_COUNTER ++;
 			THREAD_LOCKER.wait();
 		}
 		System.out.println("... sbloccato ...");
