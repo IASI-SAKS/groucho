@@ -21,7 +21,7 @@ import java.lang.ref.WeakReference;
 import java.util.HashSet;
 import java.util.Set;
 
-import it.cnr.iasi.saks.groucho.callback.Context;
+import it.cnr.iasi.saks.groucho.common.Context;
 import net.jonbell.crij.runtime.CRIJInstrumented;
 import net.jonbell.crij.runtime.CheckpointRollbackAgent;
 

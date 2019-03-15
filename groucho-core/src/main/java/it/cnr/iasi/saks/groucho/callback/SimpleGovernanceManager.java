@@ -23,6 +23,8 @@ import java.util.ArrayList;
 
 import org.objectweb.asm.Type;
 
+import it.cnr.iasi.saks.groucho.common.Context;
+
 public class SimpleGovernanceManager extends AbstractGovernanceManager {
 
 	@Override

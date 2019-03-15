@@ -15,7 +15,7 @@
  * along with GROUCHO.  If not, see <https://www.gnu.org/licenses/>
  *
  */
-package it.cnr.iasi.saks.groucho.callback;
+package it.cnr.iasi.saks.groucho.common;
 
 import java.util.ArrayList;
 import java.util.List;
