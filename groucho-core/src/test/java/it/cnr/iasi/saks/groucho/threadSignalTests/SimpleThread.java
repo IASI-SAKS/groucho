@@ -21,7 +21,7 @@ import org.junit.Test;
 
 import it.cnr.iasi.saks.groucho.callback.AbstractGovernanceManager;
 import it.cnr.iasi.saks.groucho.callback.GovernanceManagerFactory;
-import it.cnr.iasi.saks.groucho.callback.ThreadHarnessCallbackInvoker;
+import it.cnr.iasi.saks.groucho.instrument.ThreadHarnessCallbackInvoker;
 
 public class SimpleThread implements Runnable{
 	
