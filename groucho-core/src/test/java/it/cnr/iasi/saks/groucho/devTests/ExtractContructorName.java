@@ -26,9 +26,9 @@ public class ExtractContructorName {
 	@Parameters
 	public static Collection<String[]> getParameters(){
 		return Arrays.asList(new String[][]{
-				{"Class", "foo.pippo.Class"}, // expected, value
-				{"Class", ".Class"}, // expected, valueOne, value
-				{"", "foo.pippo.Class."}, // expected, value
+				{"Class", "foo/pippo/Class"}, // expected, value
+				{"Class", "/Class"}, // expected, valueOne, value
+				{"", "foo/pippo/Class/"}, // expected, value
 				{"foopippoClass", "foopippoClass"}, // expected, value
 		});
 	}
@@ -43,7 +43,7 @@ public class ExtractContructorName {
 	@Test
 	public void extractContructorNameBuiltinTest(){
 		String result = "";
-		int nameStartsAt = this.className.lastIndexOf('.')+1;
+		int nameStartsAt = this.className.lastIndexOf('/')+1;
 		if (nameStartsAt > 0){
 			result = this.className.substring(nameStartsAt);			
 		} else {

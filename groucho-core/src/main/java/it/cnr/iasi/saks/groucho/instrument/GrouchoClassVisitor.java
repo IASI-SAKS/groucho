@@ -67,17 +67,21 @@ public class GrouchoClassVisitor extends ClassVisitor {
 	}
 
 	protected boolean isContructor(String methodName){		
-		return this.extractContructorName().equals(methodName);
+		String result = this.extractContructorName();
+		
+		System.out.println(methodName + " ???? " + result);		
+		return methodName.equals(result);
 	}
 
 	protected String extractContructorName(){
 		String result = "";
-		int nameStartsAt = this.className.lastIndexOf('.')+1;
+		int nameStartsAt = this.className.lastIndexOf('/')+1;
 		if (nameStartsAt > 0){
 			result = this.className.substring(nameStartsAt);			
 		} else {
 			result = this.className;
 		}
+		
 		return result;
 	}
 }
