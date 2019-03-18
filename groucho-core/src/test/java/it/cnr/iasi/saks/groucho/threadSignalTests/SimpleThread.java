@@ -130,4 +130,10 @@ class SimpleClass {
 			i--;
 		}
 	}
+
+	public void ingnoreMe (){
+// *************************************************************		
+		ThreadHarnessCallbackInvoker.invokeCallback_checkInTheConstructors();
+// *************************************************************		
+	}
 }
