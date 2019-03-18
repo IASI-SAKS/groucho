@@ -30,6 +30,8 @@ public class GrouchoClassVisitor extends ClassVisitor {
 	private String className;
 	private ClassWriter cw;
 	
+	private final String constructorInByteCode = "<init>";
+			
 //	public GrouchoClassVisitor(ClassWriter cw, String pClassName) {
 //		super(cw, ClassWriter.COMPUTE_MAXS);
 //		this.className = pClassName;
@@ -67,13 +69,20 @@ public class GrouchoClassVisitor extends ClassVisitor {
 	}
 
 	protected boolean isContructor(String methodName){		
-		String result = this.extractContructorName();
+		String result = this.constructorInByteCode;
 		
 		System.out.println(methodName + " ???? " + result);		
 		return methodName.equals(result);
 	}
 
-	protected String extractContructorName(){
+	protected boolean isContructorBySourceName(String methodName){		
+		String result = this.extractContructorSourceName();
+		
+		System.out.println(methodName + " ???? " + result);		
+		return methodName.equals(result);
+	}
+
+	protected String extractContructorSourceName(){
 		String result = "";
 		int nameStartsAt = this.className.lastIndexOf('/')+1;
 		if (nameStartsAt > 0){

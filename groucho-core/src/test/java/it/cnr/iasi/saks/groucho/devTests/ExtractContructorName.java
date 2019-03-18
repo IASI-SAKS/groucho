@@ -34,14 +34,14 @@ public class ExtractContructorName {
 	}
 
 	/**
-	 * This method is supposed to test the private method @see {@link it.cnr.iasi.saks.groucho.instrument.GrouchoClassVisitor#extractContructorName()}
+	 * This method is supposed to test the private method @see {@link it.cnr.iasi.saks.groucho.instrument.GrouchoClassVisitor#extractContructorSourceName()}
 	 * Thus the body of this test is the same of that method.
 	 *
 	 * @return the string
 	 */
 	@Ignore
 	@Test
-	public void extractContructorNameBuiltinTest(){
+	public void extractContructorSourceNameBuiltinTest(){
 		String result = "";
 		int nameStartsAt = this.className.lastIndexOf('/')+1;
 		if (nameStartsAt > 0){
@@ -55,9 +55,9 @@ public class ExtractContructorName {
 	}
 
 	@Test
-	public void extractContructorNameTest(){
+	public void extractContructorSourceNameTest(){
 		GrouchoClassVisitor_TestVersion cv = new GrouchoClassVisitor_TestVersion(null, this.className);
-		String result = cv.extractContructorName();
+		String result = cv.extractContructorSourceName();
 
 //		System.out.println(this.expectedResul + " --> " + result);
 		Assert.assertEquals(this.expectedResul, result);

@@ -10,7 +10,7 @@ public class GrouchoClassVisitor_TestVersion extends GrouchoClassVisitor {
 		super(cw, pClassName);
 	}
 
-	public String extractContructorName(){
-		return super.extractContructorName();
+	public String extractContructorSourceName(){
+		return super.extractContructorSourceName();
 	}	
 }
