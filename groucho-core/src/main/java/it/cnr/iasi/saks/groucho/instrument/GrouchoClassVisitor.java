@@ -45,16 +45,39 @@ public class GrouchoClassVisitor extends ClassVisitor {
 	public MethodVisitor visitMethod(int access, String methodName, String desc, String signature, String[] exceptions) {
 		MethodVisitor mv = super.visitMethod(access, methodName, desc, signature, exceptions);
 //		return new PrintMessageMethodVisitor(mv, this.className, methodName);
-		 
+		
 //		System.out.println("---- " + signature + " **** " + Arrays.toString(Type.getArgumentTypes(desc)));
 //		System.out.println("---- " + signature);
 		String retrivedSignatureAsAString = Arrays.toString(Type.getArgumentTypes(desc));
 		Type[] retrivedSignature = Type.getArgumentTypes(desc);
-		return new CrochetMethodVisitor(mv, this.className, methodName, retrivedSignature);
+
+		MethodVisitor resultingMV;
+		if (this.isContructor(methodName)){
+			ThreadHarnessMethodVisitor thMV = new ThreadHarnessMethodVisitor(mv, this.className, methodName, retrivedSignature);
+			resultingMV = new CrochetMethodVisitor(thMV, this.className, methodName, retrivedSignature);			
+		}else{
+			resultingMV = new CrochetMethodVisitor(mv, this.className, methodName, retrivedSignature);
+		}
+		
+		return resultingMV;
 	}
 
 	public byte[] toByteArray() {
 		return cw.toByteArray();
 	}
 
+	protected boolean isContructor(String methodName){		
+		return this.extractContructorName().equals(methodName);
+	}
+
+	protected String extractContructorName(){
+		String result = "";
+		int nameStartsAt = this.className.lastIndexOf('.')+1;
+		if (nameStartsAt > 0){
+			result = this.className.substring(nameStartsAt);			
+		} else {
+			result = this.className;
+		}
+		return result;
+	}
 }
