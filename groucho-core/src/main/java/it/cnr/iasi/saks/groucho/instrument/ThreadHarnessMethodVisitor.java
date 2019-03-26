@@ -17,19 +17,9 @@
  */
 package it.cnr.iasi.saks.groucho.instrument;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-
-import it.cnr.iasi.saks.groucho.annotation.TestableInVivo;
-import it.cnr.iasi.saks.groucho.callback.AbstractGovernanceManager;
-import it.cnr.iasi.saks.groucho.callback.GovernanceManagerFactory;
-import it.cnr.iasi.saks.groucho.common.Context;
 
 public class ThreadHarnessMethodVisitor extends MethodVisitor {
 
@@ -66,13 +56,9 @@ public class ThreadHarnessMethodVisitor extends MethodVisitor {
 //		return super.visitAnnotation(desc, visible);
 //	}
 
-//	@Override
-//	public void visitCode() {
-//		this.visitLogic();
-//	}
-
 	@Override
-	public void visitEnd() {
+	public void visitCode() {
+		this.mv.visitCode();
 		this.visitLogic();
 	}
 
@@ -94,19 +80,11 @@ public class ThreadHarnessMethodVisitor extends MethodVisitor {
 	}
 
 	private void applyInstrumentation() {
-		// 3. if annotation present, add logging to beginning of the method
-//			mv.visitVarInsn(Opcodes.ALOAD, 0);
-//			mv.visitLdcInsn(this.className);
-//			mv.visitLdcInsn(this.methodName);
-//			String signatureAsString = Arrays.toString(this.methodSignature);
-//			mv.visitLdcInsn(signatureAsString);
-//			mv.visitLdcInsn(this.invivoTestClass);
-//			mv.visitLdcInsn(this.invivoTest);
 			mv.visitMethodInsn(Opcodes.INVOKESTATIC, "it/cnr/iasi/saks/groucho/instrument/ThreadHarnessCallbackInvoker", "invokeCallback_checkInTheConstructors", "()V", false);
 	}
 
 	private void instrumentingMessage(){
-		System.out.println("Instrumenting: "+this.className + "." + this.methodName);		
+		System.out.println(this.getClass().getName() +" is instrumenting: "+this.className + "." + this.methodName);		
 	}
 		
 }

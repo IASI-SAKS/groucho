@@ -25,6 +25,8 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 
 public class GrouchoClassTransformer implements ClassFileTransformer {
+	
+	private final String JAVA_LANG_OBJECT = "java/lang/Object";
 
 	private boolean isDisabled(String className) {
 		return (this.isLocallyIgnored(className) || this.isClassNameIgnoredByCrochet(className));
@@ -67,7 +69,11 @@ public class GrouchoClassTransformer implements ClassFileTransformer {
 		try {
 			ClassReader reader = new ClassReader(classfileBuffer);
 			ClassWriter writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS);
-			GrouchoClassVisitor grouchoVisitor = new GrouchoClassVisitor(writer, className);
+			
+			String superClassName = reader.getSuperName();
+			System.out.println("GenericSuperclass for "+className+" --> "+superClassName);
+			boolean enableConstructorInstrumentation = superClassName.equalsIgnoreCase(this.JAVA_LANG_OBJECT);
+			GrouchoClassVisitor grouchoVisitor = new GrouchoClassVisitor(writer, className, enableConstructorInstrumentation);
 
 			reader.accept(grouchoVisitor, 0);
 			byteArrayToBeReturned  = grouchoVisitor.toByteArray();

@@ -49,6 +49,7 @@ public abstract class AbstractGovernanceManager implements ThreadHarness {
 	
 	@Override
 	public void enableEnactmentInvivoTestingSession () throws InterruptedException{
+System.out.println("Invoked Instrumentation for Constructors");		
 // TODO: Not sure yet about this change. I need to think about it longer.		
 //		if ((!this.inVivoTestingSession.isInactive()) && (this.pauseOtherThreads)){
 		if ((this.inVivoTestingSession.isActivating()) && (this.pauseOtherThreads)){

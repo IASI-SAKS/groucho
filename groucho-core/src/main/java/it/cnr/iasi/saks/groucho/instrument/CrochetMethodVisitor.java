@@ -76,6 +76,7 @@ public class CrochetMethodVisitor extends MethodVisitor {
 
 	@Override
 	public void visitCode() {
+		this.mv.visitCode();
 		// 3. if annotation present, add logging to beginning of the method
 		if (this.isAnnotationValid){
 			try {
@@ -115,7 +116,7 @@ public class CrochetMethodVisitor extends MethodVisitor {
 	}
 
 	private void instrumentingMessage(){
-		System.out.println("Instrumenting: "+this.className + "." + this.methodName);		
+		System.out.println(this.getClass().getName() +" is instrumenting: "+this.className + "." + this.methodName);		
 	}
 	
 	public static void invokeCallback(Object instObj, String instClass, String instMethod, String instMethodSignature, String testClass, String testMethod) {

@@ -29,6 +29,7 @@ import org.objectweb.asm.Type;
 public class GrouchoClassVisitor extends ClassVisitor {
 	private String className;
 	private ClassWriter cw;
+	private boolean isConstructorsInstrumentationEnabled;
 	
 	private final String constructorInByteCode = "<init>";
 			
@@ -38,9 +39,15 @@ public class GrouchoClassVisitor extends ClassVisitor {
 //	}
 
 	public GrouchoClassVisitor(ClassWriter cw, String pClassName) {
+		this(cw, pClassName, false);
+	}
+	
+	public GrouchoClassVisitor(ClassWriter cw, String pClassName, boolean enableConstructorInstrumentation) {
 		super(Opcodes.ASM5, cw);
 		this.className = pClassName;
 		this.cw = cw;
+		
+		this.isConstructorsInstrumentationEnabled = enableConstructorInstrumentation;
 	}
 
 	@Override
@@ -54,7 +61,7 @@ public class GrouchoClassVisitor extends ClassVisitor {
 		Type[] retrivedSignature = Type.getArgumentTypes(desc);
 
 		MethodVisitor resultingMV;
-		if (this.isContructor(methodName)){
+		if ((this.isConstructorsInstrumentationEnabled) && (this.isContructor(methodName))){
 			ThreadHarnessMethodVisitor thMV = new ThreadHarnessMethodVisitor(mv, this.className, methodName, retrivedSignature);
 			resultingMV = new CrochetMethodVisitor(thMV, this.className, methodName, retrivedSignature);			
 		}else{
@@ -68,17 +75,40 @@ public class GrouchoClassVisitor extends ClassVisitor {
 		return cw.toByteArray();
 	}
 
+/**
+ * Possibly this method is useless.
+ * Such a check has been moved in the @see {@link it.cnr.iasi.saks.groucho.instrument.GrouchoClassTransformer}
+ * adding a further constructor in this class.
+ */
+	protected boolean hasExplicitSuperclass(String className){		
+		boolean result = false;
+		try {
+			System.out.println("GenericSuperclass for "+className+"--> "+Class.forName(className, false, ClassLoader.getSystemClassLoader()).getGenericSuperclass());
+			java.lang.reflect.Type superclass = Class.forName(className, false, ClassLoader.getSystemClassLoader()).getGenericSuperclass();
+//			System.out.println("GenericSuperclass for "+className+"--> "+Class.forName(className).getGenericSuperclass());
+//			java.lang.reflect.Type superclass = Class.forName(className).getGenericSuperclass();
+			if (superclass != null){
+				result = !(superclass.equals(Object.class));
+			}	
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
 	protected boolean isContructor(String methodName){		
 		String result = this.constructorInByteCode;
 		
-		System.out.println(methodName + " ???? " + result);		
+//		System.out.println(methodName + " ???? " + result);		
 		return methodName.equals(result);
 	}
 
 	protected boolean isContructorBySourceName(String methodName){		
 		String result = this.extractContructorSourceName();
 		
-		System.out.println(methodName + " ???? " + result);		
+//		System.out.println(methodName + " ???? " + result);		
 		return methodName.equals(result);
 	}
 
