@@ -13,4 +13,9 @@ public class GrouchoClassVisitor_TestVersion extends GrouchoClassVisitor {
 	public String extractContructorSourceName(){
 		return super.extractContructorSourceName();
 	}	
+
+	public boolean hasExplicitSuperclass(String classname){
+		return super.hasExplicitSuperclass(classname);
+	}	
+
 }
