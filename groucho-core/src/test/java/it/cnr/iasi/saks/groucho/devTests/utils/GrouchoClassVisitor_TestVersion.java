@@ -6,8 +6,11 @@ import it.cnr.iasi.saks.groucho.instrument.GrouchoClassVisitor;
 
 public class GrouchoClassVisitor_TestVersion extends GrouchoClassVisitor {
 
+	private String pClassName;
+	
 	public GrouchoClassVisitor_TestVersion(ClassWriter cw, String pClassName) {
 		super(cw, pClassName);
+		this.pClassName = pClassName;
 	}
 
 	public String extractContructorSourceName(){
@@ -18,4 +21,9 @@ public class GrouchoClassVisitor_TestVersion extends GrouchoClassVisitor {
 		return super.hasExplicitSuperclass(classname);
 	}	
 
+	public boolean isImplementingRunnableSomehow(){			
+	        this.retrieveInheritedInterfaceNames(this.pClassName);
+			return super.isImplementingRunnableSomehow();		
+	}
+		
 }

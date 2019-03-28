@@ -12,12 +12,12 @@ import it.cnr.iasi.saks.groucho.devTests.utils.GrouchoClassVisitor_TestVersion;
 import junit.framework.Assert;
 
 @RunWith(value=Parameterized.class)
-public class CheckSuperclass {
+public class CheckSuperclassTest {
 	
 	private String className;
 	private String expectedResul;
 	
-	public CheckSuperclass(String expectedResult, String className) {
+	public CheckSuperclassTest(String expectedResult, String className) {
 		this.className = className;
 		this.expectedResul = expectedResult;
 	}

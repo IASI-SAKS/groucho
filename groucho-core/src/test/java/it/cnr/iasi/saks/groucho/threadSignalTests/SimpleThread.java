@@ -17,8 +17,6 @@
  */
 package it.cnr.iasi.saks.groucho.threadSignalTests;
 
-import org.junit.Test;
-
 import it.cnr.iasi.saks.groucho.callback.AbstractGovernanceManager;
 import it.cnr.iasi.saks.groucho.callback.GovernanceManagerFactory;
 import it.cnr.iasi.saks.groucho.instrument.ThreadHarnessCallbackInvoker;
@@ -80,34 +78,6 @@ public class SimpleThread implements Runnable{
 		}
 	}
 
-	@Test
-	public void firstSimpleTest(){
-		long startTS = System.currentTimeMillis();
-		double rnd;
-		Thread t = null;
-		for (int i = 0; i < 50; i++) {
-			rnd = Math.random();
-			if (rnd <= 0.9f){
-				SimpleThread s = new SimpleThread();
-				t = new Thread(s);
-				t.start();
-			}			
-		}
-		try {
-			System.out.println("------------------------- Invocata la Join");
-			if (t!=null){
-				t.join();
-			}
-			System.out.println("------------------------- done");
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		long finishTS = System.currentTimeMillis();
-		float elapsedSec = (finishTS - startTS)/1000;
-
-		System.out.println("Completed in almost: " + elapsedSec + " sec.");		
-	}
 	
 }
 

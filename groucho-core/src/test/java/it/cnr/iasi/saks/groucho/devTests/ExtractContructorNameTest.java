@@ -13,12 +13,12 @@ import it.cnr.iasi.saks.groucho.devTests.utils.GrouchoClassVisitor_TestVersion;
 import junit.framework.Assert;
 
 @RunWith(value=Parameterized.class)
-public class ExtractContructorName {
+public class ExtractContructorNameTest {
 	
 	private String className;
 	private String expectedResul;
 	
-	public ExtractContructorName(String expectedResult, String className) {
+	public ExtractContructorNameTest(String expectedResult, String className) {
 		this.className = className;
 		this.expectedResul = expectedResult;
 	}
