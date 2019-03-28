@@ -21,7 +21,7 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-public class ThreadHarnessMethodVisitor extends MethodVisitor {
+public class ThreadHarnessConstructorsMethodVisitor extends MethodVisitor {
 
 	private String className;
 	private String methodName;
@@ -33,7 +33,7 @@ public class ThreadHarnessMethodVisitor extends MethodVisitor {
 	private String invivoTestClass;
 	private String invivoTest;	
 	
-	public ThreadHarnessMethodVisitor(MethodVisitor mv, String className, String methodName, Type[] signature) {
+	public ThreadHarnessConstructorsMethodVisitor(MethodVisitor mv, String className, String methodName, Type[] signature) {
 		super(Opcodes.ASM5, mv);
 
 		this.methodName = methodName;
