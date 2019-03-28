@@ -40,7 +40,7 @@ public class SimpleThread implements Runnable{
 	@Override
 	public void run() {
 // *************************************************************		
-		ThreadHarnessCallbackInvoker.invokeCallback_IncThread();
+		ThreadHarnessCallbackInvoker.invokeCallback_incThread();
 // *************************************************************		
 		System.out.println("Launched SimpleThread: " + this.id);
 		this.isAlive = true;
