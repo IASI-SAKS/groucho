@@ -17,21 +17,35 @@
  */
 package it.cnr.iasi.saks.groucho.instrument;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
+import org.apache.commons.lang3.ClassUtils;
+import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import it.cnr.iasi.saks.groucho.common.InterfacesMapStore;
+
 //public class GrouchoClassVisitor extends ClassWriter {
 public class GrouchoClassVisitor extends ClassVisitor {
+	private final static String JAVA_LANG_OBJECT = "java/lang/Object";
+	private final static String JAVA_LANG_RUNNABLE = "java/lang/Runnable";
+
 	private String className;
 	private ClassWriter cw;
-	private boolean isConstructorsInstrumentationEnabled;
 	
-	private final String constructorInByteCode = "<init>";
+	private boolean isConstructorsInstrumentationEnabled;
+	private boolean isRunnableInstrumentationEnabled;
+	
+	private final String CONSTRUCTOR_IN_BYTECODE = "<init>";
+	private final String RUN_METHOD_IN_BYTECODE = "run";
 			
 //	public GrouchoClassVisitor(ClassWriter cw, String pClassName) {
 //		super(cw, ClassWriter.COMPUTE_MAXS);
@@ -39,17 +53,25 @@ public class GrouchoClassVisitor extends ClassVisitor {
 //	}
 
 	public GrouchoClassVisitor(ClassWriter cw, String pClassName) {
-		this(cw, pClassName, false);
-	}
-	
-	public GrouchoClassVisitor(ClassWriter cw, String pClassName, boolean enableConstructorInstrumentation) {
 		super(Opcodes.ASM5, cw);
 		this.className = pClassName;
 		this.cw = cw;
 		
-		this.isConstructorsInstrumentationEnabled = enableConstructorInstrumentation;
+		this.isConstructorsInstrumentationEnabled = false;
+		this.isRunnableInstrumentationEnabled = false;
 	}
-
+	
+	@Override
+	public void visit(int version, int access, String name, String signature, String superClassName, String[] interfaces){
+		super.visit(version, access, name, signature, superClassName, interfaces);
+		System.out.println("GenericSuperclass for "+this.className+" --> "+superClassName);
+		this.isConstructorsInstrumentationEnabled = superClassName.equalsIgnoreCase(JAVA_LANG_OBJECT);
+		
+        this.retrieveInheritedInterfaceNames(this.className);
+		
+		this.isRunnableInstrumentationEnabled = this.isImplementingRunnableSomehow();		
+	}
+	
 	@Override
 	public MethodVisitor visitMethod(int access, String methodName, String desc, String signature, String[] exceptions) {
 		MethodVisitor mv = super.visitMethod(access, methodName, desc, signature, exceptions);
@@ -65,7 +87,12 @@ public class GrouchoClassVisitor extends ClassVisitor {
 			ThreadHarnessMethodVisitor thMV = new ThreadHarnessMethodVisitor(mv, this.className, methodName, retrivedSignature);
 			resultingMV = new CrochetMethodVisitor(thMV, this.className, methodName, retrivedSignature);			
 		}else{
-			resultingMV = new CrochetMethodVisitor(mv, this.className, methodName, retrivedSignature);
+//			if((this.isRunnableInstrumentationEnabled) && (this.isRun(methodName, signature))){
+//				ThreadHarnessMethodVisitor thMV = new ThreadHarnessMethodVisitor(mv, this.className, methodName, retrivedSignature);
+//				resultingMV = new CrochetMethodVisitor(thMV, this.className, methodName, retrivedSignature);			
+//			}else{
+				resultingMV = new CrochetMethodVisitor(mv, this.className, methodName, retrivedSignature);
+//			}	
 		}
 		
 		return resultingMV;
@@ -74,6 +101,60 @@ public class GrouchoClassVisitor extends ClassVisitor {
 	public byte[] toByteArray() {
 		return cw.toByteArray();
 	}
+
+	
+	protected boolean isImplementingRunnableSomehow(){
+		boolean result = InterfacesMapStore.getInstance().isImplemented(this.className, JAVA_LANG_RUNNABLE);
+        System.out.println(" \t Exitus: "+result);
+		for (String interfaceItem : InterfacesMapStore.getInstance().dumpListOfAllInterfaces(this.className)) {
+            System.out.println(" \t  \t interface:"+interfaceItem);
+		};
+		return result;
+	}
+	
+/**
+ * 	
+ * Base-case
+ */
+    protected void retrieveInheritedInterfaceNames(String localClassName)
+    {
+		List<String> interfaceList = new ArrayList<String>();
+        this.retrieveInheritedInterfaceNames(this.className, interfaceList);
+    }    
+    
+/**
+* Recursive-case
+*/
+    protected void retrieveInheritedInterfaceNames(String localClassName, List<String> interfaceList)
+    {
+    	ClassReader cr=null;
+    	try {
+    		cr = new ClassReader(localClassName);
+    		String superName = cr.getSuperName();
+       //System.out.println("[superName]"+superName);
+    		if(superName!=null && !superName.equals(JAVA_LANG_OBJECT))
+    		{
+    			String superClass = superName.replace('.', '/');
+    			this.retrieveInheritedInterfaceNames(superClass, interfaceList);
+    		}
+
+   			String[] interfaces = cr.getInterfaces();
+   			if(interfaces!=null && interfaces.length > 0){
+   				for(int k=0;k<interfaces.length;k++){
+   					String inface = interfaces[k];
+   					interfaceList.add(inface);
+   				}
+   			}
+
+   			for (String superInterfaceItem : interfaceList) {
+   				InterfacesMapStore.getInstance().put(localClassName, superInterfaceItem);				
+   			}                
+        
+   		} catch (IOException e) {
+   			// TODO Auto-generated catch block
+   			e.printStackTrace();
+   		}
+    }
 
 /**
  * Possibly this method is useless.
@@ -99,7 +180,14 @@ public class GrouchoClassVisitor extends ClassVisitor {
 	}
 
 	protected boolean isContructor(String methodName){		
-		String result = this.constructorInByteCode;
+		String result = this.CONSTRUCTOR_IN_BYTECODE;
+		
+//		System.out.println(methodName + " ???? " + result);		
+		return methodName.equals(result);
+	}
+
+	protected boolean isRun(String methodName, String signature){		
+		String result = this.RUN_METHOD_IN_BYTECODE;
 		
 //		System.out.println(methodName + " ???? " + result);		
 		return methodName.equals(result);

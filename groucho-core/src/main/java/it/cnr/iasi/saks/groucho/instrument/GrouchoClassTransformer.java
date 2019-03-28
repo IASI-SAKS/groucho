@@ -20,14 +20,13 @@ package it.cnr.iasi.saks.groucho.instrument;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
+import java.util.Iterator;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 
 public class GrouchoClassTransformer implements ClassFileTransformer {
 	
-	private final String JAVA_LANG_OBJECT = "java/lang/Object";
-
 	private boolean isDisabled(String className) {
 		return (this.isLocallyIgnored(className) || this.isClassNameIgnoredByCrochet(className));
 	}
@@ -70,10 +69,7 @@ public class GrouchoClassTransformer implements ClassFileTransformer {
 			ClassReader reader = new ClassReader(classfileBuffer);
 			ClassWriter writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS);
 			
-			String superClassName = reader.getSuperName();
-			System.out.println("GenericSuperclass for "+className+" --> "+superClassName);
-			boolean enableConstructorInstrumentation = superClassName.equalsIgnoreCase(this.JAVA_LANG_OBJECT);
-			GrouchoClassVisitor grouchoVisitor = new GrouchoClassVisitor(writer, className, enableConstructorInstrumentation);
+			GrouchoClassVisitor grouchoVisitor = new GrouchoClassVisitor(writer, className);
 
 			reader.accept(grouchoVisitor, 0);
 			byteArrayToBeReturned  = grouchoVisitor.toByteArray();
@@ -83,5 +79,5 @@ public class GrouchoClassTransformer implements ClassFileTransformer {
 		}
 		return byteArrayToBeReturned;
 	}
-
+	
 }
