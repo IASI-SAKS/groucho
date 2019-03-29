@@ -35,48 +35,49 @@ public class SimpleGovernanceManager extends AbstractGovernanceManager {
 	@Override
 	protected void doInvivoTestingSession(Context context) {
 		System.out.println("... doing something here, between the checkpoint and the rollback");
-		
-		try {
+		if (context != null){
+			try {
 /*
  * TODO here we may think to support method with parameters
  */
-			Class<?>[] parametersList = this.convertSignature(null);
+				Class<?>[] parametersList = this.convertSignature(null);
 			
-			String invivoTestClassName = context.getInvivoTestClass();
-			String invivoTestName = context.getInvivoTest();
-			Class<?> clazz = Class.forName(invivoTestClassName, false, ClassLoader.getSystemClassLoader()); 
-			Method method = clazz.getMethod(invivoTestName, Context.class);
+				String invivoTestClassName = context.getInvivoTestClass();
+				String invivoTestName = context.getInvivoTest();
+				Class<?> clazz = Class.forName(invivoTestClassName, false, ClassLoader.getSystemClassLoader()); 
+				Method method = clazz.getMethod(invivoTestName, Context.class);
 			
-			Object reflectiveObject = clazz.newInstance();
+				Object reflectiveObject = clazz.newInstance();
 			
-			method.invoke(reflectiveObject, context);
+				method.invoke(reflectiveObject, context);
 //					if (method != null){
 //							TestableInVivo annotation = method.getAnnotation(TestableInVivo.class);
 //							this.invivoTest = annotation.invivoTest();
 //							this.invivoTestClass = annotation.invivoTestClass();
 //					}					
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
+			} catch (SecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
 	}
 
 	private Class<?>[] convertSignature(Type[] methodSignature) throws ClassNotFoundException{
