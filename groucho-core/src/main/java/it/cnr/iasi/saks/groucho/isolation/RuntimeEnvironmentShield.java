@@ -1,18 +1,34 @@
+/* 
+ * This file is part of the GROUCHO project.
+ * 
+ * GROUCHO is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * GROUCHO is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with GROUCHO.  If not, see <https://www.gnu.org/licenses/>
+ *
+ */
 package it.cnr.iasi.saks.groucho.isolation;
 
 import java.lang.ref.WeakReference;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import it.cnr.iasi.saks.groucho.callback.Context;
+import it.cnr.iasi.saks.groucho.common.Context;
 import net.jonbell.crij.runtime.CRIJInstrumented;
 import net.jonbell.crij.runtime.CheckpointRollbackAgent;
 
-public class RuntimeEnvironmentShield {
+public class RuntimeEnvironmentShield{
 	
 	private static CheckpointRollbackAgent CROCHET_AGENT;
-	public static Set<WeakReference<CRIJInstrumented>> COLLECTED_ROOT_OBJECTS = new HashSet<>();
+	private static Set<WeakReference<CRIJInstrumented>> COLLECTED_ROOT_OBJECTS = new HashSet<>();
 	
 	public RuntimeEnvironmentShield(){
 		

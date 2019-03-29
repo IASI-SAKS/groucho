@@ -1,3 +1,20 @@
+/* 
+ * This file is part of the GROUCHO project.
+ * 
+ * GROUCHO is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * GROUCHO is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with GROUCHO.  If not, see <https://www.gnu.org/licenses/>
+ *
+ */
 package it.cnr.iasi.saks.groucho.instrument;
 
 import java.lang.reflect.Method;
@@ -11,8 +28,8 @@ import org.objectweb.asm.Type;
 
 import it.cnr.iasi.saks.groucho.annotation.TestableInVivo;
 import it.cnr.iasi.saks.groucho.callback.AbstractGovernanceManager;
-import it.cnr.iasi.saks.groucho.callback.Context;
 import it.cnr.iasi.saks.groucho.callback.GovernanceManagerFactory;
+import it.cnr.iasi.saks.groucho.common.Context;
 
 public class CrochetMethodVisitor extends MethodVisitor {
 
@@ -59,6 +76,7 @@ public class CrochetMethodVisitor extends MethodVisitor {
 
 	@Override
 	public void visitCode() {
+		this.mv.visitCode();
 		// 3. if annotation present, add logging to beginning of the method
 		if (this.isAnnotationValid){
 			try {
@@ -98,7 +116,7 @@ public class CrochetMethodVisitor extends MethodVisitor {
 	}
 
 	private void instrumentingMessage(){
-		System.out.println("Instrumenting: "+this.className + "." + this.methodName);		
+		System.out.println(this.getClass().getName() +" is instrumenting: "+this.className + "." + this.methodName);		
 	}
 	
 	public static void invokeCallback(Object instObj, String instClass, String instMethod, String instMethodSignature, String testClass, String testMethod) {
@@ -108,9 +126,9 @@ public class CrochetMethodVisitor extends MethodVisitor {
 		Context context = new Context(instObj, instClass, instMethod, testClass, testMethod);
 		
 		AbstractGovernanceManager gm = GovernanceManagerFactory.getInstance().getGovernanceManager();		
-		if (gm.evaluateActivation(context)){
+//		if (gm.evaluateActivation(context)){
 			gm.runInvivoTestingSession(context);
-		}	
+//		}	
 	}
 	
 }

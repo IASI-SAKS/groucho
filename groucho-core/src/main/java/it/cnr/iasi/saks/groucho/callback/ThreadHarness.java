@@ -15,17 +15,14 @@
  * along with GROUCHO.  If not, see <https://www.gnu.org/licenses/>
  *
  */
-package it.cnr.iasi.saks.groucho.annotation;
+package it.cnr.iasi.saks.groucho.callback;
 
-import static java.lang.annotation.ElementType.METHOD;
+public interface ThreadHarness {
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+	public void enableEnactmentInvivoTestingSession () throws InterruptedException;
 
-@Target(METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface TestableInVivo {
-	String invivoTestClass();
-	String invivoTest();
+	public void incThreads();
+
+	public void decThreads();
+	
 }
