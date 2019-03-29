@@ -188,16 +188,16 @@ System.out.println("[Thread ID:"+ID+"] Count: " + count + ", InvivoReq: "+ THREA
 	}
 
 	private void pauseMe() throws InterruptedException{
-		System.out.println("Ci Provo ... ");
+		System.out.println("Trying to notify that will pause ... ");
 		synchronized (INTERNAL_LOCK) {
 			INTERNAL_LOCK.notify();
 		}
-		System.out.println("... notificato ...");
+		System.out.println("... ok notified, now waiting ...");
 		synchronized (THREAD_LOCKER) {
 			THREAD_THAT_WILL_PAUSE_COUNTER ++;
 			THREAD_LOCKER.wait();
 		}
-		System.out.println("... sbloccato ...");
+		System.out.println("... now resumed!");
 	}
 	
 	protected abstract boolean evaluateActivation (Context context);
