@@ -82,15 +82,15 @@ public class GrouchoClassVisitor extends ClassVisitor {
 
 		MethodVisitor resultingMV;
 		if ((this.isConstructorsInstrumentationEnabled) && (this.isContructor(methodName))){
-			ThreadHarnessConstructorsMethodVisitor thMV = new ThreadHarnessConstructorsMethodVisitor(mv, this.className, methodName, retrivedSignature);
-			resultingMV = new CrochetMethodVisitor(thMV, this.className, methodName, retrivedSignature);			
+			ThreadHarnessConstructorsMethodVisitor thC_MV = new ThreadHarnessConstructorsMethodVisitor(mv, this.className, methodName, retrivedSignature);
+			resultingMV = new CrochetMethodVisitor(thC_MV, this.className, methodName, retrivedSignature);			
 		}else{
-//			if((this.isRunnableInstrumentationEnabled) && (this.isRun(methodName, signature))){
-//				ThreadHarnessMethodVisitor thMV = new ThreadHarnessMethodVisitor(mv, this.className, methodName, retrivedSignature);
-//				resultingMV = new CrochetMethodVisitor(thMV, this.className, methodName, retrivedSignature);			
-//			}else{
+			if((this.isRunnableInstrumentationEnabled) && (this.isRun(methodName, signature))){
+				ThreadHarnessRunMethodVisitor thR_MV = new ThreadHarnessRunMethodVisitor(mv, this.className, methodName, retrivedSignature);
+				resultingMV = new CrochetMethodVisitor(thR_MV, this.className, methodName, retrivedSignature);			
+			}else{
 				resultingMV = new CrochetMethodVisitor(mv, this.className, methodName, retrivedSignature);
-//			}	
+			}	
 		}
 		
 		return resultingMV;
