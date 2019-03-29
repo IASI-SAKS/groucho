@@ -49,7 +49,7 @@ public abstract class AbstractGovernanceManager implements ThreadHarness {
 	
 	@Override
 	public void enableEnactmentInvivoTestingSession () throws InterruptedException{
-System.out.println("Invoked Instrumentation for Constructors");		
+		System.out.println("Invoked Instrumentation for Constructors");		
 // TODO: Not sure yet about this change. I need to think about it longer.		
 //		if ((!this.inVivoTestingSession.isInactive()) && (this.pauseOtherThreads)){
 		if ((this.inVivoTestingSession.isActivating()) && (this.pauseOtherThreads)){
@@ -87,8 +87,9 @@ System.out.println("Invoked Instrumentation for Constructors");
 		if (gotLock){
 			THREAD_INVIVO_SESSION_COUNTER ++;
 			try{
-				System.out.println("Invivo SimpleThread: " + ID);
+				System.out.println("[Thread ID:"+ID+"] Cheching for Activation of Invivo Session ... ");
 				if (this.checkActivation(context)){
+					System.out.println("[Thread ID:"+ID+"] ... activated");
 					this.updatePauseOtherThreads(context);
 					this.inVivoTestingSession.resetConfiguration();
 					this.inVivoTestingSession.goNextConfiguration();
@@ -100,10 +101,14 @@ System.out.println("Invoked Instrumentation for Constructors");
 					System.out.println("the checkpoint of the considered object should be applied here ... ");		
 					this.environmentShield.applyCheckpointOnContext(context);				
 				
+					this.doInvivoTestingSession(context);
+					
 					System.out.println("... while its rollback is here.");		
 					this.environmentShield.applyRollbackOnContext(context);
 					
-					this.notifyOtherThreads();
+					this.notifyOtherThreads(ID);
+				}else{
+					System.out.println("[Thread ID:"+ID+"] ... skipped");
 				}
 			} finally {
 					this.inVivoTestingSession.resetConfiguration();
@@ -137,10 +142,10 @@ System.out.println("Invoked Instrumentation for Constructors");
 		try {
 			synchronized (INTERNAL_LOCK) {
 				while ( ! (THREAD_THAT_WILL_PAUSE_COUNTER + THREAD_INVIVO_SESSION_COUNTER >= THREAD_COUNTER) ){
-System.out.println("["+ID+"] Waiting: " + THREAD_THAT_WILL_PAUSE_COUNTER + ", InvivoReq: "+ THREAD_INVIVO_SESSION_COUNTER +",Thread: "+ THREAD_COUNTER );					
+System.out.println("[Thread ID:"+ID+"] Waiting: " + THREAD_THAT_WILL_PAUSE_COUNTER + ", InvivoReq: "+ THREAD_INVIVO_SESSION_COUNTER +",Threads: "+ THREAD_COUNTER );					
 					INTERNAL_LOCK.wait(INTERNAL_LOCK_WAIT_MAX);
 				}
-System.out.println("["+ID+"] Waiting: " + THREAD_THAT_WILL_PAUSE_COUNTER + ", InvivoReq: "+ THREAD_INVIVO_SESSION_COUNTER +",Thread: "+ THREAD_COUNTER );					
+System.out.println("[Thread ID:"+ID+"] Waiting: " + THREAD_THAT_WILL_PAUSE_COUNTER + ", InvivoReq: "+ THREAD_INVIVO_SESSION_COUNTER +",Threads: "+ THREAD_COUNTER );					
 			}	
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -148,6 +153,11 @@ System.out.println("["+ID+"] Waiting: " + THREAD_THAT_WILL_PAUSE_COUNTER + ", In
 		}
 	}
 	
+	/**
+	 * TODO This is a proposal for an OLD implementation version of the method @see {@link AbstractGovernanceManager.waitOtherThreadsPaused} 
+	 * At the moment, there is not a real reason for keeping it here. It should be removed. 
+	 * @param ID
+	 */
 	private void waitOtherThreadsPausedOLD(long ID){		
 //		Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
 //		// this number is only an estimation and it may grows, so we should put a kind of loop around the sync block
@@ -157,11 +167,11 @@ System.out.println("["+ID+"] Waiting: " + THREAD_THAT_WILL_PAUSE_COUNTER + ", In
 			synchronized (INTERNAL_LOCK) {
 				int count = 0; // the current thread should not be considered, so counter starts from 1 and condition is >=
 				while ( ! (count + THREAD_INVIVO_SESSION_COUNTER >= THREAD_COUNTER) ){
-System.out.println("["+ID+"] Count: " + count + ", InvivoReq: "+ THREAD_INVIVO_SESSION_COUNTER +",Thread: "+ THREAD_COUNTER );					
+System.out.println("[Thread ID:"+ID+"] Count: " + count + ", InvivoReq: "+ THREAD_INVIVO_SESSION_COUNTER +",Threads: "+ THREAD_COUNTER );					
 					INTERNAL_LOCK.wait();
 					count ++;
 				}
-System.out.println("["+ID+"] Count: " + count + ", InvivoReq: "+ THREAD_INVIVO_SESSION_COUNTER +",Thread: "+ THREAD_COUNTER );					
+System.out.println("[Thread ID:"+ID+"] Count: " + count + ", InvivoReq: "+ THREAD_INVIVO_SESSION_COUNTER +",Threads: "+ THREAD_COUNTER );					
 			}	
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -169,9 +179,9 @@ System.out.println("["+ID+"] Count: " + count + ", InvivoReq: "+ THREAD_INVIVO_S
 		}
 	}
 
-	private void notifyOtherThreads(){
+	private void notifyOtherThreads(long ID){
 		synchronized (THREAD_LOCKER) {
-			System.out.println("Notifico tutti");
+			System.out.println("[Thread ID:"+ID+"] Notifing all the waiting threads");					
 			THREAD_THAT_WILL_PAUSE_COUNTER = 0;
 			THREAD_LOCKER.notifyAll();
 		}
