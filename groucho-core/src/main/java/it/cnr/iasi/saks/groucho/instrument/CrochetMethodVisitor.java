@@ -17,8 +17,6 @@
  */
 package it.cnr.iasi.saks.groucho.instrument;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.objectweb.asm.AnnotationVisitor;
