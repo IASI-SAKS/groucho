@@ -29,21 +29,30 @@ public class Context {
 	private String invivoTestClass;
 	private String invivoTest;
 	private boolean pauseOtherThreadsFlag;
-	
+	private int maxCarvingDepth;
+
 	private List<Object> otherReferencesInContext;
 	
 	public Context(Object instrumentedObject, String instrumentedClassName, String instrumentedMethodName, String invivoTestClass, String invivoTest) {
-		this(instrumentedObject, instrumentedClassName, instrumentedMethodName, invivoTestClass, invivoTest, true);
+		this(instrumentedObject, instrumentedClassName, instrumentedMethodName, invivoTestClass, invivoTest, true, 1);
 	}
 
 	public Context(Object instrumentedObject, String instrumentedClassName, String instrumentedMethodName, String invivoTestClass, String invivoTest, boolean pauseOtherThreads) {
-		super();
+		this(instrumentedObject, instrumentedClassName, instrumentedMethodName, invivoTestClass, invivoTest, pauseOtherThreads, 1);
+	}
+
+	public Context(Object instrumentedObject, String instrumentedClassName, String instrumentedMethodName, String invivoTestClass, String invivoTest, int maxCarving) {
+		this(instrumentedObject, instrumentedClassName, instrumentedMethodName, invivoTestClass, invivoTest, true, maxCarving);
+	}
+
+	public Context(Object instrumentedObject, String instrumentedClassName, String instrumentedMethodName, String invivoTestClass, String invivoTest, boolean pauseOtherThreads, int maxCarvingDepth) {
 		this.instrumentedObject = instrumentedObject;
 		this.instrumentedClassName = instrumentedClassName;
 		this.instrumentedMethodName = instrumentedMethodName;
 		this.invivoTestClass = invivoTestClass;
 		this.invivoTest = invivoTest;
 		this.pauseOtherThreadsFlag = pauseOtherThreads;
+		this.maxCarvingDepth = maxCarvingDepth;
 		
 		this.otherReferencesInContext = new ArrayList<Object>();
 	}
@@ -78,6 +87,10 @@ public class Context {
 
 	public boolean checkPauseForOtherThreads() {
 		return pauseOtherThreadsFlag;
+	}
+
+	public int getMaxCarvingDepth() {
+		return maxCarvingDepth;
 	}
 
 }
