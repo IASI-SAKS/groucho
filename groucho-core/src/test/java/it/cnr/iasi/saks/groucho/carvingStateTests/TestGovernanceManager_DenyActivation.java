@@ -10,5 +10,9 @@ public class TestGovernanceManager_DenyActivation extends SmarterGovernanceManag
 		boolean originalResult = super.evaluateActivation(context);
 		return false;
 	}
+	
+	public String getCarvedState (){
+		return super.getCarvedState();
+	}
 
 }

@@ -3,8 +3,11 @@ package it.cnr.iasi.saks.groucho.carvingStateTests;
 import java.util.Vector;
 
 public class OtherDummyClass {
-	private Vector<Integer> v;
+
 	private DummyClass dc;
+	private Vector<Integer> v;
+	
+	private int mySimpleState;
 	
 	public OtherDummyClass(DummyClass dc){
 		v = new Vector();
@@ -15,6 +18,8 @@ public class OtherDummyClass {
 		v.add(new Integer(50));
 		
 		this.dc = dc;
+		
+		this.mySimpleState = 999;
 	}
 
 }
