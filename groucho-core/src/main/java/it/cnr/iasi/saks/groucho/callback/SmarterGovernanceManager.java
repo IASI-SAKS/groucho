@@ -22,23 +22,42 @@ import it.cnr.iasi.saks.groucho.common.StateCarver;
 
 public class SmarterGovernanceManager extends SimpleGovernanceManager {
 
+	private String carvedState = "";
+	
+	private void carveTheState(Context context) throws IllegalArgumentException, ClassNotFoundException{
+		StateCarver carver = new StateCarver(context);
+		this.carvedState = carver.carveAllFields();		
+	}
+
+/**
+ * Implement the evaluation policy in this method
+ * 	
+ * @param context
+ * @return
+ * @throws IllegalArgumentException
+ * @throws ClassNotFoundException
+ */
+	private boolean performEvaluation(Context context) throws IllegalArgumentException, ClassNotFoundException{
+		this.carveTheState(context);
+		return true;
+	}
+	
+	protected String getCarvedState(){
+		return this.carvedState;
+	}
+	
 	@Override
 	public boolean evaluateActivation(Context context) {
-		StateCarver carver = new StateCarver(context);
+		boolean result = false; 
 		try {
-			carver.carveAllFields();
+			result = this.performEvaluation(context);
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return true;
+		return result;
 	}
-
+	
 }
