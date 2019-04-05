@@ -20,7 +20,7 @@ package it.cnr.iasi.saks.groucho.carvingStateTests;
 import org.junit.Test;
 
 import it.cnr.iasi.saks.groucho.common.Context;
-import it.cnr.iasi.saks.groucho.common.StateCarver;
+import it.cnr.iasi.saks.groucho.common.DefaultStateCarver;
 import junit.framework.Assert;
 
 public class SimpleCarvingStateTest {
@@ -50,7 +50,7 @@ public class SimpleCarvingStateTest {
 		String carvedState="";
 		Context testingContext = new Context(this.dummyObject, this.instrumentedClassName, this.instrumentedMethodName, this.invivoTestClass, this.invivoTest);
 
-		StateCarver carver = new StateCarver(testingContext);
+		DefaultStateCarver carver = new DefaultStateCarver(testingContext);
 		try {
 			carvedState = carver.carveAllFields();
 			System.out.println("Carved State: "+ carvedState);
@@ -71,7 +71,7 @@ public class SimpleCarvingStateTest {
 //		String fooName = foo.getClass().getCanonicalName();
 //		Context testingContext = new Context(foo, fooName, this.instrumentedMethodName, this.invivoTestClass, this.invivoTest, 4);
 
-		StateCarver carver = new StateCarver(testingContext);
+		DefaultStateCarver carver = new DefaultStateCarver(testingContext);
 		try {
 			carvedState = carver.carveAllFields();
 			System.out.println("Carved State: "+ carvedState);

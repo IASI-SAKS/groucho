@@ -18,14 +18,14 @@
 package it.cnr.iasi.saks.groucho.callback;
 
 import it.cnr.iasi.saks.groucho.common.Context;
-import it.cnr.iasi.saks.groucho.common.StateCarver;
+import it.cnr.iasi.saks.groucho.common.DefaultStateCarver;
 
 public class SmarterGovernanceManager extends SimpleGovernanceManager {
 
 	private String carvedState = "";
 	
 	private void carveTheState(Context context) throws IllegalArgumentException, ClassNotFoundException{
-		StateCarver carver = new StateCarver(context);
+		DefaultStateCarver carver = new DefaultStateCarver(context);
 		this.carvedState = carver.carveAllFields();		
 	}
 
