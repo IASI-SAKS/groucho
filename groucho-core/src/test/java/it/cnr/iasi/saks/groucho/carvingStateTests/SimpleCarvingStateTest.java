@@ -32,9 +32,9 @@ public class SimpleCarvingStateTest {
 	private String invivoTestClass;	
 	private String invivoTest;
 	
-	private final String ORACLE_DEPTH_DEFAULT = "[fieldInt-->-1%fieldBoolean-->true%fieldString-->deafult%fieldChar-->d%fieldObject-->[]%dummy-->[]]";
-	private final String ORACLE_DEPTH_5 = "[fieldInt-->-1%fieldBoolean-->true%fieldString-->deafult%fieldChar-->d%fieldObject-->[]%dummy-->[dc-->[fieldInt-->-1%fieldBoolean-->true%fieldString-->deafult%fieldChar-->d%fieldObject-->[]%dummy-->[dc-->[fieldInt-->-1%fieldBoolean-->true%fieldString-->deafult%fieldChar-->d%fieldObject-->[]%dummy-->[]]%v-->[elementData-->[]%elementCount-->null%capacityIncrement-->null%serialVersionUID-->-2767605614048989439%MAX_ARRAY_SIZE-->2147483639]%mySimpleState-->999]]%v-->[elementData-->[]%elementCount-->null%capacityIncrement-->null%serialVersionUID-->-2767605614048989439%MAX_ARRAY_SIZE-->2147483639]%mySimpleState-->999]]";
-
+	private final String ORACLE_DEPTH_DEFAULT = "{fieldInt-->-1%fieldBoolean-->true%fieldString-->deafult%fieldChar-->d%fieldObject-->[]%dummy-->[]%otherDummy-->[]}";
+	private final String ORACLE_DEPTH_5 = "{fieldInt-->-1%fieldBoolean-->true%fieldString-->deafult%fieldChar-->d%fieldObject-->{}%dummy-->{myList-->{elementData-->[{fieldIntOther-->88%fieldBooleanOther-->false%fieldStringOther-->thisIsFoo%fieldCharOther-->c%fieldEnum-->three}ç{fieldIntOther-->88%fieldBooleanOther-->false%fieldStringOther-->thisIsFoo%fieldCharOther-->c%fieldEnum-->three}ç{fieldIntOther-->88%fieldBooleanOther-->false%fieldStringOther-->thisIsFoo%fieldCharOther-->c%fieldEnum-->three}ç{fieldIntOther-->88%fieldBooleanOther-->false%fieldStringOther-->thisIsFoo%fieldCharOther-->c%fieldEnum-->three}ç{fieldIntOther-->88%fieldBooleanOther-->false%fieldStringOther-->thisIsFoo%fieldCharOther-->c%fieldEnum-->three}]%size-->5}%dc-->{fieldInt-->-1%fieldBoolean-->true%fieldString-->deafult%fieldChar-->d%fieldObject-->{}%dummy-->{myList-->{elementData-->[çççç]%size-->5}%dc-->{fieldInt-->-1%fieldBoolean-->true%fieldString-->deafult%fieldChar-->d%fieldObject-->[]%dummy-->[]%otherDummy-->[]}%v-->{elementData-->[10ç20ç30ç40ç50]%elementCount-->5%capacityIncrement-->0}%words-->{elementData-->[FooçBoo]%elementCount-->2%capacityIncrement-->0}%mySimpleState-->999}%otherDummy-->{fieldIntOther-->88%fieldBooleanOther-->false%fieldStringOther-->thisIsFoo%fieldCharOther-->c%fieldEnum-->three}}%v-->{elementData-->[10ç20ç30ç40ç50]%elementCount-->5%capacityIncrement-->0}%words-->{elementData-->[FooçBoo]%elementCount-->2%capacityIncrement-->0}%mySimpleState-->999}%otherDummy-->{fieldIntOther-->88%fieldBooleanOther-->false%fieldStringOther-->thisIsFoo%fieldCharOther-->c%fieldEnum-->three}}"; 
+	
 	public SimpleCarvingStateTest() {
 		this.dummyObject = new DummyClass();
 		
@@ -66,6 +66,10 @@ public class SimpleCarvingStateTest {
 	public void deeperBasicTest(){
 		String carvedState="";
 		Context testingContext = new Context(this.dummyObject, this.instrumentedClassName, this.instrumentedMethodName, this.invivoTestClass, this.invivoTest, 5);
+		
+//		Object foo = new OtherDummyClass(null);
+//		String fooName = foo.getClass().getCanonicalName();
+//		Context testingContext = new Context(foo, fooName, this.instrumentedMethodName, this.invivoTestClass, this.invivoTest, 4);
 
 		StateCarver carver = new StateCarver(testingContext);
 		try {

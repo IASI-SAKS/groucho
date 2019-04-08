@@ -25,16 +25,27 @@ public class DummyClass {
 	private String fieldString;
 	private char fieldChar;
 	private Object fieldObject;
+
 	private OtherDummyClass dummy;
+
+	private OtherDummyClassPrimitiveTypes otherDummy;
 	
+/*
+ * This field should not be displayed as it is null
+ */
+	private Integer foo=null;
+
 	public DummyClass(){
 		this.fieldInt = -1;
 		this.fieldBoolean = true;
 		this.fieldString = "deafult";
 		this.fieldChar = 'd';
-		this.fieldObject = new Object();		
+		this.fieldObject = new Object();	
+		
+		this.foo = null;
 
 		this.dummy = new OtherDummyClass(this);
+		this.otherDummy = new OtherDummyClassPrimitiveTypes();
 	}
 
 	public int getFieldInt() {

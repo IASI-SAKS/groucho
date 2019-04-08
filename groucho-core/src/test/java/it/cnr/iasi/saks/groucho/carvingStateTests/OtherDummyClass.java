@@ -17,13 +17,18 @@
  */
 package it.cnr.iasi.saks.groucho.carvingStateTests;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 public class OtherDummyClass {
 
+	private List<OtherDummyClassPrimitiveTypes> myList;
 	private DummyClass dc;
 	private Vector<Integer> v;
 	
+	private Vector<String> words;
+
 	private int mySimpleState;
 	
 	public OtherDummyClass(DummyClass dc){
@@ -34,9 +39,19 @@ public class OtherDummyClass {
 		v.add(new Integer(40));
 		v.add(new Integer(50));
 		
+		words = new Vector();
+		words.add("Foo");
+		words.add("Boo");
+
 		this.dc = dc;
 		
 		this.mySimpleState = 999;
+		
+		this.myList = new ArrayList<OtherDummyClassPrimitiveTypes>();
+		OtherDummyClassPrimitiveTypes foo = new OtherDummyClassPrimitiveTypes();
+		for (int i = 0; i < 5; i++) {
+			this.myList.add(foo);
+		}
 	}
 
 }
