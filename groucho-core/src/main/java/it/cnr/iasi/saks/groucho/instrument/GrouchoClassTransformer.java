@@ -20,20 +20,34 @@ package it.cnr.iasi.saks.groucho.instrument;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
+import java.util.Iterator;
+import java.util.List;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 
+import it.cnr.iasi.saks.groucho.config.PropertyUtil;
+
 public class GrouchoClassTransformer implements ClassFileTransformer {
 	
 	private boolean isDisabled(String className) {
-		return (this.isLocallyIgnored(className) || this.isClassNameIgnoredByCrochet(className));
+		return (this.isClassNameIgnoredByCrochet(className) || this.isLocallyIgnored(className));
 	}
 
 	private boolean isLocallyIgnored(String className) {
 		boolean exitus = className.startsWith("java/");
 		exitus = exitus || className.startsWith("sun/");
 		exitus = exitus || className.startsWith("it/cnr/iasi/saks/groucho/");
+		exitus = exitus || className.startsWith("org/junit/");
+		
+		if (!exitus) {
+			List<String> excludeClassesList = PropertyUtil.getInstance().getClassesToExcludeDuringTransformation();
+			for (Iterator<String> iterator = excludeClassesList.iterator(); iterator.hasNext() && !exitus;) {
+				String classToExclude = (String) iterator.next();
+				exitus = exitus || className.startsWith(classToExclude);
+
+			}
+		}
 		return exitus;
 	}
 
