@@ -22,10 +22,37 @@ import it.cnr.iasi.saks.groucho.common.Context;
 
 public class TestGovernanceManager_ActivationWithProbability extends SimpleGovernanceManager {
 
+	private static float probability = 0.5f;
+	private int activationCounter;
+	
+	public TestGovernanceManager_ActivationWithProbability(){
+		this.activationCounter = 0;
+	}
+	
 	@Override
 	public boolean evaluateActivation(Context context) {
 		double rnd = Math.random();
-		return (rnd <= 0.5f);
+		boolean result = (rnd <= TestGovernanceManager_ActivationWithProbability.probability);
+		if (result){
+			synchronized (this) {
+				this.activationCounter++;
+			}			
+		}
+		return result;
 	}
 	
+	public synchronized static float getActivationProbability() {
+		return probability;
+	}
+
+	public synchronized static void setActivationProbability(float probability) {
+		TestGovernanceManager_ActivationWithProbability.probability = probability;
+	}
+
+	public synchronized void resetActivationCounter() {
+		this.activationCounter = 0;
+	}
+	public synchronized int getActivationCounter() {
+		return this.activationCounter;
+	}
 }
