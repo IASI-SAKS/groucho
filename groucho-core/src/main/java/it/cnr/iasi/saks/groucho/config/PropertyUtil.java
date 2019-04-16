@@ -17,6 +17,7 @@
  */
 package it.cnr.iasi.saks.groucho.config;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -40,8 +41,10 @@ public class PropertyUtil {
 		try {
 			String configFileLocation = System.getProperty(CONFIG_FILE_LOCATION_LABEL);
 			if (configFileLocation != null){
-				ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-				InputStream s = classloader.getResourceAsStream(configFileLocation);
+////				ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+//				ClassLoader classloader = ClassLoader.getSystemClassLoader();
+//				InputStream s = classloader.getResourceAsStream(configFileLocation);
+				InputStream s = new FileInputStream(configFileLocation);
 				this.properties.load(s);
 			}	
 		} catch (IOException e) {
