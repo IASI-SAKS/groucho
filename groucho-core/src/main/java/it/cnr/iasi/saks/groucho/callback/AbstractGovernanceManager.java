@@ -115,8 +115,8 @@ public abstract class AbstractGovernanceManager implements ThreadHarness {
 					for (int unlockCount = INVIVO_SESSION_LOCK.getHoldCount(); unlockCount > 0; unlockCount--) {
 						INVIVO_SESSION_LOCK.unlock();
 					}
+					THREAD_INVIVO_SESSION_COUNTER --;
 			}
-			THREAD_INVIVO_SESSION_COUNTER --;
 		}	
 	}
 
