@@ -39,6 +39,7 @@ public class SmarterGovernanceManager extends SimpleGovernanceManager {
  */
 	private boolean performEvaluation(Context context) throws IllegalArgumentException, ClassNotFoundException{
 		this.carveTheState(context);
+		System.out.println("Carved State From the inside: "+ this.carvedState);
 		return true;
 	}
 	
