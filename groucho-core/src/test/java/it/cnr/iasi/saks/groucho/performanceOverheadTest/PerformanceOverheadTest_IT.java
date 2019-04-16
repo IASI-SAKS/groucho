@@ -53,7 +53,7 @@ public class PerformanceOverheadTest_IT {
 		elapsedTimesMatrix = new Vector<Vector<Float>>();
 	}
 	
-	@Ignore
+//	@Ignore
 	@Test
 	public void maxNumberOfTheradTest(){		
 		PropertyUtilNoSingleton prop = PropertyUtilNoSingleton.getInstance();
