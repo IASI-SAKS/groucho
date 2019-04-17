@@ -18,8 +18,6 @@
 package it.cnr.iasi.saks.grouchoTestingStuff;
 
 import it.cnr.iasi.saks.groucho.annotation.TestableInVivo;
-import it.cnr.iasi.saks.groucho.callback.AbstractGovernanceManager;
-import it.cnr.iasi.saks.groucho.callback.GovernanceManagerFactory;
 
 public class SimpleThread implements Runnable {
 	
