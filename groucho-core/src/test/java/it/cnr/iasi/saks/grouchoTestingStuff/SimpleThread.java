@@ -31,13 +31,13 @@ public class SimpleThread implements Runnable {
 	public SimpleThread(){
 		this.genID();
 		System.out.println("Created SimpleThread: " + this.id);
-		this.c = new SimpleClass();
 	}
 
 	@Override	
 	public void run() {
 		System.out.println("Launched SimpleThread: " + this.id);
 		this.isAlive = true;
+		this.c = new SimpleClass();
 		while (this.isAlive){
 			this.doSomething();
 			double rnd = Math.random();
