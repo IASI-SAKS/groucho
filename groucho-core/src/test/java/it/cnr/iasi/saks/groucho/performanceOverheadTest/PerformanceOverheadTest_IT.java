@@ -142,9 +142,10 @@ public class PerformanceOverheadTest_IT {
 				averageET = averageET / vector.size();
 			}
 			etCSV = etCSV.replaceFirst(", ", "");
-			count += THERADS_INC_STEP;
 			
 			System.out.println("Average When Max Therads: " + count +" ---> "+averageET + "["+etCSV+"] ("+vector.size()+")");
+
+			count += THERADS_INC_STEP;
 		}
 	}
 
@@ -161,9 +162,10 @@ public class PerformanceOverheadTest_IT {
 				averageET = averageET / vector.size();
 			}
 			etCSV = etCSV.replaceFirst(", ", "");
-			apCount += ACTIVATION_PROBABILITY_INC_STEP;
 
 			System.out.println("Average When AP: " + apCount +" ---> "+averageET + "["+etCSV+"] ("+vector.size()+")");
+
+			apCount += ACTIVATION_PROBABILITY_INC_STEP;
 		}
 	}
 }
