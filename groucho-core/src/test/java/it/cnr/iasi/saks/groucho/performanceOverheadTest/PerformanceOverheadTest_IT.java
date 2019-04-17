@@ -31,7 +31,7 @@ public class PerformanceOverheadTest_IT {
 
 	private static final String GM_ACTIVATION_WITH_PROBABILITY_CLASSNAME = "it.cnr.iasi.saks.groucho.performanceOverheadTest.TestGovernanceManager_ActivationWithProbability";
 
-	private static final int REPETITIONS = 5;
+	private static final int REPETITIONS = 10;
 //	private static final int REPETITIONS = 4;
 //	private static final int REPETITIONS = 2;
 
