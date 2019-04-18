@@ -17,6 +17,7 @@
  */
 package it.cnr.iasi.saks.groucho.carvingStateTests;
 
+import java.util.Random;
 
 public class DummyClass {
 	
@@ -29,6 +30,8 @@ public class DummyClass {
 	private OtherDummyClass dummy;
 
 	private OtherDummyClassPrimitiveTypes otherDummy;
+	
+	private Random rnd;
 	
 /*
  * This field should not be displayed as it is null
@@ -46,6 +49,8 @@ public class DummyClass {
 
 		this.dummy = new OtherDummyClass(this);
 		this.otherDummy = new OtherDummyClassPrimitiveTypes();
+		
+		this.rnd = new Random();
 	}
 
 	public int getFieldInt() {
@@ -83,4 +88,13 @@ public class DummyClass {
 		System.out.println("this is the DummyMethod under an Invivo session");
 	}
 
+	public void dummyMethodWithNoSoCommonPath() {
+		this.fieldInt = rnd.nextInt(10);
+		if (this.fieldInt == 5){
+			System.out.println("This is not so common statement");
+		}else{
+			System.out.println("This is a very common statement");
+		}	
+	}
+	
 }
