@@ -88,8 +88,11 @@ public class DummyClass {
 		System.out.println("this is the DummyMethod under an Invivo session");
 	}
 
-	public void dummyMethodWithNoSoCommonPath() {
+	public void dummyUpdateOfFieldInt() {
 		this.fieldInt = rnd.nextInt(10);
+	}
+
+	public void dummyMethodWithNoSoCommonPath() {
 		if (this.fieldInt == 5){
 			System.out.println("This is not so common statement");
 		}else{
