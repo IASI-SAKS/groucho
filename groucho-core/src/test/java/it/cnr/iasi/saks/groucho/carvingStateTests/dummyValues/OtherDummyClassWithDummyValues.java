@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import it.cnr.iasi.saks.groucho.carvingStateTests.RandomGenerator;
+
 public class OtherDummyClassWithDummyValues {
 
 	private List<OtherDummyClassPrimitiveTypesWithDummyValues> myList;

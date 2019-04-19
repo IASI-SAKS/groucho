@@ -17,7 +17,7 @@
  */
 package it.cnr.iasi.saks.groucho.carvingStateTests.dummyValues;
 
-import java.util.Random;
+import it.cnr.iasi.saks.groucho.carvingStateTests.RandomGenerator;
 
 public class DummyClassWithDummyValues {
 	

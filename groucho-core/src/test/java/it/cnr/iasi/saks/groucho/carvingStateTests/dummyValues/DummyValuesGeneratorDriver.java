@@ -21,6 +21,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import it.cnr.iasi.saks.groucho.carvingStateTests.DummyInvivoTestClass;
+import it.cnr.iasi.saks.groucho.carvingStateTests.RandomGenerator;
 import it.cnr.iasi.saks.groucho.common.Context;
 import it.cnr.iasi.saks.groucho.common.StateCarver;
 import junit.framework.Assert;

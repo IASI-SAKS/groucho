@@ -17,6 +17,7 @@
  */
 package it.cnr.iasi.saks.groucho.carvingStateTests.dummyValues;
 
+import it.cnr.iasi.saks.groucho.carvingStateTests.RandomGenerator;
 import it.cnr.iasi.saks.groucho.carvingStateTests.ThisIsEnum;
 
 public class OtherDummyClassPrimitiveTypesWithDummyValues {
