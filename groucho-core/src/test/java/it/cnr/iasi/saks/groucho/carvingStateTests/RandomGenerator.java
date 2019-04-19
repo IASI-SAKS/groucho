@@ -1,9 +1,7 @@
-package it.cnr.iasi.saks.groucho.carvingStateTests.dummyValues;
+package it.cnr.iasi.saks.groucho.carvingStateTests;
 
 import java.util.Random;
 import java.util.Vector;
-
-import it.cnr.iasi.saks.groucho.carvingStateTests.ThisIsEnum;
 
 public class RandomGenerator extends Random {
 
