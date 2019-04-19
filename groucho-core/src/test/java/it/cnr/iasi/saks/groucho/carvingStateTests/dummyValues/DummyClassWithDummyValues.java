@@ -15,11 +15,11 @@
  * along with GROUCHO.  If not, see <https://www.gnu.org/licenses/>
  *
  */
-package it.cnr.iasi.saks.groucho.carvingStateTests;
+package it.cnr.iasi.saks.groucho.carvingStateTests.dummyValues;
 
-import java.util.Random;
+import it.cnr.iasi.saks.groucho.carvingStateTests.RandomGenerator;
 
-public class DummyClass {
+public class DummyClassWithDummyValues {
 	
 	private int fieldInt;
 	private boolean fieldBoolean;
@@ -27,26 +27,51 @@ public class DummyClass {
 	private char fieldChar;
 	private Object fieldObject;
 
-	private OtherDummyClass dummy;
+	private OtherDummyClassWithDummyValues dummy;
 
-	private OtherDummyClassPrimitiveTypes otherDummy;
-	
+	private OtherDummyClassPrimitiveTypesWithDummyValues otherDummy;
+		
 /*
  * This field should not be displayed as it is null
  */
 	private Integer foo=null;
 
-	public DummyClass(){
-		this.fieldInt = -1;
-		this.fieldBoolean = true;
-		this.fieldString = "deafult";
-		this.fieldChar = 'd';
+	public DummyClassWithDummyValues(){
+		this.dummyUpdateOfFieldInt();
+		
+		this.fieldBoolean = RandomGenerator.getInstance().nextBoolean();
+		this.fieldString = RandomGenerator.getInstance().nextString();
+		this.fieldChar = RandomGenerator.getInstance().nextChar();
+		
 		this.fieldObject = new Object();	
 		
-		this.foo = null;
+		if (RandomGenerator.getInstance().nextBoolean()){ 
+			this.foo = null;
+		}else{
+			this.foo = new Integer(RandomGenerator.getInstance().nextInt());
+		}	
 
-		this.dummy = new OtherDummyClass(this);
-		this.otherDummy = new OtherDummyClassPrimitiveTypes();		
+		switch (RandomGenerator.getInstance().nextInt(5)) {
+		case 0:
+			this.dummy = new OtherDummyClassWithDummyValues(null);			
+			break;
+
+		case 1:
+		case 2:
+			DummyClassWithDummyValues d = new DummyClassWithDummyValues();
+			this.dummy = new OtherDummyClassWithDummyValues(d);						
+			break;
+		default:
+			this.dummy = new OtherDummyClassWithDummyValues(this);
+			break;
+		}
+
+		if (RandomGenerator.getInstance().nextInt(10) < 3){ 
+			this.otherDummy = null;
+		}else{
+			this.otherDummy = new OtherDummyClassPrimitiveTypesWithDummyValues();			
+		}	
+		
 	}
 
 	public int getFieldInt() {
