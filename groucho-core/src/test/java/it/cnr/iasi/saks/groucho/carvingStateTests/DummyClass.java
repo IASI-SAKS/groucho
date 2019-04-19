@@ -31,8 +31,6 @@ public class DummyClass {
 
 	private OtherDummyClassPrimitiveTypes otherDummy;
 	
-	private Random rnd;
-	
 /*
  * This field should not be displayed as it is null
  */
@@ -48,9 +46,7 @@ public class DummyClass {
 		this.foo = null;
 
 		this.dummy = new OtherDummyClass(this);
-		this.otherDummy = new OtherDummyClassPrimitiveTypes();
-		
-		this.rnd = new Random();
+		this.otherDummy = new OtherDummyClassPrimitiveTypes();		
 	}
 
 	public int getFieldInt() {
@@ -89,7 +85,7 @@ public class DummyClass {
 	}
 
 	public void dummyUpdateOfFieldInt() {
-		this.fieldInt = rnd.nextInt(10);
+		this.fieldInt = RandomGenerator.getInstance().nextInt(10);
 	}
 
 	public void dummyMethodWithNoSoCommonPath() {
