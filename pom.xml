@@ -101,14 +101,18 @@
 					<useUnlimitedThreads>true</useUnlimitedThreads>
 					<jvm>${groucho-crochet.build.directory}/jre-inst/bin/java</jvm>
 					<argLine>
+
 <!-- 					-XX:+TraceExceptions  -Xrunhprof:format=b,file=/tmp/xx.hprof -->
 						-Xmx4G -agentpath:${groucho-crochet.build.directory}/libtagging.so
 						-javaagent:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar
 						-Xbootclasspath/p:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar
+<!-- -->
 						-javaagent:${groucho-core.build.directory}/${groucho-core.build.finalName}.jar
 						-Xbootclasspath/p:${groucho-core.build.directory}/${groucho-core.build.finalName}.jar:${groucho-core.build.directory}/asm-all-${asm.version}.jar:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar
 						-Dgroucho.config.file.location=${groucho-core.build.directory}/../src/test/resources/performanceOverheadTest_IT.properties
+ <!-- -->
 					</argLine>
+
 				</configuration>
 			</plugin>
 		</plugins>

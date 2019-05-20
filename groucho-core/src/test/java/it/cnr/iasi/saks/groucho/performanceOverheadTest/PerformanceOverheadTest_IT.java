@@ -32,20 +32,29 @@ public class PerformanceOverheadTest_IT {
 	private static final String GM_ACTIVATION_WITH_PROBABILITY_CLASSNAME = "it.cnr.iasi.saks.groucho.performanceOverheadTest.TestGovernanceManager_ActivationWithProbability";
 
 	private static final int REPETITIONS = 10;
+//	private static final int REPETITIONS = 100;
 //	private static final int REPETITIONS = 4;
 //	private static final int REPETITIONS = 2;
 
-	private static final int INIT_THERADS = 10;
+	private static final int INIT_THERADS = 5;
+//	private static final int INIT_THERADS = 10;
 //	private static final int MAX_THERADS = 30;
-	private static final int MAX_THERADS = 50;
+//	private static final int MAX_THERADS = 50;
+	private static final int MAX_THERADS = 100;
+//	private static final int MAX_THERADS = 200;
 //	private static final int MAX_THERADS = 10;
-	private static final int THERADS_INC_STEP = 10;
+//	private static final int THERADS_INC_STEP = 10;
+	private static final int THERADS_INC_STEP = 5;
 	
-	private static final float INIT_ACTIVATION_PROBABILITY = 0.05f;
-	private static final float MAX_ACTIVATION_PROBABILITY = 0.35f;
-	private static final float ACTIVATION_PROBABILITY_INC_STEP = 0.05f;
+	private static final float INIT_ACTIVATION_PROBABILITY = 0.025f;
+//	private static final float INIT_ACTIVATION_PROBABILITY = 0.05f;
+//	private static final float MAX_ACTIVATION_PROBABILITY = 0.35f;
+	private static final float MAX_ACTIVATION_PROBABILITY = 0.5f;
+	private static final float ACTIVATION_PROBABILITY_INC_STEP = 0.025f;
+//	private static final float ACTIVATION_PROBABILITY_INC_STEP = 0.05f;
 //	private static final float ACTIVATION_PROBABILITY_INC_STEP = 0.1f;
 	private static final int NUMER_OF_THERADS_WHEN_VARYING_ACTIVATION_PROBABILITY = 30;
+//	private static final int NUMER_OF_THERADS_WHEN_VARYING_ACTIVATION_PROBABILITY = 50;
 
 	private Vector<Vector<Float>> elapsedTimesMatrix;
 	
@@ -53,7 +62,7 @@ public class PerformanceOverheadTest_IT {
 		elapsedTimesMatrix = new Vector<Vector<Float>>();
 	}
 	
-	@Ignore
+//	@Ignore
 	@Test
 	public void maxNumberOfTheradTest(){		
 		PropertyUtilNoSingleton prop = PropertyUtilNoSingleton.getInstance();
@@ -63,7 +72,7 @@ public class PerformanceOverheadTest_IT {
 //		prop.setProperty(PropertyUtil.TRANFORMER_DISABLED_ON_CLASSES_LABEL, classesToExcludeCSV);
 		prop.setProperty(PropertyUtil.GOVERNANCE_MANAGER_CLASS_LABEL, GM_ACTIVATION_WITH_PROBABILITY_CLASSNAME);
 		
-		GovernanceManagerFactory.getInstance().getThreadHarness().decThreads();
+//		GovernanceManagerFactory.getInstance().getThreadHarness().decThreads();
 		
 		for (int maxThreads = INIT_THERADS; maxThreads <= MAX_THERADS; maxThreads+=THERADS_INC_STEP) {
 			Vector<Float> elapsedTimes = new Vector<Float>();
@@ -76,14 +85,14 @@ public class PerformanceOverheadTest_IT {
 		this.printAveragesForTherads();
 	}
 	
-	@Ignore
+//	@Ignore
 	@Test
 	public void maxActivationFrequencyTest(){		
 		PropertyUtilNoSingleton prop = PropertyUtilNoSingleton.getInstance();
 		
 		prop.setProperty(PropertyUtil.GOVERNANCE_MANAGER_CLASS_LABEL, GM_ACTIVATION_WITH_PROBABILITY_CLASSNAME);
 		
-		GovernanceManagerFactory.getInstance().getThreadHarness().decThreads();
+//		GovernanceManagerFactory.getInstance().getThreadHarness().decThreads();
 		
 		for (float activationProbability = INIT_ACTIVATION_PROBABILITY; activationProbability <= MAX_ACTIVATION_PROBABILITY; activationProbability+=ACTIVATION_PROBABILITY_INC_STEP) {
 			TestGovernanceManager_ActivationWithProbability.setActivationProbability(activationProbability);
