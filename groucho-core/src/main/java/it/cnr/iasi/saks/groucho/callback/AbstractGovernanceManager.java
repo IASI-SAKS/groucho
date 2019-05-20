@@ -50,19 +50,21 @@ public abstract class AbstractGovernanceManager implements ThreadHarness {
 	@Override
 	public void enableEnactmentInvivoTestingSession () throws InterruptedException{
 		System.out.println("Invoked Instrumentation for Constructors");		
-// TODO: Not sure yet about this change. I need to think about it longer.		
-//		if ((!this.inVivoTestingSession.isInactive()) && (this.pauseOtherThreads)){
-		if ((this.inVivoTestingSession.isActivating()) && (this.pauseOtherThreads)){
+// // TODO: Not sure yet about this change. I need to think about it longer.		
+// //		if ((!this.inVivoTestingSession.isInactive()) && (this.pauseOtherThreads)){
+//		if ((this.inVivoTestingSession.isActivating()) && (this.pauseOtherThreads)){
 			boolean gotLock = INVIVO_SESSION_LOCK.tryLock();
 			if (! gotLock){
 				this.pauseMe();
 			}		
-		}	
+//		}	
 	}
 	
 	@Override
 	public void incThreads(){
-		THREAD_COUNTER++;
+		synchronized (INTERNAL_LOCK) {
+			THREAD_COUNTER++;
+		}	
 	}
 
 	@Override
@@ -188,16 +190,18 @@ System.out.println("[Thread ID:"+ID+"] Count: " + count + ", InvivoReq: "+ THREA
 	}
 
 	private void pauseMe() throws InterruptedException{
-		System.out.println("Trying to notify that will pause ... ");
+		System.out.println("Notify that in case it will pause ... ");
 		synchronized (INTERNAL_LOCK) {
 			INTERNAL_LOCK.notify();
 		}
-		System.out.println("... ok notified, now waiting ...");
 		synchronized (THREAD_LOCKER) {
-			THREAD_THAT_WILL_PAUSE_COUNTER ++;
-			THREAD_LOCKER.wait();
+			if ((this.inVivoTestingSession.isActivating()) && (this.pauseOtherThreads)){
+				System.out.println("... ok notified, now waiting ...");
+				THREAD_THAT_WILL_PAUSE_COUNTER ++;
+				THREAD_LOCKER.wait();
+				System.out.println("... now resumed!");
+			}	
 		}
-		System.out.println("... now resumed!");
 	}
 	
 	protected abstract boolean evaluateActivation (Context context);

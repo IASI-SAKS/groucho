@@ -39,6 +39,8 @@ public class GrouchoClassTransformer implements ClassFileTransformer {
 		exitus = exitus || className.startsWith("sun/");
 		exitus = exitus || className.startsWith("it/cnr/iasi/saks/groucho/");
 		exitus = exitus || className.startsWith("org/junit/");
+		exitus = exitus || className.startsWith("org/apache/maven/");
+		exitus = exitus || className.startsWith("org/eclipse/jdt/internal/junit/");
 		
 		if (!exitus) {
 			List<String> excludeClassesList = PropertyUtil.getInstance().getClassesToExcludeDuringTransformation();
