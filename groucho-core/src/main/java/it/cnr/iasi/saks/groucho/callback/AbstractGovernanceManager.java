@@ -56,6 +56,8 @@ public abstract class AbstractGovernanceManager implements ThreadHarness {
 			boolean gotLock = INVIVO_SESSION_LOCK.tryLock();
 			if (! gotLock){
 				this.pauseMe();
+			}else{
+				INVIVO_SESSION_LOCK.unlock();
 			}		
 //		}	
 	}
