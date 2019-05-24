@@ -22,7 +22,10 @@ import java.util.Random;
 import java.util.Vector;
 
 public class SimpleClass {
+	private Random rnd;
+
 	public SimpleClass (){
+		this.rnd = new Random();
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
@@ -41,9 +44,8 @@ public class SimpleClass {
 	public void wasteCPU(){
 		int size = 1000;		
 		Vector<Integer> v = new Vector<Integer>();
-		Random rnd = new Random();
 		for (int i = 0; i < size; i++) {
-			int element = rnd.nextInt();
+			int element = this.rnd.nextInt();
 			v.add(element);			
 		}
 		Collections.sort(v);
