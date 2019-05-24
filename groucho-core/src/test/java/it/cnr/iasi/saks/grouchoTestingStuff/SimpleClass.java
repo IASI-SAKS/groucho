@@ -17,6 +17,10 @@
  */
 package it.cnr.iasi.saks.grouchoTestingStuff;
 
+import java.util.Collections;
+import java.util.Random;
+import java.util.Vector;
+
 public class SimpleClass {
 	public SimpleClass (){
 		try {
@@ -27,11 +31,22 @@ public class SimpleClass {
 		}
 	}
 
-	public void wasteCPU(){
+	public void simpleCPUwaste(){
 		int i = 1000;
 		while (i>=0){
 			i--;
 		}
+	}
+
+	public void wasteCPU(){
+		int size = 1000;		
+		Vector<Integer> v = new Vector<Integer>();
+		Random rnd = new Random();
+		for (int i = 0; i < size; i++) {
+			int element = rnd.nextInt();
+			v.add(element);			
+		}
+		Collections.sort(v);
 	}
 
 	public void ingnoreMe (){
