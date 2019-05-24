@@ -91,7 +91,7 @@ public abstract class AbstractGovernanceManager implements ThreadHarness {
 		if (gotLock){
 			THREAD_INVIVO_SESSION_COUNTER ++;
 			try{
-				System.out.println("[Thread ID:"+ID+"] Cheching for Activation of Invivo Session ... ");
+				System.out.println("[Thread ID:"+ID+"] Checking for Activation of Invivo Session ... ");
 				if (this.checkActivation(context)){
 					System.out.println("[Thread ID:"+ID+"] ... activated");
 					this.updatePauseOtherThreads(context);
@@ -146,10 +146,10 @@ public abstract class AbstractGovernanceManager implements ThreadHarness {
 		try {
 			synchronized (INTERNAL_LOCK) {
 				while ( ! (THREAD_THAT_WILL_PAUSE_COUNTER + THREAD_INVIVO_SESSION_COUNTER >= THREAD_COUNTER) ){
-System.out.println("[Thread ID:"+ID+"] Waiting: " + THREAD_THAT_WILL_PAUSE_COUNTER + ", InvivoReq: "+ THREAD_INVIVO_SESSION_COUNTER +",Threads: "+ THREAD_COUNTER );					
+System.out.println("[Thread ID:"+ID+"] Waiting: " + THREAD_THAT_WILL_PAUSE_COUNTER + ", InvivoReq: "+ THREAD_INVIVO_SESSION_COUNTER +", Threads: "+ THREAD_COUNTER );					
 					INTERNAL_LOCK.wait(INTERNAL_LOCK_WAIT_MAX);
 				}
-System.out.println("[Thread ID:"+ID+"] Waiting: " + THREAD_THAT_WILL_PAUSE_COUNTER + ", InvivoReq: "+ THREAD_INVIVO_SESSION_COUNTER +",Threads: "+ THREAD_COUNTER );					
+System.out.println("[Thread ID:"+ID+"] Waiting: " + THREAD_THAT_WILL_PAUSE_COUNTER + ", InvivoReq: "+ THREAD_INVIVO_SESSION_COUNTER +", Threads: "+ THREAD_COUNTER );					
 			}	
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
