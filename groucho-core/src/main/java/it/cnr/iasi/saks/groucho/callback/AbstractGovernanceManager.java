@@ -197,6 +197,7 @@ System.out.println("[Thread ID:"+ID+"] Count: " + count + ", InvivoReq: "+ THREA
 			INTERNAL_LOCK.notify();
 		}
 		synchronized (THREAD_LOCKER) {
+			// possibly this if should be replaced with a while loop, but in this case, please confider how to properly deal with the increment of THREAD_THAT_WILL_PAUSE_COUNTER. Maybe it should be done only once. 
 			if ((this.inVivoTestingSession.isActivating()) && (this.pauseOtherThreads)){
 				System.out.println("... ok notified, now waiting ...");
 				THREAD_THAT_WILL_PAUSE_COUNTER ++;
