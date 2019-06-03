@@ -45,12 +45,17 @@ public class PerformanceOverheadTest_IT {
 //	private static final int MAX_THERADS = 10;
 //	private static final int THERADS_INC_STEP = 10;
 	private static final int THERADS_INC_STEP = 5;
+        private static final float ACTIVATION_PROBABILITY_WHEN_VARYING_NUMER_OF_THERADS = 0.01f;
+//        private static final float ACTIVATION_PROBABILITY_WHEN_VARYING_NUMER_OF_THERADS = 0.1f;
 	
-	private static final float INIT_ACTIVATION_PROBABILITY = 0.025f;
+	private static final float INIT_ACTIVATION_PROBABILITY = 0.001f;
+//	private static final float INIT_ACTIVATION_PROBABILITY = 0.025f;
 //	private static final float INIT_ACTIVATION_PROBABILITY = 0.05f;
+	private static final float MAX_ACTIVATION_PROBABILITY = 0.1f;
 //	private static final float MAX_ACTIVATION_PROBABILITY = 0.35f;
-	private static final float MAX_ACTIVATION_PROBABILITY = 0.5f;
-	private static final float ACTIVATION_PROBABILITY_INC_STEP = 0.025f;
+//	private static final float MAX_ACTIVATION_PROBABILITY = 0.5f;
+	private static final float ACTIVATION_PROBABILITY_INC_STEP = 0.005f;
+//	private static final float ACTIVATION_PROBABILITY_INC_STEP = 0.025f;
 //	private static final float ACTIVATION_PROBABILITY_INC_STEP = 0.05f;
 //	private static final float ACTIVATION_PROBABILITY_INC_STEP = 0.1f;
 	private static final int NUMER_OF_THERADS_WHEN_VARYING_ACTIVATION_PROBABILITY = 30;
@@ -66,7 +71,7 @@ public class PerformanceOverheadTest_IT {
 	@Test
 	public void maxNumberOfTheradTest(){		
 		PropertyUtilNoSingleton prop = PropertyUtilNoSingleton.getInstance();
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0.1f);
+		TestGovernanceManager_ActivationWithProbability.setActivationProbability(ACTIVATION_PROBABILITY_WHEN_VARYING_NUMER_OF_THERADS);
 		
 //		String classesToExcludeCSV = "org.eclipse.jdt.internal.junit, org.eclipse.jdt.internal.junit4";
 //		prop.setProperty(PropertyUtil.TRANFORMER_DISABLED_ON_CLASSES_LABEL, classesToExcludeCSV);
