@@ -17,14 +17,29 @@
  */
 package it.cnr.iasi.saks.groucho.callback;
 
-public class GovernanceManagerFactory {
+import it.cnr.iasi.saks.groucho.config.PropertyUtil;
 
+public class GovernanceManagerFactory {
+	
 	private static GovernanceManagerFactory gmFactory = null;
 
 	private static AbstractGovernanceManager gm = null;
 
 	private GovernanceManagerFactory() {
-		gm = new SimpleGovernanceManager();
+		String gmClassName = PropertyUtil.getInstance().getProperty(PropertyUtil.GOVERNANCE_MANAGER_CLASS_LABEL);
+		if ((gmClassName == null) || (gmClassName.isEmpty())){
+			gm = new SimpleGovernanceManager();			
+		}else{
+			Class<?> gmClass;
+			try {
+//				gmClass = Class.forName(gmClassName);
+				gmClass = Class.forName(gmClassName, true, ClassLoader.getSystemClassLoader());
+				gm = (AbstractGovernanceManager) gmClass.newInstance();
+			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+				e.printStackTrace();
+				gm = new SimpleGovernanceManager();			
+			}
+		}
 	}
 
 	public synchronized static GovernanceManagerFactory getInstance() {

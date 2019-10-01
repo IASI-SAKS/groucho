@@ -50,19 +50,23 @@ public abstract class AbstractGovernanceManager implements ThreadHarness {
 	@Override
 	public void enableEnactmentInvivoTestingSession () throws InterruptedException{
 		System.out.println("Invoked Instrumentation for Constructors");		
-// TODO: Not sure yet about this change. I need to think about it longer.		
-//		if ((!this.inVivoTestingSession.isInactive()) && (this.pauseOtherThreads)){
-		if ((this.inVivoTestingSession.isActivating()) && (this.pauseOtherThreads)){
+// // TODO: Not sure yet about this change. I need to think about it longer.		
+// //		if ((!this.inVivoTestingSession.isInactive()) && (this.pauseOtherThreads)){
+//		if ((this.inVivoTestingSession.isActivating()) && (this.pauseOtherThreads)){
 			boolean gotLock = INVIVO_SESSION_LOCK.tryLock();
 			if (! gotLock){
 				this.pauseMe();
+			}else{
+				INVIVO_SESSION_LOCK.unlock();
 			}		
-		}	
+//		}	
 	}
 	
 	@Override
 	public void incThreads(){
-		THREAD_COUNTER++;
+		synchronized (INTERNAL_LOCK) {
+			THREAD_COUNTER++;
+		}	
 	}
 
 	@Override
@@ -87,7 +91,7 @@ public abstract class AbstractGovernanceManager implements ThreadHarness {
 		if (gotLock){
 			THREAD_INVIVO_SESSION_COUNTER ++;
 			try{
-				System.out.println("[Thread ID:"+ID+"] Cheching for Activation of Invivo Session ... ");
+				System.out.println("[Thread ID:"+ID+"] Checking for Activation of Invivo Session ... ");
 				if (this.checkActivation(context)){
 					System.out.println("[Thread ID:"+ID+"] ... activated");
 					this.updatePauseOtherThreads(context);
@@ -115,8 +119,8 @@ public abstract class AbstractGovernanceManager implements ThreadHarness {
 					for (int unlockCount = INVIVO_SESSION_LOCK.getHoldCount(); unlockCount > 0; unlockCount--) {
 						INVIVO_SESSION_LOCK.unlock();
 					}
+					THREAD_INVIVO_SESSION_COUNTER --;
 			}
-			THREAD_INVIVO_SESSION_COUNTER --;
 		}	
 	}
 
@@ -142,10 +146,10 @@ public abstract class AbstractGovernanceManager implements ThreadHarness {
 		try {
 			synchronized (INTERNAL_LOCK) {
 				while ( ! (THREAD_THAT_WILL_PAUSE_COUNTER + THREAD_INVIVO_SESSION_COUNTER >= THREAD_COUNTER) ){
-System.out.println("[Thread ID:"+ID+"] Waiting: " + THREAD_THAT_WILL_PAUSE_COUNTER + ", InvivoReq: "+ THREAD_INVIVO_SESSION_COUNTER +",Threads: "+ THREAD_COUNTER );					
+System.out.println("[Thread ID:"+ID+"] Waiting: " + THREAD_THAT_WILL_PAUSE_COUNTER + ", InvivoReq: "+ THREAD_INVIVO_SESSION_COUNTER +", Threads: "+ THREAD_COUNTER );					
 					INTERNAL_LOCK.wait(INTERNAL_LOCK_WAIT_MAX);
 				}
-System.out.println("[Thread ID:"+ID+"] Waiting: " + THREAD_THAT_WILL_PAUSE_COUNTER + ", InvivoReq: "+ THREAD_INVIVO_SESSION_COUNTER +",Threads: "+ THREAD_COUNTER );					
+System.out.println("[Thread ID:"+ID+"] Waiting: " + THREAD_THAT_WILL_PAUSE_COUNTER + ", InvivoReq: "+ THREAD_INVIVO_SESSION_COUNTER +", Threads: "+ THREAD_COUNTER );					
 			}	
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -188,16 +192,19 @@ System.out.println("[Thread ID:"+ID+"] Count: " + count + ", InvivoReq: "+ THREA
 	}
 
 	private void pauseMe() throws InterruptedException{
-		System.out.println("Trying to notify that will pause ... ");
+		System.out.println("Notify that in case it will pause ... ");
 		synchronized (INTERNAL_LOCK) {
 			INTERNAL_LOCK.notify();
 		}
-		System.out.println("... ok notified, now waiting ...");
 		synchronized (THREAD_LOCKER) {
-			THREAD_THAT_WILL_PAUSE_COUNTER ++;
-			THREAD_LOCKER.wait();
+			// possibly this if should be replaced with a while loop, but in this case, please confider how to properly deal with the increment of THREAD_THAT_WILL_PAUSE_COUNTER. Maybe it should be done only once. 
+			if ((this.inVivoTestingSession.isActivating()) && (this.pauseOtherThreads)){
+				System.out.println("... ok notified, now waiting ...");
+				THREAD_THAT_WILL_PAUSE_COUNTER ++;
+				THREAD_LOCKER.wait();
+				System.out.println("... now resumed!");
+			}	
 		}
-		System.out.println("... now resumed!");
 	}
 	
 	protected abstract boolean evaluateActivation (Context context);

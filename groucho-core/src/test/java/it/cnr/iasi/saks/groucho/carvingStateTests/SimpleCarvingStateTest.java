@@ -79,6 +79,7 @@ public class SimpleCarvingStateTest {
 			e.printStackTrace();
 			Assert.fail();
 		}
+		
 		Assert.assertEquals(ORACLE_DEPTH_5, carvedState);
 	}
 
@@ -93,6 +94,7 @@ public class SimpleCarvingStateTest {
 		carvedState = gm.getCarvedState();
 		System.out.println("Carved State: "+ carvedState);
 
+		System.out.println("@@@ Carved State: "+ carvedState + ", context MD:" + testingContext.getMaxCarvingDepth());
 		Assert.assertEquals(ORACLE_DEPTH_DEFAULT, carvedState);
 	}
 }

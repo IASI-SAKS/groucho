@@ -15,8 +15,18 @@
  * along with GROUCHO.  If not, see <https://www.gnu.org/licenses/>
  *
  */
-package it.cnr.iasi.saks.groucho.carvingStateTests;
+package it.cnr.iasi.saks.groucho.performanceOverheadTest;
 
-public enum ThisIsEnum {
-	one, two, three
+import it.cnr.iasi.saks.groucho.callback.AbstractGovernanceManager;
+import it.cnr.iasi.saks.groucho.callback.GovernanceManagerFactory;
+import it.cnr.iasi.saks.groucho.common.Context;
+
+public class DummyInvivoTest {
+	
+	public void fooTest(Context c){
+		AbstractGovernanceManager gm = GovernanceManagerFactory.getInstance().getGovernanceManager();
+		String gmClassName = gm.getClass().getCanonicalName();
+		System.out.println("This Invivo Test will only report the classname of the linked Governance Manager: " + gmClassName);
+	}
+
 }

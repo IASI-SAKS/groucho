@@ -24,6 +24,7 @@ public class TestGovernanceManager_DenyActivation extends SmarterGovernanceManag
 
 	@Override
 	public boolean evaluateActivation(Context context) {
+		System.out.println("Starting carving on context: "+ context);
 		boolean originalResult = super.evaluateActivation(context);
 		return false;
 	}

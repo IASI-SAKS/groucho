@@ -15,8 +15,24 @@
  * along with GROUCHO.  If not, see <https://www.gnu.org/licenses/>
  *
  */
-package it.cnr.iasi.saks.groucho.carvingStateTests;
+package it.cnr.iasi.saks.groucho.tests.util;
 
-public enum ThisIsEnum {
-	one, two, three
+import it.cnr.iasi.saks.groucho.config.PropertyUtil;
+
+public class PropertyUtilNoSingleton extends PropertyUtil {
+
+	protected PropertyUtilNoSingleton(){		
+	}
+
+//	@Override
+	public synchronized static PropertyUtilNoSingleton getInstance(){
+		PropertyUtilNoSingleton p = new PropertyUtilNoSingleton();
+		INSTANCE = p;
+		
+		return p;
+	}
+	
+	public void setProperty(String key, String value) {
+		super.setProperty(key, value);
+	}
 }

@@ -103,7 +103,7 @@ public class GrouchoClassVisitor extends ClassVisitor {
 	
 	protected boolean isImplementingRunnableSomehow(){
 		boolean result = InterfacesMapStore.getInstance().isImplemented(this.className, JAVA_LANG_RUNNABLE);
-        System.out.println(" \t Exitus: "+result);
+        System.out.println(" \t isImplementingRunnableSomehow? \n\t Exitus: "+result);
 		for (String interfaceItem : InterfacesMapStore.getInstance().dumpListOfAllInterfaces(this.className)) {
             System.out.println(" \t  \t interface:"+interfaceItem);
 		};

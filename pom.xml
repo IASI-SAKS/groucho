@@ -1,49 +1,121 @@
-<!--
- 	This file is part of GROUCHO, originally developed at CNR-IASI.
- 	For more information visit:
- 	http://saks.iasi.cnr.it/tools/groucho
- 	    
- 	This is free software: you can redistribute it and/or modify
- 	it under the terms of the GNU General Public License as 
- 	published by the Free Software Foundation, either version 3 of the 
- 	License, or (at your option) any later version.
- 	
- 	This software is distributed in the hope that it will be useful,
- 	but WITHOUT ANY WARRANTY; without even the implied warranty of
- 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- 	GNU General Public License for more details.
-    
- 	You should have received a copy of the GNU General Public License
- 	along with this source.  If not, see <http://www.gnu.org/licenses/>.
--->
- 
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is part of GROUCHO, originally developed at CNR-IASI. For 
+	more information visit: http://saks.iasi.cnr.it/tools/groucho This is free 
+	software: you can redistribute it and/or modify it under the terms of the 
+	GNU General Public License as published by the Free Software Foundation, 
+	either version 3 of the License, or (at your option) any later version. This 
+	software is distributed in the hope that it will be useful, but WITHOUT ANY 
+	WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+	FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
+	You should have received a copy of the GNU General Public License along with 
+	this source. If not, see <http://www.gnu.org/licenses/>. -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>it.cnr.iasi.saks.groucho</groupId>
-  <artifactId>groucho</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <name>groucho</name>
-  <url>http://saks.iasi.cnr.it/tools/groucho</url>
- 
-  <modules>
-        <module>groucho-crochet</module>
-        <module>groucho-core</module>
-  </modules>  
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>it.cnr.iasi.saks.groucho</groupId>
+	<artifactId>groucho</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>groucho</name>
+	<url>http://saks.iasi.cnr.it/tools/groucho</url>
 
-  <developers>
+	<modules>
+		<module>groucho-crochet</module>
+		<module>groucho-core</module>
+	</modules>
+
+	<developers>
 		<developer>
 			<id>gulyx</id>
 			<name>Guglielmo De Angelis</name>
 		</developer>
-  </developers>
-  
-  <licenses>
+	</developers>
+
+	<licenses>
 		<license>
 			<name>GNU General Public License (GPL ver.3)</name>
 			<url>http://www.gnu.org/licenses/gpl.txt</url>
 		</license>
-  </licenses>  
-  
+	</licenses>
+
+	<properties>
+		<groucho-crochet.build.directory>${basedir}/../groucho-crochet/target</groucho-crochet.build.directory>
+		<groucho-crochet.build.finalName>CRIJ-0.0.1-SNAPSHOT</groucho-crochet.build.finalName>
+
+		<groucho-core.build.directory>${basedir}/../groucho-core/target</groucho-core.build.directory>
+		<groucho-core.build.finalName>groucho-core-1.0-SNAPSHOT</groucho-core.build.finalName>
+
+		<asm.version>5.0.3</asm.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm-all</artifactId>
+			<version>${asm.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.ow2.asm</groupId>
+									<artifactId>asm-all</artifactId>
+									<version>${asm.version}</version>
+									<outputDirectory>${groucho-core.build.directory}</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+							<!-- other configurations here -->
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<!-- <version>NO VERSOIN FOR THE MOMENT AS IN THE PATCH FOR CROCHET</version> -->
+<!-- 				<version>2.18.1</version> -->
+				<version>2.19.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<reuseForks>false</reuseForks>
+					<useUnlimitedThreads>true</useUnlimitedThreads>
+					<jvm>${groucho-crochet.build.directory}/jre-inst/bin/java</jvm>
+					<argLine>
+
+<!-- 					-XX:+TraceExceptions  -Xrunhprof:format=b,file=/tmp/xx.hprof -->
+						-Xmx4G -agentpath:${groucho-crochet.build.directory}/libtagging.so
+						-javaagent:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar
+						-Xbootclasspath/p:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar
+<!-- -->
+						-javaagent:${groucho-core.build.directory}/${groucho-core.build.finalName}.jar
+						-Xbootclasspath/p:${groucho-core.build.directory}/${groucho-core.build.finalName}.jar:${groucho-core.build.directory}/asm-all-${asm.version}.jar:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar
+						-Dgroucho.config.file.location=${groucho-core.build.directory}/../src/test/resources/performanceOverheadTest_IT.properties
+ <!-- -->
+					</argLine>
+
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>
