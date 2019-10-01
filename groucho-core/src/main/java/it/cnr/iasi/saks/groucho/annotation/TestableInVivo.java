@@ -28,4 +28,6 @@ import java.lang.annotation.Target;
 public @interface TestableInVivo {
 	String invivoTestClass();
 	String invivoTest();
+	int carvingDepth() default 1;
+	boolean pauseOtherThreads() default false;
 }
