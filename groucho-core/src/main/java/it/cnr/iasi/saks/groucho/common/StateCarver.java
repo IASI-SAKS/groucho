@@ -22,6 +22,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -88,9 +90,10 @@ public class StateCarver {
 			fields = flatteingObject.getClass().getDeclaredFields();
 
 			/**
-			 * TODO We may consider to order the attribute of a class by name
+			 * TODO Double check this implementation actually works
 			 */
-			List<String> orderedFieldNames = this.orderedFieldByName(fields);
+			Field[] fieldsOrderedByName = this.orderedFieldByName(fields);
+			fields = fieldsOrderedByName;
 
 		} else {
 			System.out.println("Object Type: it is null!!!");
@@ -161,10 +164,27 @@ public class StateCarver {
 		return currentFlattenedState;
 	}
 
-	private List<String> orderedFieldByName(Field[] fields){
-		List<String> listOfFieldNames = new ArrayList<String>();
+	private Field[] orderedFieldByName(Field[] fields){
+		ArrayList<Field> orderedFieldsList = new ArrayList<Field>();
+		HashMap<String, Integer> fieldNamesMap = new HashMap<String, Integer>();
+		for (int i = 0; i < fields.length; i++) {
+			String name = fields[i].getName();
+			fieldNamesMap.put(name, i);
+		}
+		
+		List<String> listOfFieldNames = new ArrayList<String>(fieldNamesMap.keySet());
 		Collections.sort(listOfFieldNames);
-		return listOfFieldNames;
+	
+		for (Iterator<String> iterator = listOfFieldNames.iterator(); iterator.hasNext();) {
+			String fieldName = iterator.next();
+			int originalIndex = fieldNamesMap.get(fieldName); 
+			Field f = fields[originalIndex];
+			
+			orderedFieldsList.add(f);
+		}
+//		return listOfFieldNames;
+		Field[] orderedFields = orderedFieldsList.toArray(new Field[orderedFieldsList.size()]);
+		return orderedFields;
 	}
 	
 	private boolean isComplexType(Class<?> c){
