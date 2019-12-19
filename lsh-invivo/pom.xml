@@ -49,18 +49,25 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<slf4j.version>1.7.12</slf4j.version>
 
-		<jython-standalone-version>2.7.0</jython-standalone-version>
-		<jython-compile-maven-pluginVersion>2.0</jython-compile-maven-pluginVersion>
-<!-- 		<jython-compile-maven-pluginVersion>1.4</jython-compile-maven-pluginVersion> -->
-		<python.sources.directory>${project.build.directory}/py</python.sources.directory>
-
 		<maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
 		<maven-compiler-plugin.sourcesVersion>1.8</maven-compiler-plugin.sourcesVersion>
 		<maven-compiler-plugin.targetVersion>1.8</maven-compiler-plugin.targetVersion>
 
 		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+
+		<resources.version>3.1.0</resources.version>
+
+        <org-codehaus-mojo.version>1.6.0</org-codehaus-mojo.version>
+
+		<jep-version>3.9.0</jep-version>
+		<jep-inst-path>${project.build.directory}/jep-inst</jep-inst-path>
+		<scm.version>1.8.1</scm.version>
+		<scm.connection.jep>scm:git:git://github.com/ninia/jep.git</scm.connection.jep>
+        <scm.developerConnection.jep>scm:git:https://USERNAMEHERE@github.com/gulyx/jep.git</scm.developerConnection.jep>
+		<scm.url.jep>https://github.com/ninia/jep/tree/v3.9.0</scm.url.jep>
+		<scm.scmVersion.jep>master</scm.scmVersion.jep>
+        <scm.checkoutDirectory.jep>${project.build.directory}/jep</scm.checkoutDirectory.jep>
 		
-		<resources.version>3.1.0</resources.version>        
 	</properties>
 
 	<dependencies>
@@ -78,13 +85,20 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.python</groupId>
-			<artifactId>jython-standalone</artifactId>
-			<version>${jython-standalone-version}</version>
+			<groupId>black.ninia</groupId>
+			<artifactId>jep</artifactId>
+			<version>${jep-version}</version>
 		</dependency>
-		
+
 	</dependencies>
-	
+
+	<scm>
+    	<connection>${scm.connection.jep}</connection>
+<!--     	<developerConnection>scm:git:ssh://github.com:ninia/jep.git</developerConnection> -->
+    	<url>${scm.url.jep}</url>    	
+   	</scm>
+
+
 	<build>
 		<plugins>
 			<plugin>
@@ -112,56 +126,77 @@
 			</plugin>
 
             <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>${resources.version}</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-scm-plugin</artifactId>
+                <version>${scm.version}</version>
+                <configuration> 
+                    <scmVersion>${scm.scmVersion.jep}</scmVersion>
+                    <scmVersionType>branch</scmVersionType>
+                    <checkoutDirectory>${scm.checkoutDirectory.jep}</checkoutDirectory>
+                    <goals>install</goals>
+                </configuration>
                 <executions>
                     <execution>
-                        <id>copy-files-in-target</id>
-                        <!-- here the phase you need -->
-                        <phase>compile</phase>
+                        <id>scm-checkout-bootstrap</id>
                         <goals>
-                            <goal>copy-resources</goal>
+<!--                             <goal>checkout</goal> -->
+                            <goal>bootstrap</goal>
                         </goals>
-                        <configuration>
-                            <outputDirectory>${basedir}/target/Lib</outputDirectory>
-                            <resources>          
-                                <resource>
-                                    <directory>${python.sources.directory}</directory>
-                                    <includes>
-                                        <include>*.py</include>
-                                    </includes>
-                                    <filtering>false</filtering>
-                                </resource>
-                            </resources>              
-                        </configuration>            
+                        <phase>compile</phase>
                     </execution>
-                </executions>
+                </executions>                
             </plugin>
-			
-			<plugin>
-				<groupId>net.sf.mavenjython</groupId>
-				<artifactId>jython-compile-maven-plugin</artifactId>
-				<version>${jython-compile-maven-pluginVersion}</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>jython</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<libraries>
-<!-- 						<param>-REMOVE_THIS_SPACE-index-url=https://pypi.python.org/simple/</param> -->
-<!-- 						<param>requests&lt;2.12.0</param> -->
-<!-- 						<param>pytest&lt;3.0</param> -->
-
-						<!-- <param>setuptools</param> -->
-						<param>xxhash</param>
-						<!-- <param>nose</param> -->
-					</libraries>
-				</configuration>
-			</plugin>
+<!--             <plugin> -->
+<!--                 <groupId>org.codehaus.mojo</groupId> -->
+<!--                 <artifactId>exec-maven-plugin</artifactId> -->
+<!--                 <version>${org-codehaus-mojo.version}</version> -->
+<!--                 <executions> -->
+<!--                    <execution> -->
+<!--                         <id>build-jep</id> -->
+<!--                         <phase>compile</phase> -->
+<!--                         <goals> -->
+<!--                             <goal>exec</goal> -->
+<!--                         </goals> -->
+<!--                         <configuration> -->
+<!--                             <executable>python</executable> -->
+<!--  							<workingDirectory>${basedir}/target/jep</workingDirectory> -->
+<!--                             <arguments> -->
+<!--                                 <argument>setup.py</argument> -->
+<!--                                 <argument>build</argument> -->
+ <!-- *                                  <argument>-b${jep-inst-path}</argument> -->
+<!--                             </arguments> -->
+<!--                         </configuration> -->
+<!--                     </execution> -->
+<!--                 </executions> -->
+<!--              </plugin> -->
+<!--             <plugin> -->
+<!--                 <artifactId>maven-resources-plugin</artifactId> -->
+<!--                 <version>${resources.version}</version> -->
+<!--                 <executions> -->
+<!--                     <execution> -->
+<!--                         <id>copy-files-in-target</id> -->
+<!--                         here the phase you need -->
+<!--                         <phase>compile</phase> -->
+<!--                         <goals> -->
+<!--                             <goal>copy-resources</goal> -->
+<!--                         </goals> -->
+<!--                         <configuration> -->
+<!--                             <outputDirectory>${basedir}/target/foo</outputDirectory> -->
+<!--                             <resources>           -->
+<!--                                 <resource> -->
+<!--                                     <directory>${scm.checkoutDirectory.jep}</directory> -->
+<!--                                     <includes> -->
+<!--                                         <include>**/jep*.jar</include> -->
+<!--                                         <include>**/jep*.so</include> -->
+<!--                                         <include>**/jep*.dll</include> -->
+<!--                                     </includes> -->
+<!--                                     <filtering>true</filtering> -->
+<!--                                 </resource> -->
+<!--                             </resources>               -->
+<!--                         </configuration>             -->
+<!--                     </execution> -->
+<!--             	</executions> -->
+<!--             </plugin> -->
 		</plugins>
 	</build>
 </project>
