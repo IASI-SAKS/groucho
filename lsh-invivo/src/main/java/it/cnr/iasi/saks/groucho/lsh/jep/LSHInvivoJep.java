@@ -28,9 +28,9 @@ import jep.SubInterpreter;
 
 public class LSHInvivoJep implements StateObserver {
 
-	private final Object lock = new Object();
+	private static final Object LOCK = new Object();
 
-	private Interpreter jepInterpreter;
+	private static Interpreter JEP_INTERPRETER = null;
 
 	private static final String LSH_PY_SCRIPT = "py/lshinvivo.py";
 	private static final String LSH_PY_SCRIPT_RESULT = "run_invivo";
@@ -44,16 +44,21 @@ public class LSHInvivoJep implements StateObserver {
 
 	@Override
 	public boolean isStateUnknown(String carvedState) throws LSHException {
+		// Note that the parameter "foo-thisInRequiredBy-py/lshinvivo.py" is useless
+		// it is introduced here only because the current implementation of
+		// the python script: "lshinvivo.py" the first parameters is counted
+		// as the name of the script when invoked by CLI. Thus it became useless 
+		// in the current setup with JEP 
 		String[] params = { "foo-thisInRequiredBy-py/lshinvivo.py", carvedState };
 		boolean runInvivoFlag = false;
 
-		synchronized (lock) {
+		synchronized (LOCK) {
 			try {
 				this.configurePyArgv(params);
 
-				this.jepInterpreter.runScript(LSH_PY_SCRIPT);
+				JEP_INTERPRETER.runScript(LSH_PY_SCRIPT);
 
-				runInvivoFlag = this.jepInterpreter.getValue(LSH_PY_SCRIPT_RESULT, Integer.class) != 0;
+				runInvivoFlag = JEP_INTERPRETER.getValue(LSH_PY_SCRIPT_RESULT, Integer.class) != 0;
 			} catch (JepException e) {
 				LSHException lshEx = new LSHException(e.getMessage(), e.getCause());
 				throw lshEx;
@@ -83,10 +88,13 @@ public class LSHInvivoJep implements StateObserver {
 	}
 
 	private void attachJEP() throws LSHException {
-		synchronized (lock) {
+		synchronized (LOCK) {
 			try {
-				this.jepInterpreter = new SubInterpreter();
-//				this.jepInterpreter = new SharedInterpreter();
+				if (JEP_INTERPRETER == null) {
+//				this.jepInterpreter = new SubInterpreter();
+					JEP_INTERPRETER = new SharedInterpreter();
+					JEP_INTERPRETER.eval("import sys");
+				}
 			} catch (JepException e) {
 				LSHException lshEx = new LSHException(e.getMessage(), e.getCause());
 				throw lshEx;
@@ -95,11 +103,11 @@ public class LSHInvivoJep implements StateObserver {
 	}
 
 	public void detachJEP() throws LSHException {
-		synchronized (lock) {
+		synchronized (LOCK) {
 			try {
-				if (this.jepInterpreter != null) {
-					this.jepInterpreter.close();
-					this.jepInterpreter = null;
+				if (JEP_INTERPRETER != null) {
+					JEP_INTERPRETER.close();
+					JEP_INTERPRETER = null;
 				}
 			} catch (JepException e) {
 				LSHException lshEx = new LSHException(e.getMessage(), e.getCause());
@@ -118,9 +126,8 @@ public class LSHInvivoJep implements StateObserver {
 		pythonArgvAsString = pythonArgvAsString.replaceAll("\\[,'", "['");
 		pythonArgvAsString += "]";
 
-		this.jepInterpreter.eval("import sys");
-		this.jepInterpreter.eval("sys.argv = " + pythonArgvAsString);
-		this.jepInterpreter.eval("argv = " + pythonArgvAsString);
+		JEP_INTERPRETER.eval("sys.argv = " + pythonArgvAsString);
+		JEP_INTERPRETER.eval("argv = " + pythonArgvAsString);
 	}
 
 }
