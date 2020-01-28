@@ -19,11 +19,15 @@ package it.cnr.iasi.saks.groucho.lsh.jep;
 
 import java.io.FileNotFoundException;
 
+import it.cnr.iasi.saks.groucho.lsh.StateObserver;
+import it.cnr.iasi.saks.groucho.lsh.exceptions.LSHException;
 import jep.Interpreter;
 import jep.JepException;
 import jep.SubInterpreter;
 
 public class FooJep {
+
+	private final String DUMMY_CARVED_STATE = "{dummy-->[]%fieldBoolean-->true%fieldChar-->d%fieldInt-->-1%fieldObject-->[]%fieldString-->deafult%otherDummy-->[]}";
 
 	private void myFirstTest() throws JepException, FileNotFoundException {
 		Interpreter interp = new SubInterpreter();
@@ -53,14 +57,19 @@ public class FooJep {
 //		Object result3 = interp.invoke("foo3", obj);
 	}
 
+	private void simpleLSHInvivoJepTest() throws LSHException{
+		StateObserver obs = new LSHInvivoJep();
+		obs.resetStateObserver();
+		obs.isStateUnknown(DUMMY_CARVED_STATE);
+	}
+	
+	
 	public static void main(String args[]) {
 		FooJep f = new FooJep();
 		try {
-			f.myFirstTest();
-		} catch (JepException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
+//			f.myFirstTest();
+			f.simpleLSHInvivoJepTest();
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
