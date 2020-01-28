@@ -30,7 +30,6 @@ public class SimpleLSHInvivoJepTest {
 	public void anotherBasicTest() throws LSHException{
 		boolean condition = this.obs.isStateUnknown(DUMMY_CARVED_STATE);
 //		this.obs.detachJEP();
-		
 		Assert.assertTrue(condition);
 	}
 }

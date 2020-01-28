@@ -18,13 +18,18 @@
 package it.cnr.iasi.saks.groucho.lsh.jep;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 import it.cnr.iasi.saks.groucho.lsh.StateObserver;
 import it.cnr.iasi.saks.groucho.lsh.exceptions.LSHException;
 import jep.Interpreter;
 import jep.JepException;
 import jep.SharedInterpreter;
-import jep.SubInterpreter;
+//import jep.SubInterpreter;
 
 public class LSHInvivoJep implements StateObserver {
 
@@ -32,13 +37,18 @@ public class LSHInvivoJep implements StateObserver {
 
 	private static Interpreter JEP_INTERPRETER = null;
 
-	private static final String LSH_PY_SCRIPT = "py/lshinvivo.py";
+	private static String LSH_PY_SCRIPT_IN_TMP = null;
+	private static final String LSH_PY_TMP_PREFIX = "groucho-py-";
+	private static final String LSH_PY_SCRIPT_BASENAME = "lshinvivo.py";
+	private static final String LSH_PY_SCRIPT = "py/" + LSH_PY_SCRIPT_BASENAME;
+	private static final String LSH_PY_SCRIPT_BIS = "python/" + LSH_PY_SCRIPT_BASENAME;
 	private static final String LSH_PY_SCRIPT_RESULT = "run_invivo";
 
 	private static final String LSH_BUCKET_FILE = "bucket.data";
 	private static final String LSH_COUNT_FILE = "count.data";
 
 	public LSHInvivoJep() throws LSHException {
+		this.extractPythonScripts();
 		this.attachJEP();
 	}
 
@@ -56,7 +66,10 @@ public class LSHInvivoJep implements StateObserver {
 			try {
 				this.configurePyArgv(params);
 
-				JEP_INTERPRETER.runScript(LSH_PY_SCRIPT);
+//				System.out.println("**********************" + LSH_PY_SCRIPT_IN_TMP);
+				
+				JEP_INTERPRETER.runScript(LSH_PY_SCRIPT_IN_TMP);
+//				JEP_INTERPRETER.runScript(LSH_PY_SCRIPT);
 
 				runInvivoFlag = JEP_INTERPRETER.getValue(LSH_PY_SCRIPT_RESULT, Integer.class) != 0;
 			} catch (JepException e) {
@@ -99,6 +112,24 @@ public class LSHInvivoJep implements StateObserver {
 				LSHException lshEx = new LSHException(e.getMessage(), e.getCause());
 				throw lshEx;
 			}			
+		}
+	}
+	
+	private void extractPythonScripts() throws LSHException {
+//		String targetPath = System.getProperty("java.io.tmpdir");
+		if (LSH_PY_SCRIPT_IN_TMP == null) {
+			try {
+				Path path = Files.createTempDirectory(LSH_PY_TMP_PREFIX);
+				
+				File fd = new File(path.toString(), LSH_PY_SCRIPT_BASENAME);
+				InputStream lshScriptStream = this.getClass().getClassLoader().getResourceAsStream(LSH_PY_SCRIPT_BIS);
+				Files.copy(lshScriptStream, fd.toPath(), StandardCopyOption.REPLACE_EXISTING);
+				LSH_PY_SCRIPT_IN_TMP = fd.getPath();		
+
+			} catch (IOException e) {
+				LSHException ex = new LSHException(e.getMessage(), e.getCause());
+				throw ex;
+			}
 		}
 	}
 
