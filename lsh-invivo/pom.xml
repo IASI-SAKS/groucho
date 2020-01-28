@@ -67,6 +67,7 @@
 		<scm.url.jep>https://github.com/ninia/jep/tree/v3.9.0</scm.url.jep>
 		<scm.scmVersion.jep>master</scm.scmVersion.jep>
         <scm.checkoutDirectory.jep>${project.build.directory}/jep</scm.checkoutDirectory.jep>
+        <python.target.resource>${project.build.outputDirectory}/python</python.target.resource>
 		
 	</properties>
 
@@ -99,7 +100,27 @@
    	</scm>
 
 
-	<build>
+	<build>	
+   		<resources>
+        	<!-- regular resource processsing for everything -->
+        	<resource>
+            	<directory>src/main/resources</directory>
+        	</resource>
+        	<!-- resource for python scripts in src -->
+        	<resource>
+            	<directory>src/main/py</directory>
+            <!-- relative to target/classes
+                 i.e. ${project.build.outputDirectory} -->
+	            <targetPath>${python.target.resource}</targetPath>
+        	</resource>
+        	<!-- other resources for python scripts -->
+        	<resource>
+            	<directory>py</directory>
+            <!-- relative to target/classes
+                 i.e. ${project.build.outputDirectory} -->
+	            <targetPath>${python.target.resource}</targetPath>        	
+        	</resource>
+    	</resources>	
 		<plugins>
 			<plugin>
 				<artifactId>maven-clean-plugin</artifactId>
@@ -197,6 +218,7 @@
 <!--                     </execution> -->
 <!--             	</executions> -->
 <!--             </plugin> -->
+
 		</plugins>
 	</build>
 </project>
