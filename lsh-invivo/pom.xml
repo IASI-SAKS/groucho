@@ -62,7 +62,7 @@
 		<jep-version>3.9.0</jep-version>
 		<jep-inst-path>${project.build.directory}/jep-inst</jep-inst-path>
 		<scm.version>1.8.1</scm.version>
-		<scm.connection.jep>scm:git:git://github.com/ninia/jep.git</scm.connection.jep>
+		<scm.connection.jep>scm:git:https://github.com/ninia/jep.git</scm.connection.jep>
         <scm.developerConnection.jep>scm:git:https://USERNAMEHERE@github.com/gulyx/jep.git</scm.developerConnection.jep>
 		<scm.url.jep>https://github.com/ninia/jep/tree/v3.9.0</scm.url.jep>
 		<scm.scmVersion.jep>master</scm.scmVersion.jep>
@@ -184,7 +184,7 @@
 <!--                             <arguments> -->
 <!--                                 <argument>setup.py</argument> -->
 <!--                                 <argument>build</argument> -->
- <!-- *                                  <argument>-b${jep-inst-path}</argument> -->
+<!--                                  <argument>-b${jep-inst-path}</argument> -->
 <!--                             </arguments> -->
 <!--                         </configuration> -->
 <!--                     </execution> -->
@@ -196,7 +196,7 @@
 <!--                 <executions> -->
 <!--                     <execution> -->
 <!--                         <id>copy-files-in-target</id> -->
-<!--                         here the phase you need -->
+<!--  *                        here the phase you need -->
 <!--                         <phase>compile</phase> -->
 <!--                         <goals> -->
 <!--                             <goal>copy-resources</goal> -->
@@ -205,7 +205,8 @@
 <!--                             <outputDirectory>${basedir}/target/foo</outputDirectory> -->
 <!--                             <resources>           -->
 <!--                                 <resource> -->
-<!--                                     <directory>${scm.checkoutDirectory.jep}</directory> -->
+<!-- *                                    <directory>${scm.checkoutDirectory.jep}</directory> -->
+<!--                                     <directory>${jep-inst-path}</directory> -->
 <!--                                     <includes> -->
 <!--                                         <include>**/jep*.jar</include> -->
 <!--                                         <include>**/jep*.so</include> -->
