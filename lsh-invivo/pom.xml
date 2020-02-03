@@ -233,7 +233,7 @@
 				</executions>
         <configuration>
 					<argLine>
-						-Djava.library.path=${jep-inst-path}/lib.linux-x86_64-2.7/jep
+						-Djava.library.path=${jep-inst-path}/lib.linux-x86_64-2.7/jep/jep.so
 					</argLine>
         </configuration>
       </plugin>
