@@ -8,9 +8,7 @@
 	WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
 	FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
 	You should have received a copy of the GNU General Public License along with 
-	this source. If not, see <http://www.gnu.org/licenses/>. -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	this source. If not, see <http://www.gnu.org/licenses/>. --><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>it.cnr.iasi.saks.groucho</groupId>
 	<artifactId>groucho</artifactId>
@@ -23,7 +21,8 @@
 		<module>groucho-crochet</module>
 		<module>groucho-core</module>
 		<module>lsh-invivo</module>
-	</modules>
+    	<module>groucho-lsh-rest</module>
+  </modules>
 
 	<developers>
 		<developer>
