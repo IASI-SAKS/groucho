@@ -167,35 +167,35 @@
                     </execution>
                 </executions>                
             </plugin>
-<!--             <plugin> -->
-<!--                 <groupId>org.codehaus.mojo</groupId> -->
-<!--                 <artifactId>exec-maven-plugin</artifactId> -->
-<!--                 <version>${org-codehaus-mojo.version}</version> -->
-<!--                 <executions> -->
-<!--                    <execution> -->
-<!--                         <id>build-jep</id> -->
-<!--                         <phase>compile</phase> -->
-<!--                         <goals> -->
-<!--                             <goal>exec</goal> -->
-<!--                         </goals> -->
-<!--                         <configuration> -->
-<!--                             <executable>python</executable> -->
-<!--  							<workingDirectory>${basedir}/target/jep</workingDirectory> -->
-<!--                             <arguments> -->
-<!--                                 <argument>setup.py</argument> -->
-<!--                                 <argument>build</argument> -->
-<!--                                  <argument>-b${jep-inst-path}</argument> -->
-<!--                             </arguments> -->
-<!--                         </configuration> -->
-<!--                     </execution> -->
-<!--                 </executions> -->
-<!--              </plugin> -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${org-codehaus-mojo.version}</version>
+                <executions>
+                   <execution>
+                        <id>build-jep</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>python</executable>
+ 							<workingDirectory>${basedir}/target/jep</workingDirectory>
+                            <arguments>
+                                <argument>setup.py</argument>
+                                <argument>build</argument>
+                                 <argument>-b${jep-inst-path}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+             </plugin>
 <!--             <plugin> -->
 <!--                 <artifactId>maven-resources-plugin</artifactId> -->
 <!--                 <version>${resources.version}</version> -->
 <!--                 <executions> -->
 <!--                     <execution> -->
-<!--                         <id>copy-files-in-target</id> -->
+<!--                         <id>copy-library-files-in-target</id> -->
 <!--  *                        here the phase you need -->
 <!--                         <phase>compile</phase> -->
 <!--                         <goals> -->
@@ -219,6 +219,24 @@
 <!--                     </execution> -->
 <!--             	</executions> -->
 <!--             </plugin> -->
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+<!--         <version>3.0.0-M4</version> -->
+        				<executions>
+					<execution>
+						<goals>
+							<goal>test</goal>
+						</goals>
+					</execution>
+				</executions>
+        <configuration>
+					<argLine>
+						-Djava.library.path=${jep-inst-path}/lib.linux-x86_64-2.7/jep
+					</argLine>
+        </configuration>
+      </plugin>
 
 		</plugins>
 	</build>
