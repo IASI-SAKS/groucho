@@ -9,20 +9,22 @@
 	You should have received a copy of the GNU General Public License along with 
 	this source. If not, see <http://www.gnu.org/licenses/>. -->
 
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>it.cnr.iasi.saks.groucho</groupId>
-  <artifactId>groucho-lsh-rest</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <name>groucho-lsh-rest</name>
-  <url>http://saks.iasi.cnr.it/tools/groucho</url>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>it.cnr.iasi.saks.groucho</groupId>
+	<artifactId>groucho-lsh-rest</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<name>groucho-lsh-rest</name>
+	<url>http://saks.iasi.cnr.it/tools/groucho</url>
 
-  <parent>
-    <groupId>it.cnr.iasi.saks.groucho</groupId>
-    <artifactId>groucho</artifactId>
-    <version>1.0-SNAPSHOT</version>
-  </parent>
+	<parent>
+		<groupId>it.cnr.iasi.saks.groucho</groupId>
+		<artifactId>groucho</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
 
 	<developers>
 		<developer>
@@ -43,7 +45,7 @@
 	</licenses>
 
 	<properties>
-	        <lsh-invivo.version>1.0-SNAPSHOT</lsh-invivo.version>
+		<lsh-invivo.version>1.0-SNAPSHOT</lsh-invivo.version>
 
 		<junit.version>4.4</junit.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -56,12 +58,12 @@
 		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
 	</properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>it.cnr.iasi.saks.groucho</groupId>
-      <artifactId>lsh-invivo</artifactId>
-      <version>${lsh-invivo.version}</version>
-    </dependency>
+	<dependencies>
+		<dependency>
+			<groupId>it.cnr.iasi.saks.groucho</groupId>
+			<artifactId>lsh-invivo</artifactId>
+			<version>${lsh-invivo.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -74,5 +76,5 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
-  </dependencies>
+	</dependencies>
 </project>
