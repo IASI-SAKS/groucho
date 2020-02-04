@@ -224,9 +224,10 @@
 				<version>1.0</version>
 				<executions>
 					<execution>
-						<id>copy-file</id>
+						<id>copy-jep.so-file</id>
 						<!-- <phase>generate-sources</phase> -->
-						<phase>prepare-package</phase>
+						<!-- <phase>prepare-package</phase> -->
+						<phase>compile</phase>
 						<goals>
 							<goal>copy</goal>
 						</goals>
