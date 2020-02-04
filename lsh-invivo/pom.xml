@@ -183,6 +183,8 @@
 								<argument>setup.py</argument>
 								<argument>build</argument>
 								<argument>-b${jep-inst-path}</argument>
+<!-- 								<argument>install</argument> -->
+<!-- REMOVE THE ****								<argument>-****-user</argument> -->
 							</arguments>
 						</configuration>
 					</execution>
