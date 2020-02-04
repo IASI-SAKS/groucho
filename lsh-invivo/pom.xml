@@ -251,6 +251,9 @@
 					</execution>
 				</executions>
 				<configuration>
+					<environmentVariables>
+						<PYTHONPATH>${jep-inst-path}:$PYTHONPATH</PYTHONPATH>
+					</environmentVariables>
 					<systemPropertyVariables>
 						<propertyName>java.library.path</propertyName>
 					</systemPropertyVariables>
