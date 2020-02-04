@@ -221,6 +221,26 @@
 <!--             </plugin> -->
 
       <plugin>
+        <groupId>com.coderplus.maven.plugins</groupId>
+        <artifactId>copy-rename-maven-plugin</artifactId>
+        <version>1.0</version>
+        <executions>
+          <execution>
+            <id>copy-file</id>
+<!--             <phase>generate-sources</phase> -->
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <sourceFile>${jep-inst-path}/lib.linux-x86_64-2.7/jep/jep.so</sourceFile>
+              <destinationFile>${jep-inst-path}/lib.linux-x86_64-2.7/jep/libjep.so</destinationFile>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
 <!--         <version>3.0.0-M4</version> -->
