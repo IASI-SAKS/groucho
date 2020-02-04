@@ -102,7 +102,7 @@
 
 	<build>	
    		<resources>
-        	<!-- regular resource processsing for everything -->
+        	<!-- regular resource processing for everything -->
         	<resource>
             	<directory>src/main/resources</directory>
         	</resource>
@@ -233,7 +233,7 @@
 				</executions>
         <configuration>
 					<argLine>
-						-Djava.library.path=${jep-inst-path}/lib.linux-x86_64-2.7/jep/jep.so
+						-Djava.library.path=${jep-inst-path}/lib.linux-x86_64-2.7/jep/
 					</argLine>
         </configuration>
       </plugin>
