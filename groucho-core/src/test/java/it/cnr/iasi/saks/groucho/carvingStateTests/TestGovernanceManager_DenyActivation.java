@@ -17,11 +17,15 @@
  */
 package it.cnr.iasi.saks.groucho.carvingStateTests;
 
+import it.cnr.iasi.saks.groucho.carvingStateTests.RandomGenerator;
 import it.cnr.iasi.saks.groucho.callback.SmarterGovernanceManager;
 import it.cnr.iasi.saks.groucho.common.Context;
 
 public class TestGovernanceManager_DenyActivation extends SmarterGovernanceManager {
-
+	
+	private static final int MAX_TENTATIVES = 10; 
+	private static final int MAX_SLEEP = 2000; 
+	
 	@Override
 	public boolean evaluateActivation(Context context) {
 		System.out.println("Starting carving on context: "+ context);
@@ -29,6 +33,36 @@ public class TestGovernanceManager_DenyActivation extends SmarterGovernanceManag
 		return false;
 	}
 	
+	/**
+	 * The actual runInvivoTestingSession will contain locks and other synchronization 
+	 * statements that may eventually neglect the execution of the in-vivo testing session.
+	 * During the test it is important to be (almost) sure that the runInvivoTestingSession,
+	 * is not skipped, otherwise it is likely that the tests become flaky. 
+	 * 
+	 * This method override reduce this risk by trying to run on in-vivo testing session
+	 * several time (i.e. MAX_TENTATIVES). 
+	 */
+	@Override
+	public void runInvivoTestingSession(Context context){
+		boolean wasCarvedSomething = false;
+		for (int count = 0; (count < MAX_TENTATIVES) && (!wasCarvedSomething); count++) {
+			super.runInvivoTestingSession(context);
+			wasCarvedSomething = !this.getCarvedState().isEmpty();
+			if (!wasCarvedSomething) {
+				System.out.println("Ooopps .... the In-vivo Testing Session was not launched. Trying again!");
+				try {
+					Thread.sleep(RandomGenerator.getInstance().nextInt(MAX_SLEEP));
+				} catch (InterruptedException e) {
+					// There is really nothing to to here!!!
+//					e.printStackTrace();
+				}
+			}
+		}
+		if (!wasCarvedSomething) {
+			System.out.println("Ooopps .... the test will fail!! Possibly not all the locks have been released.");
+		}
+	}
+
 	public String getCarvedState (){
 		return super.getCarvedState();
 	}
