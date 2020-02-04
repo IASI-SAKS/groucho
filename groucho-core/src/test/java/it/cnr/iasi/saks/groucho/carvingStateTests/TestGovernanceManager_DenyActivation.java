@@ -39,7 +39,7 @@ public class TestGovernanceManager_DenyActivation extends SmarterGovernanceManag
 	 * During the test it is important to be (almost) sure that the runInvivoTestingSession,
 	 * is not skipped, otherwise it is likely that the tests become flaky. 
 	 * 
-	 * This method override reduce this risk by trying to run on in-vivo testing session
+	 * This method override reduces this risk by trying to run on in-vivo testing session
 	 * several time (i.e. MAX_TENTATIVES). 
 	 */
 	@Override
