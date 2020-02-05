@@ -188,6 +188,26 @@
 							</arguments>
 						</configuration>
 					</execution>
+					<execution>
+						<id>build-xxhash</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>pip</executable>
+<!-- 							<workingDirectory>${basedir}/target/xxhash</workingDirectory> -->
+							<arguments>
+								<argument>install</argument>
+<!-- 								<argument>-b${basedir}/target/xxhash</argument> -->
+<!-- 								<argument>- -prefix=${jep-inst-path}</argument> -->
+								<argument>--system</argument>
+								<argument>-b${basedir}/target/xxhash</argument>
+								<argument>-t${jep-inst-path}/lib.linux-x86_64-2.7</argument>
+								<argument>xxhash</argument>
+							</arguments>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 			<!-- <plugin> -->
