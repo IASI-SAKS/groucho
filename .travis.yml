@@ -1,9 +1,10 @@
-dist: bionic
+# dist: bionic
+dist: xenial
 # dist: trusty
 language: java
 jdk:
-    - openjdk9
-#    - oraclejdk8
+#    - openjdk9
+    - oraclejdk8
 ##script: bash build --debug
 script: mvn clean install 
 # We need to avoid sudo for caching on Travis
