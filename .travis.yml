@@ -30,6 +30,7 @@ cache:
 
 before_script:
     -  pip --version
+    -  pip install --help
 #    - export JAVA_HOME=`dirname $(dirname $(readlink -f $(which javac)))`
     - export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/"
     - export MAVEN_SKIP_RC=true
