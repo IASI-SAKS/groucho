@@ -60,13 +60,17 @@
 		<org-codehaus-mojo.version>1.6.0</org-codehaus-mojo.version>
 
 		<jep-version>3.9.0</jep-version>
+		<jep-path>${project.build.directory}/jep</jep-path>
+		<xxhash-path>${project.build.directory}/xxhash</xxhash-path>		
 		<jep-inst-path>${project.build.directory}/jep-inst</jep-inst-path>
-		<scm.version>1.8.1</scm.version>
-		<scm.connection.jep>scm:git:https://github.com/ninia/jep.git</scm.connection.jep>
-		<scm.developerConnection.jep>scm:git:https://USERNAMEHERE@github.com/gulyx/jep.git</scm.developerConnection.jep>
-		<scm.url.jep>https://github.com/ninia/jep/tree/v3.9.0</scm.url.jep>
-		<scm.scmVersion.jep>master</scm.scmVersion.jep>
-		<scm.checkoutDirectory.jep>${project.build.directory}/jep</scm.checkoutDirectory.jep>
+		
+<!-- 		<scm.version>1.8.1</scm.version> -->
+<!-- 		<scm.connection.jep>scm:git:https://github.com/ninia/jep.git</scm.connection.jep> -->
+<!-- 		<scm.developerConnection.jep>scm:git:https://USERNAMEHERE@github.com/gulyx/jep.git</scm.developerConnection.jep> -->
+<!-- 		<scm.url.jep>https://github.com/ninia/jep/tree/v3.9.0</scm.url.jep> -->
+<!-- 		<scm.scmVersion.jep>master</scm.scmVersion.jep> -->
+<!-- 		<scm.checkoutDirectory.jep>${project.build.directory}/jep</scm.checkoutDirectory.jep> -->
+
 		<python.target.resource>${project.build.outputDirectory}/python</python.target.resource>
 
 	</properties>
@@ -202,8 +206,8 @@
 <!-- 								<argument>-b${basedir}/target/xxhash</argument> -->
 <!-- 								<argument>- -prefix=${jep-inst-path}</argument> -->
 								<argument>--system</argument>
-								<argument>-b${basedir}/target/jep</argument>
-								<argument>-t${jep-inst-path}/lib.linux-x86_64-2.7</argument>
+								<argument>-b${jep-path}</argument>
+								<argument>-t${jep-inst-path}</argument>
 								<argument>jep</argument>
 							</arguments>
 						</configuration>
@@ -222,8 +226,8 @@
 <!-- 								<argument>-b${basedir}/target/xxhash</argument> -->
 <!-- 								<argument>- -prefix=${jep-inst-path}</argument> -->
 								<argument>--system</argument>
-								<argument>-b${basedir}/target/xxhash</argument>
-								<argument>-t${jep-inst-path}/lib.linux-x86_64-2.7</argument>
+								<argument>-b${xxhash-path}</argument>
+								<argument>-t${jep-inst-path}</argument>
 								<argument>xxhash</argument>
 							</arguments>
 						</configuration>
@@ -294,13 +298,13 @@
 				</executions>
 				<configuration>
 					<environmentVariables>
-						<PYTHONPATH>${jep-inst-path}/lib.linux-x86_64-2.7/:$PYTHONPATH</PYTHONPATH>
+						<PYTHONPATH>${jep-inst-path}/:$PYTHONPATH</PYTHONPATH>
 					</environmentVariables>
 					<systemPropertyVariables>
 						<propertyName>java.library.path</propertyName>
 					</systemPropertyVariables>
 					<argLine>
-						-Djava.library.path=${jep-inst-path}/lib.linux-x86_64-2.7/jep/
+						-Djava.library.path=${jep-inst-path}/jep/
 					</argLine>
 				</configuration>
 			</plugin>

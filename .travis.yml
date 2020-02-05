@@ -17,7 +17,7 @@ addons:
             - maven
             - build-essential
             - sed
-	    - python-pip
+            - python-pip
     
 cache:
     directories:
