@@ -1,11 +1,11 @@
-dist: bionic
+# dist: bionic
 # dist: xenial
-# dist: trusty
-# language: java
-# jdk:
+dist: trusty
+language: java
+jdk:
 #    - openjdk9
 #    - oraclejdk8
-#    - openjdk8
+    - openjdk8
 ##script: bash build --debug
 script: mvn clean install 
 # We need to avoid sudo for caching on Travis
@@ -21,8 +21,8 @@ addons:
             - maven
             - build-essential
             - sed
-            - python3-pip
-            - openjdk-8-jdk
+            - python-pip
+#            - openjdk-8-jdk
     
 cache:
     directories:
@@ -31,8 +31,8 @@ cache:
 before_script:
     -  pip --version
     -  pip install --help
-#    - export JAVA_HOME=`dirname $(dirname $(readlink -f $(which javac)))`
-    - export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/"
+    - export JAVA_HOME=`dirname $(dirname $(readlink -f $(which javac)))`
+#    - export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/"
     - export MAVEN_SKIP_RC=true
     - export MAVEN_OPTS="-Xms1024m -Xmx2g -XX:MaxPermSize=512m"
 
