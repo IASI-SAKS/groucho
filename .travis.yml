@@ -21,7 +21,7 @@ addons:
             - maven
             - build-essential
             - sed
-            - python-pip
+            - python3-pip
             - openjdk-8-jdk
     
 cache:
