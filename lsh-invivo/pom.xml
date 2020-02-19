@@ -205,7 +205,7 @@
 								<argument>install</argument>
 <!-- 								<argument>-b${basedir}/target/xxhash</argument> -->
 <!-- 								<argument>- -prefix=${jep-inst-path}</argument> -->
-								<argument>--system</argument>
+<!-- 								<argument>-REMOVE_THIS_SPACE-system</argument> -->
 								<argument>-b${jep-path}</argument>
 								<argument>-t${jep-inst-path}</argument>
 								<argument>jep</argument>
@@ -225,7 +225,7 @@
 								<argument>install</argument>
 <!-- 								<argument>-b${basedir}/target/xxhash</argument> -->
 <!-- 								<argument>- -prefix=${jep-inst-path}</argument> -->
-								<argument>--system</argument>
+<!-- 								<argument>-REMOVE_THIS_SPACE-system</argument> -->
 								<argument>-b${xxhash-path}</argument>
 								<argument>-t${jep-inst-path}</argument>
 								<argument>xxhash</argument>
