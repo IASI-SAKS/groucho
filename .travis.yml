@@ -4,8 +4,8 @@ dist: trusty
 language: java
 jdk:
 #    - openjdk9
-#    - oraclejdk8
-    - openjdk8
+    - oraclejdk8
+#    - openjdk8
 ##script: bash build --debug
 script: mvn clean install 
 # We need to avoid sudo for caching on Travis
