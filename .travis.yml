@@ -12,6 +12,9 @@ script: mvn clean install
 # http://docs.travis-ci.com/user/caching/
 sudo: false
 
+python:
+  - "2.7"
+  
 addons:
     apt:
         packages:
@@ -24,10 +27,6 @@ addons:
 #            - python-pip
 #            - openjdk-8-jdk
 
-language: python
-python:
-  - "2.7"
-script: pytest
   
 cache:
     directories:
