@@ -22,6 +22,7 @@
 	<modules>
 		<module>groucho-crochet</module>
 		<module>groucho-core</module>
+		<module>lsh-invivo</module>
 	</modules>
 
 	<developers>
