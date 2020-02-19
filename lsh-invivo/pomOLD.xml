@@ -60,17 +60,13 @@
 		<org-codehaus-mojo.version>1.6.0</org-codehaus-mojo.version>
 
 		<jep-version>3.9.0</jep-version>
-		<jep-path>${project.build.directory}/jep</jep-path>
-		<xxhash-path>${project.build.directory}/xxhash</xxhash-path>		
 		<jep-inst-path>${project.build.directory}/jep-inst</jep-inst-path>
-		
-<!-- 		<scm.version>1.8.1</scm.version> -->
-<!-- 		<scm.connection.jep>scm:git:https://github.com/ninia/jep.git</scm.connection.jep> -->
-<!-- 		<scm.developerConnection.jep>scm:git:https://USERNAMEHERE@github.com/gulyx/jep.git</scm.developerConnection.jep> -->
-<!-- 		<scm.url.jep>https://github.com/ninia/jep/tree/v3.9.0</scm.url.jep> -->
-<!-- 		<scm.scmVersion.jep>master</scm.scmVersion.jep> -->
-<!-- 		<scm.checkoutDirectory.jep>${project.build.directory}/jep</scm.checkoutDirectory.jep> -->
-
+		<scm.version>1.8.1</scm.version>
+		<scm.connection.jep>scm:git:https://github.com/ninia/jep.git</scm.connection.jep>
+		<scm.developerConnection.jep>scm:git:https://USERNAMEHERE@github.com/gulyx/jep.git</scm.developerConnection.jep>
+		<scm.url.jep>https://github.com/ninia/jep/tree/v3.9.0</scm.url.jep>
+		<scm.scmVersion.jep>master</scm.scmVersion.jep>
+		<scm.checkoutDirectory.jep>${project.build.directory}/jep</scm.checkoutDirectory.jep>
 		<python.target.resource>${project.build.outputDirectory}/python</python.target.resource>
 
 	</properties>
@@ -97,11 +93,11 @@
 
 	</dependencies>
 
-<!-- 	<scm> -->
-<!-- 		<connection>${scm.connection.jep}</connection> -->
-<!-- *		 <developerConnection>scm:git:ssh://github.com:ninia/jep.git</developerConnection> -->
-<!-- 		<url>${scm.url.jep}</url> -->
-<!-- 	</scm> -->
+	<scm>
+		<connection>${scm.connection.jep}</connection>
+		<!-- <developerConnection>scm:git:ssh://github.com:ninia/jep.git</developerConnection> -->
+		<url>${scm.url.jep}</url>
+	</scm>
 
 
 	<build>
@@ -148,50 +144,32 @@
 				</configuration>
 			</plugin>
 
-<!-- 			<plugin> -->
-<!-- 				<groupId>org.apache.maven.plugins</groupId> -->
-<!-- 				<artifactId>maven-scm-plugin</artifactId> -->
-<!-- 				<version>${scm.version}</version> -->
-<!-- 				<configuration> -->
-<!-- 					<scmVersion>${scm.scmVersion.jep}</scmVersion> -->
-<!-- 					<scmVersionType>branch</scmVersionType> -->
-<!-- 					<checkoutDirectory>${scm.checkoutDirectory.jep}</checkoutDirectory> -->
-<!-- 					<goals>install</goals> -->
-<!-- 				</configuration> -->
-<!-- 				<executions> -->
-<!-- 					<execution> -->
-<!-- 						<id>scm-checkout-bootstrap</id> -->
-<!-- 						<goals> -->
-<!-- * 							<goal>checkout</goal> -->
-<!-- 							<goal>bootstrap</goal> -->
-<!-- 						</goals> -->
-<!-- 						<phase>compile</phase> -->
-<!-- 					</execution> -->
-<!-- 				</executions> -->
-<!-- 			</plugin> -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-scm-plugin</artifactId>
+				<version>${scm.version}</version>
+				<configuration>
+					<scmVersion>${scm.scmVersion.jep}</scmVersion>
+					<scmVersionType>branch</scmVersionType>
+					<checkoutDirectory>${scm.checkoutDirectory.jep}</checkoutDirectory>
+					<goals>install</goals>
+				</configuration>
+				<executions>
+					<execution>
+						<id>scm-checkout-bootstrap</id>
+						<goals>
+							<!-- <goal>checkout</goal> -->
+							<goal>bootstrap</goal>
+						</goals>
+						<phase>compile</phase>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>${org-codehaus-mojo.version}</version>
 				<executions>
-<!-- 					<execution> -->
-<!-- 						<id>build-jep</id> -->
-<!-- 						<phase>compile</phase> -->
-<!-- 						<goals> -->
-<!-- 							<goal>exec</goal> -->
-<!-- 						</goals> -->
-<!-- 						<configuration> -->
-<!-- 							<executable>python</executable> -->
-<!-- 							<workingDirectory>${basedir}/target/jep</workingDirectory> -->
-<!-- 							<arguments> -->
-<!-- 								<argument>setup.py</argument> -->
-<!-- 								<argument>build</argument> -->
-<!-- 								<argument>-b${jep-inst-path}</argument> -->
-<!-- * 								<argument>install</argument> -->
-<!-- * REMOVE THE ****								<argument>-****-user</argument> -->
-<!-- 							</arguments> -->
-<!-- 						</configuration> -->
-<!-- 					</execution> -->
 					<execution>
 						<id>build-jep</id>
 						<phase>compile</phase>
@@ -199,16 +177,14 @@
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>pip</executable>
-<!-- 							<workingDirectory>${basedir}/target/xxhash</workingDirectory> -->
+							<executable>python</executable>
+							<workingDirectory>${basedir}/target/jep</workingDirectory>
 							<arguments>
-								<argument>install</argument>
-<!-- 								<argument>-b${basedir}/target/xxhash</argument> -->
-<!-- 								<argument>- -prefix=${jep-inst-path}</argument> -->
-<!-- 								<argument>-REMOVE_THIS_SPACE-system</argument> -->
-								<argument>-b${jep-path}</argument>
-								<argument>-t${jep-inst-path}</argument>
-								<argument>jep</argument>
+								<argument>setup.py</argument>
+								<argument>build</argument>
+								<argument>-b${jep-inst-path}</argument>
+<!-- 								<argument>install</argument> -->
+<!-- REMOVE THE ****								<argument>-****-user</argument> -->
 							</arguments>
 						</configuration>
 					</execution>
@@ -225,9 +201,9 @@
 								<argument>install</argument>
 <!-- 								<argument>-b${basedir}/target/xxhash</argument> -->
 <!-- 								<argument>- -prefix=${jep-inst-path}</argument> -->
-<!-- 								<argument>-REMOVE_THIS_SPACE-system</argument> -->
-								<argument>-b${xxhash-path}</argument>
-								<argument>-t${jep-inst-path}</argument>
+								<argument>--system</argument>
+								<argument>-b${basedir}/target/xxhash</argument>
+								<argument>-t${jep-inst-path}/lib.linux-x86_64-2.7</argument>
 								<argument>xxhash</argument>
 							</arguments>
 						</configuration>
@@ -264,26 +240,26 @@
 			<!-- </executions> -->
 			<!-- </plugin> -->
 
-<!-- 			<plugin> -->
-<!-- 				<groupId>com.coderplus.maven.plugins</groupId> -->
-<!-- 				<artifactId>copy-rename-maven-plugin</artifactId> -->
-<!-- 				<version>1.0</version> -->
-<!-- 				<executions> -->
-<!-- 					<execution> -->
-<!-- 						<id>copy-jep.so-file</id> -->
-<!-- 						<phase>generate-sources</phase> -->
-<!-- 						<phase>prepare-package</phase> -->
-<!-- 						<phase>compile</phase> -->
-<!-- 						<goals> -->
-<!-- 							<goal>copy</goal> -->
-<!-- 						</goals> -->
-<!-- 						<configuration> -->
-<!-- 							<sourceFile>${jep-inst-path}/lib.linux-x86_64-2.7/jep/jep.so</sourceFile> -->
-<!-- 							<destinationFile>${jep-inst-path}/lib.linux-x86_64-2.7/jep/libjep.so</destinationFile> -->
-<!-- 						</configuration> -->
-<!-- 					</execution> -->
-<!-- 				</executions> -->
-<!-- 			</plugin> -->
+			<plugin>
+				<groupId>com.coderplus.maven.plugins</groupId>
+				<artifactId>copy-rename-maven-plugin</artifactId>
+				<version>1.0</version>
+				<executions>
+					<execution>
+						<id>copy-jep.so-file</id>
+						<!-- <phase>generate-sources</phase> -->
+						<!-- <phase>prepare-package</phase> -->
+						<phase>compile</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<sourceFile>${jep-inst-path}/lib.linux-x86_64-2.7/jep/jep.so</sourceFile>
+							<destinationFile>${jep-inst-path}/lib.linux-x86_64-2.7/jep/libjep.so</destinationFile>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -298,13 +274,13 @@
 				</executions>
 				<configuration>
 					<environmentVariables>
-						<PYTHONPATH>${jep-inst-path}/:$PYTHONPATH</PYTHONPATH>
+						<PYTHONPATH>${jep-inst-path}/lib.linux-x86_64-2.7/:$PYTHONPATH</PYTHONPATH>
 					</environmentVariables>
 					<systemPropertyVariables>
 						<propertyName>java.library.path</propertyName>
 					</systemPropertyVariables>
 					<argLine>
-						-Djava.library.path=${jep-inst-path}/jep/
+						-Djava.library.path=${jep-inst-path}/lib.linux-x86_64-2.7/jep/
 					</argLine>
 				</configuration>
 			</plugin>
