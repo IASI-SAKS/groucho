@@ -9,6 +9,8 @@ GROUCHO is (mainly) a maven project. Build and install it with `mvn install`. In
 
 GROUCHO relies on an instrumented JVM (provided by [CROCHET](https://github.com/gmu-swe/crochet)) that will be located in `groucho-crochet/target/jre-inst/`.
 
+Some O.S. libraries may be required in order to build and run GROUCHO. The detailed list can be found in the file `.travis.yaml`.
+
 Java Home
 -------
 Remember that the variable JAVA_HOME has to be defined and propely set.
