@@ -1,0 +1,31 @@
+language: java
+jdk:
+#    - openjdk9
+    - oraclejdk8
+#    - openjdk8
+
+framework:
+    -
+      name: Spring-Boot
+      version: 2.5
+
+framework includes:
+    - Apache Tomcat
+    - Swagger
+
+required:
+    - Maven
+
+API:
+    - REST
+#    - SOAP
+
+Controller list:
+    -
+      goal: Confirm the start of In-vivo Testing procedure
+      description: In the In-vivo Testing flowchart, in the 6th step, processes check if their state should be tested or not, if the decision is to start the In-vivo testing procedure, before the In-vivo testing procedure starts (step 7), this REST API should confirm or not this decision.
+      HTTP: POST
+    -
+      goal: Get data from processes after being tested
+      description: In the In-vivo Testing flowchart, after the processes complete the 9th step and before the 10th, this REST API should receive data of the achieved test.
+      HTTP: PUT
