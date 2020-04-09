@@ -1,0 +1,102 @@
+swagger: "2.0"
+info:
+  description: "Groucho REST API for Monitoring Object State "
+  version: "1.0.API.SNAPSHOT"
+  title: "Groucho State Observer"
+  termsOfService: "http://saks-wiki.iasi.cnr.it/groucho"
+  contact:
+    email: "guglielmo.deangelis@iasi.cnr.it"
+  license:
+    name: "GNU General Public License (GPL ver.3)"
+    url: "http://www.gnu.org/licenses/gpl.txt"
+host: "localhost"
+port: "8080"
+basePath: "/groucho-state-observer"
+tags:
+- name: "isStateUnknown"
+  description: "Check if a given state has been previouslly observed"
+  externalDocs:
+    description: "Find out more"
+    url: "http://saks-wiki.iasi.cnr.it/groucho"
+- name: "markState"
+  description: "Assert that a given state has been observed"
+  externalDocs:
+    description: "Find out more"
+    url: "http://saks-wiki.iasi.cnr.it/groucho"
+- name: "resetStateObserver"
+  description: "Suggest to Restore the State of the Obeserver to the Default Configurations. It is only a suggestion, there is no commitment from the reciver"
+  externalDocs:
+    description: "Find out more"
+    url: "http://saks-wiki.iasi.cnr.it/groucho"
+schemes:
+- "http"
+paths:
+  /isunknown/{stateStringId}:
+    get:
+      tags:
+      - "isStateUnknown"
+      summary: "Check if a given state has been previouslly observed"
+      description: "Returns TRUE if a State has been never observed, FALSE otherwise"
+      operationId: "isStateUnknown"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "stateStringId"
+        in: "path"
+        description: "ID String of Considered State"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            format: "boolean"
+        400:
+          description: "Invalid State ID supplied"
+        404:
+          description: "State ID not found"
+  /reset:
+    put:
+      tags:
+      - "resetStateObserver"
+      summary: "Suggest to Restore the State of the Obeserver to the Default Configurations."
+      description: "Suggest to Restore the State of the Obeserver to the Default Configurations. It is only a suggestion, there is no commitment from the reciver."
+      operationId: "resetStateObserver"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Successful Operation"
+          schema:
+            format: "boolean"
+        400:
+          description: "Reset Not Allowed"
+        404:
+          description: "Reset Exception"
+  /mark/{stateStringId}:
+    put:
+      tags:
+      - "markState"
+      summary: "Assert that a given state has been observed."
+      description: "Assert that a given state has been observed. It return TRUE is the state has been maked, FALSE otherwise."
+      operationId: "markState"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "stateStringId"
+        in: "path"
+        description: "ID String of Considered State"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Successful Operation"
+          schema:
+            format: "boolean"
+        400:
+          description: "Invalid State ID supplied"
+        404:
+          description: "Mark Execption"
+externalDocs:
+  description: "Find out more"
+  url: "http://saks-wiki.iasi.cnr.it/groucho"
