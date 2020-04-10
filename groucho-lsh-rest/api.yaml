@@ -38,6 +38,8 @@ paths:
       summary: "Check if a given state has been previouslly observed"
       description: "Returns TRUE if a State has been never observed, FALSE otherwise"
       operationId: "isStateUnknown"
+      consumes:
+      - "application/json"
       produces:
       - "application/json"
       parameters:
@@ -105,6 +107,8 @@ paths:
       summary: "Assert that a given state has been observed."
       description: "Assert that a given state has been observed. It return TRUE is the state has been maked, FALSE otherwise."
       operationId: "markState"
+      consumes:
+      - "application/json"
       produces:
       - "application/json"
       parameters:
