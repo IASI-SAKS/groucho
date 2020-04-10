@@ -31,7 +31,7 @@ tags:
 schemes:
 - "http"
 paths:
-  /isunknown/{stateStringId}:
+  /isunknown:
     get:
       tags:
       - "isStateUnknown"
@@ -41,20 +41,45 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "stateStringId"
+        - name: "body"
+          in: "body"
+          description: "The Actual Internal Representation as a String of the Considered State"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        200:
+          description: "Successful Operation."
+          schema:
+            format: "boolean"
+        400:
+          description: "Invalid State Supplied."
+        404:
+          description: "Check Exception, State not found."
+  /isunknown/{stateStringLSH}:
+    get:
+      tags:
+      - "isStateUnknown"
+      summary: "Check if a given state has been previouslly observed"
+      description: "Returns TRUE if a State has been never observed, FALSE otherwise. The input parameter is supposed to be a codification in LSH of the actual internal state representation."
+      operationId: "isStateUnknownLSH"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "stateStringLSH"
         in: "path"
-        description: "ID String of Considered State"
+        description: "LSH String of Considered State."
         required: true
         type: "string"
       responses:
         200:
-          description: "successful operation"
+          description: "Successful Operation"
           schema:
             format: "boolean"
         400:
-          description: "Invalid State ID supplied"
+          description: "Invalid LSH State Supplied"
         404:
-          description: "State ID not found"
+          description: "Check Exception, LSH State not found"
   /reset:
     put:
       tags:
@@ -66,15 +91,15 @@ paths:
       - "application/json"
       responses:
         200:
-          description: "Successful Operation"
+          description: "Successful Operation."
           schema:
             format: "boolean"
         400:
-          description: "Reset Not Allowed"
+          description: "Reset Not Allowed."
         404:
-          description: "Reset Exception"
-  /mark/{stateStringId}:
-    put:
+          description: "Reset Exception."
+  /mark:
+    post:
       tags:
       - "markState"
       summary: "Assert that a given state has been observed."
@@ -83,20 +108,45 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "stateStringId"
+      - name: "body"
+        in: "body"
+        description: "The Actual Internal Representation as a String of the Considered State."
+        required: true
+        schema:
+          type: "string"
+      responses:
+        200:
+          description: "Successful Operation."
+          schema:
+            format: "boolean"
+        400:
+          description: "Invalid State Supplied."
+        404:
+          description: "Mark Execption."
+  /mark/{stateStringLSH}:
+    put:
+      tags:
+      - "markState"
+      summary: "Assert that a given state has been observed."
+      description: "Assert that a given state has been observed. It return TRUE is the state has been maked, FALSE otherwise. The input parameter is supposed to be a codification in LSH of the actual internal state representation."
+      operationId: "markStateLSH"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "stateStringLSH"
         in: "path"
-        description: "ID String of Considered State"
+        description: "LSH String of Considered State"
         required: true
         type: "string"
       responses:
         200:
-          description: "Successful Operation"
+          description: "Successful Operation."
           schema:
             format: "boolean"
         400:
-          description: "Invalid State ID supplied"
+          description: "Invalid LSH State Supplied."
         404:
-          description: "Mark Execption"
+          description: "Mark Execption."
 externalDocs:
   description: "Find out more"
   url: "http://saks-wiki.iasi.cnr.it/groucho"
