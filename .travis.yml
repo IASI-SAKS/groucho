@@ -27,8 +27,8 @@ addons:
             - sed
 #            - python-pip
 #            - openjdk-8-jdk
-##    sonarcloud:
-##	organization: "iasi-saks"
+    sonarcloud:
+	organization: iasi-saks
 ## Token is not given as I am trying to pass it as an environmental variable from Travis-CI
 ##    token:
 ##      secure: ""
@@ -36,7 +36,7 @@ addons:
 cache:
     directories:
         - $HOME/.m2
-##        - $HOME/.sonar/cache
+        - $HOME/.sonar/cache
 
 before_script:
     -  pip --version
