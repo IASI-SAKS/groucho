@@ -46,6 +46,8 @@
 		<groucho-core.build.finalName>groucho-core-1.0-SNAPSHOT</groucho-core.build.finalName>
 
 		<asm.version>5.0.3</asm.version>
+        
+        <jacoco-maven-plugin.version>0.8.3</jacoco-maven-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -118,4 +120,32 @@
 		</plugins>
 	</build>
 
+    <profiles>
+            <profile>
+                <id>coverage</id>
+                <build>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.jacoco</groupId>
+                            <artifactId>jacoco-maven-plugin</artifactId>
+                            <version>${jacoco-maven-plugin.version}</version>
+                            <executions>
+                                <execution>
+                                    <id>prepare-agent</id>
+                                    <goals>
+                                        <goal>prepare-agent</goal>
+                                    </goals>
+                                </execution>
+                                <execution>
+                                    <id>report</id>
+                                    <goals>
+                                        <goal>report</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </build>
+            </profile>
+    </profiles>    
 </project>
