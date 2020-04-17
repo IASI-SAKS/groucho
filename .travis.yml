@@ -25,7 +25,7 @@ addons:
     sonarcloud:
         organization: iasi-saks
         token:
-            secure: "35d023e7ad4f1c817bf9520bfbb703606f6e8ca1"
+            secure: "36d469bfd4062f34b011bd3075386ed2482ce960"
     apt:
         packages:
             - curl
