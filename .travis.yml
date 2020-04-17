@@ -7,8 +7,8 @@ jdk:
     - oraclejdk8
 #    - openjdk8
 ##script: bash build --debug
-script: mvn clean install 
-## script: mvn clean sonar:sonar -Pcoverage -Dsonar.projectKey=IASI-SAKS_groucho install 
+##script: mvn clean install 
+script: mvn clean sonar:sonar -Pcoverage -Dsonar.projectKey=IASI-SAKS_groucho install 
 # We need to avoid sudo for caching on Travis
 # http://docs.travis-ci.com/user/caching/
 sudo: false
