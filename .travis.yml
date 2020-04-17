@@ -9,7 +9,10 @@ jdk:
 ##script: bash build --debug
 ##script: mvn clean install 
 ##script: mvn clean sonar:sonar -Pcoverage -Dsonar.projectKey=IASI-SAKS_groucho install
-script: mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=IASI-SAKS_groucho
+script:
+    mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent sonar:sonar -DskipTests -Dsonar.projectKey=IASI-SAKS_groucho
+    mvn clean install
+## script: mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=IASI-SAKS_groucho
 # We need to avoid sudo for caching on Travis
 # http://docs.travis-ci.com/user/caching/
 sudo: false
