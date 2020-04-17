@@ -16,6 +16,9 @@ sudo: false
 python:
   - "2.7"
   
+## Token is not given as I am trying to pass it as an environmental variable from Travis-CI
+##    token:
+##      secure: ""
 addons:
     sonarcloud:
         organization: iasi-saks
@@ -29,11 +32,6 @@ addons:
             - sed
 #            - python-pip
 #            - openjdk-8-jdk
-#    sonarcloud:
-#	organization: iasi-saks
-## Token is not given as I am trying to pass it as an environmental variable from Travis-CI
-##    token:
-##      secure: ""
   
 cache:
     directories:
