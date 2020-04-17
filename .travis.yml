@@ -8,7 +8,8 @@ jdk:
 #    - openjdk8
 ##script: bash build --debug
 ##script: mvn clean install 
-script: mvn clean sonar:sonar -Pcoverage -Dsonar.projectKey=IASI-SAKS_groucho install 
+##script: mvn clean sonar:sonar -Pcoverage -Dsonar.projectKey=IASI-SAKS_groucho install
+script: mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=IASI-SAKS_groucho
 # We need to avoid sudo for caching on Travis
 # http://docs.travis-ci.com/user/caching/
 sudo: false
@@ -16,12 +17,11 @@ sudo: false
 python:
   - "2.7"
   
-## Token is not given as I am trying to pass it as an environmental variable from Travis-CI
-##    token:
-##      secure: ""
 addons:
     sonarcloud:
         organization: iasi-saks
+        token:
+            secure: "35d023e7ad4f1c817bf9520bfbb703606f6e8ca1"
     apt:
         packages:
             - curl
