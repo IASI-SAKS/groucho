@@ -24,8 +24,6 @@ python:
 addons:
     sonarcloud:
         organization: iasi-saks
-        token:
-            secure: "36d469bfd4062f34b011bd3075386ed2482ce960"
     apt:
         packages:
             - curl
