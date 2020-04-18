@@ -11,8 +11,8 @@ jdk:
 ##script: mvn clean sonar:sonar -Pcoverage -Dsonar.projectKey=IASI-SAKS_groucho install
 ## before_script: 
 ##    - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent sonar:sonar -DskipTests -Dsonar.projectKey=IASI-SAKS_groucho
-script:
-    - mvn clean install
+##script: 
+##    - mvn clean install
 ## script: mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=IASI-SAKS_groucho
 # We need to avoid sudo for caching on Travis
 # http://docs.travis-ci.com/user/caching/
@@ -40,7 +40,7 @@ cache:
         - $HOME/.m2
         - $HOME/.sonar/cache
 
-before_script:
+before_install:
     -  pip --version
     -  pip install --help
     - export JAVA_HOME=`dirname $(dirname $(readlink -f $(which javac)))`
@@ -48,6 +48,9 @@ before_script:
     - export MAVEN_SKIP_RC=true
     - export MAVEN_OPTS="-Xms1024m -Xmx2g -XX:MaxPermSize=512m"
     - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -Dsonar.projectKey=IASI-SAKS_groucho -DskipTests 
+
+install:
+    - mvn clean install
 
 ### Copied form LeanPAd, commented by Gulyx
 # after_success:
