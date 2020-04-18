@@ -84,6 +84,23 @@
 					</execution>
 				</executions>
 			</plugin>
+                        <plugin>
+                                <groupId>org.apache.maven.plugins</groupId>
+                                <artifactId>maven-surefire-plugin</artifactId>
+                                <!-- <version>${maven-surefire.version}</version> -->
+				<executions>
+					<execution>
+						<goals>
+							<goal>sonar</goal>
+						</goals>
+					</execution>
+				</executions>
+                                <configuration>
+                                  <excludes>
+                                    <exclude>**/SimpleCarvingStateTest.java</exclude>
+                                  </excludes>
+                                </configuration>
+                        </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
@@ -143,16 +160,6 @@
                                     </goals>
                                 </execution>
                             </executions>
-                        </plugin>
-                        <plugin>
-                                <groupId>org.apache.maven.plugins</groupId>
-                                <artifactId>maven-surefire-plugin</artifactId>
-                                <!-- <version>${maven-surefire.version}</version> -->
-                                <configuration>
-                                  <excludes>
-                                    <exclude>**/SimpleCarvingStateTest.java</exclude>
-                                  </excludes>
-                                </configuration>
                         </plugin>
                     </plugins>
                 </build>
