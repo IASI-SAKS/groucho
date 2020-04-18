@@ -150,7 +150,7 @@
                                 <!-- <version>${maven-surefire.version}</version> -->
                                 <configuration>
                                   <excludes>
-                                    <exclude>**/*SimpleCarvingStateTest.java</exclude>
+                                    <exclude>**/SimpleCarvingStateTest.java</exclude>
                                   </excludes>
                                 </configuration>
                         </plugin>
