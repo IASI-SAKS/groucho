@@ -62,6 +62,9 @@
         
         <groucho-crochet.version>1.0-SNAPSHOT</groucho-crochet.version>
         <CRIJ.version>0.0.1-SNAPSHOT</CRIJ.version>
+        
+<!--        <sonar.exclusions>org/binarytherapy/generated/**/*, **/GuiceBindComposer.java</sonar.exclusions>-->
+        <sonar.test.exclusions>**/carvingStateTests/SimpleCarvingStateTest.java</sonar.test.exclusions>
   </properties>
   
 <!--<repositories>
