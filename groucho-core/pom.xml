@@ -61,6 +61,7 @@
         <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
         
 		<maven-surefire.version>3.0.0-M4</maven-surefire.version>
+        <groucho-core.test.excludes></groucho-core.test.excludes>
 
         <groucho-crochet.version>1.0-SNAPSHOT</groucho-crochet.version>
         <CRIJ.version>0.0.1-SNAPSHOT</CRIJ.version>
@@ -140,6 +141,11 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${maven-surefire.version}</version>
+                <configuration>
+                    <excludes>
+                        <exclude>${groucho-core.test.excludes}</exclude>
+                    </excludes>
+                </configuration>                
 			</plugin>
     </plugins>
   </build>    
