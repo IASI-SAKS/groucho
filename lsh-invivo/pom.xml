@@ -67,6 +67,7 @@
 		
 		<python.target.resource>${project.build.outputDirectory}/python</python.target.resource>
 
+        	<sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
 
 	<dependencies>
