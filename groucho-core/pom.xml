@@ -139,16 +139,16 @@
                 <target>${maven-compiler-plugin.targetVersion}</target>
             </configuration>
         </plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${maven-surefire.version}</version>
-                <configuration>
-                    <excludes>
-                        <exclude>${groucho-core.test.excludes}</exclude>
-                    </excludes>
-                </configuration>                
-			</plugin>
+		<plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+			<version>${maven-surefire.version}</version>
+            <configuration>
+                 <excludes>
+                     <exclude>${groucho-core.test.excludes}</exclude>
+                 </excludes>
+            </configuration>                
+        </plugin>
     </plugins>
   </build>    
 </project>
