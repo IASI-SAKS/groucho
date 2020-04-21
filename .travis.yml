@@ -62,7 +62,7 @@ script:
 
 after_success:
     - mvn -X org.jacoco:jacoco-maven-plugin:prepare-agent -Dgroucho-core.test.excludes="**/carvingStateTests/*" verify 
-    - mvn sonar:sonar -Dsonar.projectKey=IASI-SAKS_groucho -DfailIfNoTests=false 
+    - mvn sonar:sonar -Dsonar.projectKey=IASI-SAKS_groucho 
     
 ### Copied form LeanPAd, commented by Gulyx
 # after_success:
