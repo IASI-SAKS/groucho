@@ -47,7 +47,7 @@
 
 		<asm.version>5.0.3</asm.version>
         
-        <sonar.aggregate.report.dir>tests/target/site/jacoco-aggregate/jacoco.xml</sonar.aggregate.report.dir>
+        <sonar.aggregate.report.dir>target/groucho/jacoco-aggregate/jacoco.xml</sonar.aggregate.report.dir>
         <jacoco-maven-plugin.version>0.8.3</jacoco-maven-plugin.version>
         
 	</properties>
