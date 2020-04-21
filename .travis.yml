@@ -55,7 +55,7 @@ before_script:
 ##    - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -Dsonar.projectKey=IASI-SAKS_groucho -Dtest=!it.cnr.iasi.saks.groucho.carvingStateTests.*
 ##    - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -Dsonar.projectKey=IASI-SAKS_groucho -DfailIfNoTests=false "-Dtest=!it.cnr.iasi.saks.groucho.carvingStateTests.SimpleCarvingStateTest"
 ##    - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent verify sonar:sonar -Dsonar.projectKey=IASI-SAKS_groucho -DfailIfNoTests=false -Dtest="*,!it.cnr.iasi.saks.groucho.carvingStateTests.SimpleCarvingStateTest"
-    - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent -Dgroucho-core.test.excludes="**/carvingStateTests/*" verify sonar:sonar -Dsonar.projectKey=IASI-SAKS_groucho -DfailIfNoTests=false 
+    - mvn -X clean org.jacoco:jacoco-maven-plugin:prepare-agent -Dgroucho-core.test.excludes="**/carvingStateTests/*" verify sonar:sonar -Dsonar.projectKey=IASI-SAKS_groucho -DfailIfNoTests=false 
 
 script:
     - mvn clean install
