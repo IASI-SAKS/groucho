@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>AbstractGovernanceManagerConLock.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">groucho-sonar</a> &gt; <a href="../index.html" class="el_bundle">groucho-core</a> &gt; <a href="index.source.html" class="el_package">it.cnr.iasi.saks.groucho.callback</a> &gt; <span class="el_source">AbstractGovernanceManagerConLock.java</span></div><h1>AbstractGovernanceManagerConLock.java</h1><pre class="source lang-java linenums">/* 
+ * This file is part of the GROUCHO project.
+ * 
+ * GROUCHO is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * GROUCHO is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with GROUCHO.  If not, see &lt;https://www.gnu.org/licenses/&gt;
+ *
+ */
+package it.cnr.iasi.saks.groucho.callback;
+
+import java.util.Set;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+import it.cnr.iasi.saks.groucho.common.Context;
+import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
+
+public abstract class AbstractGovernanceManagerConLock implements ThreadHarness {
+	
+	private volatile boolean isInVivoTestingEnabled;
+
+	private RuntimeEnvironmentShield environmentShield;
+
+<span class="nc" id="L34">	private static volatile Object INTERNAL_LOCK = new Object();</span>
+<span class="nc" id="L35">	private static volatile Object THREAD_LOCKER = new Object();</span>
+			
+<span class="nc" id="L37">	private static volatile ReentrantLock LOCK = new ReentrantLock();</span>
+<span class="nc" id="L38">	private static volatile Condition OTHER_ACTIVE_THREADS  = LOCK.newCondition(); </span>
+<span class="nc" id="L39">	private static volatile Condition notEmpty = LOCK.newCondition();</span>
+	   
+<span class="nc" id="L41">	private static volatile int THREAD_COUNTER = 1; // If this variable exists, it means that there is at least 1 thread. So it must start from 1</span>
+	
+<span class="nc" id="L43">	public AbstractGovernanceManagerConLock(){</span>
+<span class="nc" id="L44">		this.isInVivoTestingEnabled = false;</span>
+<span class="nc" id="L45">		this.environmentShield = new RuntimeEnvironmentShield();		</span>
+<span class="nc" id="L46">	} </span>
+	
+	public synchronized void runInvivoTestingSession(Context context){
+		
+<span class="nc bnc" id="L50" title="All 2 branches missed.">		if (this.checkActivation(context)){</span>
+<span class="nc" id="L51">			this.isInVivoTestingEnabled = true;</span>
+//			this.waitOtherThreadsPaused();
+			
+<span class="nc" id="L54">			System.out.println(&quot;the checkpoint of the considered object should be applied here ... &quot;);		</span>
+<span class="nc" id="L55">			this.environmentShield.applyCheckpointOnContext(context);</span>
+			
+<span class="nc" id="L57">			this.doInvivoTestingSession(context);</span>
+			
+<span class="nc" id="L59">			System.out.println(&quot;... while its rollback is here.&quot;);		</span>
+<span class="nc" id="L60">			this.environmentShield.applyRollbackOnContext(context);</span>
+			
+<span class="nc" id="L62">			this.notifyOtherThreads();</span>
+		}
+<span class="nc" id="L64">		this.isInVivoTestingEnabled = false;</span>
+<span class="nc" id="L65">	}</span>
+	
+	public void runSimplifiedInvivoTestingSession(int ID){
+<span class="nc" id="L68">		boolean gotTheLock = LOCK.tryLock();</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">		if (gotTheLock){</span>
+			try{
+<span class="nc bnc" id="L71" title="All 2 branches missed.">				if (this.checkActivation(null)){</span>
+<span class="nc" id="L72">					this.isInVivoTestingEnabled = true;</span>
+<span class="nc" id="L73">					this.waitOtherThreadsPaused(ID);</span>
+			
+<span class="nc" id="L75">					System.out.println(&quot;the checkpoint of the considered object should be applied here ... &quot;);		</span>
+			
+<span class="nc" id="L77">					System.out.println(&quot;... while its rollback is here.&quot;);		</span>
+			
+<span class="nc" id="L79">					this.notifyOtherThreads();</span>
+				}
+			}finally{	
+<span class="nc" id="L82">				this.isInVivoTestingEnabled = false;</span>
+<span class="nc" id="L83">				LOCK.unlock();</span>
+			}
+		}	
+<span class="nc" id="L86">	}</span>
+
+	private boolean checkActivation(Context context){
+		boolean exitStatus;
+		
+		// TO-DO this has to be improved, so that to check if there exists any precondition to the activation of an Invivo Testing Session
+<span class="nc" id="L92">		exitStatus = true;</span>
+				
+<span class="nc bnc" id="L94" title="All 4 branches missed.">		exitStatus = exitStatus &amp;&amp; this.evaluateActivation(context);		</span>
+<span class="nc" id="L95">		return exitStatus;</span>
+	}
+	
+	private void waitOtherThreadsPaused(int ID){		
+//		Set&lt;Thread&gt; threadSet = Thread.getAllStackTraces().keySet();
+//		// this number is only an estimation and it may grows, so we should put a kind of loop around the sync block
+//		int nThreads = threadSet.size();  
+		
+		try {
+//			synchronized (INTERNAL_LOCK) {
+<span class="nc" id="L105">			int count = 1; // the current thread should not be considered, so counter starts from 1 and condition is &gt;=</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">			while ( ! (count &gt;= THREAD_COUNTER) ){</span>
+<span class="nc" id="L107">System.out.println(&quot;[&quot;+ID+&quot;] Count: &quot; + count + &quot;, Thread: &quot;+ THREAD_COUNTER );					</span>
+//					INTERNAL_LOCK.wait();
+<span class="nc" id="L109">					OTHER_ACTIVE_THREADS.await();</span>
+<span class="nc" id="L110">					count ++;</span>
+				}
+//			}	
+<span class="nc" id="L113">		} catch (InterruptedException e) {</span>
+			// TODO Auto-generated catch block
+<span class="nc" id="L115">			e.printStackTrace();</span>
+<span class="nc" id="L116">		}</span>
+<span class="nc" id="L117">	}</span>
+	
+	private void notifyOtherThreads(){
+//		Set&lt;Thread&gt; threadSet = Thread.getAllStackTraces().keySet();
+//System.out.println(&quot;Notifico tutti&quot;);
+//		for (Thread thread : threadSet) {
+//System.out.println(&quot;Notifico ... &quot;);
+//			thread.notify();
+//		}
+<span class="nc" id="L126">		synchronized (THREAD_LOCKER) {</span>
+<span class="nc" id="L127">			System.out.println(&quot;Notifico tutti&quot;);</span>
+<span class="nc" id="L128">			THREAD_LOCKER.notifyAll();</span>
+<span class="nc" id="L129">		}</span>
+<span class="nc" id="L130">	}</span>
+
+	private void signalFromAnActiveThreads(){
+<span class="nc" id="L133">		LOCK.lock();</span>
+		try{
+<span class="nc" id="L135">			OTHER_ACTIVE_THREADS.signal();</span>
+		} finally{
+<span class="nc" id="L137">			LOCK.unlock();</span>
+		}
+<span class="nc" id="L139">	}</span>
+	
+	public void pauseMe () throws InterruptedException{
+<span class="nc bnc" id="L142" title="All 2 branches missed.">		if (this.isInVivoTestingEnabled){</span>
+<span class="nc" id="L143">			System.out.println(&quot;Ci Provo ... &quot;);</span>
+//			synchronized (INTERNAL_LOCK) {
+//				INTERNAL_LOCK.notify();
+//			}
+<span class="nc" id="L147">			this.signalFromAnActiveThreads();</span>
+<span class="nc" id="L148">			System.out.println(&quot;... notificato&quot;);</span>
+<span class="nc" id="L149">			synchronized (THREAD_LOCKER) {</span>
+<span class="nc" id="L150">				THREAD_LOCKER.wait();</span>
+<span class="nc" id="L151">			}</span>
+//			Thread t = Thread.currentThread();
+//			synchronized (t) {
+//				t.wait();	
+//			}
+		}	
+<span class="nc" id="L157">	}</span>
+
+	public synchronized void incThreads(){
+<span class="nc" id="L160">		THREAD_COUNTER++;</span>
+<span class="nc" id="L161">	}</span>
+
+	public void decThreads(){
+<span class="nc" id="L164">		THREAD_COUNTER--;</span>
+<span class="nc" id="L165">		this.signalFromAnActiveThreads();</span>
+//		synchronized (INTERNAL_LOCK) {
+//			INTERNAL_LOCK.notify();
+//		}	
+<span class="nc" id="L169">	}</span>
+	
+	
+	protected abstract boolean evaluateActivation (Context context);
+	
+	protected abstract void doInvivoTestingSession(Context context);
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>PrintMessageMethodVisitor.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">groucho-sonar</a> &gt; <a href="../index.html" class="el_bundle">groucho-core</a> &gt; <a href="index.source.html" class="el_package">it.cnr.iasi.saks.groucho.instrument</a> &gt; <span class="el_source">PrintMessageMethodVisitor.java</span></div><h1>PrintMessageMethodVisitor.java</h1><pre class="source lang-java linenums">/* 
+ * This file is part of the GROUCHO project.
+ * 
+ * GROUCHO is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * GROUCHO is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with GROUCHO.  If not, see &lt;https://www.gnu.org/licenses/&gt;
+ *
+ */
+package it.cnr.iasi.saks.groucho.instrument;
+
+import org.objectweb.asm.AnnotationVisitor;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
+
+import it.cnr.iasi.saks.groucho.annotation.TestableInVivo;
+
+public class PrintMessageMethodVisitor extends MethodVisitor {
+
+	private String methodName;
+	private String className;
+
+	private boolean isAnnotationValid;
+	
+	public PrintMessageMethodVisitor(MethodVisitor mv, String className, String methodName) {
+<span class="nc" id="L35">		super(Opcodes.ASM5, mv);</span>
+
+<span class="nc" id="L37">		this.methodName = methodName;</span>
+<span class="nc" id="L38">		this.className = className;</span>
+<span class="nc" id="L39">		this.isAnnotationValid = false;</span>
+<span class="nc" id="L40">	}</span>
+
+	@Override
+	public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
+		// 1. check method for annotation @ImportantLog
+		// 2. if annotation present, then get important method param indexes
+<span class="nc" id="L46">		String targetAnnotationName = Type.getType(TestableInVivo.class).getInternalName();</span>
+<span class="nc" id="L47">		String intenalAnnotationType = &quot;L&quot;+ targetAnnotationName + &quot;;&quot;;</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">		if (intenalAnnotationType.equals(desc)) {</span>
+<span class="nc" id="L49">			    this.isAnnotationValid = true;</span>
+		}
+		
+		
+<span class="nc" id="L53">		return super.visitAnnotation(desc, visible);</span>
+	}
+
+	@Override
+	public void visitCode() {
+		// // 3. if annotation present, add logging to beginning of the method
+		// mv.visitMethodInsn(Opcodes.INVOKESTATIC,
+		// &quot;it/cnr/iasi/saks/groucho/instrument/PrintMessageMethodVisitor&quot;,
+		// &quot;message&quot;, &quot;()V&quot;, false);
+<span class="nc bnc" id="L62" title="All 2 branches missed.">		if (this.isAnnotationValid){</span>
+			try {
+<span class="nc" id="L64">				this.instrumentingMessage();</span>
+//				visitFoo();
+//				visitFooWithParams();
+<span class="nc" id="L67">				visitFooWithParamsAndRefernceToThis();</span>
+<span class="nc" id="L68">			} catch (Throwable t) {</span>
+<span class="nc" id="L69">				System.err.println(&quot;here i am&quot;);</span>
+<span class="nc" id="L70">				t.printStackTrace();</span>
+<span class="nc" id="L71">			}</span>
+		}	
+<span class="nc" id="L73">	}</span>
+
+	private void visitFoo() {
+		// 3. if annotation present, add logging to beginning of the method
+<span class="nc" id="L77">		mv.visitMethodInsn(Opcodes.INVOKESTATIC, &quot;it/cnr/iasi/saks/groucho/instrument/PrintMessageMethodVisitor&quot;, &quot;message&quot;, &quot;()V&quot;, false);</span>
+<span class="nc" id="L78">	}</span>
+
+	private void visitFooWithParams() {
+		// 3. if annotation present, add logging to beginning of the method
+<span class="nc" id="L82">		mv.visitLdcInsn(this.className);</span>
+<span class="nc" id="L83">		mv.visitLdcInsn(this.methodName);</span>
+<span class="nc" id="L84">		mv.visitMethodInsn(Opcodes.INVOKESTATIC, &quot;it/cnr/iasi/saks/groucho/instrument/PrintMessageMethodVisitor&quot;, &quot;message&quot;, &quot;(Ljava/lang/String;Ljava/lang/String;)V&quot;, false);</span>
+<span class="nc" id="L85">	}</span>
+
+	private void visitFooWithParamsAndRefernceToThis() {
+		// 3. if annotation present, add logging to beginning of the method
+<span class="nc bnc" id="L89" title="All 4 branches missed.">		if (this.methodName.equalsIgnoreCase(&quot;foo&quot;) || this.methodName.equalsIgnoreCase(&quot;getID&quot;)){</span>
+<span class="nc" id="L90">			mv.visitVarInsn(Opcodes.ALOAD, 0);</span>
+<span class="nc" id="L91">			mv.visitLdcInsn(this.className);</span>
+<span class="nc" id="L92">			mv.visitLdcInsn(this.methodName);</span>
+<span class="nc" id="L93">			mv.visitMethodInsn(Opcodes.INVOKESTATIC, &quot;it/cnr/iasi/saks/groucho/instrument/PrintMessageMethodVisitor&quot;, &quot;message&quot;, &quot;(Ljava/lang/Object;Ljava/lang/String;Ljava/lang/String;)V&quot;, false);</span>
+		}
+<span class="nc" id="L95">	}</span>
+
+	private void instrumentingMessage(){
+<span class="nc" id="L98">		System.out.println(&quot;Instrumenting: &quot;+this.className + &quot;.&quot; + this.methodName);		</span>
+<span class="nc" id="L99">	}</span>
+	
+	public static void message() {
+<span class="nc" id="L102">		System.out.println(&quot;Hello world&quot;);</span>
+<span class="nc" id="L103">	}</span>
+
+	public static void message(String c, String m) {
+<span class="nc" id="L106">		System.out.println(&quot;Hello world: &quot; + c + &quot;, &quot; + m);</span>
+<span class="nc" id="L107">	}</span>
+
+	public static void message(Object o, String c, String m) {
+<span class="nc" id="L110">		System.out.println(&quot;Hello world: &quot;+ o.toString() + &quot;, &quot; + c + &quot;, &quot; + m);</span>
+<span class="nc" id="L111">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

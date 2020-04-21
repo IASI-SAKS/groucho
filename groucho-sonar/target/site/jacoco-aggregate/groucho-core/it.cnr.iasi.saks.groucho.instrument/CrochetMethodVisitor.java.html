@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>CrochetMethodVisitor.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">groucho-sonar</a> &gt; <a href="../index.html" class="el_bundle">groucho-core</a> &gt; <a href="index.source.html" class="el_package">it.cnr.iasi.saks.groucho.instrument</a> &gt; <span class="el_source">CrochetMethodVisitor.java</span></div><h1>CrochetMethodVisitor.java</h1><pre class="source lang-java linenums">/* 
+ * This file is part of the GROUCHO project.
+ * 
+ * GROUCHO is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * GROUCHO is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with GROUCHO.  If not, see &lt;https://www.gnu.org/licenses/&gt;
+ *
+ */
+package it.cnr.iasi.saks.groucho.instrument;
+
+import java.util.Arrays;
+
+import org.objectweb.asm.AnnotationVisitor;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
+
+import it.cnr.iasi.saks.groucho.annotation.TestableInVivo;
+import it.cnr.iasi.saks.groucho.callback.AbstractGovernanceManager;
+import it.cnr.iasi.saks.groucho.callback.GovernanceManagerFactory;
+import it.cnr.iasi.saks.groucho.common.Context;
+
+public class CrochetMethodVisitor extends MethodVisitor {
+
+	private String className;
+	private String methodName;
+	private Type[] methodSignature;
+	
+	private TestableInVivoAnnotationVisitor annVisitor;
+	
+	private boolean isAnnotationValid;
+	private String invivoTestClass;
+	private String invivoTest;	
+	
+	public CrochetMethodVisitor(MethodVisitor mv, String className, String methodName, Type[] signature) {
+<span class="nc" id="L45">		super(Opcodes.ASM5, mv);</span>
+
+<span class="nc" id="L47">		this.methodName = methodName;</span>
+<span class="nc" id="L48">		this.className = className;</span>
+<span class="nc" id="L49">		this.methodSignature = signature;</span>
+		
+<span class="nc" id="L51">		this.annVisitor = null;</span>
+		
+//		if (this.methodSignature == null){
+//			this.methodSignature = &quot;&quot;;
+//		}
+		
+<span class="nc" id="L57">		this.isAnnotationValid = false;</span>
+<span class="nc" id="L58">	}</span>
+	
+	@Override
+	public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
+		// 1. check method for annotation @TestableInVivo
+		// 2. if annotation present, then get important method param indexes
+<span class="nc" id="L64">		String targetAnnotationName = Type.getType(TestableInVivo.class).getInternalName();</span>
+<span class="nc" id="L65">		String intenalAnnotationType = &quot;L&quot;+ targetAnnotationName + &quot;;&quot;;</span>
+<span class="nc bnc" id="L66" title="All 4 branches missed.">		if ((intenalAnnotationType.equals(desc)) &amp;&amp; (visible)) {</span>
+<span class="nc" id="L67">			    this.isAnnotationValid = true;</span>
+<span class="nc" id="L68">			    AnnotationVisitor defaultAV = super.visitAnnotation(desc, visible);</span>
+<span class="nc" id="L69">			    this.annVisitor = new TestableInVivoAnnotationVisitor(this,defaultAV); 	</span>
+<span class="nc" id="L70">			    return this.annVisitor;   	</span>
+		}				
+<span class="nc" id="L72">		return super.visitAnnotation(desc, visible);</span>
+	}
+
+	@Override
+	public void visitCode() {
+<span class="nc" id="L77">		this.mv.visitCode();</span>
+		// 3. if annotation present, add logging to beginning of the method
+<span class="nc bnc" id="L79" title="All 2 branches missed.">		if (this.isAnnotationValid){</span>
+			try {
+<span class="nc" id="L81">				this.retriveAnnotationValues();</span>
+<span class="nc" id="L82">				this.instrumentingMessage();</span>
+<span class="nc" id="L83">				this.applyInstrumentation();</span>
+<span class="nc" id="L84">			} catch (IllegalStateException e) {</span>
+<span class="nc" id="L85">				System.err.println(&quot;now here i am&quot;);</span>
+<span class="nc" id="L86">				e.printStackTrace();</span>
+<span class="nc" id="L87">			} catch (Throwable t) {</span>
+<span class="nc" id="L88">				System.err.println(&quot;here i am&quot;);</span>
+<span class="nc" id="L89">				t.printStackTrace();</span>
+<span class="nc" id="L90">			}	</span>
+		}	
+<span class="nc" id="L92">	}</span>
+
+	private void retriveAnnotationValues() throws IllegalStateException{
+/*
+ * TODO the body of this method needs some re-factoring in order to remove the implicit dependency
+ * given by the constant strings used in getAnnotationValues. A good choice would be to
+ * directly access to the name of the annotation as-a-string 		
+ */
+<span class="nc" id="L100">		this.invivoTestClass = this.annVisitor.getAnnotationValues(&quot;invivoTestClass&quot;);</span>
+<span class="nc" id="L101">		this.invivoTest = this.annVisitor.getAnnotationValues(&quot;invivoTest&quot;);</span>
+<span class="nc" id="L102">	}	</span>
+
+	private void applyInstrumentation() {
+		// 3. if annotation present, add logging to beginning of the method
+<span class="nc" id="L106">			mv.visitVarInsn(Opcodes.ALOAD, 0);</span>
+<span class="nc" id="L107">			mv.visitLdcInsn(this.className);</span>
+<span class="nc" id="L108">			mv.visitLdcInsn(this.methodName);</span>
+<span class="nc" id="L109">			String signatureAsString = Arrays.toString(this.methodSignature);</span>
+<span class="nc" id="L110">			mv.visitLdcInsn(signatureAsString);</span>
+<span class="nc" id="L111">			mv.visitLdcInsn(this.invivoTestClass);</span>
+<span class="nc" id="L112">			mv.visitLdcInsn(this.invivoTest);</span>
+<span class="nc" id="L113">			mv.visitMethodInsn(Opcodes.INVOKESTATIC, &quot;it/cnr/iasi/saks/groucho/instrument/CrochetMethodVisitor&quot;, &quot;invokeCallback&quot;, &quot;(Ljava/lang/Object;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V&quot;, false);</span>
+<span class="nc" id="L114">	}</span>
+
+	private void instrumentingMessage(){
+<span class="nc" id="L117">		System.out.println(this.getClass().getName() +&quot; is instrumenting: &quot;+this.className + &quot;.&quot; + this.methodName);		</span>
+<span class="nc" id="L118">	}</span>
+	
+	public static void invokeCallback(Object instObj, String instClass, String instMethod, String instMethodSignature, String testClass, String testMethod) {
+<span class="nc" id="L121">		System.out.println(&quot;Enabling callback for: &quot;+ instObj.toString() + &quot;, &quot; + instClass + &quot;, &quot; + instMethod + &quot;( &quot;+instMethodSignature+&quot;)&quot;);</span>
+<span class="nc" id="L122">		System.out.println(&quot;	     testing with: &quot;+ testClass + &quot;, &quot; + testMethod);</span>
+		
+<span class="nc" id="L124">		Context context = new Context(instObj, instClass, instMethod, testClass, testMethod);</span>
+		
+<span class="nc" id="L126">		AbstractGovernanceManager gm = GovernanceManagerFactory.getInstance().getGovernanceManager();		</span>
+//		if (gm.evaluateActivation(context)){
+<span class="nc" id="L128">			gm.runInvivoTestingSession(context);</span>
+//		}	
+<span class="nc" id="L130">	}</span>
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

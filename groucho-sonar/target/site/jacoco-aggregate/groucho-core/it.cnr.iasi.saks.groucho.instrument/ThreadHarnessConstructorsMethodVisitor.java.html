@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>ThreadHarnessConstructorsMethodVisitor.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">groucho-sonar</a> &gt; <a href="../index.html" class="el_bundle">groucho-core</a> &gt; <a href="index.source.html" class="el_package">it.cnr.iasi.saks.groucho.instrument</a> &gt; <span class="el_source">ThreadHarnessConstructorsMethodVisitor.java</span></div><h1>ThreadHarnessConstructorsMethodVisitor.java</h1><pre class="source lang-java linenums">/* 
+ * This file is part of the GROUCHO project.
+ * 
+ * GROUCHO is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * GROUCHO is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with GROUCHO.  If not, see &lt;https://www.gnu.org/licenses/&gt;
+ *
+ */
+package it.cnr.iasi.saks.groucho.instrument;
+
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
+
+public class ThreadHarnessConstructorsMethodVisitor extends MethodVisitor {
+
+	private String className;
+	private String methodName;
+	private Type[] methodSignature;
+	
+	private TestableInVivoAnnotationVisitor annVisitor;
+	
+	private boolean isAnnotationValid;
+	private String invivoTestClass;
+	private String invivoTest;	
+	
+	public ThreadHarnessConstructorsMethodVisitor(MethodVisitor mv, String className, String methodName, Type[] signature) {
+<span class="nc" id="L37">		super(Opcodes.ASM5, mv);</span>
+
+<span class="nc" id="L39">		this.methodName = methodName;</span>
+<span class="nc" id="L40">		this.className = className;</span>
+<span class="nc" id="L41">		this.methodSignature = signature;</span>
+		
+<span class="nc" id="L43">		this.annVisitor = null;</span>
+		
+//		if (this.methodSignature == null){
+//			this.methodSignature = &quot;&quot;;
+//		}
+		
+<span class="nc" id="L49">		this.isAnnotationValid = true;</span>
+<span class="nc" id="L50">	}</span>
+	
+//	@Override
+//	public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
+//		// 1. check method for annotation @TestableInVivo
+//		// 2. if annotation present, then get important method param indexes
+//		return super.visitAnnotation(desc, visible);
+//	}
+
+	@Override
+	public void visitCode() {
+<span class="nc" id="L61">		this.mv.visitCode();</span>
+<span class="nc" id="L62">		this.visitLogic();</span>
+<span class="nc" id="L63">	}</span>
+
+	private void visitLogic() {
+		// 3. if annotation present, add logging to beginning of the method
+<span class="nc bnc" id="L67" title="All 2 branches missed.">		if (this.isAnnotationValid){</span>
+			try {
+//				this.retriveAnnotationValues();
+<span class="nc" id="L70">				this.instrumentingMessage();</span>
+<span class="nc" id="L71">				this.applyInstrumentation();</span>
+<span class="nc" id="L72">			} catch (IllegalStateException e) {</span>
+<span class="nc" id="L73">				System.err.println(&quot;now here i am&quot;);</span>
+<span class="nc" id="L74">				e.printStackTrace();</span>
+<span class="nc" id="L75">			} catch (Throwable t) {</span>
+<span class="nc" id="L76">				System.err.println(&quot;here i am&quot;);</span>
+<span class="nc" id="L77">				t.printStackTrace();</span>
+<span class="nc" id="L78">			}	</span>
+		}	
+<span class="nc" id="L80">	}</span>
+
+	private void applyInstrumentation() {
+<span class="nc" id="L83">			mv.visitMethodInsn(Opcodes.INVOKESTATIC, &quot;it/cnr/iasi/saks/groucho/instrument/ThreadHarnessCallbackInvoker&quot;, &quot;invokeCallback_checkInTheConstructors&quot;, &quot;()V&quot;, false);</span>
+<span class="nc" id="L84">	}</span>
+
+	private void instrumentingMessage(){
+<span class="nc" id="L87">		System.out.println(this.getClass().getName() +&quot; is instrumenting: &quot;+this.className + &quot;.&quot; + this.methodName);		</span>
+<span class="nc" id="L88">	}</span>
+		
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

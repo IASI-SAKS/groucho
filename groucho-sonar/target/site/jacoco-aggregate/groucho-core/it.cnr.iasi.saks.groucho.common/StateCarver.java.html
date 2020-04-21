@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>StateCarver.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">groucho-sonar</a> &gt; <a href="../index.html" class="el_bundle">groucho-core</a> &gt; <a href="index.source.html" class="el_package">it.cnr.iasi.saks.groucho.common</a> &gt; <span class="el_source">StateCarver.java</span></div><h1>StateCarver.java</h1><pre class="source lang-java linenums">/* 
+ * This file is part of the GROUCHO project.
+ * 
+ * GROUCHO is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * GROUCHO is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with GROUCHO.  If not, see &lt;https://www.gnu.org/licenses/&gt;
+ *
+ */
+package it.cnr.iasi.saks.groucho.common;
+
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
+
+public class StateCarver {
+
+	private static final String TOKEN_SEPARATOR_LEVEL_VALUE = &quot;--&gt;&quot;;
+	private static final String TOKEN_ARRAY_START = &quot;[&quot;;
+	private static final String TOKEN_ARRAY_END = &quot;]&quot;;
+	private static final String TOKEN_ELEMENT_SEPARATOR = &quot;ç&quot;;
+	private static final String TOKEN_OBJECT_START = &quot;{&quot;;
+	private static final String TOKEN_OBJECT_END = &quot;}&quot;;
+	private static final String TOKEN_FIELD_SEPARATOR = &quot;%&quot;;
+	
+	private Object instrumentedObject;
+	private String invivoTestClassName;
+	private int maxCarvingDepth;
+	
+	private boolean processFinalFieldsFlag;
+
+<span class="nc" id="L46">	public StateCarver(Context context){</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">		if (context != null){</span>
+<span class="nc" id="L48">			this.invivoTestClassName = context.getInstrumentedClassName();</span>
+<span class="nc" id="L49">			this.instrumentedObject = context.getInstrumentedObject();</span>
+<span class="nc" id="L50">			this.maxCarvingDepth = context.getMaxCarvingDepth();</span>
+		}else{
+<span class="nc" id="L52">			this.maxCarvingDepth = 0;			</span>
+<span class="nc" id="L53">			this.invivoTestClassName = &quot;--Not-Initialized-Yet--&quot;;</span>
+		}
+<span class="nc" id="L55">		this.processFinalFieldsFlag = false;</span>
+<span class="nc" id="L56">	}</span>
+	
+/**
+ * Access all private fields of the class.
+ * 
+ * about IllegalAccessException @see{@link it.cnr.iasi.saks.groucho.common.dumpFieldValue}
+ * 
+ *
+ * @throws IllegalArgumentException
+ * @throws ClassNotFoundException
+ */
+	public String carveAllFields() throws IllegalArgumentException, ClassNotFoundException {
+<span class="nc" id="L68">		String carvedState = &quot;&quot;;</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">		if (this.maxCarvingDepth &gt; 0) {</span>
+<span class="nc" id="L70">			carvedState = this.flattenInteralState(this.instrumentedObject, this.maxCarvingDepth);</span>
+		} else {
+<span class="nc" id="L72">			carvedState = TOKEN_OBJECT_START + TOKEN_OBJECT_END;</span>
+		}
+
+<span class="nc" id="L75">		return carvedState;</span>
+	}
+		    
+/**
+* Recursive-case
+ *
+ * about IllegalAccessException @see{@link it.cnr.iasi.saks.groucho.common.dumpFieldValue}
+ *
+ * @throws IllegalArgumentException 
+*/
+	private String flattenInteralState(Object flatteingObject, int actualCarvingDepth) throws IllegalArgumentException {
+<span class="nc" id="L86">		Field[] fields = null;</span>
+
+<span class="nc bnc" id="L88" title="All 2 branches missed.">		if (flatteingObject != null) {</span>
+<span class="nc" id="L89">			System.out.println(&quot;Object Type:&quot; + flatteingObject.getClass().getName());</span>
+<span class="nc" id="L90">			fields = flatteingObject.getClass().getDeclaredFields();</span>
+
+			/**
+			 * TODO Double check this implementation actually works
+			 */
+<span class="nc" id="L95">			Field[] fieldsOrderedByName = this.orderedFieldByName(fields);</span>
+<span class="nc" id="L96">			fields = fieldsOrderedByName;</span>
+
+<span class="nc" id="L98">		} else {</span>
+<span class="nc" id="L99">			System.out.println(&quot;Object Type: it is null!!!&quot;);</span>
+		}
+<span class="nc" id="L101">		String currentFlattenedState = &quot;&quot;;</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">		if (this.isSpecialComplexType(flatteingObject)) {</span>
+<span class="nc" id="L103">			currentFlattenedState = flatteingObject.toString();</span>
+		} else {
+<span class="nc bnc" id="L105" title="All 2 branches missed.">			if (actualCarvingDepth &gt; 0) {</span>
+<span class="nc" id="L106">				currentFlattenedState = TOKEN_OBJECT_START;</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">				for (Field field : fields) {</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">					if (this.checkFieldProcessing(field)) {</span>
+<span class="nc" id="L109">						Class&lt;?&gt; fieldType = field.getType();</span>
+<span class="nc" id="L110">						System.out.println(&quot;Processing Field: &quot; + field.getName() + &quot; Object Type:&quot;</span>
+<span class="nc" id="L111">								+ fieldType.getCanonicalName());</span>
+<span class="nc" id="L112">						Object fieldValue = dumpFieldValue(field, flatteingObject);</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">						if (fieldValue != null) {</span>
+<span class="nc" id="L114">							Class&lt;?&gt; instanceType = fieldValue.getClass();</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">							if (this.isComplexType(fieldType)) {</span>
+<span class="nc" id="L116">								String localFlattening = flattenInteralState(fieldValue, actualCarvingDepth - 1);</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">								if (localFlattening.isEmpty()) {</span>
+<span class="nc" id="L118">									localFlattening = TOKEN_ARRAY_START + TOKEN_ARRAY_END;</span>
+								}
+<span class="nc" id="L120">								currentFlattenedState = currentFlattenedState + TOKEN_FIELD_SEPARATOR + field.getName()</span>
+										+ TOKEN_SEPARATOR_LEVEL_VALUE + localFlattening;
+<span class="nc" id="L122">							} else {</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">								if (fieldType.isArray()) {</span>
+<span class="nc" id="L124">									String localFlattening = this.processArrays(fieldValue, actualCarvingDepth);</span>
+<span class="nc" id="L125">									currentFlattenedState = currentFlattenedState + TOKEN_FIELD_SEPARATOR</span>
+<span class="nc" id="L126">											+ field.getName() + TOKEN_SEPARATOR_LEVEL_VALUE + localFlattening;</span>
+<span class="nc" id="L127">								} else {</span>
+<span class="nc" id="L128">									currentFlattenedState = currentFlattenedState + TOKEN_FIELD_SEPARATOR</span>
+<span class="nc" id="L129">											+ field.getName() + TOKEN_SEPARATOR_LEVEL_VALUE + fieldValue;</span>
+								}
+							}
+						}
+					}
+				}
+<span class="nc" id="L135">				currentFlattenedState = currentFlattenedState.replaceFirst(TOKEN_FIELD_SEPARATOR, &quot;&quot;)</span>
+						+ TOKEN_OBJECT_END;
+			}
+		}
+
+<span class="nc" id="L140">		return currentFlattenedState;</span>
+	}
+
+	private String processArrays(Object flatteingObject, int actualCarvingDepth) {
+<span class="nc" id="L144">		String currentFlattenedState = TOKEN_ARRAY_START;</span>
+<span class="nc bnc" id="L145" title="All 4 branches missed.">		if ((actualCarvingDepth &gt; 0) &amp;&amp; (flatteingObject != null)) {</span>
+
+<span class="nc" id="L147">			String localFlattening = &quot;&quot;;</span>
+<span class="nc" id="L148">			int length = Array.getLength(flatteingObject);</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">			for (int indexCounter = 0; indexCounter &lt; length; indexCounter++) {</span>
+<span class="nc" id="L150">				Object obj = Array.get(flatteingObject, indexCounter);</span>
+<span class="nc" id="L151">				String tmp = &quot;&quot;;</span>
+<span class="nc bnc" id="L152" title="All 2 branches missed.">				if (obj != null) {</span>
+<span class="nc" id="L153">					Class&lt;?&gt; clazz = obj.getClass();</span>
+//					this.processFinalFieldsFlag = true;
+<span class="nc" id="L155">					tmp = this.flattenInteralState(obj, actualCarvingDepth - 1);</span>
+<span class="nc" id="L156">					localFlattening = localFlattening + TOKEN_ELEMENT_SEPARATOR + tmp;</span>
+//					this.processFinalFieldsFlag = false;
+				}
+			}
+<span class="nc" id="L160">			localFlattening = localFlattening.replaceFirst(TOKEN_ELEMENT_SEPARATOR, &quot;&quot;);</span>
+<span class="nc" id="L161">			currentFlattenedState = currentFlattenedState + localFlattening;</span>
+		}
+<span class="nc" id="L163">		currentFlattenedState = currentFlattenedState + TOKEN_ARRAY_END;</span>
+<span class="nc" id="L164">		return currentFlattenedState;</span>
+	}
+
+	private Field[] orderedFieldByName(Field[] fields){
+<span class="nc" id="L168">		ArrayList&lt;Field&gt; orderedFieldsList = new ArrayList&lt;Field&gt;();</span>
+<span class="nc" id="L169">		HashMap&lt;String, Integer&gt; fieldNamesMap = new HashMap&lt;String, Integer&gt;();</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">		for (int i = 0; i &lt; fields.length; i++) {</span>
+<span class="nc" id="L171">			String name = fields[i].getName();</span>
+<span class="nc" id="L172">			fieldNamesMap.put(name, i);</span>
+		}
+		
+<span class="nc" id="L175">		List&lt;String&gt; listOfFieldNames = new ArrayList&lt;String&gt;(fieldNamesMap.keySet());</span>
+<span class="nc" id="L176">		Collections.sort(listOfFieldNames);</span>
+	
+<span class="nc bnc" id="L178" title="All 2 branches missed.">		for (Iterator&lt;String&gt; iterator = listOfFieldNames.iterator(); iterator.hasNext();) {</span>
+<span class="nc" id="L179">			String fieldName = iterator.next();</span>
+<span class="nc" id="L180">			int originalIndex = fieldNamesMap.get(fieldName); </span>
+<span class="nc" id="L181">			Field f = fields[originalIndex];</span>
+			
+<span class="nc" id="L183">			orderedFieldsList.add(f);</span>
+<span class="nc" id="L184">		}</span>
+//		return listOfFieldNames;
+<span class="nc" id="L186">		Field[] orderedFields = orderedFieldsList.toArray(new Field[orderedFieldsList.size()]);</span>
+<span class="nc" id="L187">		return orderedFields;</span>
+	}
+	
+	private boolean isComplexType(Class&lt;?&gt; c){
+<span class="nc" id="L191">		boolean result = false;</span>
+<span class="nc bnc" id="L192" title="All 2 branches missed.">		if ( c != null ){</span>
+<span class="nc bnc" id="L193" title="All 6 branches missed.">			result = !((c.isPrimitive()) || (c.isEnum()) || (c.isArray()));</span>
+		}	
+<span class="nc" id="L195">		return result;</span>
+	}
+
+	private boolean isSpecialComplexType(Object o){
+<span class="nc bnc" id="L199" title="All 4 branches missed.">		boolean result = (o instanceof String) || (o instanceof Number);</span>
+		
+<span class="nc" id="L201">		return result;</span>
+	}
+
+	/**
+	 * The processing of a field is subject to an implication between its final modifier and the flag that enables the processing of final attributes.
+	 * More specifically:
+	 * processIt := isFinal --&gt; this.processFinalFieldsFlag
+	 *    true		 false				false
+	 *    true		 false				true
+	 *    false		 true				false
+	 *    true		 true				true
+	 **/
+	private boolean checkFieldProcessing(Field f){
+<span class="nc bnc" id="L214" title="All 4 branches missed.">		boolean isFinal = (f != null) &amp;&amp; (Modifier.isFinal(f.getModifiers())); </span>
+
+		/**
+		 * processIt := isFinal --&gt; this.processFinalFieldsFlag
+		 */
+<span class="nc bnc" id="L219" title="All 4 branches missed.">		boolean processIt = (! isFinal) || this.processFinalFieldsFlag; </span>
+		
+<span class="nc" id="L221">		return processIt;</span>
+	}
+	
+/**
+ * Note that is IllegalAccessException is catch and handled so that the returned Object is null	
+ * 
+ * @param f
+ * @param instace
+ * @return
+ * @throws IllegalArgumentException
+ */
+	private Object dumpFieldValue(Field f, Object instace) throws IllegalArgumentException{
+<span class="nc" id="L233">		Object fieldValue = null;</span>
+<span class="nc" id="L234">		boolean wasPublic = true;</span>
+<span class="nc bnc" id="L235" title="All 2 branches missed.">		if (!Modifier.isPublic(f.getModifiers())) {</span>
+<span class="nc" id="L236">			wasPublic = false;</span>
+<span class="nc" id="L237">			f.setAccessible(true);</span>
+		}
+
+		try {
+<span class="nc" id="L241">			fieldValue = f.get(instace);</span>
+<span class="nc" id="L242">		} catch (NullPointerException | IllegalAccessException e) {</span>
+<span class="nc" id="L243">			e.printStackTrace();</span>
+<span class="nc" id="L244">			fieldValue = null;</span>
+<span class="nc" id="L245">		}</span>
+
+<span class="nc bnc" id="L247" title="All 2 branches missed.">		if (!wasPublic) {</span>
+<span class="nc" id="L248">			f.setAccessible(false);</span>
+		}
+
+<span class="nc" id="L251">		return fieldValue;</span>
+	}
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

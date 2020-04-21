@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="it"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>Instrumenter.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">groucho-sonar</a> &gt; <a href="../index.html" class="el_bundle">groucho-core</a> &gt; <a href="index.source.html" class="el_package">it.cnr.iasi.saks.groucho.instrument</a> &gt; <span class="el_source">Instrumenter.java</span></div><h1>Instrumenter.java</h1><pre class="source lang-java linenums">/* 
+ * This file is part of the GROUCHO project.
+ * 
+ * GROUCHO is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * GROUCHO is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with GROUCHO.  If not, see &lt;https://www.gnu.org/licenses/&gt;
+ *
+ */
+package it.cnr.iasi.saks.groucho.instrument;
+
+public class Instrumenter {
+
+	private String classe;
+	private String metodo;
+
+<span class="nc" id="L25">	public Instrumenter(){</span>
+<span class="nc" id="L26">		this.classe = &quot;valore della variabile&quot;;</span>
+<span class="nc" id="L27">		this.metodo = &quot;valore dell'altra variabile&quot;; </span>
+<span class="nc" id="L28">	}</span>
+	
+	public void fooOne(){
+		String nomeClasse;
+		String nomeMetodo;
+		
+<span class="nc" id="L34">		nomeClasse = this.classe;</span>
+<span class="nc" id="L35">		nomeMetodo = this.metodo;</span>
+		
+<span class="nc" id="L37">		PrintMessageMethodVisitor.message(nomeClasse, nomeMetodo);		</span>
+<span class="nc" id="L38">	}</span>
+	
+	public void fooTwo(){
+<span class="nc" id="L41">		PrintMessageMethodVisitor.message(this, this.classe, this.metodo);		</span>
+<span class="nc" id="L42">	}</span>
+
+	public static void main (String agrs[]){
+<span class="nc" id="L45">		System.out.println(&quot;Currently this is empty!!&quot;);</span>
+		
+<span class="nc" id="L47">		Instrumenter inst = new Instrumenter();</span>
+<span class="nc" id="L48">		inst.classe = &quot;classe&quot;;</span>
+<span class="nc" id="L49">		inst.metodo = &quot;metodo&quot;;  </span>
+<span class="nc" id="L50">		inst.fooOne();</span>
+<span class="nc" id="L51">		inst.fooTwo();</span>
+<span class="nc" id="L52">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
