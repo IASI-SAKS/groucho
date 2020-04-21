@@ -59,6 +59,8 @@
 		<scm.scmVersion.crochet>groucho-dependency-branch</scm.scmVersion.crochet>
         <scm.checkoutDirectory.crochet>${project.build.directory}/crochet</scm.checkoutDirectory.crochet>
         
+        <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
+            
         <org-codehaus-mojo.version>1.6.0</org-codehaus-mojo.version>
         
         <resources.version>3.1.0</resources.version>        

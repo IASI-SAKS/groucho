@@ -39,6 +39,9 @@
 	</licenses>
 
 	<properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>        
+        
 		<groucho-crochet.build.directory>${basedir}/../groucho-crochet/target</groucho-crochet.build.directory>
 		<groucho-crochet.build.finalName>CRIJ-0.0.1-SNAPSHOT</groucho-crochet.build.finalName>
 
@@ -47,14 +50,11 @@
 
 		<asm.version>5.0.3</asm.version>
         
-        <aggregate.report.dir>target/groucho/jacoco-aggregate/jacoco.xml</aggregate.report.dir>
         
-        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
-        <sonar.language>java</sonar.language>
-    
-        <jacoco-maven-plugin.version>0.8.3</jacoco-maven-plugin.version>
+        <aggregate.report.dir>target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir>
+        
+        <sonar-maven-plugin.version>3.6.0.1398</sonar-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.4</jacoco-maven-plugin.version>
         
 	</properties>
 
@@ -70,14 +70,19 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>${sonar-maven-plugin.version}</version>
+                </plugin>
+                <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
                     <version>${jacoco-maven-plugin.version}</version>
-                    <configuration>
+<!--                    <configuration>
                         <destFile>${sonar.jacoco.reportPath}</destFile>
                         <append>true</append>
                     </configuration>
-<!--                    <executions>
+                    <executions>
                         <execution>
                             <goals>
                                 <goal>prepare-agent</goal>
@@ -169,34 +174,5 @@
             </plugin>                    
 		</plugins>
 	</build>
-
-<!--    <profiles>
-            <profile>
-                <id>coverage</id>
-                <build>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.jacoco</groupId>
-                            <artifactId>jacoco-maven-plugin</artifactId>
-                            <version>${jacoco-maven-plugin.version}</version>
-                            <executions>
-                                <execution>
-                                    <id>prepare-agent</id>
-                                    <goals>
-                                        <goal>prepare-agent</goal>
-                                    </goals>
-                                </execution>
-                                <execution>
-                                    <id>report</id>
-                                    <goals>
-                                        <goal>report</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                        </plugin>
-                    </plugins>
-                </build>
-            </profile>
-    </profiles>    -->
     
 </project>

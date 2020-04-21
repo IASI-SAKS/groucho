@@ -65,7 +65,9 @@
 
         <groucho-crochet.version>1.0-SNAPSHOT</groucho-crochet.version>
         <CRIJ.version>0.0.1-SNAPSHOT</CRIJ.version>
-        
+
+        <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
+    
 <!--        <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>-->
                 
 <!--        <sonar.exclusions>org/binarytherapy/generated/**/*, **/GuiceBindComposer.java</sonar.exclusions>-->
