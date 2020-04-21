@@ -35,8 +35,8 @@ About QA Aspects
 Some quality gates are defined and monitored by means of SonarCloud and Jacoco. As GROUCHO is a multi-module maven project, there are few
 issues important to remeber:
 * Jacoco does not really support the analysis of multi-module projects. The work-around is to:
- 1. create an artificial module depending from all the others subject to analysis that will actually host the reports
- 2. to properly configure all the modules so that to redirect the analysis in such an artificial module
+ 1 . create an artificial module depending from all the others subject to analysis that will actually host the reports
+ 2 . to properly configure all the modules so that to redirect the analysis in such an artificial module
  Within GROUCHO the module [groucho-sonar](groucho-sonar) has such intent. The followed documentation is:
   * [Maven Multi-Module Builds](https://github.com/jacoco/jacoco/wiki/MavenMultiModule#maven-multi-module-builds)
   * [Multi-module Apache Maven example](https://github.com/SonarSource/sonar-scanning-examples/tree/master/sonarqube-scanner-maven/maven-multimodule)
