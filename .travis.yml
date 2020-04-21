@@ -49,7 +49,3 @@ after_success:
     - mvn -PqaProfile -Dgroucho-core.test.excludes="**/carvingStateTests/*" verify 
 ## The token credential for Sonar has beed set in the SONAR_TOKEN environmental variable from the Travis-CI UI 
     - mvn sonar:sonar -Dsonar.projectKey=IASI-SAKS_groucho 
-    
-### Copied form LeanPAd, commented by Gulyx
-# after_success:
-#    - bash <(curl -s https://codecov.io/bash)
