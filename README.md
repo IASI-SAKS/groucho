@@ -41,7 +41,7 @@ issues important to remeber:
    1. to properly configure all the modules so that to redirect the analysis in such an artificial module.
 
    Within GROUCHO the module [groucho-sonar](groucho-sonar) has such intent. The followed documentation is:
-      * [Maven Multi-Module Builds](https://github.com/jacoco/jacoco/wiki/MavenMultiModule#maven-multi-module-builds)
-      * [Multi-module Apache Maven example](https://github.com/SonarSource/sonar-scanning-examples/tree/master/sonarqube-scanner-maven/maven-multimodule)
+    * [Maven Multi-Module Builds](https://github.com/jacoco/jacoco/wiki/MavenMultiModule#maven-multi-module-builds)
+    * [Multi-module Apache Maven example](https://github.com/SonarSource/sonar-scanning-examples/tree/master/sonarqube-scanner-maven/maven-multimodule)
  
  
