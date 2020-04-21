@@ -40,7 +40,7 @@ issues important to remeber:
 Within GROUCHO the module [groucho-sonar](groucho-sonar) has such intent. The followed documentation is:
       * [Maven Multi-Module Builds](https://github.com/jacoco/jacoco/wiki/MavenMultiModule#maven-multi-module-builds)
       * [Multi-module Apache Maven example](https://github.com/SonarSource/sonar-scanning-examples/tree/master/sonarqube-scanner-maven/maven-multimodule)
-* Currently the token credential for Sonar has beed set in the SONAR_TOKEN environmental variable from the Travis-CI UI 
+* Currently the token credential for Sonar has beed set in the ``SONAR_TOKEN`` environmental variable from the Travis-CI UI 
 * The test for [State Carving](groucho-core/src/test/java/it/cnr/iasi/saks/groucho/carvingStateTests/) have been disabled during the QA analysis. This configuration is currently needed even if the test pass on a "regular" build. Indeed, the injection by Jacoco will cause these test fail because it modifies the result of the tests so that to mismatch their respective expected outcome.
  
  
