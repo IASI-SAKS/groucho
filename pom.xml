@@ -47,7 +47,13 @@
 
 		<asm.version>5.0.3</asm.version>
         
-        <sonar.aggregate.report.dir>target/groucho/jacoco-aggregate/jacoco.xml</sonar.aggregate.report.dir>
+        <aggregate.report.dir>target/groucho/jacoco-aggregate/jacoco.xml</aggregate.report.dir>
+        
+        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
+        <sonar.language>java</sonar.language>
+    
         <jacoco-maven-plugin.version>0.8.3</jacoco-maven-plugin.version>
         
 	</properties>
@@ -61,6 +67,34 @@
 	</dependencies>
 
 	<build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${jacoco-maven-plugin.version}</version>
+                    <configuration>
+                        <destFile>${sonar.jacoco.reportPath}</destFile>
+                        <append>true</append>
+                    </configuration>
+<!--                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>report</id>
+                            <goals>
+                                <goal>report-aggregate</goal>
+                            </goals>
+                            <phase>verify</phase>
+                        </execution>
+                    </executions>
+-->
+                </plugin>
+            </plugins>
+        </pluginManagement>        
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
