@@ -30,3 +30,18 @@ Unforntunately the configuration of this list with a conf file is not supported 
 For example for some local test under Eclipse we had to add the following package to the list of classes to be locally ignored:
  * ``org.eclipse.jdt.internal.junit.* ``
 
+About QA Aspects
+-------
+Some quality gates are defined and monitored by means of SonarCloud and Jacoco. As GROUCHO is a multi-module maven project, there are few
+issues important to remeber:
+* Currently the token credential for Sonar has beed set in the ``SONAR_TOKEN`` environmental variable from the Travis-CI UI 
+* The test for [State Carving](groucho-core/src/test/java/it/cnr/iasi/saks/groucho/carvingStateTests/) have been disabled during the QA analysis. This configuration is currently needed even if the test pass on a "regular" build. Indeed, the injection by Jacoco will cause these test fail because it modifies the result of the tests so that to mismatch their respective expected outcome.
+* Jacoco does not really support the analysis of multi-module projects. The work-around is to:
+   1. create an artificial module depending from all the others subject to analysis that will actually host the reports
+   1. to properly configure all the modules so that to redirect the analysis in such an artificial module.
+
+   Within GROUCHO the module [groucho-sonar](groucho-sonar) has such intent. The followed documentation is:
+    * [Maven Multi-Module Builds](https://github.com/jacoco/jacoco/wiki/MavenMultiModule#maven-multi-module-builds)
+    * [Multi-module Apache Maven example](https://github.com/SonarSource/sonar-scanning-examples/tree/master/sonarqube-scanner-maven/maven-multimodule)
+ 
+ 

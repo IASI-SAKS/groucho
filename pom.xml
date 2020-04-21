@@ -22,7 +22,8 @@
 		<module>groucho-core</module>
 		<module>lsh-invivo</module>
     	<module>groucho-lsh-rest</module>
-  </modules>
+        <module>groucho-sonar</module>
+    </modules>
 
 	<developers>
 		<developer>
@@ -39,6 +40,9 @@
 	</licenses>
 
 	<properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>        
+        
 		<groucho-crochet.build.directory>${basedir}/../groucho-crochet/target</groucho-crochet.build.directory>
 		<groucho-crochet.build.finalName>CRIJ-0.0.1-SNAPSHOT</groucho-crochet.build.finalName>
 
@@ -46,6 +50,13 @@
 		<groucho-core.build.finalName>groucho-core-1.0-SNAPSHOT</groucho-core.build.finalName>
 
 		<asm.version>5.0.3</asm.version>
+        
+        
+        <aggregate.report.dir>groucho-sonar/target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir>
+        
+        <sonar-maven-plugin.version>3.6.0.1398</sonar-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
+        
 	</properties>
 
 	<dependencies>
@@ -57,6 +68,20 @@
 	</dependencies>
 
 	<build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>${sonar-maven-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${jacoco-maven-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>        
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -118,4 +143,36 @@
 		</plugins>
 	</build>
 
+<profiles>
+    <profile>
+      <id>qaProfile</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>prepare-agent</id>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>report</id>
+                <goals>
+                    <goal>report-aggregate</goal>
+                </goals>
+                <phase>verify</phase>
+               </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>    
+  
 </project>

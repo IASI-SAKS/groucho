@@ -56,7 +56,10 @@
 		<maven-compiler-plugin.targetVersion>1.8</maven-compiler-plugin.targetVersion>
 
 		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
-	</properties>
+        
+        <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
+
+    </properties>
 
 	<dependencies>
 		<dependency>

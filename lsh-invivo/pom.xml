@@ -67,6 +67,7 @@
 		
 		<python.target.resource>${project.build.outputDirectory}/python</python.target.resource>
 
+        	<sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
 
 	<dependencies>
@@ -188,7 +189,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<!-- <version>${maven-surefire.version}</version> -->
+				<version>${maven-surefire.version}</version>
 				<executions>
 					<execution>
 						<goals>

@@ -6,8 +6,7 @@ jdk:
 #    - openjdk9
     - oraclejdk8
 #    - openjdk8
-##script: bash build --debug
-script: mvn clean install 
+
 # We need to avoid sudo for caching on Travis
 # http://docs.travis-ci.com/user/caching/
 sudo: false
@@ -16,6 +15,8 @@ python:
   - "2.7"
   
 addons:
+    sonarcloud:
+        organization: iasi-saks
     apt:
         packages:
             - curl
@@ -26,13 +27,13 @@ addons:
             - sed
 #            - python-pip
 #            - openjdk-8-jdk
-
   
 cache:
     directories:
         - $HOME/.m2
+        - $HOME/.sonar/cache
 
-before_script:
+install:
     -  pip --version
     -  pip install --help
     - export JAVA_HOME=`dirname $(dirname $(readlink -f $(which javac)))`
@@ -40,6 +41,11 @@ before_script:
     - export MAVEN_SKIP_RC=true
     - export MAVEN_OPTS="-Xms1024m -Xmx2g -XX:MaxPermSize=512m"
 
-### Copied form LeanPAd, commented by Gulyx
-# after_success:
-#    - bash <(curl -s https://codecov.io/bash)
+##script: bash build --debug
+script:
+    - mvn clean install
+
+after_success:
+    - mvn -PqaProfile -Dgroucho-core.test.excludes="**/carvingStateTests/*" verify 
+## The token credential for Sonar has beed set in the SONAR_TOKEN environmental variable from the Travis-CI UI 
+    - mvn sonar:sonar -Dsonar.projectKey=IASI-SAKS_groucho 

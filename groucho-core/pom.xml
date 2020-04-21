@@ -60,8 +60,18 @@
         
         <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
         
+		<maven-surefire.version>3.0.0-M4</maven-surefire.version>
+        <groucho-core.test.excludes></groucho-core.test.excludes>
+
         <groucho-crochet.version>1.0-SNAPSHOT</groucho-crochet.version>
         <CRIJ.version>0.0.1-SNAPSHOT</CRIJ.version>
+
+        <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
+    
+<!--        <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>-->
+                
+<!--        <sonar.exclusions>org/binarytherapy/generated/**/*, **/GuiceBindComposer.java</sonar.exclusions>-->
+<!--        <sonar.test.exclusions>**/carvingStateTests/SimpleCarvingStateTest.java</sonar.test.exclusions>-->
   </properties>
   
 <!--<repositories>
@@ -130,6 +140,16 @@
                 <source>${maven-compiler-plugin.sourcesVersion}</source>
                 <target>${maven-compiler-plugin.targetVersion}</target>
             </configuration>
+        </plugin>
+		<plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+			<version>${maven-surefire.version}</version>
+            <configuration>
+                 <excludes>
+                     <exclude>${groucho-core.test.excludes}</exclude>
+                 </excludes>
+            </configuration>                
         </plugin>
     </plugins>
   </build>    
