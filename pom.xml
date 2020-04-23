@@ -23,7 +23,8 @@
 		<module>lsh-invivo</module>
     	<module>groucho-lsh-rest</module>
         <module>groucho-sonar</module>
-    </modules>
+        <module>groucho-lab</module>
+  </modules>
 
 	<developers>
 		<developer>
