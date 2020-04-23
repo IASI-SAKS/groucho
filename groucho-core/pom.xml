@@ -26,7 +26,7 @@
   <version>1.0-SNAPSHOT</version>
   <name>groucho-core</name>
   <url>http://saks.iasi.cnr.it/tools/groucho</url>
- 
+
   <parent>
         <groupId>it.cnr.iasi.saks.groucho</groupId>
         <artifactId>groucho</artifactId>
