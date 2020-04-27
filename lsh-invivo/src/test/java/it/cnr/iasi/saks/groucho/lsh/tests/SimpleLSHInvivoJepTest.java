@@ -1,10 +1,10 @@
 package it.cnr.iasi.saks.groucho.lsh.tests;
 
 import org.junit.Test;
+import org.junit.Assert;
 
 import it.cnr.iasi.saks.groucho.lsh.exceptions.LSHException;
 import it.cnr.iasi.saks.groucho.lsh.jep.LSHInvivoJep;
-import junit.framework.Assert;
 
 public class SimpleLSHInvivoJepTest {
 
