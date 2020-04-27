@@ -17,39 +17,21 @@
  */
 package it.cnr.iasi.saks.groucho;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.Test;
+import org.junit.Assert;
+
 
 /**
  * Unit test for simple App.
  */
-public class FooAppRestTest 
-    extends TestCase
+public class FooAppRestTest
 {
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public FooAppRestTest( String testName )
-    {
-        super( testName );
-    }
-
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( FooAppRestTest.class );
-    }
-
     /**
      * Rigourous Test :-)
      */
-    public void testApp()
+	@Test
+	public void testApp()
     {
-        assertTrue( true );
+        Assert.assertTrue( true );
     }
 }

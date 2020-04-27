@@ -19,12 +19,12 @@ package it.cnr.iasi.saks.groucho.carvingStateTests.dummyValues;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.Assert;
 
 import it.cnr.iasi.saks.groucho.carvingStateTests.DummyInvivoTestClass;
 import it.cnr.iasi.saks.groucho.carvingStateTests.RandomGenerator;
 import it.cnr.iasi.saks.groucho.common.Context;
 import it.cnr.iasi.saks.groucho.common.StateCarver;
-import junit.framework.Assert;
 
 public class DummyValuesGeneratorDriver {
 	private DummyClassWithDummyValues dummyObject;

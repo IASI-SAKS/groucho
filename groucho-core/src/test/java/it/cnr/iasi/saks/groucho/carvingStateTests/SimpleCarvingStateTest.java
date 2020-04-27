@@ -18,10 +18,10 @@
 package it.cnr.iasi.saks.groucho.carvingStateTests;
 
 import org.junit.Test;
+import org.junit.Assert;
 
 import it.cnr.iasi.saks.groucho.common.Context;
 import it.cnr.iasi.saks.groucho.common.StateCarver;
-import junit.framework.Assert;
 
 public class SimpleCarvingStateTest {
 	private DummyClass dummyObject;
