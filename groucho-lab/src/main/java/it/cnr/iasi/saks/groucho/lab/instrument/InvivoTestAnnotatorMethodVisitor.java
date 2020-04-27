@@ -25,10 +25,6 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 import it.cnr.iasi.saks.groucho.annotation.TestableInVivo;
-import it.cnr.iasi.saks.groucho.callback.AbstractGovernanceManager;
-import it.cnr.iasi.saks.groucho.callback.GovernanceManagerFactory;
-import it.cnr.iasi.saks.groucho.common.Context;
-import it.cnr.iasi.saks.groucho.instrument.TestableInVivoAnnotationVisitor;
 
 public class InvivoTestAnnotatorMethodVisitor extends MethodVisitor {
 

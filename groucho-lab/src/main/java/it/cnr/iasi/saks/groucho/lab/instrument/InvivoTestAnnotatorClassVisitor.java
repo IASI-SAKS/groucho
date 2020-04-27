@@ -17,20 +17,12 @@
  */
 package it.cnr.iasi.saks.groucho.lab.instrument;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-
-import org.objectweb.asm.AnnotationVisitor;
-import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-
-import it.cnr.iasi.saks.groucho.common.InterfacesMapStore;
 
 public class InvivoTestAnnotatorClassVisitor extends ClassVisitor {
 	private final static String JAVA_LANG_OBJECT = "java/lang/Object";
@@ -39,10 +31,6 @@ public class InvivoTestAnnotatorClassVisitor extends ClassVisitor {
 	private String className;
 	private ClassWriter cw;
 	
-	
-	private final String CONSTRUCTOR_IN_BYTECODE = "<init>";
-	private final String RUN_METHOD_IN_BYTECODE = "run";
-			
 	public InvivoTestAnnotatorClassVisitor(ClassWriter cw, String pClassName) {
 		super(Opcodes.ASM5, cw);
 		this.className = pClassName;
@@ -78,36 +66,4 @@ public class InvivoTestAnnotatorClassVisitor extends ClassVisitor {
 		return cw.toByteArray();
 	}
 	
-	protected boolean isContructor(String methodName){		
-		String result = this.CONSTRUCTOR_IN_BYTECODE;
-		
-//		System.out.println(methodName + " ???? " + result);		
-		return methodName.equals(result);
-	}
-
-	protected boolean isRun(String methodName, String signature){		
-		String result = this.RUN_METHOD_IN_BYTECODE;
-		
-//		System.out.println(methodName + " ???? " + result);		
-		return methodName.equals(result);
-	}
-
-	protected boolean isContructorBySourceName(String methodName){		
-		String result = this.extractContructorSourceName();
-		
-//		System.out.println(methodName + " ???? " + result);		
-		return methodName.equals(result);
-	}
-
-	protected String extractContructorSourceName(){
-		String result = "";
-		int nameStartsAt = this.className.lastIndexOf('/')+1;
-		if (nameStartsAt > 0){
-			result = this.className.substring(nameStartsAt);			
-		} else {
-			result = this.className;
-		}
-		
-		return result;
-	}
 }
