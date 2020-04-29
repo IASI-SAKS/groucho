@@ -71,7 +71,7 @@ public class InvivoTestAnnotatorMethodVisitor extends MethodVisitor {
 	public void visitCode() {
 		this.mv.visitCode();
 		// 3. if annotation is not present, add it.
-		boolean injectAnnotation = (this.isMethodSubjectToInvivo()) && (!this.isTestableInvivoAnnotationPresent());
+		boolean injectAnnotation = (!this.isTestableInvivoAnnotationPresent()) && (this.isMethodSubjectToInvivo());
 		if (injectAnnotation){
 			try {
 				this.retriveAnnotationValues();
@@ -101,20 +101,25 @@ public class InvivoTestAnnotatorMethodVisitor extends MethodVisitor {
 		AnnotationVisitor av;
 		{
 			av = mv.visitAnnotation(this.internalAnnotationType, true);
+/*
+ * TODO the following statements of this method needs re-factoring in order to get
+ * the name of the field by means of some reflection ....		
+*/
 			av.visit("invivoTestClass", this.invivoTestClass);
 			av.visit("invivoTest", this.invivoTest);
+			
 			av.visitEnd();
 		}
 	}
 
 	private void instrumentingMessage() {
 		String retrivedSignatureAsAString = Arrays.toString(this.methodSignature);
-		System.out.println("["+this.getClass().getName() +"] Annotating as "+TestableInVivo.class.getName() + " - " + this.className + "." + this.methodName +"( "+ retrivedSignatureAsAString +")");		
+		System.out.println("["+this.getClass().getName() +"] Annotating as "+TestableInVivo.class.getName() + " - " + this.className + "." + this.methodName +"("+ retrivedSignatureAsAString +")");		
 	}
 
 	private boolean isMethodSubjectToInvivo() {		
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }
