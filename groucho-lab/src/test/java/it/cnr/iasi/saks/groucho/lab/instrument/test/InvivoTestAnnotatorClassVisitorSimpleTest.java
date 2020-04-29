@@ -28,6 +28,7 @@ import it.cnr.iasi.saks.groucho.lab.instrument.test.utils.SimpleClass;
 
 import java.lang.reflect.Method;
 
+import org.junit.Assert;
 import org.junit.Ignore;
 
 public class InvivoTestAnnotatorClassVisitorSimpleTest {
@@ -80,8 +81,7 @@ public class InvivoTestAnnotatorClassVisitorSimpleTest {
 			reader.accept(annotatorVisitor, 0);
 			byte[] byteArrayToBeReturned  = annotatorVisitor.toByteArray();
 		} catch (Throwable e) {
-			System.err.println("Something bad happened ...");
-			e.printStackTrace();
+			Assert.fail(e.getMessage());
 		}
 		
 	}
