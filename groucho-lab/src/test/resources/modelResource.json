@@ -1,0 +1,30 @@
+{
+  "lst" : [ {
+    "className" : "className",
+    "methodName" : "methodName1",
+    "annotation" : {
+      "invivoTestClass" : "invivoTestClass1",
+      "invivoTest" : "invivoTest1",
+      "carvingDepth" : 1,
+      "pauseOtherThreads" : false
+    }
+  }, {
+    "className" : "it.cnr.iasi.saks.groucho.lab.instrument.test.utils.SimpleClass",
+    "methodName" : "otherDummyMethod",
+    "annotation" : {
+      "invivoTestClass" : "it.cnr.iasi.saks.groucho.lab.instrument.test.utils.FooInvivoTestClass",
+      "invivoTest" : "invivoTestMethod",
+      "carvingDepth" : 1,
+      "pauseOtherThreads" : false
+    }
+  }, {
+    "className" : "it.cnr.iasi.saks.groucho.lab.instrument.test.utils.SimpleClass",
+    "methodName" : "printMessage",
+    "annotation" : {
+      "invivoTestClass" : "it.cnr.iasi.saks.groucho.lab.instrument.test.utils.FooInvivoTestClass",
+      "invivoTest" : "invivoTestMethod",
+      "carvingDepth" : 1,
+      "pauseOtherThreads" : false
+    }
+  } ]
+}
