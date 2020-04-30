@@ -25,6 +25,9 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 import it.cnr.iasi.saks.groucho.annotation.TestableInVivo;
+import it.cnr.iasi.saks.groucho.lab.instrument.config.InstrumentModelStore;
+import it.cnr.iasi.saks.groucho.lab.instrument.model.AnnotatedMethodModel;
+import it.cnr.iasi.saks.groucho.lab.instrument.model.TestableInvivoModel;
 
 public class InvivoTestAnnotatorMethodVisitor extends MethodVisitor {
 
@@ -39,6 +42,8 @@ public class InvivoTestAnnotatorMethodVisitor extends MethodVisitor {
 	private String invivoTestClass;
 	private String invivoTest;	
 	
+	private AnnotatedMethodModel annotatedMethodModel;
+	
 	public InvivoTestAnnotatorMethodVisitor(MethodVisitor mv, String className, String methodName, Type[] signature) {
 		super(Opcodes.ASM5, mv);
 
@@ -50,6 +55,7 @@ public class InvivoTestAnnotatorMethodVisitor extends MethodVisitor {
 		this.internalAnnotationType = "L"+ targetAnnotationName + ";";
 
 		this.isAnnotationPresent = false;
+		this.annotatedMethodModel = null;
 	}
 	
 	@Override
@@ -88,12 +94,14 @@ public class InvivoTestAnnotatorMethodVisitor extends MethodVisitor {
 	}
 
 	private void retriveAnnotationValues() throws IllegalStateException{
+		TestableInvivoModel annotation = this.annotatedMethodModel.getAnnotation();
+		
+		this.invivoTestClass = annotation.getInvivoTestClass();
+		this.invivoTest = annotation.getInvivoTest();
 /*
- * TODO the body of this method needs re-factoring in order to get the name of the param
- * from some configuration ....		
+ * TODO the body of this method needs to be completed in order to consider also
+ * the other params of an annotation
  */
-		this.invivoTestClass = "it.cnr.iasi.saks.groucho.performanceOverheadTest.DummyInvivoTest";
-		this.invivoTest = "fooTest";
 	}	
 	
 	
@@ -118,8 +126,9 @@ public class InvivoTestAnnotatorMethodVisitor extends MethodVisitor {
 	}
 
 	private boolean isMethodSubjectToInvivo() {		
-		// TODO Auto-generated method stub
-		return true;
+		this.annotatedMethodModel = InstrumentModelStore.getInstance().retreiveMethodInstrumentable(this.className, this.methodName);
+		
+		return this.annotatedMethodModel != null;
 	}
 
 }
