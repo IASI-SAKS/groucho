@@ -57,6 +57,9 @@
 		<groucho-core.version>1.0-SNAPSHOT</groucho-core.version>
 		<groucho-lsh-rest.version>1.0-SNAPSHOT</groucho-lsh-rest.version>
 		<groucho-lab.build.directory>${basedir}/../groucho-lab/target</groucho-lab.build.directory>
+		
+		<!--         argLine has been configured this way because the other way was causing Travis CI failing (see **HERE-ARG-LINE**) -->
+        <argLine>-Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConf.properties</argLine>		
 	</properties>
 
 	<dependencies>
@@ -121,8 +124,9 @@
 				<configuration>
 					<reuseForks>false</reuseForks>
 					<useUnlimitedThreads>true</useUnlimitedThreads>
-					<argLine>@{argLine} -Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConf.properties
-					</argLine>
+<!-- 					This is the place-holder **HERE-ARG-LINE** -->
+<!-- 					<argLine>@{argLine} -Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConf.properties -->
+<!-- 					</argLine> -->
 				</configuration>
 			</plugin>
 		</plugins>
