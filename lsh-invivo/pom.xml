@@ -204,8 +204,7 @@
 					<systemPropertyVariables>
 						<propertyName>java.library.path</propertyName>
 					</systemPropertyVariables>
-					<argLine>@{argLine} 
-						-Djava.library.path=${jep-inst-path}/jep/
+					<argLine>@{argLine} -Djava.library.path=${jep-inst-path}/jep/
 					</argLine>
 				</configuration>
 			</plugin>
