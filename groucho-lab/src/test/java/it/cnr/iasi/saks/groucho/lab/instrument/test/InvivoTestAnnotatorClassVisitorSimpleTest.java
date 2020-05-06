@@ -26,6 +26,7 @@ import org.objectweb.asm.Type;
 import it.cnr.iasi.saks.groucho.lab.instrument.InvivoTestAnnotatorClassVisitor;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.utils.SimpleClass;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 
 import org.junit.Assert;
@@ -68,22 +69,18 @@ public class InvivoTestAnnotatorClassVisitorSimpleTest {
 	}
 	
 	@Test
-	public void transformationTest(){
-		try {
-			String sutCanonicalName = SimpleClass.class.getCanonicalName();
-			String sutInternalName = Type.getInternalName(SimpleClass.class);
-			
-			ClassReader reader = new ClassReader(sutCanonicalName);
-			ClassWriter writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS);
-			
-			InvivoTestAnnotatorClassVisitor annotatorVisitor = new InvivoTestAnnotatorClassVisitor(writer, sutInternalName);
-
-			reader.accept(annotatorVisitor, 0);
-			byte[] byteArrayToBeReturned  = annotatorVisitor.toByteArray();
-		} catch (Throwable e) {
-			Assert.fail(e.getMessage());
-		}
+	public void transformationTest() throws IOException{
+		String sutCanonicalName = SimpleClass.class.getCanonicalName();
+		String sutInternalName = Type.getInternalName(SimpleClass.class);
 		
+		ClassReader reader = new ClassReader(sutCanonicalName);
+		ClassWriter writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS);
+			
+		InvivoTestAnnotatorClassVisitor annotatorVisitor = new InvivoTestAnnotatorClassVisitor(writer, sutInternalName);
+
+		reader.accept(annotatorVisitor, 0);
+		byte[] byteArrayToBeReturned  = annotatorVisitor.toByteArray();
+		Assert.assertNotNull(byteArrayToBeReturned);
 	}
 	
 }
