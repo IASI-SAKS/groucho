@@ -44,5 +44,3 @@ issues important to remeber:
    Within GROUCHO the module [groucho-sonar](groucho-sonar) has such intent. The followed documentation is:
     * [Maven Multi-Module Builds](https://github.com/jacoco/jacoco/wiki/MavenMultiModule#maven-multi-module-builds)
     * [Multi-module Apache Maven example](https://github.com/SonarSource/sonar-scanning-examples/tree/master/sonarqube-scanner-maven/maven-multimodule)
- 
- 
