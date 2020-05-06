@@ -50,8 +50,11 @@
 		<slf4j.version>1.7.12</slf4j.version>
 		<jackson-databind.version>2.11.0</jackson-databind.version>
 
+		<maven-surefire.version>3.0.0-M4</maven-surefire.version>
+
 		<groucho-core.version>1.0-SNAPSHOT</groucho-core.version>
 		<groucho-lsh-rest.version>1.0-SNAPSHOT</groucho-lsh-rest.version>
+		<groucho-lab.build.directory>${basedir}/../groucho-lab/target</groucho-lab.build.directory>
 	</properties>
 
 	<dependencies>
@@ -101,6 +104,26 @@
 	</dependencies>
 
 	<build>
-
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven-surefire.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<reuseForks>false</reuseForks>
+					<useUnlimitedThreads>true</useUnlimitedThreads>
+					<argLine>
+						-Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConf.properties
+					</argLine>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 </project>
