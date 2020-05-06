@@ -1,8 +1,9 @@
 package it.cnr.iasi.saks.groucho.lab.instrument.config;
 
-import java.io.FileInputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -16,34 +17,31 @@ public class InstrumentModelStore {
  
 	protected static InstrumentModelStore INSTANCE = null;
 
-	private static String LAB_INSTRUMENT_MODEL_JSON_DEFAULT_FILE = "/tmp/model.json"; 
+	private static String LAB_INSTRUMENT_MODEL_JSON_DEFAULT_FILENAME = "model.json"; 
 			
 	private InjectableMethodList list;
 	
-    protected InstrumentModelStore() {
-    		String fileName = PropertyUtil.getInstance().getProperty(PropertyUtil.LAB_INSTRUMENT_MODEL_JSON_FILE_LABEL, LAB_INSTRUMENT_MODEL_JSON_DEFAULT_FILE);
-    		FileInputStream stream;
-			try {
-				stream = new FileInputStream(fileName);
-				list = InstrumentModelJSONMapper.loadFromJSON(stream);
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (JsonParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (JsonMappingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+    protected InstrumentModelStore() throws JsonParseException, JsonMappingException, IOException {
+    		String defaultFile = System.getProperty("java.io.tmpdir") + File.separator + LAB_INSTRUMENT_MODEL_JSON_DEFAULT_FILENAME;
+
+    		String fileName = PropertyUtil.getInstance().getProperty(PropertyUtil.LAB_INSTRUMENT_MODEL_JSON_FILE_LABEL, defaultFile);
+    		InputStream stream;
+			
+    		stream = this.getClass().getClassLoader().getResourceAsStream(fileName);
+			if (stream == null) {
+				throw new FileNotFoundException("File not found: "+fileName);
 			}
+    		list = InstrumentModelJSONMapper.loadFromJSON(stream);
 	}
 	
-	public synchronized static InstrumentModelStore getInstance(){
+	public synchronized static InstrumentModelStore getInstance() {
 		if ( INSTANCE == null) {
-			INSTANCE = new InstrumentModelStore();
+			try {
+				INSTANCE = new InstrumentModelStore();
+			} catch (IOException e) {
+				e.printStackTrace();
+				throw new IllegalArgumentException(e.getMessage(), e.getCause());
+			}
 
 		}
 		return INSTANCE;
