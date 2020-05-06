@@ -52,6 +52,8 @@
 
 		<maven-surefire.version>3.0.0-M4</maven-surefire.version>
 
+        <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
+
 		<groucho-core.version>1.0-SNAPSHOT</groucho-core.version>
 		<groucho-lsh-rest.version>1.0-SNAPSHOT</groucho-lsh-rest.version>
 		<groucho-lab.build.directory>${basedir}/../groucho-lab/target</groucho-lab.build.directory>
