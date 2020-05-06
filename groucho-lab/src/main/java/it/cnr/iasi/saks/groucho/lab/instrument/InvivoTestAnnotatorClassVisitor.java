@@ -25,9 +25,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 public class InvivoTestAnnotatorClassVisitor extends ClassVisitor {
-	private final static String JAVA_LANG_OBJECT = "java/lang/Object";
-	private final static String JAVA_LANG_RUNNABLE = "java/lang/Runnable";
-
+	
 	private String className;
 	private ClassWriter cw;
 	

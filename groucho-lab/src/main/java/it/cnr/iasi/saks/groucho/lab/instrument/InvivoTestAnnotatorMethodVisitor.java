@@ -84,10 +84,8 @@ public class InvivoTestAnnotatorMethodVisitor extends MethodVisitor {
 				this.instrumentingMessage();
 				this.applyInstrumentation();
 			} catch (IllegalStateException e) {
-				System.err.println("now here i am");
 				e.printStackTrace();
 			} catch (Throwable t) {
-				System.err.println("here i am");
 				t.printStackTrace();
 			}	
 		}	
