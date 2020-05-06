@@ -19,9 +19,6 @@ package it.cnr.iasi.saks.groucho.lab.instrument;
 
 import java.lang.instrument.Instrumentation;
 
-import it.cnr.iasi.saks.groucho.lab.instrument.jcs.JCSClassTransformer;
-import it.cnr.iasi.saks.groucho.lab.instrument.oscache.OSCacheClassTransformer;
-
 public class Premain {
 
     public static Instrumentation instrumenter;
@@ -34,8 +31,7 @@ public class Premain {
     public static void premain(String args, Instrumentation inst) {
     	System.out.println("Starting the agent");
     	
-    	inst.addTransformer(new JCSClassTransformer());
-    	inst.addTransformer(new OSCacheClassTransformer());
+    	inst.addTransformer(new InvivoTestAnnotatorClassTransformer());
         Premain.instrumenter = inst;
 		
         Premain.isConfigured = true;
