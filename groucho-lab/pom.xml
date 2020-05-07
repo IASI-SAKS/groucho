@@ -52,14 +52,16 @@
 
 		<maven-surefire.version>3.0.0-M4</maven-surefire.version>
 
+        <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+
         <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
 
 		<groucho-core.version>1.0-SNAPSHOT</groucho-core.version>
 		<groucho-lsh-rest.version>1.0-SNAPSHOT</groucho-lsh-rest.version>
 		<groucho-lab.build.directory>${basedir}/../groucho-lab/target</groucho-lab.build.directory>
 		
-		<!--  argLine has been configured this way because the other way was causing Travis CI failing (see **HERE-ARG-LINE**) -->
-        <argLine>-Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConf.properties</argLine>		
+<!--         argLine must be defined, otherwise surfire/failsafe will broke the build when using @{argLine} (see **HERE-ARG-LINE**) -->
+        <argLine></argLine>
 	</properties>
 
 	<dependencies>
@@ -110,23 +112,26 @@
 
 	<build>
 		<plugins>
+        	<plugin>
+            	<groupId>org.apache.maven.plugins</groupId>
+                	<artifactId>maven-jar-plugin</artifactId>
+                	<version>${maven-jar-plugin.version}</version>
+                	<configuration>
+                    	<archive>
+                        	<manifestFile>${basedir}/resources/META-INF/MANIFEST.MF</manifestFile>
+                    	</archive>
+               		</configuration>
+        	</plugin>		
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${maven-surefire.version}</version>
-<!-- 				<executions> -->
-<!-- 					<execution> -->
-<!-- 						<goals> -->
-<!-- 							<goal>test</goal> -->
-<!-- 						</goals> -->
-<!-- 					</execution> -->
-<!-- 				</executions> -->
 				<configuration>
 					<reuseForks>false</reuseForks>
 					<useUnlimitedThreads>true</useUnlimitedThreads>
 <!-- 					This is the place-holder **HERE-ARG-LINE** -->
-<!-- 					<argLine>@{argLine} -Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConf.properties -->
-<!-- 					</argLine> -->
+					<argLine>@{argLine} -Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConf.properties
+					</argLine>
 				</configuration>
 			</plugin>
 		</plugins>
