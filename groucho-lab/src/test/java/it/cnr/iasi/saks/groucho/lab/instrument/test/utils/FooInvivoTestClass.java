@@ -29,4 +29,7 @@ public class FooInvivoTestClass {
 		ThreadHarnessCallbackInvoker.invokeCallback_checkInTheConstructors();		
 	}
 	
+	public void anotherInvivoTestMethod(){
+		ThreadHarnessCallbackInvoker.invokeCallback_checkInTheConstructors();		
+	}
 }
