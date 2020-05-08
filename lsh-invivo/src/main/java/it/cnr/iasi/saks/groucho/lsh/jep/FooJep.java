@@ -55,6 +55,7 @@ public class FooJep {
 //		// using invoke to invoke methods
 //		interp.exec("foo3 = somePyModule.foo3");
 //		Object result3 = interp.invoke("foo3", obj);
+		interp.close();
 	}
 
 	private void simpleLSHInvivoJepTest() throws LSHException{
