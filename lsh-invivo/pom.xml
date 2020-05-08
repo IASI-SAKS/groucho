@@ -67,7 +67,10 @@
 		
 		<python.target.resource>${project.build.outputDirectory}/python</python.target.resource>
 
-        	<sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
+
+<!--         argLine must be defined, otherwise surfire/failsafe will broke the build when using @{argLine} (see **HERE-ARG-LINE**) -->
+        <argLine></argLine>
 	</properties>
 
 	<dependencies>
@@ -204,12 +207,11 @@
 					<systemPropertyVariables>
 						<propertyName>java.library.path</propertyName>
 					</systemPropertyVariables>
-					<argLine>
-						-Djava.library.path=${jep-inst-path}/jep/
+<!-- 					This is the place-holder **HERE-ARG-LINE** -->
+					<argLine>@{argLine} -Djava.library.path=${jep-inst-path}/jep/
 					</argLine>
 				</configuration>
 			</plugin>
-
 		</plugins>
 	</build>
 </project>

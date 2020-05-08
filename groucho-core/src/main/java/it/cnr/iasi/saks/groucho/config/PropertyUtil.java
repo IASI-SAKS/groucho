@@ -30,6 +30,8 @@ public class PropertyUtil {
 	public static final String CONFIG_FILE_LOCATION_LABEL = "groucho.config.file.location";
 	public static final String TRANFORMER_DISABLED_ON_CLASSES_LABEL = "groucho.transformer.disable.classesList";
 	
+	public static final String LAB_INSTRUMENT_MODEL_JSON_FILE_LABEL = "groucho.lab.intrument.jsonFile";
+
 	private static final String CLASS_LIST_SEPARATOR = ",";
 
 	protected static PropertyUtil INSTANCE = null;

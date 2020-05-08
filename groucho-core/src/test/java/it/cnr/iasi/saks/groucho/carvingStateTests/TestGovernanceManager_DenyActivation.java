@@ -24,7 +24,7 @@ import it.cnr.iasi.saks.groucho.common.Context;
 public class TestGovernanceManager_DenyActivation extends SmarterGovernanceManager {
 	
 	private static final int MAX_TENTATIVES = 10; 
-	private static final int MAX_SLEEP = 2000; 
+	private static final int SLEEP_CONTROLLER = 2000; 
 	
 	@Override
 	public boolean evaluateActivation(Context context) {
@@ -34,10 +34,12 @@ public class TestGovernanceManager_DenyActivation extends SmarterGovernanceManag
 	}
 	
 	/**
-	 * The actual runInvivoTestingSession will contain locks and other synchronization 
+	 * The actual runInvivoTestingSession can contain locks and other synchronization 
 	 * statements that may eventually neglect the execution of the in-vivo testing session.
 	 * During the test it is important to be (almost) sure that the runInvivoTestingSession,
-	 * is not skipped, otherwise it is likely that the tests become flaky. 
+	 * is not skipped, otherwise it is likely that the tests fail.  
+	 * 
+	 * Somehow the tests that will use this method are still flaky, but hopefully their outcome is a bit more stable.
 	 * 
 	 * This method override reduces this risk by trying to run on in-vivo testing session
 	 * several time (i.e. MAX_TENTATIVES). 
@@ -51,11 +53,14 @@ public class TestGovernanceManager_DenyActivation extends SmarterGovernanceManag
 			if (!wasCarvedSomething) {
 				System.out.println("Ooopps .... the In-vivo Testing Session was not launched. Trying again!");
 				try {
-					Thread.sleep(RandomGenerator.getInstance().nextInt(MAX_SLEEP));
+					Thread.yield();
+					int sleepingPeriod = SLEEP_CONTROLLER + RandomGenerator.getInstance().nextInt(SLEEP_CONTROLLER);
+					Thread.sleep(sleepingPeriod);
 				} catch (InterruptedException e) {
 					// There is really nothing to to here!!!
 //					e.printStackTrace();
 				}
+				Thread.yield();
 			}
 		}
 		if (!wasCarvedSomething) {

@@ -22,8 +22,9 @@
 		<module>groucho-core</module>
 		<module>lsh-invivo</module>
     	<module>groucho-lsh-rest</module>
+        <module>groucho-lab</module>
         <module>groucho-sonar</module>
-    </modules>
+  </modules>
 
 	<developers>
 		<developer>

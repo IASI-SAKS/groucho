@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is part of GROUCHO, originally developed at CNR-IASI. For 
+	more information visit: http://saks.iasi.cnr.it/tools/groucho This is free 
+	software: you can redistribute it and/or modify it under the terms of the 
+	GNU General Public License as published by the Free Software Foundation, 
+	either version 3 of the License, or (at your option) any later version. This 
+	software is distributed in the hope that it will be useful, but WITHOUT ANY 
+	WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+	FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
+	You should have received a copy of the GNU General Public License along with 
+	this source. If not, see <http://www.gnu.org/licenses/>. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>it.cnr.iasi.saks.groucho</groupId>
+	<artifactId>groucho-lab</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>groucho-lab</name>
+	<url>http://saks.iasi.cnr.it/tools/groucho</url>
+
+	<parent>
+		<groupId>it.cnr.iasi.saks.groucho</groupId>
+		<artifactId>groucho</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<developers>
+		<developer>
+			<id>gulyx</id>
+			<name>Guglielmo De Angelis</name>
+		</developer>
+	</developers>
+
+	<licenses>
+		<license>
+			<name>GNU General Public License (GPL ver.3)</name>
+			<url>http://www.gnu.org/licenses/gpl.txt</url>
+		</license>
+	</licenses>
+
+
+	<properties>
+		<junit.version>4.0</junit.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<slf4j.version>1.7.12</slf4j.version>
+		<jackson-databind.version>2.11.0</jackson-databind.version>
+
+		<maven-surefire.version>3.0.0-M4</maven-surefire.version>
+
+        <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+
+        <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
+
+		<groucho-core.version>1.0-SNAPSHOT</groucho-core.version>
+		<groucho-lsh-rest.version>1.0-SNAPSHOT</groucho-lsh-rest.version>
+
+		<groucho-lab.build.directory>${basedir}/../groucho-lab/target</groucho-lab.build.directory>
+		<groucho-lab.build.finalName>groucho-lab-1.0-SNAPSHOT</groucho-lab.build.finalName>
+
+		<groucho-crochet.build.directory>${basedir}/../groucho-crochet/target</groucho-crochet.build.directory>
+		<groucho-crochet.build.finalName>CRIJ-0.0.1-SNAPSHOT</groucho-crochet.build.finalName>
+
+		<groucho-core.build.directory>${basedir}/../groucho-core/target</groucho-core.build.directory>
+		<groucho-core.build.finalName>groucho-core-1.0-SNAPSHOT</groucho-core.build.finalName>
+		
+<!-- 		<groucho-lab.build.depencenciesDirectory>${basedir}/../groucho-lab/target/libs</groucho-lab.build.depencenciesDirectory> -->
+		<groucho-lab.build.depencenciesDirectory>${project.build.directory}/dependency</groucho-lab.build.depencenciesDirectory>
+		
+		
+<!--         argLine must be defined, otherwise surfire/failsafe will broke the build when using @{argLine} (see **HERE-ARG-LINE**) -->
+        <argLine></argLine>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>it.cnr.iasi.saks.groucho</groupId>
+			<artifactId>groucho-core</artifactId>
+			<version>${groucho-core.version}</version>
+		</dependency>
+
+ 		<dependency> 
+ 			<groupId>it.cnr.iasi.saks.groucho</groupId> 
+ 			<artifactId>groucho-lsh-rest</artifactId> 
+ 			<version>${groucho-lsh-rest.version}</version> 
+ 		</dependency> 
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson-databind.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>opensymphony</groupId>
+			<artifactId>oscache</artifactId>
+			<version>2.1.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.jcs</groupId>
+			<artifactId>jcs</artifactId>
+			<version>1.3</version>
+			<type>pom</type>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>prepare-package</phase>
+						<goals>
+              				<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<outputDirectory>${groucho-lab.build.depencenciesDirectory}</outputDirectory>
+					                <overWriteReleases>false</overWriteReleases>
+					                <overWriteSnapshots>false</overWriteSnapshots>
+					                <overWriteIfNewer>true</overWriteIfNewer>									
+								</artifactItem>
+							</artifactItems>
+							<!-- other configurations here -->
+						</configuration>
+					</execution>					
+				</executions>
+			</plugin>				
+        	<plugin>
+            	<groupId>org.apache.maven.plugins</groupId>
+                	<artifactId>maven-jar-plugin</artifactId>
+                	<version>${maven-jar-plugin.version}</version>
+                	<configuration>
+                    	<archive>
+                        	<manifestFile>${basedir}/resources/META-INF/MANIFEST.MF</manifestFile>
+                    	</archive>
+               		</configuration>
+        	</plugin>		
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven-surefire.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<reuseForks>false</reuseForks>
+					<useUnlimitedThreads>true</useUnlimitedThreads>
+<!-- 					This is the place-holder **HERE-ARG-LINE** -->
+					<argLine>@{argLine} -Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConf.properties
+					</argLine>
+				</configuration>
+			</plugin>
+		<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<!-- <version>NO VERSOIN FOR THE MOMENT AS IN THE PATCH FOR CROCHET</version> -->
+<!-- 				<version>2.18.1</version> -->
+				<version>2.19.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<reuseForks>false</reuseForks>
+					<useUnlimitedThreads>true</useUnlimitedThreads>
+					<jvm>${groucho-crochet.build.directory}/jre-inst/bin/java</jvm>					
+					<argLine>
+						-Xmx4G -agentpath:${groucho-crochet.build.directory}/libtagging.so
+						-javaagent:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar
+						-Xbootclasspath/p:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar
+					@{argLine}
+						-javaagent:${groucho-lab.build.directory}/${groucho-lab.build.finalName}.jar
+						-Xbootclasspath/p:${groucho-lab.build.depencenciesDirectory}
+						-Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConf.properties
+					</argLine>
+				</configuration>
+			</plugin>									
+		</plugins>
+	</build>
+</project>

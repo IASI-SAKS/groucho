@@ -26,7 +26,7 @@
   <version>1.0-SNAPSHOT</version>
   <name>groucho-core</name>
   <url>http://saks.iasi.cnr.it/tools/groucho</url>
- 
+
   <parent>
         <groupId>it.cnr.iasi.saks.groucho</groupId>
         <artifactId>groucho</artifactId>
@@ -48,7 +48,9 @@
   </licenses>  
 
   <properties>
+<!-- This property can be removed!!! -->
 		<artifact.jar.mainclass>it.cnr.iasi.saks.groucho.main.Main</artifact.jar.mainclass>
+<!--  -->	
 		<junit.version>4.0</junit.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<slf4j.version>1.7.12</slf4j.version>

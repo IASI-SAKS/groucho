@@ -25,8 +25,10 @@ For safety reasons, GROUCHO does not apply its instrumentation on the whole set 
  * ``sun.*``
  * ``it.cnr.iasi.saks.groucho.*``
  * ``org.junit.*``
+ * ``junit.framework.*``
+ * ``org.apache.maven.*``
  
-Unforntunately the configuration of this list with a conf file is not supported yet. If for some reasons you may need to exclude some package/class form the instrumentation, please modify the class ``it.cnr.iasi.saks.groucho.instrument.GrouchoClassTransformer`` and build the project again.
+Unforntunately the configuration of this list with a conf file is not supported yet. If for some reasons you may need to exclude some package/class form the instrumentation, please modify the class ``it.cnr.iasi.saks.groucho.instrument.AbstractClassTranformer`` and build the project again.
 For example for some local test under Eclipse we had to add the following package to the list of classes to be locally ignored:
  * ``org.eclipse.jdt.internal.junit.* ``
 
@@ -36,6 +38,8 @@ Some quality gates are defined and monitored by means of SonarCloud and Jacoco. 
 issues important to remeber:
 * Currently the token credential for Sonar has beed set in the ``SONAR_TOKEN`` environmental variable from the Travis-CI UI 
 * The test for [State Carving](groucho-core/src/test/java/it/cnr/iasi/saks/groucho/carvingStateTests/) have been disabled during the QA analysis. This configuration is currently needed even if the test pass on a "regular" build. Indeed, the injection by Jacoco will cause these test fail because it modifies the result of the tests so that to mismatch their respective expected outcome.
+* While configuring MVN it may be the case to alterate the arguments passed to the JVM, for example this may happen frequently when using plugins such as ``surefire`` or ``failsafe``. In those cases, Jacoco may wrongly count and report data on the coverage. The solution is to properly configure ``surefire``/``failsafe`` in order to properly interact with the ``jacoco:prepare-agent`` plugin. For example do not forget to append new arguments my referring the MVN variable ``@{argLine}``. Further details from the [official documentation](https://www.eclemma.org/jacoco/trunk/doc/prepare-agent-mojo.html). Please note that strongly recommended to 
+always include in the pom an empty definition of the property argLine. Indeed if ``@{argLine}`` is used but never initialised thus surfire/failsafe causes the build to fail.
 * Jacoco does not really support the analysis of multi-module projects. The work-around is to:
    1. create an artificial module depending from all the others subject to analysis that will actually host the reports
    1. to properly configure all the modules so that to redirect the analysis in such an artificial module.
@@ -43,5 +47,3 @@ issues important to remeber:
    Within GROUCHO the module [groucho-sonar](groucho-sonar) has such intent. The followed documentation is:
     * [Maven Multi-Module Builds](https://github.com/jacoco/jacoco/wiki/MavenMultiModule#maven-multi-module-builds)
     * [Multi-module Apache Maven example](https://github.com/SonarSource/sonar-scanning-examples/tree/master/sonarqube-scanner-maven/maven-multimodule)
- 
- 
