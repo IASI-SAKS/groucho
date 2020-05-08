@@ -22,7 +22,6 @@ import java.util.Vector;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import it.cnr.iasi.saks.groucho.callback.GovernanceManagerFactory;
 import it.cnr.iasi.saks.groucho.config.PropertyUtil;
 import it.cnr.iasi.saks.groucho.tests.util.PropertyUtilNoSingleton;
 import it.cnr.iasi.saks.grouchoTestingStuff.SimpleThread;
