@@ -7,9 +7,6 @@ import org.junit.Test;
 
 import it.cnr.iasi.saks.foo.SimpleClass;
 import it.cnr.iasi.saks.groucho.annotation.TestableInVivo;
-import it.cnr.iasi.saks.groucho.lab.instrument.InvivoTestAnnotatorClassTransformer;
-import net.jonbell.crij.runtime.CheckpointRollbackAgent;
-import net.jonbell.crij.runtime.CRIJInstrumented;
 
 public class SimpleTest_IT {
 	
