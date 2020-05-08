@@ -17,14 +17,15 @@
  */
 package it.cnr.iasi.saks.groucho.lab.instrument;
 
-import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 
-public class InvivoTestAnnotatorClassTransformer implements ClassFileTransformer {
+import it.cnr.iasi.saks.groucho.instrument.AbstractClassTranformer;
+
+public class InvivoTestAnnotatorClassTransformer extends AbstractClassTranformer {
 	
 	/*
 	 * (non-Javadoc) It is invoked for every class loaded into the JVM. It
@@ -39,7 +40,11 @@ public class InvivoTestAnnotatorClassTransformer implements ClassFileTransformer
 	public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined,
 			ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
 
-		System.out.println("Currently applying the tranformation on: " + className);
+		if (this.isDisabled(className)) {
+			return null;
+		}
+
+		System.out.println("["+InvivoTestAnnotatorClassTransformer.class.getCanonicalName()+"] Currently applying the tranformation on: " + className);
 		
 		byte[] byteArrayToBeReturned = null;
 		
