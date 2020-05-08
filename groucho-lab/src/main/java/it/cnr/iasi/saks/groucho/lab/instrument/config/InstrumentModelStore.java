@@ -27,13 +27,21 @@ public class InstrumentModelStore {
     		String fileName = PropertyUtil.getInstance().getProperty(PropertyUtil.LAB_INSTRUMENT_MODEL_JSON_FILE_LABEL, defaultFile);
     		InputStream stream;
 			
-    		stream = this.getClass().getClassLoader().getResourceAsStream(fileName);
+    		stream = this.retreiveClassLoader().getResourceAsStream(fileName);
 			if (stream == null) {
 				throw new FileNotFoundException("File not found: "+fileName);
 			}
     		list = InstrumentModelJSONMapper.loadFromJSON(stream);
 	}
 	
+	private ClassLoader retreiveClassLoader() {
+		ClassLoader cl = this.getClass().getClassLoader();
+		if (cl == null) {
+			cl = ClassLoader.getSystemClassLoader();
+		}
+		return cl;
+	}
+
 	public synchronized static InstrumentModelStore getInstance() {
 		if ( INSTANCE == null) {
 			try {
