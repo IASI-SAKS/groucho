@@ -17,8 +17,6 @@
  */
 package it.cnr.iasi.saks.groucho.carvingStateTests;
 
-import java.util.Random;
-
 public class DummyClass {
 	
 	private int fieldInt;

@@ -17,8 +17,6 @@
  */
 package it.cnr.iasi.saks.groucho.lab.instrument.model;
 
-import it.cnr.iasi.saks.groucho.annotation.TestableInVivo;
-
 public class AnnotatedMethodModel {
 
 	private String className;
