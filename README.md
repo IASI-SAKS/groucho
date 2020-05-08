@@ -25,8 +25,10 @@ For safety reasons, GROUCHO does not apply its instrumentation on the whole set 
  * ``sun.*``
  * ``it.cnr.iasi.saks.groucho.*``
  * ``org.junit.*``
+ * ``junit.framework.*``
+ * ``org.apache.maven.*``
  
-Unforntunately the configuration of this list with a conf file is not supported yet. If for some reasons you may need to exclude some package/class form the instrumentation, please modify the class ``it.cnr.iasi.saks.groucho.instrument.GrouchoClassTransformer`` and build the project again.
+Unforntunately the configuration of this list with a conf file is not supported yet. If for some reasons you may need to exclude some package/class form the instrumentation, please modify the class ``it.cnr.iasi.saks.groucho.instrument.AbstractClassTranformer`` and build the project again.
 For example for some local test under Eclipse we had to add the following package to the list of classes to be locally ignored:
  * ``org.eclipse.jdt.internal.junit.* ``
 
