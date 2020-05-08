@@ -20,7 +20,7 @@ Possible hints are:
 
 About the Java Instrumentation
 -------
-For safety reasons, GROUCHO does not apply its instrumentation on the whole set of Java classes in the class path. More specifically, and in attition to all the classes that CROCHET does not instrument, the ``GrouchoClassTransformer`` agent does not apply to the instumentation the classes belonging to the following packages:
+For safety reasons, GROUCHO does not apply its instrumentation on the whole set of Java classes in the class path. More specifically, and in attition to all the classes that CROCHET does not instrument, any agent built from inheritance of the ``it.cnr.iasi.saks.groucho.instrument.AbstractClassTranformer``  does not apply to the instumentation the classes belonging to the following packages:
  * ``java.*``
  * ``sun.*``
  * ``it.cnr.iasi.saks.groucho.*``
