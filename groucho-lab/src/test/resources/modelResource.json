@@ -9,7 +9,7 @@
       "pauseOtherThreads" : false
     }
   }, {
-    "className" : "it.cnr.iasi.saks.groucho.lab.instrument.test.utils.SimpleClass",
+    "className" : "it.cnr.iasi.saks.foo.SimpleClass",
     "methodName" : "otherDummyMethod",
     "annotation" : {
       "invivoTestClass" : "it.cnr.iasi.saks.groucho.lab.instrument.test.utils.FooInvivoTestClass",
@@ -18,7 +18,16 @@
       "pauseOtherThreads" : false
     }
   }, {
-    "className" : "it.cnr.iasi.saks.groucho.lab.instrument.test.utils.SimpleClass",
+    "className" : "it.cnr.iasi.saks.foo.SimpleClass",
+    "methodName" : "localPrintMessage",
+    "annotation" : {
+      "invivoTestClass" : "it.cnr.iasi.saks.groucho.lab.instrument.test.utils.FooInvivoTestClass",
+      "invivoTest" : "invivoTestMethod",
+      "carvingDepth" : 1,
+      "pauseOtherThreads" : false
+    }
+  }, {
+    "className" : "it.cnr.iasi.saks.foo.SimpleClass",
     "methodName" : "printMessage",
     "annotation" : {
       "invivoTestClass" : "it.cnr.iasi.saks.groucho.lab.instrument.test.utils.FooInvivoTestClass",
