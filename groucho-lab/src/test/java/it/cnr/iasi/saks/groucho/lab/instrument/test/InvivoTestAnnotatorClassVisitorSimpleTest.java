@@ -23,8 +23,8 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import it.cnr.iasi.saks.foo.SimpleClass;
 import it.cnr.iasi.saks.groucho.lab.instrument.InvivoTestAnnotatorClassVisitor;
-import it.cnr.iasi.saks.groucho.lab.instrument.test.utils.SimpleClass;
 
 import java.io.IOException;
 import java.lang.reflect.Method;

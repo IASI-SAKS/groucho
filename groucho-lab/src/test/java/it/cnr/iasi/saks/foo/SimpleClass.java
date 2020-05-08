@@ -15,7 +15,7 @@
  * along with GROUCHO.  If not, see <https://www.gnu.org/licenses/>
  *
  */
-package it.cnr.iasi.saks.groucho.lab.instrument.test.utils;
+package it.cnr.iasi.saks.foo;
 
 import it.cnr.iasi.saks.groucho.annotation.TestableInVivo;
 
@@ -40,8 +40,14 @@ public class SimpleClass {
 		return j;	
 	}
 	
-	@TestableInVivo(invivoTest = "invivoTestMethod", invivoTestClass = "it.cnr.iasi.saks.groucho.lab.instrument.test.utils.FooInvivoTestClass")
-	private void printMessage(String method){
+	@TestableInVivo(invivoTest = "anotherInvivoTestMethod", invivoTestClass = "it.cnr.iasi.saks.groucho.lab.instrument.test.utils.FooInvivoTestClass")
+	private void localPrintMessage(String method){
 		System.out.println("Invoked: "+SimpleClass.class.getCanonicalName()+":"+ method);
 	}
+
+	@TestableInVivo(invivoTest = "anotherInvivoTestMethod", invivoTestClass = "it.cnr.iasi.saks.groucho.lab.instrument.test.utils.FooInvivoTestClass")
+	public void printMessage(String method){
+		System.out.println("Invoked: "+SimpleClass.class.getCanonicalName()+":"+ method);
+	}
+
 }
