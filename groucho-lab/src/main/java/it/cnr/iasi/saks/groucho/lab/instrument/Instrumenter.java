@@ -20,6 +20,6 @@ package it.cnr.iasi.saks.groucho.lab.instrument;
 public class Instrumenter {
 
 	public static void main (String agrs[]){
-		System.out.println("Currently this is empty!!");
+		System.out.println(Instrumenter.class.getCanonicalName() + "is currently empty!!");
 	}
 }

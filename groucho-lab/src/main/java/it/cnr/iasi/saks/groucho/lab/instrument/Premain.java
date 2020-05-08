@@ -29,7 +29,7 @@ public class Premain {
      * 
      */
     public static void premain(String args, Instrumentation inst) {
-    	System.out.println("Starting the agent");
+    	System.out.println("Starting the agent: "+Premain.class.getCanonicalName());
     	
     	inst.addTransformer(new InvivoTestAnnotatorClassTransformer());
         Premain.instrumenter = inst;
