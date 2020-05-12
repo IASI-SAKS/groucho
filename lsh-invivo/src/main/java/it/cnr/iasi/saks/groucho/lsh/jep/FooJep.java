@@ -30,17 +30,18 @@ public class FooJep {
 	private final String DUMMY_CARVED_STATE = "{dummy-->[]%fieldBoolean-->true%fieldChar-->d%fieldInt-->-1%fieldObject-->[]%fieldString-->deafult%otherDummy-->[]}";
 
 	private void myFirstTest() throws JepException, FileNotFoundException {
-		Interpreter interp = new SubInterpreter();
-
-		String pythonArgvAsString = "['foo-thisInRequiredBy-py/lshinvivo.py','staterepresentation']"; 
-		interp.eval("import sys");
-		interp.eval("sys.argv = " + pythonArgvAsString);
-		interp.eval("argv = "  + pythonArgvAsString);
+		Interpreter interp = null;
+		try {
+			interp = new SubInterpreter();
+			String pythonArgvAsString = "['foo-thisInRequiredBy-py/lshinvivo.py','staterepresentation']"; 
+			interp.eval("import sys");
+			interp.eval("sys.argv = " + pythonArgvAsString);
+			interp.eval("argv = "  + pythonArgvAsString);
           
-		interp.runScript("py/lshinvivo.py");
+			interp.runScript("py/lshinvivo.py");
 		
-		boolean runInvivoFlag = interp.getValue("run_invivo", Integer.class) != 0;
-		System.out.println(runInvivoFlag);
+			boolean runInvivoFlag = interp.getValue("run_invivo", Integer.class) != 0;
+			System.out.println(runInvivoFlag);
 //		interp.exec("import somePyModule");
 //		// any of the following work, these are just pseudo-examples
 //
@@ -55,7 +56,9 @@ public class FooJep {
 //		// using invoke to invoke methods
 //		interp.exec("foo3 = somePyModule.foo3");
 //		Object result3 = interp.invoke("foo3", obj);
-		interp.close();
+		}finally {
+			interp.close();			
+		}		
 	}
 
 	private void simpleLSHInvivoJepTest() throws LSHException{
