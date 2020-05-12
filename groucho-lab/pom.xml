@@ -201,7 +201,7 @@
 				</executions>
 				<configuration>
 		            <excludes>
-        		      <exclude>it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.*</exclude>
+        		      <exclude>it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.**</exclude>
             	    </excludes>				
 					<reuseForks>false</reuseForks>
 					<useUnlimitedThreads>true</useUnlimitedThreads>
