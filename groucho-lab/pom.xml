@@ -243,11 +243,8 @@
 					</execution>
 				</executions>
 				<configuration>
-<!-- 		          <includes> -->
-<!--         		    <include>it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.*</include> -->
-<!--             	  </includes> -->
 		          <excludes>
-        		    <exclude>it.cnr.iasi.saks.groucho.lab.instrument.test.it.*</exclude>
+        		    <exclude>it.cnr.iasi.saks.groucho.lab.instrument.test.it.**</exclude>
             	  </excludes>
 					<reuseForks>false</reuseForks>
 					<useUnlimitedThreads>true</useUnlimitedThreads>
