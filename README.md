@@ -20,7 +20,7 @@ Possible hints are:
 
 About the Java Instrumentation
 -------
-For safety reasons, GROUCHO does not apply its instrumentation on the whole set of Java classes in the class path. More specifically, and in attition to all the classes that CROCHET does not instrument, any agent built from inheritance of the ``it.cnr.iasi.saks.groucho.instrument.AbstractClassTranformer``  does not apply to the instumentation the classes belonging to the following packages:
+For safety reasons, GROUCHO does not apply its instrumentation on the whole set of Java classes in the class path. More specifically, and in addition to all the classes that CROCHET does not instrument, any agent built from inheritance of the ``it.cnr.iasi.saks.groucho.instrument.AbstractClassTranformer``  does not apply to the instumentation the classes belonging to the following packages:
  * ``java.*``
  * ``sun.*``
  * ``it.cnr.iasi.saks.groucho.*``
@@ -28,10 +28,20 @@ For safety reasons, GROUCHO does not apply its instrumentation on the whole set 
  * ``junit.framework.*``
  * ``org.apache.maven.*``
  
-Unforntunately the configuration of this list with a conf file is not supported yet. If for some reasons you may need to exclude some package/class form the instrumentation, please modify the class ``it.cnr.iasi.saks.groucho.instrument.AbstractClassTranformer`` and build the project again.
-For example for some local test under Eclipse we had to add the following package to the list of classes to be locally ignored:
+If for some reasons you may need to programmatically exclude some package/class form the instrumentation, please modify the class ``it.cnr.iasi.saks.groucho.instrument.AbstractClassTranformer`` and build the project again.
+For example during some local test under Eclipse we had to add the following package to the list of classes to be locally ignored:
  * ``org.eclipse.jdt.internal.junit.* ``
-
+ 
+An easier alternative is to configure the list of classes subject to exclusion by setting a specific property (e.g. as an entry of a property file). The following example:
+`` groucho.transformer.disable.classesList=org/objectweb/asm,com/fasterxml/jackson`` 
+shows how to disable the classes in both the packages:
+  * ``org.objectweb.asm.*``
+  * ``com.fasterxml.jackson.*``
+  
+ Most of the times the JVM notifies an error like:
+ ``Java.lang.linkage error when instrumenting XXX``
+ it is possible a class that have been already loaded (and instrumented) is going to be processed again. If the class ``XXX`` is really not relevant for the InVivo testing campaign, thus it may be useful to exclude it as described above.
+ 
 About QA Aspects
 -------
 Some quality gates are defined and monitored by means of SonarCloud and Jacoco. As GROUCHO is a multi-module maven project, there are few
