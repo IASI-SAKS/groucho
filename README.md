@@ -33,7 +33,9 @@ For example during some local test under Eclipse we had to add the following pac
  * ``org.eclipse.jdt.internal.junit.* ``
  
 An easier alternative is to configure the list of classes subject to exclusion by setting a specific property (e.g. as an entry of a property file). The following example:
+
 `` groucho.transformer.disable.classesList=org/objectweb/asm,com/fasterxml/jackson`` 
+
 shows how to disable the classes in both the packages:
   * ``org.objectweb.asm.*``
   * ``com.fasterxml.jackson.*``
