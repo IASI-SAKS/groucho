@@ -5,7 +5,7 @@ Status](https://travis-ci.org/IASI-SAKS/groucho.svg?branch=master)](https://trav
 
 Building
 -------
-GROUCHO is (mainly) a maven project. Build and install it with `mvn install`. In order to correctely build GROUCHO, the variable `JAVA_HOME` has to be set, for more details see the section [Java Home](https://github.com/IASI-SAKS/groucho#java-home).
+GROUCHO is (mainly) a maven project. Build and install it with `mvn install`. In order to correctly build GROUCHO, the variable `JAVA_HOME` has to be set, for more details see the section [Java Home](https://github.com/IASI-SAKS/groucho#java-home).
 
 GROUCHO relies on an instrumented JVM (provided by [CROCHET](https://github.com/gmu-swe/crochet)) that will be located in `groucho-crochet/target/jre-inst/`.
 
@@ -20,7 +20,7 @@ Possible hints are:
 
 About the Java Instrumentation
 -------
-For safety reasons, GROUCHO does not apply its instrumentation on the whole set of Java classes in the class path. More specifically, and in addition to all the classes that CROCHET does not instrument, any agent built from inheritance of the ``it.cnr.iasi.saks.groucho.instrument.AbstractClassTranformer``  does not apply to the instumentation the classes belonging to the following packages:
+For safety reasons, GROUCHO does not apply its instrumentation on the whole set of Java classes in the class path. More specifically, and in addition to all the classes that CROCHET does not instrument, any agent built from inheritance of the ``it.cnr.iasi.saks.groucho.instrument.AbstractClassTranformer``  does not apply to the instrumentation the classes belonging to the following packages:
  * ``java.*``
  * ``sun.*``
  * ``it.cnr.iasi.saks.groucho.*``
@@ -47,10 +47,10 @@ shows how to disable the classes in both the packages:
 About QA Aspects
 -------
 Some quality gates are defined and monitored by means of SonarCloud and Jacoco. As GROUCHO is a multi-module maven project, there are few
-issues important to remeber:
+issues important to remember:
 * Currently the token credential for Sonar has beed set in the ``SONAR_TOKEN`` environmental variable from the Travis-CI UI 
 * The test for [State Carving](groucho-core/src/test/java/it/cnr/iasi/saks/groucho/carvingStateTests/) have been disabled during the QA analysis. This configuration is currently needed even if the test pass on a "regular" build. Indeed, the injection by Jacoco will cause these test fail because it modifies the result of the tests so that to mismatch their respective expected outcome.
-* While configuring MVN it may be the case to alterate the arguments passed to the JVM, for example this may happen frequently when using plugins such as ``surefire`` or ``failsafe``. In those cases, Jacoco may wrongly count and report data on the coverage. The solution is to properly configure ``surefire``/``failsafe`` in order to properly interact with the ``jacoco:prepare-agent`` plugin. For example do not forget to append new arguments my referring the MVN variable ``@{argLine}``. Further details from the [official documentation](https://www.eclemma.org/jacoco/trunk/doc/prepare-agent-mojo.html). Please note that it is strongly recommended to 
+* While configuring MVN it may be the case to modify the arguments passed to the JVM, for example this may happen frequently when using plugins such as ``surefire`` or ``failsafe``. In those cases, Jacoco may wrongly count and report data on the coverage. The solution is to properly configure ``surefire``/``failsafe`` in order to properly interact with the ``jacoco:prepare-agent`` plugin. For example do not forget to append new arguments my referring the MVN variable ``@{argLine}``. Further details from the [official documentation](https://www.eclemma.org/jacoco/trunk/doc/prepare-agent-mojo.html). Please note that it is strongly recommended to 
 always include in the ``POM`` an empty definition of the property argLine. Indeed if ``@{argLine}`` is used but never initialised thus surfire/failsafe causes the build to fail.
 * Jacoco does not really support the analysis of multi-module projects. The work-around is to:
    1. create an artificial module depending from all the others subject to analysis that will actually host the reports
