@@ -92,11 +92,11 @@
       		<scope>test</scope>
     	</dependency>
 
-<!--  		<dependency>  -->
-<!--  			<groupId>it.cnr.iasi.saks.groucho</groupId>  -->
-<!--  			<artifactId>groucho-lsh-rest</artifactId>  -->
-<!--  			<version>${groucho-lsh-rest.version}</version>  -->
-<!--  		</dependency>  -->
+ 		<dependency> 
+ 			<groupId>it.cnr.iasi.saks.groucho</groupId> 
+ 			<artifactId>groucho-lsh-rest</artifactId> 
+ 			<version>${groucho-lsh-rest.version}</version> 
+ 		</dependency> 
 
 		<dependency>
 			<groupId>junit</groupId>
