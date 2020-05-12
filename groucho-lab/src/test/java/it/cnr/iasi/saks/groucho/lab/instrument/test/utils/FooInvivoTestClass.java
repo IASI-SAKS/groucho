@@ -17,6 +17,7 @@
  */
 package it.cnr.iasi.saks.groucho.lab.instrument.test.utils;
 
+import it.cnr.iasi.saks.groucho.common.Context;
 import it.cnr.iasi.saks.groucho.instrument.ThreadHarnessCallbackInvoker;
 
 public class FooInvivoTestClass {
@@ -25,11 +26,11 @@ public class FooInvivoTestClass {
 		ThreadHarnessCallbackInvoker.invokeCallback_checkInTheConstructors();
 	}
 	
-	public void invivoTestMethod(){
+	public void invivoTestMethod(Context c){
 		ThreadHarnessCallbackInvoker.invokeCallback_checkInTheConstructors();		
 	}
 	
-	public void anotherInvivoTestMethod(){
+	public void anotherInvivoTestMethod(Context c){
 		ThreadHarnessCallbackInvoker.invokeCallback_checkInTheConstructors();		
 	}
 }
