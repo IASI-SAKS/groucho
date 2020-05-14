@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import it.cnr.iasi.saks.groucho.annotation.TestableInVivo;
