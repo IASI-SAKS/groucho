@@ -19,14 +19,26 @@ package it.cnr.iasi.saks.groucho.lab.instrument;
 
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
+import java.util.Iterator;
+import java.util.List;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 
+import it.cnr.iasi.saks.groucho.config.PropertyUtil;
 import it.cnr.iasi.saks.groucho.instrument.AbstractClassTranformer;
 
 public class InvivoTestAnnotatorClassTransformer extends AbstractClassTranformer {
 	
+	
+	@Override
+	protected boolean isLocallyIgnored(String className) {
+		boolean exitus = super.isLocallyIgnored(className);
+		exitus = exitus || className.contains("$MockitoMock$");
+		
+		return exitus;
+	}
+
 	/*
 	 * (non-Javadoc) It is invoked for every class loaded into the JVM. It
 	 * provides the byte array of the class as input to the method, which then
