@@ -19,6 +19,10 @@ package it.cnr.iasi.saks.groucho.lab.instrument.test.utils;
 
 import it.cnr.iasi.saks.groucho.common.Context;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponseWrapper;
+
 import com.opensymphony.oscache.web.filter.CacheFilter;
 
 public class OSCachePrinterInvivoTestClass {
@@ -28,6 +32,13 @@ public class OSCachePrinterInvivoTestClass {
 	public boolean invivoTestMethod(Context c){
 		CacheFilter currentCacheFilterInstance = ((CacheFilter) c.getInstrumentedObject());
 		
+		List<Object> l = c.getOtherReferencesInContext();
+		if (l == null) {
+			System.out.println("lista nulla");
+		}else {
+			System.out.println("la size è :" +l.size());
+		}
+		
 		int oldHashCode = currentCacheFilterInstance.hashCode();
 
 		currentCacheFilterInstance = new CacheFilter();
@@ -35,7 +46,8 @@ public class OSCachePrinterInvivoTestClass {
 
 		String message = "(hashcode: "+COMPUTED_HASHCODE+") Invoked " + OSCachePrinterInvivoTestClass.class.getCanonicalName() + ":invivoTestMethod";
 		message += "\n " + oldHashCode +" --> "+ COMPUTED_HASHCODE; 
-		System.out.println(message);
+		System.out.println(message);		
+		
 		
 		return true;
 	}
