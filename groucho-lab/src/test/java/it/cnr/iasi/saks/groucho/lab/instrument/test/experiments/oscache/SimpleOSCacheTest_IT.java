@@ -52,6 +52,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -113,6 +114,9 @@ public class SimpleOSCacheTest_IT {
 		HttpServletRequest request = mock(HttpServletRequest.class);
 		HttpServletResponse response = mock(HttpServletResponse.class);
 
+		HttpServletResponseWrapper responseWrapper = new HttpServletResponseWrapper(response); 
+		responseWrapper.setHeader("myfooHeader", "myfooValue");
+				
 		FilterChain chain = mock(FilterChain.class);
 
 		ResponseContent respContent = mock(ResponseContent.class);
@@ -141,7 +145,7 @@ public class SimpleOSCacheTest_IT {
 		try {
 			FieldSetter.setField(filter, CacheFilter.class.getDeclaredField("admin"), admin);
 
-			filter.doFilter(request, response, chain);
+			filter.doFilter(request, responseWrapper, chain);
 		} catch (IOException e) {
 			Assert.fail(e.getMessage());
 		} catch (ServletException e) {
