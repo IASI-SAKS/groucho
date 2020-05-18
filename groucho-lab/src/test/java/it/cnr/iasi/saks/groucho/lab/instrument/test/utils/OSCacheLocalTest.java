@@ -25,6 +25,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 
 import com.opensymphony.oscache.web.filter.CacheFilter;
 import com.opensymphony.oscache.web.filter.ResponseContent;
@@ -50,18 +51,28 @@ public class OSCacheLocalTest{
 		
 		HttpServletRequest request = mock(HttpServletRequest.class);
 		HttpServletResponse response = mock(HttpServletResponse.class);
-		
 		FilterChain chain = mock(FilterChain.class);
+				
+		HttpServletResponseWrapper responseWrapper = new HttpServletResponseWrapper(response); 
+		responseWrapper.setHeader("myfooHeader", "myfooValue");
 		
-		ResponseContent respContent = mock(ResponseContent.class);
-		when(respContent.getLastModified()).thenReturn(Long.MIN_VALUE);
+		ResponseContent respContentMinValue = mock(ResponseContent.class);
+		when(respContentMinValue.getLastModified()).thenReturn(Long.MIN_VALUE);
 		
-		Cache cache = mock(Cache.class);
-		try {
-			when(cache.getFromCache(any(), anyInt())).thenReturn(respContent);
-		} catch (NeedsRefreshException e) {
-			Assert.fail(e.getMessage());
-		}
+//		Cache cache = mock(Cache.class);
+//		try {
+//			when(cache.getFromCache(any(), anyInt())).thenReturn(respContent);
+//		} catch (NeedsRefreshException e) {
+//			Assert.fail(e.getMessage());
+//		}
+
+		Cache cache = new Cache(true, false, false);
+		cache.putInCache("fooKey", respContentMinValue);
+//		try {
+//			when(cache.getFromCache(any(), anyInt())).thenReturn(respContent);
+//		} catch (NeedsRefreshException e) {
+//			Assert.fail(e.getMessage());
+//		}
 
 		ServletCacheAdministrator admin = mock(ServletCacheAdministrator.class);
 		lenient().when(admin.getCache(any(HttpServletRequest.class), anyInt())).thenReturn(cache);
@@ -79,7 +90,7 @@ public class OSCacheLocalTest{
 		try {
 			FieldSetter.setField(filter, CacheFilter.class.getDeclaredField("admin"), admin);
 						
-			filter.doFilter(request, response, chain);
+			filter.doFilter(request, responseWrapper, chain);
 		} catch (IOException e) {
 			Assert.fail(e.getMessage());
 		} catch (ServletException e) {
