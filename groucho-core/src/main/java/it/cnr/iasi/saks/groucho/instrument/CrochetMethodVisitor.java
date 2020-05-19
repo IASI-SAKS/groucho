@@ -17,7 +17,6 @@
  */
 package it.cnr.iasi.saks.groucho.instrument;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,7 +29,6 @@ import it.cnr.iasi.saks.groucho.annotation.TestableInVivo;
 import it.cnr.iasi.saks.groucho.callback.AbstractGovernanceManager;
 import it.cnr.iasi.saks.groucho.callback.GovernanceManagerFactory;
 import it.cnr.iasi.saks.groucho.common.Context;
-import it.cnr.iasi.saks.groucho.config.MyLocalType;
 
 public class CrochetMethodVisitor extends MethodVisitor {
 
