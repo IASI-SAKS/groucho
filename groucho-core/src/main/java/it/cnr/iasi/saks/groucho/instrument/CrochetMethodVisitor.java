@@ -127,6 +127,9 @@ public class CrochetMethodVisitor extends MethodVisitor {
 	}
 
 	private void injectActualParametersInTheContext(int lstIndex) {
+		
+		final String METHOD_VALUEOF = "valueOf";
+		
 		int slotIndex = 1;
 		for (Type type : this.methodSignature) {
 			mv.visitVarInsn(Opcodes.ALOAD, lstIndex);
@@ -134,48 +137,48 @@ public class CrochetMethodVisitor extends MethodVisitor {
 			case Type.BOOLEAN:
 // CASE ILOAD				
 				mv.visitVarInsn(Opcodes.ILOAD, slotIndex);
-				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;", false);
+				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Boolean", METHOD_VALUEOF, "(Z)Ljava/lang/Boolean;", false);
 				slotIndex++;
 				break;
 			case Type.BYTE:
 // CASE ILOAD				
 				mv.visitVarInsn(Opcodes.ILOAD, slotIndex);
-				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Byte", "valueOf", "(B)Ljava/lang/Byte;", false);
+				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Byte", METHOD_VALUEOF, "(B)Ljava/lang/Byte;", false);
 				slotIndex++;
 				break;
 			case Type.CHAR:
 // CASE ILOAD				
 				mv.visitVarInsn(Opcodes.ILOAD, slotIndex);
-				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Character", "valueOf", "(C)Ljava/lang/Character;", false);					slotIndex++;
+				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Character", METHOD_VALUEOF, "(C)Ljava/lang/Character;", false);					slotIndex++;
 				break;
 			case Type.SHORT:
 // CASE ILOAD				
 				mv.visitVarInsn(Opcodes.ILOAD, slotIndex);
-				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Short", "valueOf", "(S)Ljava/lang/Short;", false);
+				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Short", METHOD_VALUEOF, "(S)Ljava/lang/Short;", false);
 				slotIndex++;
 				break;
 			case Type.INT:
 // CASE ILOAD				
 				mv.visitVarInsn(Opcodes.ILOAD, slotIndex);
-				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Integer", "valueOf", "(I)Ljava/lang/Integer;", false);
+				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Integer", METHOD_VALUEOF, "(I)Ljava/lang/Integer;", false);
 				slotIndex++;
 				break;
 			case Type.LONG:
 // CASE LLOAD										
 				mv.visitVarInsn(Opcodes.LLOAD, slotIndex);
-				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Long", "valueOf", "(J)Ljava/lang/Long;", false);
+				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Long", METHOD_VALUEOF, "(J)Ljava/lang/Long;", false);
 				slotIndex+=2;
 				break;
 			case Type.FLOAT:
 // CASE FLOAD										
 				mv.visitVarInsn(Opcodes.FLOAD, slotIndex);
-				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Float", "valueOf", "(F)Ljava/lang/Float;", false);
+				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Float", METHOD_VALUEOF, "(F)Ljava/lang/Float;", false);
 				slotIndex++;
 				break;
 			case Type.DOUBLE:
 // CASE DLOAD										
 				mv.visitVarInsn(Opcodes.DLOAD, slotIndex);
-				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Double", "valueOf", "(D)Ljava/lang/Double;", false);
+				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Double", METHOD_VALUEOF, "(D)Ljava/lang/Double;", false);
 				slotIndex+=2;
 				break;
 			default:
