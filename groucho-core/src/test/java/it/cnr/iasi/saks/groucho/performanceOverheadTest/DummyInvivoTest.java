@@ -26,7 +26,11 @@ public class DummyInvivoTest {
 	public void fooTest(Context c){
 		AbstractGovernanceManager gm = GovernanceManagerFactory.getInstance().getGovernanceManager();
 		String gmClassName = gm.getClass().getCanonicalName();
-		System.out.println("This Invivo Test will only report the classname of the linked Governance Manager: " + gmClassName);
+		String refs = "";
+		for (Object o : c.getOtherReferencesInContext()) {
+			refs = refs + o.toString()+"; ";
+		}
+		System.out.println("This Invivo Test will only report the classname of the linked Governance Manager: " + gmClassName + "and the actual parameters: <"+refs+">");
 	}
 
 }
