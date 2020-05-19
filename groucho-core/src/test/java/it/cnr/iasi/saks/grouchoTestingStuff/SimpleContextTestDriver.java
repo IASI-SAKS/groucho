@@ -24,8 +24,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import org.junit.Assert;
-
 import it.cnr.iasi.saks.groucho.annotation.TestableInVivo;
 import it.cnr.iasi.saks.groucho.carvingStateTests.RandomGenerator;
 
@@ -79,21 +77,16 @@ public class SimpleContextTestDriver {
 	}	
 
 	public synchronized void validateParams(int i, boolean b, float f, long l, double d, char c, byte b1, short s, SimpleClass mySimpleObject) {
-		this.PARAMS_VALIDATED = false;
-		try {
-			Assert.assertTrue(this.oracle_i == i);
-			Assert.assertTrue(this.oracle_b == b);
-			Assert.assertTrue(this.oracle_f == f);
-			Assert.assertTrue(this.oracle_l == l);
-			Assert.assertTrue(this.oracle_d == d);
-			Assert.assertTrue(this.oracle_c == c);
-			Assert.assertTrue(this.oracle_byte == b1);
-			Assert.assertTrue(this.oracle_s == s);
-			Assert.assertTrue(this.oracle_mySimpleObject.hashCode() == mySimpleObject.hashCode());
-			this.PARAMS_VALIDATED = true;
-		} catch (Throwable t) {
-			this.PARAMS_VALIDATED = false;
-		}
+
+		this.PARAMS_VALIDATED = (this.oracle_i == i) &&
+								(this.oracle_b == b) &&
+								(this.oracle_f == f) &&
+								(this.oracle_l == l) &&
+								(this.oracle_d == d) &&
+								(this.oracle_c == c) &&
+								(this.oracle_byte == b1) &&
+								(this.oracle_s == s) &&
+								(this.oracle_mySimpleObject.hashCode() == mySimpleObject.hashCode());
 
 		// Possibly at this point variables are subject to Checkpointing by Crochet.
 		// Current values/update will be deleted during the Rollback.
