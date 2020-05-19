@@ -24,6 +24,8 @@ import java.util.Set;
 import it.cnr.iasi.saks.groucho.common.Context;
 import net.jonbell.crij.runtime.CRIJInstrumented;
 import net.jonbell.crij.runtime.CheckpointRollbackAgent;
+import net.jonbell.crij.runtime.wrapper.ArrayWrapper;
+import net.jonbell.crij.runtime.wrapper.ObjectWrapper;
 
 public class RuntimeEnvironmentShield{
 	
@@ -38,14 +40,10 @@ public class RuntimeEnvironmentShield{
 		if (context != null){
 			int version = CROCHET_AGENT.getNewVersionForCheckpoint();
 			
-			CRIJInstrumented obj = (CRIJInstrumented)context.getInstrumentedObject(); 
-			obj.$$crijCheckpoint(version);
-			COLLECTED_ROOT_OBJECTS.add(new WeakReference<CRIJInstrumented>(obj));
+			this.performCheckpoint(context.getInstrumentedObject(), version);
 						
 			for (Object objectInContext : context.getOtherReferencesInContext()) {
-				CRIJInstrumented item = (CRIJInstrumented)objectInContext; 
-				item.$$crijCheckpoint(version);
-				COLLECTED_ROOT_OBJECTS.add(new WeakReference<CRIJInstrumented>(item));
+				this.performCheckpoint(objectInContext, version);
 			}
 		}
 	}
@@ -54,16 +52,44 @@ public class RuntimeEnvironmentShield{
 		if (context != null){
 			int version = CROCHET_AGENT.getNewVersionForRollback();
 			
-			CRIJInstrumented obj = (CRIJInstrumented)context.getInstrumentedObject(); 
-			obj.$$crijRollback(version);
-			
+			this.performRollback(context.getInstrumentedObject(), version);
+
 			for (Object objectInContext : context.getOtherReferencesInContext()) {
-				CRIJInstrumented item = (CRIJInstrumented)objectInContext; 
-				item.$$crijRollback(version);
+				this.performRollback(objectInContext, version);
 			}
 			COLLECTED_ROOT_OBJECTS.clear();
 		}
 	}
 
+	private void performCheckpoint(Object subject, int version) {
+		try {
+			CRIJInstrumented obj = (CRIJInstrumented)subject; 
+			obj.$$crijCheckpoint(version);
+			COLLECTED_ROOT_OBJECTS.add(new WeakReference<CRIJInstrumented>(obj));
+		} catch (java.lang.ClassCastException e) {
+			System.out.println("Crochet Wrapper needed!!");
+			
+			if (subject.getClass().isArray()) {
+				ArrayWrapper.propagateCheckpoint(subject, version);					
+			}else {
+				ObjectWrapper.propagateCheckpoint(subject, version);					
+			}				
+		}
+	}
+
+	private void performRollback(Object subject, int version) {
+		try {
+			CRIJInstrumented obj = (CRIJInstrumented)subject; 
+			obj.$$crijRollback(version);
+		} catch (java.lang.ClassCastException e) {
+			System.out.println("Crochet Wrapper needed!!");
+			
+			if (subject.getClass().isArray()) {
+				ArrayWrapper.propagateRollback(subject, version);					
+			}else {
+				ObjectWrapper.propagateRollback(subject, version);					
+			}				
+		}
+	}
 
 }
