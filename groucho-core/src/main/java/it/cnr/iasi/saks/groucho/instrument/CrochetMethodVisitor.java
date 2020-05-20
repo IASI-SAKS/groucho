@@ -231,7 +231,7 @@ public class CrochetMethodVisitor extends MethodVisitor {
 	
 	public static void invokeCallback(Object instObj, String instClass, String instMethod, String instMethodSignature, String testClass, String testMethod) {
 		System.out.println("Enabling callback for: "+ instObj.toString() + ", " + instClass + ", " + instMethod + "( "+instMethodSignature+")");
-		System.out.println("	     testing with: "+ testClass + ", " + testMethod);
+		System.out.println("\t testing with: "+ testClass + ", " + testMethod);
 		
 		Context context = new Context(instObj, instClass, instMethod, testClass, testMethod);
 
@@ -243,7 +243,7 @@ public class CrochetMethodVisitor extends MethodVisitor {
 	
 	public static void invokeCallback(Object instObj, String instClass, String instMethod, String instMethodSignature, String testClass, String testMethod, List<Object> lstOtherReferencesInContext) {
 		System.out.println("Enabling callback for: "+ instObj.toString() + ", " + instClass + ", " + instMethod + "( "+instMethodSignature+")");
-		System.out.println("	     testing with: "+ testClass + ", " + testMethod);
+		System.out.println("\t testing with: "+ testClass + ", " + testMethod);
 		
 		Context context = new Context(instObj, instClass, instMethod, testClass, testMethod);
 		context.setOtherReferencesInContext(lstOtherReferencesInContext);

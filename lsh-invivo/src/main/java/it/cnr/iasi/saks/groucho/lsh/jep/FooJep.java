@@ -30,9 +30,8 @@ public class FooJep {
 	private final String DUMMY_CARVED_STATE = "{dummy-->[]%fieldBoolean-->true%fieldChar-->d%fieldInt-->-1%fieldObject-->[]%fieldString-->deafult%otherDummy-->[]}";
 
 	private void myFirstTest() throws JepException, FileNotFoundException {
-		Interpreter interp = null;
+		Interpreter interp = new SubInterpreter();
 		try {
-			interp = new SubInterpreter();
 			String pythonArgvAsString = "['foo-thisInRequiredBy-py/lshinvivo.py','staterepresentation']"; 
 			interp.eval("import sys");
 			interp.eval("sys.argv = " + pythonArgvAsString);
