@@ -18,6 +18,7 @@
 package it.cnr.iasi.saks.groucho.instrument;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.MethodVisitor;
@@ -103,6 +104,17 @@ public class CrochetMethodVisitor extends MethodVisitor {
 
 	private void applyInstrumentation() {
 		// 3. if annotation present, add logging to beginning of the method
+//*****************************************
+//****computeFirstAvailableIndexInTheStack*************************************
+			int lstIndex = this.computeFirstAvailableIndexInTheStack();
+//****injectOtherReferenceListInTheContext*************************************			
+			mv.visitTypeInsn(Opcodes.NEW, "java/util/ArrayList");
+			mv.visitInsn(Opcodes.DUP);
+			mv.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/util/ArrayList", "<init>", "()V", false);
+			mv.visitVarInsn(Opcodes.ASTORE, lstIndex);
+//****injectActualParametersInTheContext*************************************
+			this.injectActualParametersInTheContext(lstIndex);
+//*****************************************
 			mv.visitVarInsn(Opcodes.ALOAD, 0);
 			mv.visitLdcInsn(this.className);
 			mv.visitLdcInsn(this.methodName);
@@ -110,7 +122,107 @@ public class CrochetMethodVisitor extends MethodVisitor {
 			mv.visitLdcInsn(signatureAsString);
 			mv.visitLdcInsn(this.invivoTestClass);
 			mv.visitLdcInsn(this.invivoTest);
-			mv.visitMethodInsn(Opcodes.INVOKESTATIC, "it/cnr/iasi/saks/groucho/instrument/CrochetMethodVisitor", "invokeCallback", "(Ljava/lang/Object;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V", false);
+			mv.visitVarInsn(Opcodes.ALOAD, lstIndex);			
+			mv.visitMethodInsn(Opcodes.INVOKESTATIC, "it/cnr/iasi/saks/groucho/instrument/CrochetMethodVisitor", "invokeCallback", "(Ljava/lang/Object;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;)V", false);
+	}
+
+	private void injectActualParametersInTheContext(int lstIndex) {
+		
+		final String METHOD_VALUEOF = "valueOf";
+		
+		int slotIndex = 1;
+		for (Type type : this.methodSignature) {
+			mv.visitVarInsn(Opcodes.ALOAD, lstIndex);
+			switch (type.getSort()) {
+			case Type.BOOLEAN:
+// CASE ILOAD				
+				mv.visitVarInsn(Opcodes.ILOAD, slotIndex);
+				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Boolean", METHOD_VALUEOF, "(Z)Ljava/lang/Boolean;", false);
+				slotIndex++;
+				break;
+			case Type.BYTE:
+// CASE ILOAD				
+				mv.visitVarInsn(Opcodes.ILOAD, slotIndex);
+				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Byte", METHOD_VALUEOF, "(B)Ljava/lang/Byte;", false);
+				slotIndex++;
+				break;
+			case Type.CHAR:
+// CASE ILOAD				
+				mv.visitVarInsn(Opcodes.ILOAD, slotIndex);
+				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Character", METHOD_VALUEOF, "(C)Ljava/lang/Character;", false);					slotIndex++;
+				break;
+			case Type.SHORT:
+// CASE ILOAD				
+				mv.visitVarInsn(Opcodes.ILOAD, slotIndex);
+				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Short", METHOD_VALUEOF, "(S)Ljava/lang/Short;", false);
+				slotIndex++;
+				break;
+			case Type.INT:
+// CASE ILOAD				
+				mv.visitVarInsn(Opcodes.ILOAD, slotIndex);
+				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Integer", METHOD_VALUEOF, "(I)Ljava/lang/Integer;", false);
+				slotIndex++;
+				break;
+			case Type.LONG:
+// CASE LLOAD										
+				mv.visitVarInsn(Opcodes.LLOAD, slotIndex);
+				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Long", METHOD_VALUEOF, "(J)Ljava/lang/Long;", false);
+				slotIndex+=2;
+				break;
+			case Type.FLOAT:
+// CASE FLOAD										
+				mv.visitVarInsn(Opcodes.FLOAD, slotIndex);
+				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Float", METHOD_VALUEOF, "(F)Ljava/lang/Float;", false);
+				slotIndex++;
+				break;
+			case Type.DOUBLE:
+// CASE DLOAD										
+				mv.visitVarInsn(Opcodes.DLOAD, slotIndex);
+				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Double", METHOD_VALUEOF, "(D)Ljava/lang/Double;", false);
+				slotIndex+=2;
+				break;
+			default:
+// CASE ALOAD										
+				mv.visitVarInsn(Opcodes.ALOAD, slotIndex);
+				slotIndex++;
+				break;
+			}
+			mv.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "add", "(Ljava/lang/Object;)Z", true);
+			mv.visitInsn(Opcodes.POP);
+		}
+	}
+
+	private int computeFirstAvailableIndexInTheStack() {
+		int lstIndex = 1;
+		for (Type type : this.methodSignature) {
+			switch (type.getSort()) {
+			case Type.BOOLEAN:
+			case Type.BYTE:
+			case Type.CHAR:
+			case Type.SHORT:
+			case Type.INT:
+// CASE ILOAD				
+				lstIndex++;
+				break;
+			case Type.LONG:
+// CASE LLOAD										
+				lstIndex+=2;
+				break;
+			case Type.FLOAT:
+// CASE FLOAD										
+				lstIndex++;
+				break;
+			case Type.DOUBLE:
+// CASE DLOAD										
+				lstIndex+=2;
+				break;
+			default:
+// CASE ALOAD										
+				lstIndex++;
+				break;
+			}
+		}
+		return lstIndex;
 	}
 
 	private void instrumentingMessage(){
@@ -119,14 +231,26 @@ public class CrochetMethodVisitor extends MethodVisitor {
 	
 	public static void invokeCallback(Object instObj, String instClass, String instMethod, String instMethodSignature, String testClass, String testMethod) {
 		System.out.println("Enabling callback for: "+ instObj.toString() + ", " + instClass + ", " + instMethod + "( "+instMethodSignature+")");
-		System.out.println("	     testing with: "+ testClass + ", " + testMethod);
+		System.out.println("\t testing with: "+ testClass + ", " + testMethod);
 		
 		Context context = new Context(instObj, instClass, instMethod, testClass, testMethod);
-		
+
 		AbstractGovernanceManager gm = GovernanceManagerFactory.getInstance().getGovernanceManager();		
 //		if (gm.evaluateActivation(context)){
 			gm.runInvivoTestingSession(context);
 //		}	
 	}
 	
+	public static void invokeCallback(Object instObj, String instClass, String instMethod, String instMethodSignature, String testClass, String testMethod, List<Object> lstOtherReferencesInContext) {
+		System.out.println("Enabling callback for: "+ instObj.toString() + ", " + instClass + ", " + instMethod + "( "+instMethodSignature+")");
+		System.out.println("\t testing with: "+ testClass + ", " + testMethod);
+		
+		Context context = new Context(instObj, instClass, instMethod, testClass, testMethod);
+		context.setOtherReferencesInContext(lstOtherReferencesInContext);
+
+		AbstractGovernanceManager gm = GovernanceManagerFactory.getInstance().getGovernanceManager();		
+//		if (gm.evaluateActivation(context)){
+			gm.runInvivoTestingSession(context);
+//		}	
+	}
 }
