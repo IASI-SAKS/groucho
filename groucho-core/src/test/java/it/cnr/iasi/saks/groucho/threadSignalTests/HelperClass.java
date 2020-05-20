@@ -19,6 +19,7 @@ package it.cnr.iasi.saks.groucho.threadSignalTests;
 
 import java.util.concurrent.TimeUnit;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class HelperClass {
@@ -70,6 +71,8 @@ public class HelperClass {
     
     @Test
     public void runTheTest(){
+    	boolean exitus = true;
+    	
         Thread waitThread = new WaitingThread();
         Thread wakingThread = new WakingThread();
         Thread waitThread1 = new WaitingThread();
@@ -102,7 +105,9 @@ public class HelperClass {
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+	    	exitus = false;
 		}
     	
+        Assert.assertTrue(exitus);
     }
 }

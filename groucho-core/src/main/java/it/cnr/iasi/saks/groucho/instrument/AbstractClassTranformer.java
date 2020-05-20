@@ -37,6 +37,7 @@ public abstract class AbstractClassTranformer implements ClassFileTransformer {
 		exitus = exitus || className.startsWith("junit/framework");
 		exitus = exitus || className.startsWith("org/apache/maven/");
 		exitus = exitus || className.startsWith("org/eclipse/jdt/internal/junit/");
+		exitus = exitus || className.startsWith("org/objectweb/asm/");
 		
 		if (!exitus) {
 			List<String> excludeClassesList = PropertyUtil.getInstance().getClassesToExcludeDuringTransformation();
