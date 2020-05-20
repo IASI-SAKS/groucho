@@ -21,6 +21,11 @@ import it.cnr.iasi.saks.groucho.callback.GovernanceManagerFactory;
 import it.cnr.iasi.saks.groucho.callback.ThreadHarness;
 
 public class ThreadHarnessCallbackInvoker {
+	
+	protected ThreadHarnessCallbackInvoker () {
+		// This class should not be instantiated!!
+	}
+	
 	public static void invokeCallback_incThread(){
 		ThreadHarness callback = GovernanceManagerFactory.getInstance().getThreadHarness();
 		callback.incThreads();
