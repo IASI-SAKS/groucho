@@ -62,6 +62,7 @@ Each method that could be subject to In Vivo testing must be annotated as `Testa
 In case the source code of a class is not available for modification, the injection can be specified by means of a JSON record. An example is reported in:
  * [modelResource.json](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/src/test/resources/modelResource.json)
  * [testingConf.properties](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/src/test/resources/testingConf.properties) by setting the property `groucho.lab.intrument.jsonFile` to the path of the file of the JSON record
+ 
 An example on how to apply the annotations reported in a given JSON report:
  * is enacted by the agent [`${groucho-lab.build.directory}/${groucho-lab.build.finalName}.jar`](https://github.com/IASI-SAKS/groucho/tree/master/groucho-lab/src/main/java/it/cnr/iasi/saks/groucho/lab/instrument)
  * and it can be used as reported in this [pom.xml](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/pom.xml#L274-L276)
