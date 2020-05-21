@@ -26,14 +26,17 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.Locale;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.internal.util.reflection.FieldSetter;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import it.cnr.iasi.saks.groucho.annotation.TestableInVivo;
+import it.cnr.iasi.saks.groucho.lab.instrument.test.utils.DummyHttpServletResponseWrapper;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.utils.OSCachePrinterInvivoTestClass;
 import it.cnr.iasi.saks.groucho.performanceOverheadTest.TestGovernanceManager_ActivationWithProbability;
 import it.cnr.iasi.saks.groucho.tests.util.PropertyUtilNoSingleton;
@@ -52,7 +55,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -61,7 +63,11 @@ public class SimpleOSCacheTest_IT {
 	private String ORACLE_INVIVO_TEST = "invivoTestMethod";
 	private int ORACLE_INVIVO_CARVING_DEPTH = 1;
 	private boolean ORACLE_INVIVO_PAUSE_OTHER_THREADS = false;
-
+	
+	public static final String HEADER_FOO_PARAM = "myfooHeader";
+	public static final String LOCALE_LANG_CONF = "it";
+	public static final String SCOPE_CONF = "session";
+	
 	private TestableInVivo retrieveInvivoAnnotation(Class<?> c, String methodName, Class<?>... classArray) {
 		Method reflectedMethod = null;
 		try {
@@ -78,7 +84,7 @@ public class SimpleOSCacheTest_IT {
 		return invivoAnnotation;
 	}
 
-	@Test
+	@Test	
 	public void taggingWithInvivoTestAnnotationMethodUntagged() {
 		Class<CacheFilter> reflectiveClass = CacheFilter.class;
 		String methodName = "doFilter";
@@ -109,14 +115,13 @@ public class SimpleOSCacheTest_IT {
 		PropertyUtilNoSingleton prop = PropertyUtilNoSingleton.getInstance();
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
 
-		String fooScope = "session";
-
 		HttpServletRequest request = mock(HttpServletRequest.class);
 		HttpServletResponse response = mock(HttpServletResponse.class);
 
-		HttpServletResponseWrapper responseWrapper = new HttpServletResponseWrapper(response); 
-		responseWrapper.setHeader("myfooHeader", "myfooValue");
-				
+		DummyHttpServletResponseWrapper responseWrapper = new DummyHttpServletResponseWrapper(response); 		
+		Locale l = new Locale(LOCALE_LANG_CONF);
+		responseWrapper.setLocale(l);
+		
 		FilterChain chain = mock(FilterChain.class);
 
 		ResponseContent respContent = mock(ResponseContent.class);
@@ -136,10 +141,10 @@ public class SimpleOSCacheTest_IT {
 		ServletContext context = mock(ServletContext.class);
 		FilterConfig filterConfig = mock(FilterConfig.class);
 		when(filterConfig.getServletContext()).thenReturn(context);
-		when(filterConfig.getInitParameter(anyString())).thenReturn(fooScope);
+		when(filterConfig.getInitParameter(anyString())).thenReturn(SCOPE_CONF);
 
 		CacheFilter filter = new CacheFilter();
-		int hashcodeInit = filter.hashCode();
+		int hashcodeFilter = filter.hashCode();
 		filter.init(filterConfig);
 
 		try {
@@ -156,10 +161,7 @@ public class SimpleOSCacheTest_IT {
 			Assert.fail(e.getMessage());
 		}
 		
-		int hashcodeAfter = filter.hashCode();
-		System.out.println(hashcodeAfter);
-		
-		boolean condition = (hashcodeAfter == hashcodeInit) && (hashcodeAfter != OSCachePrinterInvivoTestClass.getLastComputedHashCode());
+		boolean condition = (responseWrapper.getLocale().getLanguage().equals(LOCALE_LANG_CONF)) && (!responseWrapper.containsHeader(HEADER_FOO_PARAM)) && (hashcodeFilter == OSCachePrinterInvivoTestClass.getLastComputedHashCode() );
 		Assert.assertTrue(condition);
 	}
 }

@@ -18,8 +18,10 @@
 package it.cnr.iasi.saks.groucho.lab.instrument.test.utils;
 
 import it.cnr.iasi.saks.groucho.common.Context;
+import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.oscache.SimpleOSCacheTest_IT;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponseWrapper;
 
@@ -39,13 +41,19 @@ public class OSCachePrinterInvivoTestClass {
 			System.out.println("la size è :" +l.size());
 		}
 		
-		int oldHashCode = currentCacheFilterInstance.hashCode();
-
-		currentCacheFilterInstance = new CacheFilter();
+		HttpServletResponseWrapper par2 = (HttpServletResponseWrapper) c.getOtherReferencesInContext().get(1);
+		par2.setHeader(SimpleOSCacheTest_IT.HEADER_FOO_PARAM, "--value-set-inside-invivoTestMethod--");
+		
+		Locale newLocal = new Locale("ja");
+		par2.setLocale(newLocal);
+		
+//		int oldHashCode = currentCacheFilterInstance.hashCode();
+//
+//		currentCacheFilterInstance = new CacheFilter();
 		COMPUTED_HASHCODE = currentCacheFilterInstance.hashCode();
 
 		String message = "(hashcode: "+COMPUTED_HASHCODE+") Invoked " + OSCachePrinterInvivoTestClass.class.getCanonicalName() + ":invivoTestMethod";
-		message += "\n " + oldHashCode +" --> "+ COMPUTED_HASHCODE; 
+//		message += "\n " + oldHashCode +" --> "+ COMPUTED_HASHCODE; 
 		System.out.println(message);		
 		
 		
