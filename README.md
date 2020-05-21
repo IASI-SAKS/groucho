@@ -43,7 +43,27 @@ shows how to disable the classes in both the packages:
  Most of the times the JVM notifies an error like:
  ``Java.lang.linkage error when instrumenting XXX``
  it is possible a class that have been already loaded (and instrumented) is going to be processed again. If the class ``XXX`` is really not relevant for the InVivo testing campaign, thus it may be useful to exclude it as described above.
- 
+
+How to Enable Invivo Tests
+-------
+
+Each method that could be subject to In Vivo testing must be annotated as `TestableInVivo`
+
+```java
+	@TestableInVivo(
+			invivoTestClass = "it.cnr.iasi.saks.groucho.invivotests.DummyInvivoTest",
+			invivoTest = "fooTest")
+	public void thisIsFoo() {
+		/*
+		 * To Something here
+		 */
+	}
+```
+
+In case the source code of a class is not available for modification, the injection can be specified by means of a JSON record. An example is reported in:
+ * [modelResource.json](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/src/test/resources/modelResource.json)
+ * [testingConf.properties](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/src/test/resources/testingConf.properties) by setting the property `groucho.lab.intrument.jsonFile` to the path of the file of the JSON record
+
 About QA Aspects
 -------
 Some quality gates are defined and monitored by means of SonarCloud and Jacoco. As GROUCHO is a multi-module maven project, there are few
