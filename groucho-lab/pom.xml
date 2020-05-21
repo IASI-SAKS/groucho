@@ -262,7 +262,6 @@
 				<configuration>
 		          <excludes>
         		    <exclude>it.cnr.iasi.saks.groucho.lab.instrument.test.it.**</exclude>
-<!--         		    <exclude>it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.*</exclude> -->
             	  </excludes>
 					<reuseForks>false</reuseForks>
 					<useUnlimitedThreads>true</useUnlimitedThreads>
