@@ -17,5 +17,14 @@
       "carvingDepth" : 1,
       "pauseOtherThreads" : false
     }
+  }, {
+    "className" : "com.opensymphony.oscache.web.filter.CacheFilter",
+    "methodName" : "doFilter",
+    "annotation" : {
+      "invivoTestClass" : "it.cnr.iasi.saks.groucho.lab.instrument.test.utils.OSCachePrinterInvivoTestClass",
+      "invivoTest" : "invivoTestMethod",
+      "carvingDepth" : 1,
+      "pauseOtherThreads" : false
+    }
   } ]
 }

@@ -27,6 +27,15 @@ import it.cnr.iasi.saks.groucho.instrument.AbstractClassTranformer;
 
 public class InvivoTestAnnotatorClassTransformer extends AbstractClassTranformer {
 	
+	
+	@Override
+	protected boolean isLocallyIgnored(String className) {
+		boolean exitus = super.isLocallyIgnored(className);
+		exitus = exitus || className.contains("$MockitoMock$");
+		
+		return exitus;
+	}
+
 	/*
 	 * (non-Javadoc) It is invoked for every class loaded into the JVM. It
 	 * provides the byte array of the class as input to the method, which then
