@@ -50,9 +50,8 @@ How to Enable Invivo Tests
 Each method that could be subject to In Vivo testing must be annotated as `TestableInVivo`
 
 ```java
-	@TestableInVivo(
-			invivoTestClass = "it.cnr.iasi.saks.groucho.invivotests.DummyInvivoTest",
-			invivoTest = "fooTest")
+	@TestableInVivo(invivoTestClass = "it.cnr.iasi.saks.groucho.invivotests.DummyInvivoTest",
+			invivoTest = "invivoTestMethodName")
 	public void thisIsFoo() {
 		/*
 		 * To Something here
