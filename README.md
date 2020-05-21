@@ -64,7 +64,7 @@ In case the source code of a class is not available for modification, the inject
  * [testingConf.properties](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/src/test/resources/testingConf.properties) by setting the property `groucho.lab.intrument.jsonFile` to the path of the file of the JSON record
 An example on how to apply the annotations reported in a given JSON report:
  * is enacted by the agent [`${groucho-lab.build.directory}/${groucho-lab.build.finalName}.jar`](https://github.com/IASI-SAKS/groucho/tree/master/groucho-lab/src/main/java/it/cnr/iasi/saks/groucho/lab/instrument)
- * and it can be used as reported in this [pom.xml](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/pom.xml#L274-L286)
+ * and it can be used as reported in this [pom.xml](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/pom.xml#L274-L276)
 
 About QA Aspects
 -------
