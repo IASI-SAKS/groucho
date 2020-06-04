@@ -27,20 +27,18 @@ public class ShrinkerThreadInvivoTestClass {
 		setExitus();
 		LRUMemoryCache memCache = ((LRUMemoryCache) c.getInstrumentedObject());
 
-		System.out.println("Testing invivo: testSimpleShrink ... ");
 		this.testSimpleShrinkInvivo(memCache);
-		System.out.println("... done!");
-		System.out.println("Testing invivo: testSimpleShrinkMutiple ... ");
+
 		this.testSimpleShrinkMutipleInvivo(memCache);
-		System.out.println("... done!");
-		System.out.println("Testing invivo: testSimpleShrinkMutipleWithEventHandler ... ");
+
 		this.testSimpleShrinkMutipleWithEventHandlerInvivo(memCache);
-		System.out.println("... done!");
 		
 		return getExitus();
 	}
 
 	private void testSimpleShrinkInvivo(LRUMemoryCache memCache) {
+		System.out.println("Testing invivo: testSimpleShrink ... ");
+
 		ShrinkerThreadUnitTest unitTest = new ShrinkerThreadUnitTest();
 		unitTest.configureMemoryCache(memCache);
 		unitTest.configureMemoryCacheWithAMock();
@@ -50,9 +48,13 @@ public class ShrinkerThreadInvivoTestClass {
 		}catch(Exception t) {
 			resetExitus();
 		}
+
+		System.out.println("... done!");
 	}
 	
 	private void testSimpleShrinkMutipleInvivo(LRUMemoryCache memCache) {
+		System.out.println("Testing invivo: testSimpleShrinkMutiple ... ");
+
 		ShrinkerThreadUnitTest unitTest = new ShrinkerThreadUnitTest();
 		unitTest.configureMemoryCache(memCache);
 		unitTest.configureMemoryCacheWithAMock();
@@ -62,9 +64,13 @@ public class ShrinkerThreadInvivoTestClass {
 		}catch(Exception t) {
 			resetExitus();
 		}
+
+		System.out.println("... done!");
 	}
 
 	private void testSimpleShrinkMutipleWithEventHandlerInvivo(LRUMemoryCache memCache) {
+		System.out.println("Testing invivo: testSimpleShrinkMutipleWithEventHandler ... ");
+
 		ShrinkerThreadUnitTest unitTest = new ShrinkerThreadUnitTest();
 		unitTest.configureMemoryCache(memCache);
 		unitTest.configureMemoryCacheWithAMock();
@@ -74,6 +80,8 @@ public class ShrinkerThreadInvivoTestClass {
 		}catch(Exception t) {
 			resetExitus();
 		}
+
+		System.out.println("... done!");
 	}
 
 	public synchronized static boolean getExitus(){
