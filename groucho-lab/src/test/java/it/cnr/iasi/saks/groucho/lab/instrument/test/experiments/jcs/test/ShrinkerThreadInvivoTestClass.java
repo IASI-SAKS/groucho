@@ -27,21 +27,55 @@ public class ShrinkerThreadInvivoTestClass {
 		setExitus();
 		LRUMemoryCache memCache = ((LRUMemoryCache) c.getInstrumentedObject());
 
+		System.out.println("Testing invivo: testSimpleShrink ... ");
+		this.testSimpleShrinkInvivo(memCache);
+		System.out.println("... done!");
+		System.out.println("Testing invivo: testSimpleShrinkMutiple ... ");
+		this.testSimpleShrinkMutipleInvivo(memCache);
+		System.out.println("... done!");
+		System.out.println("Testing invivo: testSimpleShrinkMutipleWithEventHandler ... ");
+		this.testSimpleShrinkMutipleWithEventHandlerInvivo(memCache);
+		System.out.println("... done!");
+		
+		return getExitus();
+	}
+
+	private void testSimpleShrinkInvivo(LRUMemoryCache memCache) {
 		ShrinkerThreadUnitTest unitTest = new ShrinkerThreadUnitTest();
 		unitTest.configureMemoryCache(memCache);
 		unitTest.configureMemoryCacheWithAMock();
 		
 		try{
 			unitTest.testSimpleShrink();
-//			unitTest.testSimpleShrinkMutiple();
-//			unitTest.testSimpleShrinkMutipleWithEventHandler();
 		}catch(Exception t) {
 			resetExitus();
 		}
-		
-		return getExitus();
 	}
 	
+	private void testSimpleShrinkMutipleInvivo(LRUMemoryCache memCache) {
+		ShrinkerThreadUnitTest unitTest = new ShrinkerThreadUnitTest();
+		unitTest.configureMemoryCache(memCache);
+		unitTest.configureMemoryCacheWithAMock();
+		
+		try{
+			unitTest.testSimpleShrinkMutiple();
+		}catch(Exception t) {
+			resetExitus();
+		}
+	}
+
+	private void testSimpleShrinkMutipleWithEventHandlerInvivo(LRUMemoryCache memCache) {
+		ShrinkerThreadUnitTest unitTest = new ShrinkerThreadUnitTest();
+		unitTest.configureMemoryCache(memCache);
+		unitTest.configureMemoryCacheWithAMock();
+		
+		try{
+			unitTest.testSimpleShrinkMutipleWithEventHandler();
+		}catch(Exception t) {
+			resetExitus();
+		}
+	}
+
 	public synchronized static boolean getExitus(){
 		return EXITUS;
 	}
