@@ -135,8 +135,8 @@ public abstract class AbstractGovernanceManager implements ThreadHarness {
 	private boolean checkActivation(Context context){
 		boolean exitStatus;
 		
-		// TO-DO this has to be improved, so that to check if there exists any precondition to the activation of an Invivo Testing Session
-		exitStatus = true;
+		// TO-DO this can to be improved, so that to check if there exists any other precondition to the activation of an Invivo Testing Session
+		exitStatus = this.inVivoTestingSession.isInactive();
 				
 		exitStatus = exitStatus && this.evaluateActivation(context);		
 		return exitStatus;
