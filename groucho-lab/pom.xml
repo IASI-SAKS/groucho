@@ -97,11 +97,11 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>it.cnr.iasi.saks.groucho</groupId>
-			<artifactId>groucho-lsh-rest</artifactId>
-			<version>${groucho-lsh-rest.version}</version>
-		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>it.cnr.iasi.saks.groucho</groupId> -->
+		<!-- <artifactId>groucho-lsh-rest</artifactId> -->
+		<!-- <version>${groucho-lsh-rest.version}</version> -->
+		<!-- </dependency> -->
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -250,6 +250,43 @@
 							<skipTests>true</skipTests>
 						</configuration>
 					</plugin>
+					<!-- <plugin> -->
+					<!-- <groupId>org.apache.maven.plugins</groupId> -->
+					<!-- <artifactId>maven-failsafe-plugin</artifactId> -->
+					<!-- <version>NO VERSOIN FOR THE MOMENT AS IN THE PATCH FOR CROCHET</version> -->
+					<!-- <version>2.18.1</version> -->
+					<!-- <version>2.19.1</version> -->
+					<!-- <executions> -->
+					<!-- <execution> -->
+					<!-- <goals> -->
+					<!-- <goal>integration-test</goal> -->
+					<!-- <goal>verify</goal> -->
+					<!-- </goals> -->
+					<!-- </execution> -->
+					<!-- </executions> -->
+					<!-- <configuration> -->
+					<!-- <excludes> -->
+					<!-- <exclude>it.cnr.iasi.saks.groucho.lab.instrument.test.it.**</exclude> -->
+					<!-- </excludes> -->
+					<!-- <reuseForks>false</reuseForks> -->
+					<!-- <useUnlimitedThreads>true</useUnlimitedThreads> -->
+					<!-- <jvm>${groucho-crochet.build.directory}/jre-inst/bin/java</jvm> -->
+					<!-- <argLine> -->
+					<!-- -Xmx4G -->
+					<!-- -agentpath:${groucho-crochet.build.directory}/libtagging.so -->
+					<!-- -javaagent:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar -->
+					<!-- -Xbootclasspath/p:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar -->
+					<!-- @{argLine} -->
+					<!-- -javaagent:${groucho-lab.build.directory}/${groucho-lab.build.finalName}.jar -->
+					<!-- -Xbootclasspath/p:${groucho-lab.build.depencenciesDirectory} -->
+					<!-- -Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConfExperiments.properties -->
+					<!-- -->
+					<!-- -javaagent:${groucho-core.build.directory}/${groucho-core.build.finalName}.jar -->
+					<!-- -Xbootclasspath/p:${groucho-lab.build.depencenciesDirectory} -->
+					<!-- -Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConfExperiments.properties -->
+					<!-- </argLine> -->
+					<!-- </configuration> -->
+					<!-- </plugin> -->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-failsafe-plugin</artifactId>
@@ -258,34 +295,63 @@
 						<version>2.19.1</version>
 						<executions>
 							<execution>
+								<id>preliminar</id>
 								<goals>
 									<goal>integration-test</goal>
 									<goal>verify</goal>
 								</goals>
+								<configuration>
+									<!-- <excludes> -->
+									<!-- <exclude>it.cnr.iasi.saks.groucho.lab.instrument.test.it.**</exclude> -->
+									<!-- </excludes> -->
+									<test>it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.SimpleJCSTest_IT</test>
+									<reuseForks>false</reuseForks>
+									<useUnlimitedThreads>true</useUnlimitedThreads>
+									<jvm>${groucho-crochet.build.directory}/jre-inst/bin/java</jvm>
+									<argLine>
+										-Xmx4G
+										-agentpath:${groucho-crochet.build.directory}/libtagging.so
+										-javaagent:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar
+										-Xbootclasspath/p:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar
+										@{argLine}
+										-javaagent:${groucho-lab.build.directory}/${groucho-lab.build.finalName}.jar
+										-Xbootclasspath/p:${groucho-lab.build.depencenciesDirectory}
+										-Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConfPreExperiments.properties
+										<!-- -->
+										-javaagent:${groucho-core.build.directory}/${groucho-core.build.finalName}.jar
+										-Xbootclasspath/p:${groucho-lab.build.depencenciesDirectory}
+										-Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConfPreExperiments.properties
+									</argLine>
+								</configuration>
+							</execution>
+							<execution>
+								<id>actual</id>
+								<goals>
+									<goal>integration-test</goal>
+									<goal>verify</goal>
+								</goals>
+								<configuration>
+									<test>it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.ShrinkerThreadJCSTest_IT</test>
+									<reuseForks>false</reuseForks>
+									<useUnlimitedThreads>true</useUnlimitedThreads>
+									<jvm>${groucho-crochet.build.directory}/jre-inst/bin/java</jvm>
+									<argLine>
+										-Xmx4G
+										-agentpath:${groucho-crochet.build.directory}/libtagging.so
+										-javaagent:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar
+										-Xbootclasspath/p:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar
+										@{argLine}
+										-javaagent:${groucho-lab.build.directory}/${groucho-lab.build.finalName}.jar
+										-Xbootclasspath/p:${groucho-lab.build.depencenciesDirectory}
+										-Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConfExperiments.properties
+										<!-- -->
+										-javaagent:${groucho-core.build.directory}/${groucho-core.build.finalName}.jar
+										-Xbootclasspath/p:${groucho-lab.build.depencenciesDirectory}
+										-Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConfExperiments.properties
+									</argLine>
+								</configuration>
 							</execution>
 						</executions>
-						<configuration>
-							<excludes>
-								<exclude>it.cnr.iasi.saks.groucho.lab.instrument.test.it.**</exclude>
-							</excludes>
-							<reuseForks>false</reuseForks>
-							<useUnlimitedThreads>true</useUnlimitedThreads>
-							<jvm>${groucho-crochet.build.directory}/jre-inst/bin/java</jvm>
-							<argLine>
-								-Xmx4G
-								-agentpath:${groucho-crochet.build.directory}/libtagging.so
-								-javaagent:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar
-								-Xbootclasspath/p:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar
-								@{argLine}
-								-javaagent:${groucho-lab.build.directory}/${groucho-lab.build.finalName}.jar
-								-Xbootclasspath/p:${groucho-lab.build.depencenciesDirectory}
-								-Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConfExperiments.properties
-								<!-- -->
-								-javaagent:${groucho-core.build.directory}/${groucho-core.build.finalName}.jar
-								-Xbootclasspath/p:${groucho-lab.build.depencenciesDirectory}
-								-Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConfExperiments.properties
-							</argLine>
-						</configuration>
 					</plugin>
 				</plugins>
 			</build>
