@@ -21,6 +21,9 @@ package org.apache.jcs.engine.memory.shrinking;
 
 import junit.framework.TestCase;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
+
 import org.apache.jcs.engine.CacheElement;
 import org.apache.jcs.engine.CompositeCacheAttributes;
 import org.apache.jcs.engine.ElementAttributes;
@@ -96,26 +99,30 @@ public class ShrinkerThreadUnitTest
     public void testSimpleShrinkMutiple()
         throws Exception
     {
-//        CompositeCacheManager cacheMgr = CompositeCacheManager.getUnconfiguredInstance();
-////      cacheMgr.configure( "/TestDiskCache.ccf" );
-//      cacheMgr.configure( "/test-conf/TestDiskCache.ccf");
-//      
+    	
+        CompositeCacheManager cacheMgr = CompositeCacheManager.getUnconfiguredInstance();
+//      cacheMgr.configure( "/TestDiskCache.ccf" );
+      cacheMgr.configure( "/test-conf/TestDiskCache.ccf");
+      
+      int items = cacheMgr.getDefaultCacheAttributes().getMaxObjects();
 //      int items = cacheMgr.getDefaultCacheAttributes().getMaxObjects() * 2;
-//      items = 99;
-//      
-//      CompositeCache cache = cacheMgr.getCache( "region" );
-//
-//      LRUMemoryCache memory  = new LRUMemoryCache();
-//      memory.initialize( cache );
+//    items = 99;
+    items = 90+10;
+      
+      CompositeCache cache = cacheMgr.getCache( "region" );
 
-        MemoryCacheMockImpl memory = new MemoryCacheMockImpl();
-      int items = 10 ;
+      LRUMemoryCache memory  = new LRUMemoryCache();
+      memory.initialize( cache );
+
+//        MemoryCacheMockImpl memory = new MemoryCacheMockImpl();
+//      int items = 10 ;
 
         CompositeCacheAttributes cacheAttr = new CompositeCacheAttributes();
         cacheAttr.setMaxMemoryIdleTimeSeconds( 1 );
         cacheAttr.setMaxSpoolPerRun( 3 );
 
         memory.setCacheAttributes( cacheAttr );
+		int sizeBeforeUpdates = memory.getSize();
 
         for ( int i = 0; i < items; i++ )
         {
@@ -129,12 +136,13 @@ public class ShrinkerThreadUnitTest
             element.setElementAttributes( elementAttr );
             element.getElementAttributes().setMaxLifeSeconds( 1 );
             memory.update( element );
+			System.out.println("++current size++" + memory.getSize());
 
             ICacheElement returnedElement1 = memory.get( key );
             assertNotNull( "We should have received an element", returnedElement1 );
 
             // set this to 2 seconds ago.
-            elementAttr.lastAccessTime = System.currentTimeMillis() - 2000;
+            elementAttr.lastAccessTime = System.currentTimeMillis() - 4000;
         }
 
         ShrinkerThread shrinker = new ShrinkerThread( memory );
@@ -144,8 +152,10 @@ public class ShrinkerThreadUnitTest
         Thread.sleep( 500 );
 
 //        assertEquals( "Waterfall called the wrong number of times.", 3, memory.waterfallCallCount );
-        int m = memory.getSize();
-        assertEquals( "Wrong number of elements remain.", items-3, memory.getSize() );
+        int size = memory.getSize();        
+		System.out.println("++sizeBeforeUpdates++" + sizeBeforeUpdates);
+		System.out.println("++size in testSimpleShrinkMutiple++" + size + "++expected++" + (sizeBeforeUpdates+items - 3));
+        assertEquals( "Wrong number of elements remain.", sizeBeforeUpdates+items-3, memory.getSize() );
     }
 
     /**
@@ -158,19 +168,21 @@ public class ShrinkerThreadUnitTest
     public void testSimpleShrinkMutipleWithEventHandler()
     throws Exception
 {
-//        CompositeCacheManager cacheMgr = CompositeCacheManager.getUnconfiguredInstance();
-////      cacheMgr.configure( "/TestDiskCache.ccf" );
-//      cacheMgr.configure( "/test-conf/TestDiskCache.ccf");
-//      
-//      int items = cacheMgr.getDefaultCacheAttributes().getMaxObjects() * 2 ;
-//      
-//      CompositeCache cache = cacheMgr.getCache( "region" );
-//
-//      LRUMemoryCache memory  = new LRUMemoryCache();
-//      memory.initialize( cache );
+        CompositeCacheManager cacheMgr = CompositeCacheManager.getUnconfiguredInstance();
+//      cacheMgr.configure( "/TestDiskCache.ccf" );
+      cacheMgr.configure( "/test-conf/TestDiskCache.ccf");
+      
+      int items = cacheMgr.getDefaultCacheAttributes().getMaxObjects();
+//    int items = cacheMgr.getDefaultCacheAttributes().getMaxObjects() * 2;
+//    items = 99;
 
-    MemoryCacheMockImpl memory = new MemoryCacheMockImpl();
-    int items = 10 ;
+      CompositeCache cache = cacheMgr.getCache( "region" );
+
+      LRUMemoryCache memory  = new LRUMemoryCache();
+      memory.initialize( cache );
+
+//    MemoryCacheMockImpl memory = new MemoryCacheMockImpl();
+//    int items = 10 ;
 
     CompositeCacheAttributes cacheAttr = new CompositeCacheAttributes();
     cacheAttr.setMaxMemoryIdleTimeSeconds( 1 );
@@ -213,7 +225,8 @@ public class ShrinkerThreadUnitTest
     // event on the queue.  This make it hard to test.  TODO we need to change this to make it easier to verify.
     //assertEquals( "Event handler ExceededIdleTimeBackground called the wrong number of times.", 3, handler.getExceededIdleTimeBackgroundCount() );
 
-    int m = memory.getSize();
+    int size = memory.getSize();
+	System.out.println("++size in testSimpleShrinkMutipleWithEventHandler++" + size + "++expected++" + (items - 3));
     assertEquals( "Wrong number of elements remain.", items-3, memory.getSize() );
 }
 

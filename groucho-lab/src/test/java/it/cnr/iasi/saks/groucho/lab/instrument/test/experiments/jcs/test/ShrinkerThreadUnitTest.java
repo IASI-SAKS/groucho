@@ -24,43 +24,45 @@ import org.junit.Test;
  * 1. migrate the test to JUnit 4
  * 2. separate the configuration part of the test from its actual execution,
  *    it would be easier to reuse it during invivo testing sessions.
+ * 3. the tests assume the memory may not be empty, thus the for statements
+ *    that locally populate the memory starts from the item at position `memory.getSize()`    
  * For all the rest the test is completely equivalent
  * to the one originally conceived for Apache JCS.
  */
 
 public class ShrinkerThreadUnitTest {
- 
+
 	private MemoryCacheWrapper memory;
-	
-	private final static int DEFAULT_ITEMS = 10; 
+
+	private final static int DEFAULT_ITEMS = 10;
 	private int items;
-	
-	
-	public ShrinkerThreadUnitTest(){		
+
+	public ShrinkerThreadUnitTest() {
 	}
-	
-	public void configureMemoryCache(MemoryCache m){		
+
+	public void configureMemoryCache(MemoryCache m) {
 		this.configureMemoryCache(m, DEFAULT_ITEMS);
 		System.out.println("... CONFIGURATION DONE!!!");
 	}
 
-	public void configureMemoryCache(MemoryCache m, int items){		
+	public void configureMemoryCache(MemoryCache m, int items) {
 		this.memory = new MemoryCacheWrapper(m);
 		this.items = items;
 	}
 
 	@Before
-	public void configureMemoryCacheWithAMock(){
+	public void configureMemoryCacheWithAMock() {
 		MemoryCacheMockImpl m = new MemoryCacheMockImpl();
 		this.memory = new MemoryCacheWrapper(m);
 		this.items = 10;
 	}
-	
+
 	/**
 	 * Setup cache attributes in mock. Create the shrinker with the mock. Add some
 	 * elements into the mock memory cache see that they get spooled.
-	 * @throws IOException 
-	 * @throws InterruptedException 
+	 * 
+	 * @throws IOException
+	 * @throws InterruptedException
 	 *
 	 * @throws Exception
 	 *
@@ -104,8 +106,9 @@ public class ShrinkerThreadUnitTest {
 
 	/**
 	 * Add 10 to the memory cache. Set the spool per run limit to 3.
-	 * @throws IOException 
-	 * @throws InterruptedException 
+	 * 
+	 * @throws IOException
+	 * @throws InterruptedException
 	 *
 	 * @throws Exception
 	 */
@@ -117,17 +120,24 @@ public class ShrinkerThreadUnitTest {
 
 		memory.setCacheAttributes(cacheAttr);
 
-		for (int i = 0; i < items; i++) {
+		int sizeBeforeUpdates = memory.getSize();
+
+		String regionName = memory.getCompositeCache().getCacheName();
+		System.out.println(regionName);
+		
+//		for (int i = 0; i < items; i++) {
+		for (int i = sizeBeforeUpdates; i < sizeBeforeUpdates + items; i++) {
 			String key = "key" + i;
 			String value = "value";
 
-			ICacheElement element = new CacheElement("testRegion", key, value);
+			ICacheElement element = new CacheElement(regionName, key, value);
 
 			ElementAttributes elementAttr = new ElementAttributes();
 			elementAttr.setIsEternal(false);
 			element.setElementAttributes(elementAttr);
 			element.getElementAttributes().setMaxLifeSeconds(1);
 			memory.update(element);
+			System.out.println("++current size++" + memory.getSize());
 
 			ICacheElement returnedElement1 = memory.get(key);
 			Assert.assertNotNull("We should have received an element", returnedElement1);
@@ -144,15 +154,21 @@ public class ShrinkerThreadUnitTest {
 
 		Assert.assertEquals("Waterfall called the wrong number of times.", 3, memory.getWaterfallCallCounter());
 		int size = memory.getSize();
-		Assert.assertEquals("Wrong number of elements remain.", items - 3, memory.getSize());
+		int expectedSize = ((sizeBeforeUpdates + items)>= memory.getCacheAttributes().getMaxObjects())?memory.getCacheAttributes().getMaxObjects()-3:sizeBeforeUpdates+items-3;
+		System.out.println("++sizeBeforeUpdates++" + sizeBeforeUpdates + " " + items);
+//		System.out.println("++size in testSimpleShrinkMutiple++" + size + "++expected++" + (sizeBeforeUpdates + items - 3));
+//		Assert.assertEquals("Wrong number of elements remain.", (sizeBeforeUpdates + items - 3), memory.getSize());
+		System.out.println("++size in testSimpleShrinkMutiple++" + size + "++expected++" + expectedSize);
+		Assert.assertEquals("Wrong number of elements remain.", expectedSize, memory.getSize());
 	}
 
 	/**
 	 * Add a mock event handler to the items. Verify that it gets called.
 	 * <p>
 	 * This is only testing the spooled background event
-	 * @throws IOException 
-	 * @throws InterruptedException 
+	 * 
+	 * @throws IOException
+	 * @throws InterruptedException
 	 *
 	 * @throws Exception
 	 */
@@ -164,9 +180,14 @@ public class ShrinkerThreadUnitTest {
 
 		memory.setCacheAttributes(cacheAttr);
 
+		int sizeBeforeUpdates = memory.getSize();
+
+		String regionName = memory.getCompositeCache().getCacheName();
+		System.out.println(regionName);
+
 		ElementEventHandlerMockImpl handler = new ElementEventHandlerMockImpl();
 
-		for (int i = 0; i < items; i++) {
+		for (int i = sizeBeforeUpdates; i < sizeBeforeUpdates + items; i++) {
 			String key = "key" + i;
 			String value = "value";
 
@@ -201,6 +222,7 @@ public class ShrinkerThreadUnitTest {
 		// number of times.", 3, handler.getExceededIdleTimeBackgroundCount() );
 
 		int size = memory.getSize();
+		System.out.println("++size in testSimpleShrinkMutipleWithEventHandler++" + size + "++expected++" + (items - 3));
 		Assert.assertEquals("Wrong number of elements remain.", items - 3, memory.getSize());
 	}
 
