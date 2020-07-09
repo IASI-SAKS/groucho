@@ -32,10 +32,10 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class ShrinkerThreadInvivoTestClass {
-	private static boolean EXITUS = false;
+	private static boolean EXIT_STATUS = false;
 	
 	public boolean invivoTestMethod(Context c){
-		setExitus();
+		setExitStatus();
 		LRUMemoryCache memCache = ((LRUMemoryCache) c.getInstrumentedObject());
 
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);			
@@ -46,7 +46,7 @@ public class ShrinkerThreadInvivoTestClass {
 
 //		this.testSimpleShrinkMutipleWithEventHandlerInvivo(memCache);
 		
-		return getExitus();
+		return getExitStatus();
 	}
 
 	private void testSimpleShrinkInvivo(LRUMemoryCache memCache) {
@@ -59,7 +59,7 @@ public class ShrinkerThreadInvivoTestClass {
 		try{
 			unitTest.testSimpleShrink();
 		}catch(Throwable t) {
-			resetExitus();
+			resetExitStatus();
 			System.out.println("... ops!!!!!!!!!!");
 		}
 
@@ -76,7 +76,7 @@ public class ShrinkerThreadInvivoTestClass {
 		try{
 			unitTest.testSimpleShrinkMutiple();
 		}catch(Throwable t) {
-			resetExitus();
+			resetExitStatus();
 			System.out.println("... ops!!!!!!!!!!");
 		}
 
@@ -93,23 +93,23 @@ public class ShrinkerThreadInvivoTestClass {
 		try{
 			unitTest.testSimpleShrinkMutipleWithEventHandler();
 		}catch(Throwable t) {
-			resetExitus();
+			resetExitStatus();
 			System.out.println("... ops!!!!!!!!!!");
 		}
 
 		System.out.println("... done!");
 	}
 
-	public synchronized static boolean getExitus(){
-		return EXITUS;
+	public synchronized static boolean getExitStatus(){
+		return EXIT_STATUS;
 	}
 	
-	public synchronized static void resetExitus(){
-		EXITUS = false;
+	public synchronized static void resetExitStatus(){
+		EXIT_STATUS = false;
 	}
 
-	protected synchronized static void setExitus(){
-		EXITUS = true;
+	protected synchronized static void setExitStatus(){
+		EXIT_STATUS = true;
 	}
 	
 //	@Test
