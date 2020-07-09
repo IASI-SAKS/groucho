@@ -34,7 +34,7 @@ public class ShrinkerThreadUnitTest {
 
 	private MemoryCacheWrapper memory;
 
-	private final static int DEFAULT_ITEMS = 10;
+	public final static int DEFAULT_ITEMS = 10;
 	private int items;
 
 	public ShrinkerThreadUnitTest() {
