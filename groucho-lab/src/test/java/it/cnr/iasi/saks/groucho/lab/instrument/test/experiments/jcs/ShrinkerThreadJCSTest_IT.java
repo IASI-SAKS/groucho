@@ -23,13 +23,13 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import it.cnr.iasi.saks.groucho.carvingStateTests.RandomGenerator;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.test.ShrinkerThreadInvivoTestClass;
-import it.cnr.iasi.saks.groucho.lab.instrument.test.utils.LRUMemoryCachePrinterInvivoTestClass;
+import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.test.ShrinkerThreadUnitTest;
 import it.cnr.iasi.saks.groucho.performanceOverheadTest.TestGovernanceManager_ActivationWithProbability;
 import it.cnr.iasi.saks.groucho.tests.util.PropertyUtilNoSingleton;
 
 import org.apache.jcs.engine.memory.lru.LRUMemoryCache;
-import org.apache.jcs.engine.memory.shrinking.ShrinkerThread;
 import org.apache.jcs.engine.CacheElement;
 import org.apache.jcs.engine.CompositeCacheAttributes;
 import org.apache.jcs.engine.ElementAttributes;
@@ -38,7 +38,6 @@ import org.apache.jcs.engine.behavior.ICompositeCacheAttributes;
 import org.apache.jcs.engine.behavior.IElementAttributes;
 import org.apache.jcs.engine.control.CompositeCache;
 import org.apache.jcs.engine.control.CompositeCacheManager;
-import org.apache.jcs.engine.control.event.ElementEventHandlerMockImpl;
 
 public class ShrinkerThreadJCSTest_IT {
 
@@ -71,82 +70,9 @@ public class ShrinkerThreadJCSTest_IT {
 			Assert.fail(e.getMessage());
 		}
 
-		boolean condition = ShrinkerThreadInvivoTestClass.getExitus();
+		boolean condition = ShrinkerThreadInvivoTestClass.getExitStatus();
 		Assert.assertTrue(condition);
 	}
-
-	@Ignore
-	@Test
-	public void invokeInvivoTestNotWorking() {
-		// the following statement binds the PropertyUtil to a No Singleton instance.
-		// in other words, all the other classes accessing to
-		// PropertyUtil.getInstance();
-		// will not be affected by singleton
-		PropertyUtilNoSingleton prop = PropertyUtilNoSingleton.getInstance();
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
-//****************************
-		CompositeCacheManager cacheMgr = CompositeCacheManager.getUnconfiguredInstance();
-//      cacheMgr.configure( "/TestDiskCache.ccf" );
-		cacheMgr.configure("/test-conf/TestDiskCache.ccf");
-
-		int items = cacheMgr.getDefaultCacheAttributes().getMaxObjects() * 2;
-//		items = cacheMgr.getDefaultCacheAttributes().getMaxObjects() + 1;
-//		items = 10;
-		int purgedItems = items / 2 + 2;
-		String region = "indexedRegion1";
-		ICacheElement ice;
-		
-		CompositeCache cache = cacheMgr.getCache(region);
-
-		LRUMemoryCache lru = new LRUMemoryCache();
-		lru.initialize(cache);
-		
-        CompositeCacheAttributes cacheAttr = new CompositeCacheAttributes();
-        cacheAttr.setMaxMemoryIdleTimeSeconds( 1 );
-        cacheAttr.setMaxSpoolPerRun( 3 );
-
-        lru.setCacheAttributes( cacheAttr );
-		
-        // Add items to cache
-
-        for ( int i = 0; i < items; i++ )
-        {
-            ice = new CacheElement( cache.getCacheName(), i + ":key", region + " data " + i );
-            ice.setElementAttributes( cache.getElementAttributes() );
-            try {
-				lru.update(ice);
-			} catch (IOException e) {
-				Assert.fail(e.getMessage());
-			}
-        }
-        
-        System.out.println("ççççççççççççççççççççççççççççççççççççççççççççççççççççççç");
-        try {
-			Thread.currentThread().sleep(500);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-        System.out.println(items + " VS " + lru.getSize() + "\nççççççççççççççççççççççççççççççççççççççççççççççççççççççç");
-        
-////****************************
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
-
-		String key = "fooKey";
-		String val = "fooVal";
-
-        ice = new CacheElement( cache.getCacheName(), key + ":key", region + " data " + val );
-
-		try {
-			lru.update(ice);
-		} catch (IOException e) {
-			Assert.fail(e.getMessage());
-		}
-
-		boolean condition = ShrinkerThreadInvivoTestClass.getExitus();
-//		Assert.assertTrue(condition);
-	}
-
 
 	@Test
 	public void invokeInvivoTest() throws IOException, InterruptedException {
@@ -157,14 +83,39 @@ public class ShrinkerThreadJCSTest_IT {
 		PropertyUtilNoSingleton prop = PropertyUtilNoSingleton.getInstance();
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
 //****************************
+
+		for (int run = 0; run < 10; run++) {
+			int items = 30 + RandomGenerator.getInstance().nextInt(99);
+			LRUMemoryCache lru = this.configureLRUMemoryCache(items);
+			
+	        System.out.println("Waiting for a while ...");
+	        Thread.sleep( 5000 );
+	        System.out.println("... ok");
+
+	        TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
+
+	        this.addElementsInCache(1, lru);
+
+	        TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
+
+	        int memSize = lru.getSize();
+			boolean condition = ShrinkerThreadInvivoTestClass.getExitStatus();
+			boolean expected = (items + ShrinkerThreadUnitTest.DEFAULT_ITEMS < lru.getCacheAttributes().getMaxObjects());
+	        System.out.println("[Run "+ run +"]\tItems: " + items + "\tSize: " + memSize + "\tCondition:"+condition + "\tExpected:"+expected);			
+		}
+
+//		Assert.assertTrue(condition);
+	}
+
+	private LRUMemoryCache configureLRUMemoryCache() throws IOException {
+		return this.configureLRUMemoryCache(0);
+	}
+		
+	private LRUMemoryCache configureLRUMemoryCache(int items) throws IOException {
 		CompositeCacheManager cacheMgr = CompositeCacheManager.getUnconfiguredInstance();
 //      cacheMgr.configure( "/TestDiskCache.ccf" );
 		cacheMgr.configure("/test-conf/TestDiskCache.ccf");
 
-		int items = cacheMgr.getDefaultCacheAttributes().getMaxObjects() * 2;
-//		items = cacheMgr.getDefaultCacheAttributes().getMaxObjects() + 1;
-		items = 90;
-		int purgedItems = items / 2 + 2;
 		String region = "indexedRegion1";
 		ICacheElement ice;
 		
@@ -173,28 +124,13 @@ public class ShrinkerThreadJCSTest_IT {
 		LRUMemoryCache lru = new LRUMemoryCache();
 		lru.initialize(cache);
 		
-//        CompositeCacheAttributes cacheAttr = new CompositeCacheAttributes();
-//        cacheAttr.setMaxMemoryIdleTimeSeconds( 1 );
-//        cacheAttr.setMaxSpoolPerRun( 3 );
-//
-//        lru.setCacheAttributes( cacheAttr );
-        
-        this.addElementsInCache(items, lru);
-        
-        System.out.println("Waiting for a while ...");
-        Thread.sleep( 5000 );
-        System.out.println("... ok");
+//		int items = cacheMgr.getDefaultCacheAttributes().getMaxObjects() * 2;
+////		items = cacheMgr.getDefaultCacheAttributes().getMaxObjects() + 1;
+//		items = 99;
 
-        TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
-
-        this.addElementsInCache(1, lru);
-        
-        int m = lru.getSize();
-//        Assert.assertEquals( "Wrong number of elements remain.", items-3, lru.getSize() );
-		boolean condition = ShrinkerThreadInvivoTestClass.getExitus();
-        System.out.println("\nItems: " + items + "\nSize: " + lru.getSize() + "\nCondition:"+condition);
-
-//		Assert.assertTrue(condition);
+		this.addElementsInCache(items, lru);
+		
+		return lru;
 	}
 
 	private void addElementsInCache(int items, LRUMemoryCache lru)
