@@ -1,83 +1,121 @@
-<!-- This file is part of GROUCHO, originally developed at CNR-IASI. For 
-	more information visit: http://saks.iasi.cnr.it/tools/groucho This is free 
-	software: you can redistribute it and/or modify it under the terms of the 
-	GNU General Public License as published by the Free Software Foundation, 
-	either version 3 of the License, or (at your option) any later version. This 
-	software is distributed in the hope that it will be useful, but WITHOUT ANY 
-	WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
-	FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
-	You should have received a copy of the GNU General Public License along with 
+<!-- This file is part of GROUCHO, originally developed at CNR-IASI. For
+	more information visit: http://saks.iasi.cnr.it/tools/groucho This is free
+	software: you can redistribute it and/or modify it under the terms of the
+	GNU General Public License as published by the Free Software Foundation,
+	either version 3 of the License, or (at your option) any later version. This
+	software is distributed in the hope that it will be useful, but WITHOUT ANY
+	WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+	FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+	You should have received a copy of the GNU General Public License along with
 	this source. If not, see <http://www.gnu.org/licenses/>. -->
 
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>it.cnr.iasi.saks.groucho</groupId>
-	<artifactId>groucho-lsh-rest</artifactId>
-	<version>1.0-SNAPSHOT</version>
-	<name>groucho-lsh-rest</name>
-	<url>http://saks.iasi.cnr.it/tools/groucho</url>
 
-	<parent>
-		<groupId>it.cnr.iasi.saks.groucho</groupId>
-		<artifactId>groucho</artifactId>
-		<version>1.0-SNAPSHOT</version>
-	</parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>it.cnr.iasi.saks.groucho</groupId>
+    <artifactId>groucho-lsh-rest</artifactId>
+    <name>groucho-lsh-rest</name>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <url>http://saks.iasi.cnr.it/tools/groucho</url>
 
-	<developers>
-		<developer>
-			<id>gulyx</id>
-			<name>Guglielmo De Angelis</name>
-		</developer>
-		<developer>
-			<id>brenomiranda</id>
-			<name>Breno Miranda</name>
-		</developer>
-	</developers>
+    <parent>
+        <groupId>it.cnr.iasi.saks.groucho</groupId>
+        <artifactId>groucho</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
-	<licenses>
-		<license>
-			<name>GNU General Public License (GPL ver.3)</name>
-			<url>http://www.gnu.org/licenses/gpl.txt</url>
-		</license>
-	</licenses>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <type>pom</type>
+                <version>${spring.boot.version}</version>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
-	<properties>
-		<lsh-invivo.version>1.0-SNAPSHOT</lsh-invivo.version>
+    <developers>
+    </developers>
 
-		<junit.version>4.4</junit.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<slf4j.version>1.7.12</slf4j.version>
+    <licenses>
+        <license>
+            <name>GNU General Public License (GPL ver.3)</name>
+            <url>http://www.gnu.org/licenses/gpl.txt</url>
+        </license>
+    </licenses>
 
-		<maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
-		<maven-compiler-plugin.sourcesVersion>1.8</maven-compiler-plugin.sourcesVersion>
-		<maven-compiler-plugin.targetVersion>1.8</maven-compiler-plugin.targetVersion>
-
-		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
-        
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
+        <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+        <lsh-invivo.version>1.0-SNAPSHOT</lsh-invivo.version>
+        <springfox-version>2.9.2</springfox-version>
+        <spring.boot.version>2.2.6.RELEASE</spring.boot.version>
+        <junit.version>4.4</junit.version>
         <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
-
     </properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>it.cnr.iasi.saks.groucho</groupId>
-			<artifactId>lsh-invivo</artifactId>
-			<version>${lsh-invivo.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
+    <build>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${spring.boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <version>${spring.boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${springfox-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.joschi.jackson</groupId>
+            <artifactId>jackson-datatype-threetenbp</artifactId>
+            <version>2.6.4</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.1.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>
