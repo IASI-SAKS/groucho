@@ -3,7 +3,7 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-package it.cnr.iasi.saks.groucho.api;
+package it.cnr.iasi.saks.groucho.lsh.rest.api;
 
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;

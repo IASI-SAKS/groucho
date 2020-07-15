@@ -1,4 +1,4 @@
-package it.cnr.iasi.saks.groucho.api;
+package it.cnr.iasi.saks.groucho.lsh.rest.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
