@@ -3,7 +3,7 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-package it.cnr.iasi.saks.groucho.api;
+package it.cnr.iasi.saks.groucho.lsh.rest.api;
 
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +25,7 @@ import java.util.List;
 @Api(value = "isunknown", description = "the isunknown API")
 public interface IsunknownApi {
 
-    @ApiOperation(value = "Check if a given state has been previouslly observed", nickname = "isStateUnknown", notes = "Returns TRUE if a State has been never observed, FALSE otherwise", tags={ "isStateUnknown", })
+    @ApiOperation(value = "Check if a given state has been previously observed", nickname = "isStateUnknown", notes = "Returns TRUE if a State has been never observed, FALSE otherwise", tags={ "isStateUnknown", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Successful Operation."),
         @ApiResponse(code = 400, message = "Invalid State Supplied."),
@@ -37,7 +37,7 @@ public interface IsunknownApi {
     ResponseEntity<Void> isStateUnknown(@ApiParam(value = "The Actual Internal Representation as a String of the Considered State" ,required=true )  @Valid @RequestBody String body);
 
 
-    @ApiOperation(value = "Check if a given state has been previouslly observed", nickname = "isStateUnknownLSH", notes = "Returns TRUE if a State has been never observed, FALSE otherwise. The input parameter is supposed to be a codification in LSH of the actual internal state representation.", tags={ "isStateUnknown", })
+    @ApiOperation(value = "Check if a given state has been previously observed", nickname = "isStateUnknownLSH", notes = "Returns TRUE if a State has been never observed, FALSE otherwise. The input parameter is supposed to be a codification in LSH of the actual internal state representation.", tags={ "isStateUnknown", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Successful Operation"),
         @ApiResponse(code = 400, message = "Invalid LSH State Supplied"),

@@ -1,4 +1,4 @@
-package it.cnr.iasi.saks.groucho.api;
+package it.cnr.iasi.saks.groucho.lsh.rest.api;
 
 import javax.xml.bind.annotation.XmlTransient;
 

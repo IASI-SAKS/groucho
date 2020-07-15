@@ -14,7 +14,7 @@ port: "8080"
 basePath: "/groucho-state-observer"
 tags:
 - name: "isStateUnknown"
-  description: "Check if a given state has been previouslly observed"
+  description: "Check if a given state has been previously observed"
   externalDocs:
     description: "Find out more"
     url: "http://saks-wiki.iasi.cnr.it/groucho"
@@ -24,7 +24,7 @@ tags:
     description: "Find out more"
     url: "http://saks-wiki.iasi.cnr.it/groucho"
 - name: "resetStateObserver"
-  description: "Suggest to Restore the State of the Obeserver to the Default Configurations. It is only a suggestion, there is no commitment from the reciver"
+  description: "Suggest to Restore the State of the Observer to the Default Configurations. It is only a suggestion, there is no commitment from the receiver"
   externalDocs:
     description: "Find out more"
     url: "http://saks-wiki.iasi.cnr.it/groucho"
@@ -35,7 +35,7 @@ paths:
     get:
       tags:
       - "isStateUnknown"
-      summary: "Check if a given state has been previouslly observed"
+      summary: "Check if a given state has been previously observed"
       description: "Returns TRUE if a State has been never observed, FALSE otherwise"
       operationId: "isStateUnknown"
       consumes:
@@ -62,7 +62,7 @@ paths:
     get:
       tags:
       - "isStateUnknown"
-      summary: "Check if a given state has been previouslly observed"
+      summary: "Check if a given state has been previously observed"
       description: "Returns TRUE if a State has been never observed, FALSE otherwise. The input parameter is supposed to be a codification in LSH of the actual internal state representation."
       operationId: "isStateUnknownLSH"
       produces:
@@ -86,8 +86,8 @@ paths:
     put:
       tags:
       - "resetStateObserver"
-      summary: "Suggest to Restore the State of the Obeserver to the Default Configurations."
-      description: "Suggest to Restore the State of the Obeserver to the Default Configurations. It is only a suggestion, there is no commitment from the reciver."
+      summary: "Suggest to Restore the State of the Observer to the Default Configurations."
+      description: "Suggest to Restore the State of the Observer to the Default Configurations. It is only a suggestion, there is no commitment from the reciver."
       operationId: "resetStateObserver"
       produces:
       - "application/json"
@@ -105,7 +105,7 @@ paths:
       tags:
       - "markState"
       summary: "Assert that a given state has been observed."
-      description: "Assert that a given state has been observed. It return TRUE is the state has been maked, FALSE otherwise."
+      description: "Assert that a given state has been observed. It return TRUE is the state has been marked, FALSE otherwise."
       operationId: "markState"
       consumes:
       - "application/json"
@@ -126,13 +126,13 @@ paths:
         400:
           description: "Invalid State Supplied."
         404:
-          description: "Mark Execption."
+          description: "Mark Exception."
   /mark/{stateStringLSH}:
     put:
       tags:
       - "markState"
       summary: "Assert that a given state has been observed."
-      description: "Assert that a given state has been observed. It return TRUE is the state has been maked, FALSE otherwise. The input parameter is supposed to be a codification in LSH of the actual internal state representation."
+      description: "Assert that a given state has been observed. It return TRUE is the state has been marked, FALSE otherwise. The input parameter is supposed to be a codification in LSH of the actual internal state representation."
       operationId: "markStateLSH"
       produces:
       - "application/json"
@@ -150,7 +150,7 @@ paths:
         400:
           description: "Invalid LSH State Supplied."
         404:
-          description: "Mark Execption."
+          description: "Mark Exception."
 externalDocs:
   description: "Find out more"
   url: "http://saks-wiki.iasi.cnr.it/groucho"

@@ -10,7 +10,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-@ComponentScan(basePackages = { "io.swagger", "it.cnr.iasi.saks.groucho.api" })
+@ComponentScan(basePackages = { "io.swagger", "it.cnr.iasi.saks.groucho.lsh.rest.api" })
 public class Swagger2SpringBoot implements CommandLineRunner {
 
     @Override

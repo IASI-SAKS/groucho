@@ -25,6 +25,7 @@ public class FooAppRest
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+    	// This is really foo
+    	System.out.println( "Hello World!" );
     }
 }

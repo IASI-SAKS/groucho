@@ -1,4 +1,4 @@
-package it.cnr.iasi.saks.groucho.api;
+package it.cnr.iasi.saks.groucho.lsh.rest.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
@@ -22,26 +22,26 @@ import java.util.List;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-07-02T22:49:41.406+02:00")
 
 @Controller
-public class MarkApiController implements MarkApi {
+public class IsunknownApiController implements IsunknownApi {
 
-    private static final Logger log = LoggerFactory.getLogger(MarkApiController.class);
+    private static final Logger log = LoggerFactory.getLogger(IsunknownApiController.class);
 
     private final ObjectMapper objectMapper;
 
     private final HttpServletRequest request;
 
     @org.springframework.beans.factory.annotation.Autowired
-    public MarkApiController(ObjectMapper objectMapper, HttpServletRequest request) {
+    public IsunknownApiController(ObjectMapper objectMapper, HttpServletRequest request) {
         this.objectMapper = objectMapper;
         this.request = request;
     }
 
-    public ResponseEntity<Void> markState(@ApiParam(value = "The Actual Internal Representation as a String of the Considered State." ,required=true )  @Valid @RequestBody String body) {
+    public ResponseEntity<Void> isStateUnknown(@ApiParam(value = "The Actual Internal Representation as a String of the Considered State" ,required=true )  @Valid @RequestBody String body) {
         String accept = request.getHeader("Accept");
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Void> markStateLSH(@ApiParam(value = "LSH String of Considered State",required=true) @PathVariable("stateStringLSH") String stateStringLSH) {
+    public ResponseEntity<Void> isStateUnknownLSH(@ApiParam(value = "LSH String of Considered State.",required=true) @PathVariable("stateStringLSH") String stateStringLSH) {
         String accept = request.getHeader("Accept");
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
