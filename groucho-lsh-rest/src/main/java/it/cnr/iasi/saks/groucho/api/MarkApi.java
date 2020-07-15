@@ -25,11 +25,11 @@ import java.util.List;
 @Api(value = "mark", description = "the mark API")
 public interface MarkApi {
 
-    @ApiOperation(value = "Assert that a given state has been observed.", nickname = "markState", notes = "Assert that a given state has been observed. It return TRUE is the state has been maked, FALSE otherwise.", tags={ "markState", })
+    @ApiOperation(value = "Assert that a given state has been observed.", nickname = "markState", notes = "Assert that a given state has been observed. It return TRUE is the state has been marked, FALSE otherwise.", tags={ "markState", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Successful Operation."),
         @ApiResponse(code = 400, message = "Invalid State Supplied."),
-        @ApiResponse(code = 404, message = "Mark Execption.") })
+        @ApiResponse(code = 404, message = "Mark Exception.") })
     @RequestMapping(value = "/mark",
         produces = { "application/json" }, 
         consumes = { "application/json" },
@@ -37,11 +37,11 @@ public interface MarkApi {
     ResponseEntity<Void> markState(@ApiParam(value = "The Actual Internal Representation as a String of the Considered State." ,required=true )  @Valid @RequestBody String body);
 
 
-    @ApiOperation(value = "Assert that a given state has been observed.", nickname = "markStateLSH", notes = "Assert that a given state has been observed. It return TRUE is the state has been maked, FALSE otherwise. The input parameter is supposed to be a codification in LSH of the actual internal state representation.", tags={ "markState", })
+    @ApiOperation(value = "Assert that a given state has been observed.", nickname = "markStateLSH", notes = "Assert that a given state has been observed. It return TRUE is the state has been marked, FALSE otherwise. The input parameter is supposed to be a codification in LSH of the actual internal state representation.", tags={ "markState", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Successful Operation."),
         @ApiResponse(code = 400, message = "Invalid LSH State Supplied."),
-        @ApiResponse(code = 404, message = "Mark Execption.") })
+        @ApiResponse(code = 404, message = "Mark Exception.") })
     @RequestMapping(value = "/mark/{stateStringLSH}",
         produces = { "application/json" }, 
         method = RequestMethod.PUT)
