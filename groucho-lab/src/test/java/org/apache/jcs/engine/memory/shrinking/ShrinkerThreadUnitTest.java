@@ -104,10 +104,11 @@ public class ShrinkerThreadUnitTest
 //      cacheMgr.configure( "/TestDiskCache.ccf" );
       cacheMgr.configure( "/test-conf/TestDiskCache.ccf");
       
-      int items = cacheMgr.getDefaultCacheAttributes().getMaxObjects();
-//      int items = cacheMgr.getDefaultCacheAttributes().getMaxObjects() * 2;
-//    items = 99;
-    items = 90+10;
+//      int items = cacheMgr.getDefaultCacheAttributes().getMaxObjects();
+////      int items = cacheMgr.getDefaultCacheAttributes().getMaxObjects() * 2;
+////    items = 99;
+//    items = 90+10;
+  int items = 10 ;
       
       CompositeCache cache = cacheMgr.getCache( "region" );
 
@@ -172,9 +173,10 @@ public class ShrinkerThreadUnitTest
 //      cacheMgr.configure( "/TestDiskCache.ccf" );
       cacheMgr.configure( "/test-conf/TestDiskCache.ccf");
       
-      int items = cacheMgr.getDefaultCacheAttributes().getMaxObjects();
-//    int items = cacheMgr.getDefaultCacheAttributes().getMaxObjects() * 2;
-//    items = 99;
+//      int items = cacheMgr.getDefaultCacheAttributes().getMaxObjects();
+////    int items = cacheMgr.getDefaultCacheAttributes().getMaxObjects() * 2;
+////    items = 99;
+    int items = 10 ;
 
       CompositeCache cache = cacheMgr.getCache( "region" );
 
