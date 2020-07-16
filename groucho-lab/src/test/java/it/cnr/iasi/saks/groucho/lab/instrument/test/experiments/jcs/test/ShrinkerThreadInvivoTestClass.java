@@ -20,16 +20,7 @@ package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.test;
 import it.cnr.iasi.saks.groucho.common.Context;
 import it.cnr.iasi.saks.groucho.performanceOverheadTest.TestGovernanceManager_ActivationWithProbability;
 
-import java.io.IOException;
-
-import org.apache.jcs.engine.CacheElement;
-import org.apache.jcs.engine.ElementAttributes;
-import org.apache.jcs.engine.behavior.ICacheElement;
-import org.apache.jcs.engine.control.CompositeCache;
-import org.apache.jcs.engine.control.CompositeCacheManager;
 import org.apache.jcs.engine.memory.lru.LRUMemoryCache;
-import org.junit.Assert;
-import org.junit.Test;
 
 public class ShrinkerThreadInvivoTestClass {
 	private static boolean EXIT_STATUS = false;
@@ -111,43 +102,5 @@ public class ShrinkerThreadInvivoTestClass {
 	protected synchronized static void setExitStatus(){
 		EXIT_STATUS = true;
 	}
-	
-//	@Test
-//	public void testWithPlainJunit() throws IOException {
-//		CompositeCacheManager cacheMgr = CompositeCacheManager.getUnconfiguredInstance();
-////      cacheMgr.configure( "/TestDiskCache.ccf" );
-//		cacheMgr.configure("/test-conf/TestDiskCache.ccf");
-//
-//		int items = cacheMgr.getDefaultCacheAttributes().getMaxObjects() * 2;
-////		items = cacheMgr.getDefaultCacheAttributes().getMaxObjects() + 1;
-//		items = 90;
-//		String region = "testRegion";
-//		
-//		CompositeCache cache = cacheMgr.getCache(region);
-//
-//		LRUMemoryCache lru = new LRUMemoryCache();
-//		lru.initialize(cache);
-//		
-//        this.addElementsInCache(items, lru);
-//
-//        System.out.println(lru.getCacheName());
-//		testSimpleShrinkMutipleInvivo(lru);
-//	}
-//	
-//	private void addElementsInCache(int items, LRUMemoryCache lru)
-//			throws IOException {
-//		for (int i = 0; i < items; i++) {
-//			String key = "key" + i;
-//			String value = "value";
-//
-//			ICacheElement element = new CacheElement("testRegion", key, value);
-//
-//			ElementAttributes elementAttr = new ElementAttributes();
-//			elementAttr.setIsEternal(false);
-//			element.setElementAttributes(elementAttr);
-////			element.getElementAttributes().setMaxLifeSeconds(1);
-//			lru.update(element);
-//		}
-//	}
 
 }
