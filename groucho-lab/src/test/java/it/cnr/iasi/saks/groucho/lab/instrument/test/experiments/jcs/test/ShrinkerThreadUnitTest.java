@@ -40,8 +40,8 @@ import org.junit.Test;
  * 
  * This new implementation has only 2 minor purposes:
  * 1. migrate the test to JUnit 4
- * 2. separate the configuration part of the test from its actual execution,
- *    it would be easier to reuse it during invivo testing sessions.
+ * 2. separate the configuration part of the tests from their actual execution.
+ *    this way it is easier to reuse them during invivo testing sessions.
  * 3. the tests assume the memory may not be empty, thus the for statements
  *    that locally populate the memory starts from the item at position `memory.getSize()`    
  * For all the rest the test is completely equivalent
@@ -125,7 +125,8 @@ public class ShrinkerThreadUnitTest {
 	}
 
 	/**
-	 * Add 10 to the memory cache. Set the spool per run limit to 3.
+	 * Add few elements to the memory cache (i.e. this.items). 
+	 * Set the spool per run limit to 3.
 	 * 
 	 * @throws IOException
 	 * @throws InterruptedException
@@ -149,7 +150,6 @@ public class ShrinkerThreadUnitTest {
 		}
 		System.out.println(regionName);
 		
-//		for (int i = 0; i < items; i++) {
 		for (int i = sizeBeforeUpdates; i < sizeBeforeUpdates + this.items; i++) {
 			String key = "key" + i;
 			String value = "value";
