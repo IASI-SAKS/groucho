@@ -6,6 +6,7 @@ import org.apache.jcs.engine.CacheElement;
 import org.apache.jcs.engine.CompositeCacheAttributes;
 import org.apache.jcs.engine.ElementAttributes;
 import org.apache.jcs.engine.behavior.ICacheElement;
+import org.apache.jcs.engine.control.CompositeCache;
 import org.apache.jcs.engine.control.event.ElementEventHandlerMockImpl;
 import org.apache.jcs.engine.memory.MemoryCache;
 import org.apache.jcs.engine.memory.MemoryCacheMockImpl;
@@ -16,7 +17,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /*
- * This class is a re-implemantation of the original Unit Test:
+ * This class is a re-implementation of the original Unit Test:
  * org.apache.jcs.engine.memory.shrinking.ShrinkerThreadUnitTest
  * distributed with Apache JCS 1.3
  * 
@@ -34,6 +35,8 @@ public class ShrinkerThreadUnitTest {
 
 	private MemoryCacheWrapper memory;
 
+	private final static String DEFAULT_CACHE_REGION = "testRegion";
+	
 	public final static int DEFAULT_ITEMS = 10;
 	private int items;
 
@@ -122,7 +125,11 @@ public class ShrinkerThreadUnitTest {
 
 		int sizeBeforeUpdates = memory.getSize();
 
-		String regionName = memory.getCompositeCache().getCacheName();
+		String regionName = DEFAULT_CACHE_REGION;
+		CompositeCache compositeCache = memory.getCompositeCache();
+		if (compositeCache != null) {
+			regionName = compositeCache.getCacheName();
+		}
 		System.out.println(regionName);
 		
 //		for (int i = 0; i < items; i++) {
@@ -182,7 +189,11 @@ public class ShrinkerThreadUnitTest {
 
 		int sizeBeforeUpdates = memory.getSize();
 
-		String regionName = memory.getCompositeCache().getCacheName();
+		String regionName = DEFAULT_CACHE_REGION;
+		CompositeCache compositeCache = memory.getCompositeCache();
+		if (compositeCache != null) {
+			regionName = compositeCache.getCacheName();
+		}
 		System.out.println(regionName);
 
 		ElementEventHandlerMockImpl handler = new ElementEventHandlerMockImpl();
