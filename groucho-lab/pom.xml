@@ -236,7 +236,7 @@
 
 	<profiles>
 		<profile>
-			<id>experimentsProfile</id>
+			<id>jcsExperimentsProfile</id>
 			<activation>
 				<activeByDefault>false</activeByDefault>
 			</activation>
@@ -301,9 +301,9 @@
 									<goal>verify</goal>
 								</goals>
 								<configuration>
-									<!-- <excludes> -->
-									<!-- <exclude>it.cnr.iasi.saks.groucho.lab.instrument.test.it.**</exclude> -->
-									<!-- </excludes> -->
+<!-- 									<excludes> -->
+<!-- 									<exclude>it.cnr.iasi.saks.groucho.lab.instrument.test.it.**</exclude> -->
+<!-- 									</excludes> -->
 									<test>it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.SimpleJCSTest_IT</test>
 									<reuseForks>false</reuseForks>
 									<useUnlimitedThreads>true</useUnlimitedThreads>
