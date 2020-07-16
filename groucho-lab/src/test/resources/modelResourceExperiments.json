@@ -1,27 +1,9 @@
 {
   "lst" : [ {
-    "className" : "className",
-    "methodName" : "methodName1",
-    "annotation" : {
-      "invivoTestClass" : "invivoTestClass1",
-      "invivoTest" : "invivoTest1",
-      "carvingDepth" : 1,
-      "pauseOtherThreads" : false
-    }
-  }, {
     "className" : "org.apache.jcs.engine.memory.lru.LRUMemoryCache",
     "methodName" : "update",
     "annotation" : {
-      "invivoTestClass" : "it.cnr.iasi.saks.groucho.lab.instrument.test.utils.LRUMemoryCachePrinterInvivoTestClass",
-      "invivoTest" : "invivoTestMethod",
-      "carvingDepth" : 1,
-      "pauseOtherThreads" : false
-    }
-  }, {
-    "className" : "com.opensymphony.oscache.web.filter.CacheFilter",
-    "methodName" : "doFilter",
-    "annotation" : {
-      "invivoTestClass" : "it.cnr.iasi.saks.groucho.lab.instrument.test.utils.OSCachePrinterInvivoTestClass",
+      "invivoTestClass" : "it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.test.ShrinkerThreadInvivoTestClass",
       "invivoTest" : "invivoTestMethod",
       "carvingDepth" : 1,
       "pauseOtherThreads" : false
