@@ -118,17 +118,12 @@ public class ShrinkerThreadJCSTest_IT {
 		cacheMgr.configure("/test-conf/TestDiskCache.ccf");
 
 		String region = "indexedRegion1";
-		ICacheElement ice;
 		
 		CompositeCache cache = cacheMgr.getCache(region);
 
 		LRUMemoryCache lru = new LRUMemoryCache();
 		lru.initialize(cache);
 		
-//		int items = cacheMgr.getDefaultCacheAttributes().getMaxObjects() * 2;
-////		items = cacheMgr.getDefaultCacheAttributes().getMaxObjects() + 1;
-//		items = 99;
-
 		this.addElementsInCache(items, lru);
 		
 		return lru;
@@ -143,16 +138,12 @@ public class ShrinkerThreadJCSTest_IT {
 			ICacheElement element = new CacheElement("testRegion", key, value);
 
 			ElementAttributes elementAttr = new ElementAttributes();
-			elementAttr.setIsEternal(false);
+//			elementAttr.setIsEternal(false);
 			element.setElementAttributes(elementAttr);
-//			element.getElementAttributes().setMaxLifeSeconds(1);
 			lru.update(element);
 
 			ICacheElement returnedElement1 = lru.get(key);
 			Assert.assertNotNull("We should have received an element", returnedElement1);
-
-//			// set this to 2 seconds ago.
-//			elementAttr.lastAccessTime = System.currentTimeMillis() - 2000;
 		}
 	}
 

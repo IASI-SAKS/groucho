@@ -77,7 +77,7 @@ public class ShrinkerThreadUnitTest {
 		cacheAttr.setMaxMemoryIdleTimeSeconds(1);
 		cacheAttr.setMaxSpoolPerRun(10);
 
-		memory.setCacheAttributes(cacheAttr);
+		this.memory.setCacheAttributes(cacheAttr);
 
 		String key = "key";
 		String value = "value";
@@ -88,22 +88,22 @@ public class ShrinkerThreadUnitTest {
 		elementAttr.setIsEternal(false);
 		element.setElementAttributes(elementAttr);
 		element.getElementAttributes().setMaxLifeSeconds(1);
-		memory.update(element);
+		this.memory.update(element);
 
-		ICacheElement returnedElement1 = memory.get(key);
+		ICacheElement returnedElement1 = this.memory.get(key);
 		Assert.assertNotNull("We should have received an element", returnedElement1);
 
 		// set this to 2 seconds ago.
 		elementAttr.lastAccessTime = System.currentTimeMillis() - 2000;
 
-		ShrinkerThread shrinker = new ShrinkerThread(memory);
+		ShrinkerThread shrinker = new ShrinkerThread(this.memory);
 		Thread runner = new Thread(shrinker);
 		runner.run();
 
 		Thread.sleep(500);
 
-		ICacheElement returnedElement2 = memory.get(key);
-		Assert.assertTrue("Waterfall should have been called.", memory.getWaterfallCallCounter() > 0);
+		ICacheElement returnedElement2 = this.memory.get(key);
+		Assert.assertTrue("Waterfall should have been called.", this.memory.getWaterfallCallCounter() > 0);
 		Assert.assertNull("We not should have received an element.  It should have been spooled.", returnedElement2);
 	}
 
@@ -121,19 +121,19 @@ public class ShrinkerThreadUnitTest {
 		cacheAttr.setMaxMemoryIdleTimeSeconds(1);
 		cacheAttr.setMaxSpoolPerRun(3);
 
-		memory.setCacheAttributes(cacheAttr);
+		this.memory.setCacheAttributes(cacheAttr);
 
-		int sizeBeforeUpdates = memory.getSize();
+		int sizeBeforeUpdates = this.memory.getSize();
 
 		String regionName = DEFAULT_CACHE_REGION;
-		CompositeCache compositeCache = memory.getCompositeCache();
+		CompositeCache compositeCache = this.memory.getCompositeCache();
 		if (compositeCache != null) {
 			regionName = compositeCache.getCacheName();
 		}
 		System.out.println(regionName);
 		
 //		for (int i = 0; i < items; i++) {
-		for (int i = sizeBeforeUpdates; i < sizeBeforeUpdates + items; i++) {
+		for (int i = sizeBeforeUpdates; i < sizeBeforeUpdates + this.items; i++) {
 			String key = "key" + i;
 			String value = "value";
 
@@ -143,30 +143,30 @@ public class ShrinkerThreadUnitTest {
 			elementAttr.setIsEternal(false);
 			element.setElementAttributes(elementAttr);
 			element.getElementAttributes().setMaxLifeSeconds(1);
-			memory.update(element);
-			System.out.println("++current size++" + memory.getSize());
+			this.memory.update(element);
+			System.out.println("++current size++" + this.memory.getSize());
 
-			ICacheElement returnedElement1 = memory.get(key);
+			ICacheElement returnedElement1 = this.memory.get(key);
 			Assert.assertNotNull("We should have received an element", returnedElement1);
 
 			// set this to 2 seconds ago.
 			elementAttr.lastAccessTime = System.currentTimeMillis() - 2000;
 		}
 
-		ShrinkerThread shrinker = new ShrinkerThread(memory);
+		ShrinkerThread shrinker = new ShrinkerThread(this.memory);
 		Thread runner = new Thread(shrinker);
 		runner.run();
 
 		Thread.sleep(500);
 
-		Assert.assertEquals("Waterfall called the wrong number of times.", 3, memory.getWaterfallCallCounter());
-		int size = memory.getSize();
-		int expectedSize = ((sizeBeforeUpdates + items)>= memory.getCacheAttributes().getMaxObjects())?memory.getCacheAttributes().getMaxObjects()-3:sizeBeforeUpdates+items-3;
-		System.out.println("++sizeBeforeUpdates++" + sizeBeforeUpdates + " " + items);
+		Assert.assertEquals("Waterfall called the wrong number of times.", 3, this.memory.getWaterfallCallCounter());
+		int size = this.memory.getSize();
+		int expectedSize = ((sizeBeforeUpdates + this.items)>= this.memory.getCacheAttributes().getMaxObjects())?this.memory.getCacheAttributes().getMaxObjects()-3:sizeBeforeUpdates+this.items-3;
+		System.out.println("++sizeBeforeUpdates++" + sizeBeforeUpdates + " " + this.items);
 //		System.out.println("++size in testSimpleShrinkMutiple++" + size + "++expected++" + (sizeBeforeUpdates + items - 3));
 //		Assert.assertEquals("Wrong number of elements remain.", (sizeBeforeUpdates + items - 3), memory.getSize());
 		System.out.println("++size in testSimpleShrinkMutiple++" + size + "++expected++" + expectedSize);
-		Assert.assertEquals("Wrong number of elements remain.", expectedSize, memory.getSize());
+		Assert.assertEquals("Wrong number of elements remain.", expectedSize, this.memory.getSize());
 	}
 
 	/**
@@ -185,12 +185,12 @@ public class ShrinkerThreadUnitTest {
 		cacheAttr.setMaxMemoryIdleTimeSeconds(1);
 		cacheAttr.setMaxSpoolPerRun(3);
 
-		memory.setCacheAttributes(cacheAttr);
+		this.memory.setCacheAttributes(cacheAttr);
 
-		int sizeBeforeUpdates = memory.getSize();
+		int sizeBeforeUpdates = this.memory.getSize();
 
 		String regionName = DEFAULT_CACHE_REGION;
-		CompositeCache compositeCache = memory.getCompositeCache();
+		CompositeCache compositeCache = this.memory.getCompositeCache();
 		if (compositeCache != null) {
 			regionName = compositeCache.getCacheName();
 		}
@@ -198,7 +198,7 @@ public class ShrinkerThreadUnitTest {
 
 		ElementEventHandlerMockImpl handler = new ElementEventHandlerMockImpl();
 
-		for (int i = sizeBeforeUpdates; i < sizeBeforeUpdates + items; i++) {
+		for (int i = sizeBeforeUpdates; i < sizeBeforeUpdates + this.items; i++) {
 			String key = "key" + i;
 			String value = "value";
 
@@ -209,22 +209,22 @@ public class ShrinkerThreadUnitTest {
 			elementAttr.setIsEternal(false);
 			element.setElementAttributes(elementAttr);
 			element.getElementAttributes().setMaxLifeSeconds(1);
-			memory.update(element);
+			this.memory.update(element);
 
-			ICacheElement returnedElement1 = memory.get(key);
+			ICacheElement returnedElement1 = this.memory.get(key);
 			Assert.assertNotNull("We should have received an element", returnedElement1);
 
 			// set this to 2 seconds ago.
 			elementAttr.lastAccessTime = System.currentTimeMillis() - 2000;
 		}
 
-		ShrinkerThread shrinker = new ShrinkerThread(memory);
+		ShrinkerThread shrinker = new ShrinkerThread(this.memory);
 		Thread runner = new Thread(shrinker);
 		runner.run();
 
 		Thread.sleep(500);
 
-		Assert.assertEquals("Waterfall called the wrong number of times.", 3, memory.getWaterfallCallCounter());
+		Assert.assertEquals("Waterfall called the wrong number of times.", 3, this.memory.getWaterfallCallCounter());
 
 		// the shrinker delegates the the composite cache on the memory cache to put the
 		// event on the queue. This make it hard to test. TODO we need to change this to
@@ -232,9 +232,9 @@ public class ShrinkerThreadUnitTest {
 		// assertEquals( "Event handler ExceededIdleTimeBackground called the wrong
 		// number of times.", 3, handler.getExceededIdleTimeBackgroundCount() );
 
-		int size = memory.getSize();
-		System.out.println("++size in testSimpleShrinkMutipleWithEventHandler++" + size + "++expected++" + (items - 3));
-		Assert.assertEquals("Wrong number of elements remain.", items - 3, memory.getSize());
+		int size = this.memory.getSize();
+		System.out.println("++size in testSimpleShrinkMutipleWithEventHandler++" + size + "++expected++" + (this.items - 3));
+		Assert.assertEquals("Wrong number of elements remain.", this.items - 3, this.memory.getSize());
 	}
 
 }
