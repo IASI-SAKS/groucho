@@ -41,6 +41,18 @@ import org.apache.jcs.engine.control.CompositeCacheManager;
 
 public class ShrinkerThreadJCSTest_IT {
 
+	/*
+	 * This is an old version about the test 
+	 * checking if the Invivo Test were actually invoked.
+	 * 
+	 * It is structured in order to have the invivo testing session
+	 * always activable, ant it just checks if the invocation
+	 * to the invivo test is actually invoked.
+	 * 
+	 * This test is useless wrt the experimentations within JCS,
+	 * thus possibly it could be removed. I am leaving it here
+	 * only for potential future debugging activities
+	 */
 	@Ignore
 	@Test
 	public void invokeInvivoTestSimple() {
