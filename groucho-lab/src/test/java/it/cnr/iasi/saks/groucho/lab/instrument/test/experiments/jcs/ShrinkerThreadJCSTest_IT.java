@@ -102,6 +102,7 @@ public class ShrinkerThreadJCSTest_IT {
 			boolean condition = ShrinkerThreadInvivoTestClass.getExitStatus();
 			boolean expected = (items + ShrinkerThreadUnitTest.DEFAULT_ITEMS < lru.getCacheAttributes().getMaxObjects());
 	        System.out.println("[Run "+ run +"]\tItems: " + items + "\tSize: " + memSize + "\tCondition:"+condition + "\tExpected:"+expected);			
+			Assert.assertEquals(expected, condition);
 		}
 
 //		Assert.assertTrue(condition);
