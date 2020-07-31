@@ -63,6 +63,7 @@
 		<groucho-core.version>1.0-SNAPSHOT</groucho-core.version>
 		<groucho-lsh-rest.version>1.0-SNAPSHOT</groucho-lsh-rest.version>
 
+		<groucho-lab.extra.directory>${basedir}/../groucho-lab/src/extra/java</groucho-lab.extra.directory>
 		<groucho-lab.build.directory>${basedir}/../groucho-lab/target</groucho-lab.build.directory>
 		<groucho-lab.build.finalName>groucho-lab-1.0-SNAPSHOT</groucho-lab.build.finalName>
 
@@ -110,6 +111,13 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+		  <groupId>org.evosuite</groupId>
+		  <artifactId>evosuite-standalone-runtime</artifactId>
+		  <version>${evosuite.version}</version>
+		  <scope>test</scope>
+		</dependency>		
+		
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
@@ -301,9 +309,9 @@
 									<goal>verify</goal>
 								</goals>
 								<configuration>
-<!-- 									<excludes> -->
-<!-- 									<exclude>it.cnr.iasi.saks.groucho.lab.instrument.test.it.**</exclude> -->
-<!-- 									</excludes> -->
+									<!-- <excludes> -->
+									<!-- <exclude>it.cnr.iasi.saks.groucho.lab.instrument.test.it.**</exclude> -->
+									<!-- </excludes> -->
 									<test>it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.SimpleJCSTest_IT</test>
 									<reuseForks>false</reuseForks>
 									<useUnlimitedThreads>true</useUnlimitedThreads>
@@ -386,9 +394,9 @@
 									<goal>verify</goal>
 								</goals>
 								<configuration>
-<!-- 									<excludes> -->
-<!-- 									<exclude>it.cnr.iasi.saks.groucho.lab.instrument.test.it.**</exclude> -->
-<!-- 									</excludes> -->
+									<!-- <excludes> -->
+									<!-- <exclude>it.cnr.iasi.saks.groucho.lab.instrument.test.it.**</exclude> -->
+									<!-- </excludes> -->
 									<test>it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.oscache.SimpleOSCacheTest_IT</test>
 									<reuseForks>false</reuseForks>
 									<useUnlimitedThreads>true</useUnlimitedThreads>
@@ -409,33 +417,33 @@
 									</argLine>
 								</configuration>
 							</execution>
-<!-- 							<execution> -->
-<!-- 								<id>actual</id> -->
-<!-- 								<goals> -->
-<!-- 									<goal>integration-test</goal> -->
-<!-- 									<goal>verify</goal> -->
-<!-- 								</goals> -->
-<!-- 								<configuration> -->
-<!-- 									<test>it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.ShrinkerThreadJCSTest_IT</test> -->
-<!-- 									<reuseForks>false</reuseForks> -->
-<!-- 									<useUnlimitedThreads>true</useUnlimitedThreads> -->
-<!-- 									<jvm>${groucho-crochet.build.directory}/jre-inst/bin/java</jvm> -->
-<!-- 									<argLine> -->
-<!-- 										-Xmx4G -->
-<!-- 										-agentpath:${groucho-crochet.build.directory}/libtagging.so -->
-<!-- 										-javaagent:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar -->
-<!-- 										-Xbootclasspath/p:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar -->
-<!-- 										@{argLine} -->
-<!-- 										-javaagent:${groucho-lab.build.directory}/${groucho-lab.build.finalName}.jar -->
-<!-- 										-Xbootclasspath/p:${groucho-lab.build.depencenciesDirectory} -->
-<!-- 										-Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConfExperiments.properties -->
-										<!-- *** -->
-<!-- 										-javaagent:${groucho-core.build.directory}/${groucho-core.build.finalName}.jar -->
-<!-- 										-Xbootclasspath/p:${groucho-lab.build.depencenciesDirectory} -->
-<!-- 										-Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConfExperiments.properties -->
-<!-- 									</argLine> -->
-<!-- 								</configuration> -->
-<!-- 							</execution> -->
+							<!-- <execution> -->
+							<!-- <id>actual</id> -->
+							<!-- <goals> -->
+							<!-- <goal>integration-test</goal> -->
+							<!-- <goal>verify</goal> -->
+							<!-- </goals> -->
+							<!-- <configuration> -->
+							<!-- <test>it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.ShrinkerThreadJCSTest_IT</test> -->
+							<!-- <reuseForks>false</reuseForks> -->
+							<!-- <useUnlimitedThreads>true</useUnlimitedThreads> -->
+							<!-- <jvm>${groucho-crochet.build.directory}/jre-inst/bin/java</jvm> -->
+							<!-- <argLine> -->
+							<!-- -Xmx4G -->
+							<!-- -agentpath:${groucho-crochet.build.directory}/libtagging.so -->
+							<!-- -javaagent:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar -->
+							<!-- -Xbootclasspath/p:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar -->
+							<!-- @{argLine} -->
+							<!-- -javaagent:${groucho-lab.build.directory}/${groucho-lab.build.finalName}.jar -->
+							<!-- -Xbootclasspath/p:${groucho-lab.build.depencenciesDirectory} -->
+							<!-- -Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConfExperiments.properties -->
+							<!-- *** -->
+							<!-- -javaagent:${groucho-core.build.directory}/${groucho-core.build.finalName}.jar -->
+							<!-- -Xbootclasspath/p:${groucho-lab.build.depencenciesDirectory} -->
+							<!-- -Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConfExperiments.properties -->
+							<!-- </argLine> -->
+							<!-- </configuration> -->
+							<!-- </execution> -->
 						</executions>
 					</plugin>
 				</plugins>
@@ -447,20 +455,56 @@
 			<activation>
 				<activeByDefault>false</activeByDefault>
 			</activation>
+			<properties>
+<!-- 				<cuts>com.opensymphony.oscache.web.filter.CacheFilter, com.opensymphony.oscache.base.algorithm.AbstractConcurrentReadCache</cuts> -->
+				<cuts>com.opensymphony.oscache.base.algorithm.AbstractConcurrentReadCache</cuts>
+				<targetFolder>${basedir}/../groucho-lab/src/extra/test</targetFolder>
+<!-- 				<criterion>LINE</criterion> -->
+<!-- 				<criterion>BRANCH</criterion> -->
+<!-- 				<criterion>OUTPUT:BRANCH</criterion> -->
+<!-- 				<criterion>METHOD:OUTPUT:CBRANCH</criterion> -->
+<!-- 				<criterion>LINE:BRANCH:METHOD:OUTPUT:CBRANCH</criterion> -->
+<!-- 				<criterion>LINE:BRANCH:METHOD</criterion> -->
+				<criterion>CBRANCH</criterion>
+<!-- 				<timeInMinutesPerClass>15</timeInMinutesPerClass> -->
+<!-- 				<timeInMinutesPerClass>30</timeInMinutesPerClass> -->
+				<timeInMinutesPerClass>60</timeInMinutesPerClass>
+<!-- 				<criterion>WEAKMUTATION</criterion> -->
+			</properties>
 			<build>
 				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<version>1.7</version>
+						<executions>
+							<execution>
+								<id>add-extra-source-from-osCache</id>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>add-source</goal>
+								</goals>
+								<configuration>
+									<sources>
+										<source>${groucho-lab.extra.directory}</source>
+									</sources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
 					<plugin>
 						<groupId>org.evosuite.plugins</groupId>
 						<artifactId>evosuite-maven-plugin</artifactId>
 						<version>${evosuite.version}</version>
-						<executions>
-							<execution>
-								<goals>
-									<goal> generate </goal>
-								</goals>
-								<phase> process-test-classes </phase>
-							</execution>
-						</executions>
+						<!-- <executions> -->
+						<!-- <execution> -->
+						<!-- <goals> -->
+						<!-- <goal>generate</goal> -->
+						<!-- <goal>export</goal> -->
+						<!-- </goals> -->
+						<!-- <phase> process-test-classes </phase> -->
+						<!-- </execution> -->
+						<!-- </executions> -->
 					</plugin>
 				</plugins>
 			</build>
