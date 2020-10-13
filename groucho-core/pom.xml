@@ -51,7 +51,7 @@
 <!-- This property can be removed!!! -->
 		<artifact.jar.mainclass>it.cnr.iasi.saks.groucho.main.Main</artifact.jar.mainclass>
 <!--  -->	
-		<junit.version>4.0</junit.version>
+		<junit.version>4.13.1</junit.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<slf4j.version>1.7.12</slf4j.version>
         <asm.version>5.0.3</asm.version>
