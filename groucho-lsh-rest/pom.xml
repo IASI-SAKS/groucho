@@ -52,7 +52,7 @@
 	<slf4j.version>1.7.12</slf4j.version>
         <springfox-version>2.9.2</springfox-version>
         <spring.boot.version>2.2.6.RELEASE</spring.boot.version>
-        <junit.version>4.4</junit.version>
+        <junit.version>4.13.1</junit.version>
         
         <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
