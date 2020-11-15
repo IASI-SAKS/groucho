@@ -7,20 +7,14 @@ package it.cnr.iasi.saks.groucho.lsh.rest.api;
 
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Generated;
 import javax.validation.Valid;
-import javax.validation.constraints.*;
-import java.util.List;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-07-02T22:49:41.406+02:00")
+@Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-07-02T22:49:41.406+02:00")
 
 @Api(value = "mark", description = "the mark API")
 public interface MarkApi {
@@ -34,7 +28,7 @@ public interface MarkApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Void> markState(@ApiParam(value = "The Actual Internal Representation as a String of the Considered State." ,required=true )  @Valid @RequestBody String body);
+    ResponseEntity<Boolean> markState(@ApiParam(value = "The Actual Internal Representation as a String of the Considered State." ,required=true )  @Valid @RequestBody String body);
 
 
     @ApiOperation(value = "Assert that a given state has been observed.", nickname = "markStateLSH", notes = "Assert that a given state has been observed. It return TRUE is the state has been marked, FALSE otherwise. The input parameter is supposed to be a codification in LSH of the actual internal state representation.", tags={ "markState", })
@@ -45,6 +39,6 @@ public interface MarkApi {
     @RequestMapping(value = "/mark/{stateStringLSH}",
         produces = { "application/json" }, 
         method = RequestMethod.PUT)
-    ResponseEntity<Void> markStateLSH(@ApiParam(value = "LSH String of Considered State",required=true) @PathVariable("stateStringLSH") String stateStringLSH);
+    ResponseEntity<Boolean> markStateLSH(@ApiParam(value = "LSH String of Considered State",required=true) @PathVariable("stateStringLSH") String stateStringLSH);
 
 }
