@@ -17,8 +17,6 @@
  */
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.oscache.test;
 
-import java.util.Properties;
-
 import org.junit.Assert;
 import org.junit.Test;
 
