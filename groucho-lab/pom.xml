@@ -204,6 +204,9 @@
 					<argLine>@{argLine}
 						-Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConf.properties
 					</argLine>
+					<excludes>
+						<exclude>it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.oscache.testIssueCache236.**</exclude>
+					</excludes>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -258,43 +261,6 @@
 							<skipTests>true</skipTests>
 						</configuration>
 					</plugin>
-					<!-- <plugin> -->
-					<!-- <groupId>org.apache.maven.plugins</groupId> -->
-					<!-- <artifactId>maven-failsafe-plugin</artifactId> -->
-					<!-- <version>NO VERSOIN FOR THE MOMENT AS IN THE PATCH FOR CROCHET</version> -->
-					<!-- <version>2.18.1</version> -->
-					<!-- <version>2.19.1</version> -->
-					<!-- <executions> -->
-					<!-- <execution> -->
-					<!-- <goals> -->
-					<!-- <goal>integration-test</goal> -->
-					<!-- <goal>verify</goal> -->
-					<!-- </goals> -->
-					<!-- </execution> -->
-					<!-- </executions> -->
-					<!-- <configuration> -->
-					<!-- <excludes> -->
-					<!-- <exclude>it.cnr.iasi.saks.groucho.lab.instrument.test.it.**</exclude> -->
-					<!-- </excludes> -->
-					<!-- <reuseForks>false</reuseForks> -->
-					<!-- <useUnlimitedThreads>true</useUnlimitedThreads> -->
-					<!-- <jvm>${groucho-crochet.build.directory}/jre-inst/bin/java</jvm> -->
-					<!-- <argLine> -->
-					<!-- -Xmx4G -->
-					<!-- -agentpath:${groucho-crochet.build.directory}/libtagging.so -->
-					<!-- -javaagent:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar -->
-					<!-- -Xbootclasspath/p:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar -->
-					<!-- @{argLine} -->
-					<!-- -javaagent:${groucho-lab.build.directory}/${groucho-lab.build.finalName}.jar -->
-					<!-- -Xbootclasspath/p:${groucho-lab.build.depencenciesDirectory} -->
-					<!-- -Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConfExperiments.properties -->
-					<!-- -->
-					<!-- -javaagent:${groucho-core.build.directory}/${groucho-core.build.finalName}.jar -->
-					<!-- -Xbootclasspath/p:${groucho-lab.build.depencenciesDirectory} -->
-					<!-- -Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConfExperiments.properties -->
-					<!-- </argLine> -->
-					<!-- </configuration> -->
-					<!-- </plugin> -->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-failsafe-plugin</artifactId>
@@ -417,33 +383,6 @@
 									</argLine>
 								</configuration>
 							</execution>
-							<!-- <execution> -->
-							<!-- <id>actual</id> -->
-							<!-- <goals> -->
-							<!-- <goal>integration-test</goal> -->
-							<!-- <goal>verify</goal> -->
-							<!-- </goals> -->
-							<!-- <configuration> -->
-							<!-- <test>it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.ShrinkerThreadJCSTest_IT</test> -->
-							<!-- <reuseForks>false</reuseForks> -->
-							<!-- <useUnlimitedThreads>true</useUnlimitedThreads> -->
-							<!-- <jvm>${groucho-crochet.build.directory}/jre-inst/bin/java</jvm> -->
-							<!-- <argLine> -->
-							<!-- -Xmx4G -->
-							<!-- -agentpath:${groucho-crochet.build.directory}/libtagging.so -->
-							<!-- -javaagent:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar -->
-							<!-- -Xbootclasspath/p:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar -->
-							<!-- @{argLine} -->
-							<!-- -javaagent:${groucho-lab.build.directory}/${groucho-lab.build.finalName}.jar -->
-							<!-- -Xbootclasspath/p:${groucho-lab.build.depencenciesDirectory} -->
-							<!-- -Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConfExperiments.properties -->
-							<!-- *** -->
-							<!-- -javaagent:${groucho-core.build.directory}/${groucho-core.build.finalName}.jar -->
-							<!-- -Xbootclasspath/p:${groucho-lab.build.depencenciesDirectory} -->
-							<!-- -Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConfExperiments.properties -->
-							<!-- </argLine> -->
-							<!-- </configuration> -->
-							<!-- </execution> -->
 						</executions>
 					</plugin>
 				</plugins>
@@ -460,16 +399,20 @@
 				<cuts>com.opensymphony.oscache.base.algorithm.AbstractConcurrentReadCache</cuts>
 				<targetFolder>${basedir}/../groucho-lab/src/extra/test</targetFolder>
 <!-- 				<criterion>LINE</criterion> -->
-<!-- 				<criterion>BRANCH</criterion> -->
+				<criterion>BRANCH</criterion>
 <!-- 				<criterion>OUTPUT:BRANCH</criterion> -->
 <!-- 				<criterion>METHOD:OUTPUT:CBRANCH</criterion> -->
 <!-- 				<criterion>LINE:BRANCH:METHOD:OUTPUT:CBRANCH</criterion> -->
 <!-- 				<criterion>LINE:BRANCH:METHOD</criterion> -->
-				<criterion>CBRANCH</criterion>
+<!-- 				<criterion>CBRANCH</criterion> -->
+<!-- 				<criterion>WEAKMUTATION</criterion> -->
 <!-- 				<timeInMinutesPerClass>15</timeInMinutesPerClass> -->
 <!-- 				<timeInMinutesPerClass>30</timeInMinutesPerClass> -->
 				<timeInMinutesPerClass>60</timeInMinutesPerClass>
-<!-- 				<criterion>WEAKMUTATION</criterion> -->
+<!-- 				<extraArgs>-Dsearch_budget=120</extraArgs> -->
+<!-- 				<extraArgs>-Dsearch_budget=120 -Dassertions=false</extraArgs> -->
+<!-- 				<extraArgs>-Dsearch_budget=120 -Dassertions=false -generateMOSuite</extraArgs> -->
+<!-- 				<extraArgs>-Dsearch_budget=120 -Dassertions=false -generateMOSuite -Dalgorithm=dynamosa</extraArgs> -->
 			</properties>
 			<build>
 				<plugins>
@@ -496,15 +439,6 @@
 						<groupId>org.evosuite.plugins</groupId>
 						<artifactId>evosuite-maven-plugin</artifactId>
 						<version>${evosuite.version}</version>
-						<!-- <executions> -->
-						<!-- <execution> -->
-						<!-- <goals> -->
-						<!-- <goal>generate</goal> -->
-						<!-- <goal>export</goal> -->
-						<!-- </goals> -->
-						<!-- <phase> process-test-classes </phase> -->
-						<!-- </execution> -->
-						<!-- </executions> -->
 					</plugin>
 				</plugins>
 			</build>
