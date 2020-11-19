@@ -15,7 +15,7 @@
  * along with GROUCHO.  If not, see <https://www.gnu.org/licenses/>
  *
  */
-package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.oscache.test;
+package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.oscache.testIssueCache236;
 
 import java.io.IOException;
 import java.nio.file.Files;
