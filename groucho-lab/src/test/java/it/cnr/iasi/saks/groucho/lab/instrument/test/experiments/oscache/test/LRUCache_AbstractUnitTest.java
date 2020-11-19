@@ -17,11 +17,15 @@
  */
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.oscache.test;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Properties;
 
 import com.opensymphony.oscache.base.Config;
 import com.opensymphony.oscache.base.algorithm.LRUCache;
 import com.opensymphony.oscache.plugins.diskpersistence.HashDiskPersistenceListener;
+
+import it.cnr.iasi.saks.groucho.carvingStateTests.RandomGenerator;
 
 /*
  * This class declares a common configuration for those Unit Tests 
@@ -41,7 +45,8 @@ public abstract class LRUCache_AbstractUnitTest {
 	protected static final boolean CACHE_UNLIMITED_DISK=true;
 	protected static final boolean CACHE_PERSISTENCE_OVERFLOW_ONLY=true;
 	protected static final String CACHE_PERSISTENCE_CLASS="com.opensymphony.oscache.plugins.diskpersistence.HashDiskPersistenceListener";
-	protected static final String CACHE_PATH=System.getProperty("java.io.tmpdir");
+	private static final String DEFAULT_CACHE_PATH=System.getProperty("java.io.tmpdir");
+	protected String CACHE_PATH = DEFAULT_CACHE_PATH;
 	protected static final boolean CACHE_BLOCKING=true;
 	protected static final boolean CACHE_MEMORY=true;
 
@@ -60,7 +65,18 @@ public abstract class LRUCache_AbstractUnitTest {
     public void setUpHashDiskPersistenceListener(){
         HashDiskPersistenceListener listener = new HashDiskPersistenceListener();
 
-        Properties p = new Properties();
+        if (this.CACHE_PATH.equals(DEFAULT_CACHE_PATH)) {
+        	try {
+        		String prefix = RandomGenerator.getInstance().nextString();
+        		prefix = this.getClass().getName() + "-" + prefix;
+        		this.CACHE_PATH = Files.createTempDirectory(prefix).toString();
+        	} catch (IOException e) {
+        		e.printStackTrace();
+        		this.CACHE_PATH = DEFAULT_CACHE_PATH;
+        	}
+        }
+        
+        Properties p = new Properties();        
         p.setProperty("cache.path", String.valueOf(CACHE_PATH));
         p.setProperty("cache.memory", String.valueOf(CACHE_MEMORY));
         p.setProperty("cache.persistence.class", CACHE_PERSISTENCE_CLASS);
