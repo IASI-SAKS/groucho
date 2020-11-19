@@ -40,54 +40,61 @@ import it.cnr.iasi.saks.groucho.carvingStateTests.RandomGenerator;
  */
 
 public abstract class LRUCache_AbstractUnitTest {
-    
-	protected static final int CACHE_CAPACITY=4;
-	protected static final boolean CACHE_UNLIMITED_DISK=true;
-	protected static final boolean CACHE_PERSISTENCE_OVERFLOW_ONLY=true;
-	protected static final String CACHE_PERSISTENCE_CLASS="com.opensymphony.oscache.plugins.diskpersistence.HashDiskPersistenceListener";
-	private static final String DEFAULT_CACHE_PATH=System.getProperty("java.io.tmpdir");
+
+	protected static final int CACHE_CAPACITY = 4;
+	protected static final boolean CACHE_UNLIMITED_DISK = true;
+	protected static final boolean CACHE_PERSISTENCE_OVERFLOW_ONLY = true;
+	protected static final String CACHE_PERSISTENCE_CLASS = "com.opensymphony.oscache.plugins.diskpersistence.HashDiskPersistenceListener";
+	private static final String DEFAULT_CACHE_PATH = System.getProperty("java.io.tmpdir");
 	protected String CACHE_PATH = DEFAULT_CACHE_PATH;
-	protected static final boolean CACHE_BLOCKING=true;
-	protected static final boolean CACHE_MEMORY=true;
+	protected static final boolean CACHE_BLOCKING = true;
+	protected static final boolean CACHE_MEMORY = true;
 
 	protected LRUCache cache = null;
 
-    public LRUCache_AbstractUnitTest() {
-    	this.cache = new LRUCache(CACHE_CAPACITY);
+	public LRUCache_AbstractUnitTest() {
+		this.cache = new LRUCache(CACHE_CAPACITY);
 
-    	this.cache.setMemoryCaching(CACHE_MEMORY);
-    	this.cache.setUnlimitedDiskCache(CACHE_UNLIMITED_DISK);
-    	this.cache.setOverflowPersistence(CACHE_PERSISTENCE_OVERFLOW_ONLY);
+		this.cache.setMemoryCaching(CACHE_MEMORY);
+		this.cache.setUnlimitedDiskCache(CACHE_UNLIMITED_DISK);
+		this.cache.setOverflowPersistence(CACHE_PERSISTENCE_OVERFLOW_ONLY);
 
-    	this.setUpHashDiskPersistenceListener();
-    }
-	
-    public void setUpHashDiskPersistenceListener(){
-        HashDiskPersistenceListener listener = new HashDiskPersistenceListener();
+		this.setUpHashDiskPersistenceListener();
+	}
 
-        if (this.CACHE_PATH.equals(DEFAULT_CACHE_PATH)) {
-        	try {
-        		String prefix = RandomGenerator.getInstance().nextString();
-        		prefix = this.getClass().getName() + "-" + prefix;
-        		this.CACHE_PATH = Files.createTempDirectory(prefix).toString();
-        	} catch (IOException e) {
-        		e.printStackTrace();
-        		this.CACHE_PATH = DEFAULT_CACHE_PATH;
-        	}
-        }
-        
-        Properties p = new Properties();        
-        p.setProperty("cache.path", String.valueOf(CACHE_PATH));
-        p.setProperty("cache.memory", String.valueOf(CACHE_MEMORY));
-        p.setProperty("cache.persistence.class", CACHE_PERSISTENCE_CLASS);
-        p.setProperty("cache.capacity", String.valueOf(CACHE_CAPACITY));
-        p.setProperty("cache.unlimited.disk", String.valueOf(CACHE_UNLIMITED_DISK));
-        p.setProperty("cache.persistence.overflow.only", String.valueOf(CACHE_PERSISTENCE_OVERFLOW_ONLY));
-        p.setProperty("cache.blocking", String.valueOf(CACHE_BLOCKING));
+	public void setUpHashDiskPersistenceListener() {
+		HashDiskPersistenceListener listener = new HashDiskPersistenceListener();
 
-        listener.configure(new Config(p));
-        
-        this.cache.setPersistenceListener(listener);            	
-    }
+		if (this.CACHE_PATH.equals(DEFAULT_CACHE_PATH)) {
+			this.CACHE_PATH = GENERATE_CACHE_PATH(this.getClass().getName());
+		}
+
+		Properties p = new Properties();
+		p.setProperty("cache.path", String.valueOf(CACHE_PATH));
+		p.setProperty("cache.memory", String.valueOf(CACHE_MEMORY));
+		p.setProperty("cache.persistence.class", CACHE_PERSISTENCE_CLASS);
+		p.setProperty("cache.capacity", String.valueOf(CACHE_CAPACITY));
+		p.setProperty("cache.unlimited.disk", String.valueOf(CACHE_UNLIMITED_DISK));
+		p.setProperty("cache.persistence.overflow.only", String.valueOf(CACHE_PERSISTENCE_OVERFLOW_ONLY));
+		p.setProperty("cache.blocking", String.valueOf(CACHE_BLOCKING));
+
+		listener.configure(new Config(p));
+
+		this.cache.setPersistenceListener(listener);
+	}
+
+	public static String GENERATE_CACHE_PATH(String prefix) {
+		String cachePath = DEFAULT_CACHE_PATH;
+		try {
+			String rndString = RandomGenerator.getInstance().nextString();
+			rndString = prefix + "-" + rndString;
+			cachePath = Files.createTempDirectory(rndString).toString();
+		} catch (IOException e) {
+			e.printStackTrace();
+			cachePath = DEFAULT_CACHE_PATH;
+		}
+		
+		return cachePath;
+	}
 
 }
