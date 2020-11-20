@@ -30,6 +30,8 @@ import com.opensymphony.oscache.base.NeedsRefreshException;
 import com.opensymphony.oscache.base.persistence.CachePersistenceException;
 import com.opensymphony.oscache.plugins.diskpersistence.HashDiskPersistenceListener;
 
+import it.cnr.iasi.saks.groucho.lab.instrument.test.utils.OSCacheLRUCacheFactory;
+
 /*
  * This class is an implementation of a Unit Test 
  * proposed in the description of the ISSUE CACHE-236 for
@@ -57,9 +59,10 @@ public class Cache_RemoveEntryInternalUnitTest extends Cache{
     	this.setUpHashDiskPersistenceListener();
     }
 	
-    public void setUpHashDiskPersistenceListener(){
+    protected void setUpHashDiskPersistenceListener(){
 		if (this.CACHE_PATH.equals(DEFAULT_CACHE_PATH)) {
-			this.CACHE_PATH = LRUCache_AbstractUnitTest.GENERATE_CACHE_PATH(this.getClass().getName());
+//			this.CACHE_PATH = LRUCache_AbstractUnitTest.GENERATE_CACHE_PATH(this.getClass().getName());
+			this.CACHE_PATH = OSCacheLRUCacheFactory.GENERATE_CACHE_PATH(this.getClass().getName());
 		}
     	
     	HashDiskPersistenceListener listener = new HashDiskPersistenceListener();
