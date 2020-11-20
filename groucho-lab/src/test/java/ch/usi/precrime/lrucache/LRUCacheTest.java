@@ -1,4 +1,4 @@
-/* 
+/** 
  * This file IS NOT part of the GROUCHO project.
  * 
  * This is a reference test program developed by
@@ -26,6 +26,19 @@ import org.junit.Test;
 import com.opensymphony.oscache.base.algorithm.LRUCache;
 
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.oscache.testIssueCache236.LRUCache_AbstractUnitTest;
+
+/** 
+ * This file IS NOT part of the GROUCHO project.
+ * 
+ * This is a reference test program developed by
+ * a PhD student at Università della Svizzera Italiana 
+ * by reading the documentation available about LRUCache.
+ * The developer had long industrial experience in software 
+ * testing. Specifically, before starting the PhD Program
+ * worked both as software tester, and test manager in 
+ * several companies.
+ * 
+ */
 
 /**
  * Unit test for  LRUCache.
