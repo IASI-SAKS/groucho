@@ -62,7 +62,7 @@ public abstract class LRUCache_AbstractUnitTest {
 		this.setUpHashDiskPersistenceListener();
 	}
 
-	public void setUpHashDiskPersistenceListener() {
+	protected void setUpHashDiskPersistenceListener() {
 		HashDiskPersistenceListener listener = new HashDiskPersistenceListener();
 
 		if (this.CACHE_PATH.equals(DEFAULT_CACHE_PATH)) {
