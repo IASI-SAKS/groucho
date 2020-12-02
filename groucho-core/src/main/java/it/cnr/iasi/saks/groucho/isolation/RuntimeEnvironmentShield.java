@@ -61,6 +61,22 @@ public class RuntimeEnvironmentShield{
 		}
 	}
 
+	public void applyCheckpoint(Object o) {
+		if (o != null){
+			int version = CROCHET_AGENT.getNewVersionForCheckpoint();
+			
+			this.performCheckpoint(o, version);						
+		}
+	}
+
+	public void applyRollback(Object o) {		
+		if (o != null){
+			int version = CROCHET_AGENT.getNewVersionForRollback();
+			
+			this.performRollback(o, version);
+		}
+	}
+
 	private void performCheckpoint(Object subject, int version) {
 		try {
 			CRIJInstrumented obj = (CRIJInstrumented)subject; 
