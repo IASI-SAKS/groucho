@@ -8,6 +8,7 @@ import com.opensymphony.oscache.base.Config;
 import com.opensymphony.oscache.base.algorithm.LRUCache;
 import com.opensymphony.oscache.plugins.diskpersistence.HashDiskPersistenceListener;
 
+import it.cnr.iasi.saks.foo.MyDummyLRUCache;
 import it.cnr.iasi.saks.groucho.carvingStateTests.RandomGenerator;
 
 /**
@@ -54,7 +55,8 @@ public class OSCacheLRUCacheFactory {
 		String oldCachePersistenceClass = (String) p.setProperty(CACHE_PERSISTENCE_CLASS_LABEL, DEFAULT_CACHE_PERSISTENCE_CLASS);
 		
 		int capacity = Integer.valueOf(p.getProperty(CACHE_CAPACITY_LABEL));
-		LRUCache cache = new LRUCache(capacity);
+//		LRUCache cache = new LRUCache(capacity);
+		LRUCache cache = new MyDummyLRUCache(capacity);
 
 		boolean b = Boolean.valueOf((String) p.get(CACHE_MEMORY_LABEL));
 		cache.setMemoryCaching(b);
