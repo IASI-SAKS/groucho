@@ -42,7 +42,8 @@ import it.cnr.iasi.saks.groucho.lab.instrument.test.utils.OSCacheLRUCacheFactory
 
 public abstract class LRUCache_AbstractUnitTest {
 
-	protected static final int CACHE_CAPACITY = 4;
+	protected static final int DEFAULT_CACHE_CAPACITY = 4;
+	protected static int CACHE_CAPACITY = DEFAULT_CACHE_CAPACITY;
 	protected static final boolean CACHE_UNLIMITED_DISK = true;
 	protected static final boolean CACHE_PERSISTENCE_OVERFLOW_ONLY = true;
 	protected static final String CACHE_PERSISTENCE_CLASS = "com.opensymphony.oscache.plugins.diskpersistence.HashDiskPersistenceListener";
