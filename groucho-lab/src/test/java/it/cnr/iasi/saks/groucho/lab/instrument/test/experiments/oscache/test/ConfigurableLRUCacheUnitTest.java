@@ -24,6 +24,7 @@ import org.junit.Test;
 import com.opensymphony.oscache.base.algorithm.LRUCache;
 
 import ch.usi.precrime.lrucache.LRUCacheTest;
+import it.cnr.iasi.saks.groucho.carvingStateTests.RandomGenerator;
 
 /*
  * This class is a re-implementation of the original Unit Test:
@@ -42,22 +43,71 @@ import ch.usi.precrime.lrucache.LRUCacheTest;
  */
 
 public class ConfigurableLRUCacheUnitTest extends LRUCacheTest {
-		
+	private int expectedSize=0;
+	
 	public ConfigurableLRUCacheUnitTest() {
 		System.out.println("... DEAFULT CONFIGURATION DONE!!!");
+		this.expectedSize = this.cache.size();
 	}
 
 	public void updateLRUCache(LRUCache mem) {
 		this.cache = mem;
+		this.expectedSize = this.cache.size();
+		CACHE_CAPACITY = this.cache.getMaxEntries();
 		System.out.println("... CONFIGURATION DONE!!!");
 	}
 
-	
+	@Override
     @Test
-    public void testDummy()
+    public void testSize_zero()
     {
-    	System.out.println("Invoked Dummy Test ... Passed");
+    	assertTrue(this.cache.size() == this.expectedSize);
+    }
+    
+	@Override
+	@Test
+    public void testSize_one()
+    {
+    	this.cache.put(K1, V1);
+    	assertTrue(this.cache.size() == this.expectedSize+1);
+    }
+
+	@Override
+    @Test
+    public void testSize_more()
+    {
+    	for(int i = 0; i < 3; i++) {
+    		this.cache.put(K1 + "-" + Integer.toString(i), V1 + "-" + Integer.toString(i));
+    	}
+    	assertTrue(this.cache.size() == this.expectedSize+3);
+    }
+	
+	@Override
+    @Test
+    public void testIsEmpty_whenEmpty()
+    {
+		this.cache.clear();
+    	assertTrue(this.cache.isEmpty());
+    }
+	
+//    @Test
+    public void dummyTest()
+    {
+    	System.out.println("Invoked dummyTest ... Passed");
     	assertTrue(true);
     }
 
+//    @Test
+    public void randomFailureDummyTest()
+    {
+    	String message = "Invoked randomFailureDummy ... ";
+    	boolean exitStatus = RandomGenerator.getInstance().nextDouble() < 0.7;
+    	if (exitStatus) {
+    		message = message + " Passed";
+    	}else {
+    		message = message + " Failed";
+    	}
+    	System.out.println(message);
+    	assertTrue(exitStatus);
+    }
 }
