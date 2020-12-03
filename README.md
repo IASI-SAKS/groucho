@@ -90,7 +90,7 @@ How to Launch some Experiments
  cd groucho-lab
  mvn -PjcsExperimentsProfile clean verify
  ```
- * OpenSymphony OSCache: Launch the experiment with the test cases independently developed at USI 
+ * OpenSymphony OSCache: Launch the experiment with a [configurable unit test](groucho-lab/src/test/java/it/cnr/iasi/saks/groucho/lab/instrument/test/experiments/oscache/test/ConfigurableLRUCacheUnitTest.java) derived from a [test case independently developed at USI](groucho-lab/src/test/java/ch/usi/precrime/lrucache/LRUCacheTest.java) 
  ```bash
  cd groucho-lab
  mvn -PosCacheExperimentsProfile clean verify
