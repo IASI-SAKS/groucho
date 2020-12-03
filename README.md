@@ -54,7 +54,7 @@ Each method that could be subject to In Vivo testing must be annotated as `Testa
 			invivoTest = "invivoTestMethodName")
 	public void thisIsFoo() {
 		/*
-		 * To Something here
+		 * Do Something here
 		 */
 	}
 ```
