@@ -93,7 +93,13 @@ public abstract class AbstractGovernanceManager implements ThreadHarness {
 			try{
 				System.out.println("[Thread ID:"+ID+"] Checking for Activation of Invivo Session ... ");
 				if (this.checkActivation(context)){
-					System.out.println("[Thread ID:"+ID+"] ... activated");
+					
+					String invivoTestFullName = "null";
+					if (context != null) {
+						invivoTestFullName = context.getInvivoTestClass() + '@' +context.getInvivoTest();
+					}
+
+					System.out.println("[Thread ID:"+ID+"][Invivo Test:"+invivoTestFullName+"] ... activated");
 					this.updatePauseOtherThreads(context);
 					this.inVivoTestingSession.resetConfiguration();
 					this.inVivoTestingSession.goNextConfiguration();
@@ -102,12 +108,12 @@ public abstract class AbstractGovernanceManager implements ThreadHarness {
 					}	
 				
 					this.inVivoTestingSession.goNextConfiguration();
-					System.out.println("the checkpoint of the considered object should be applied here ... ");		
+					System.out.println("[Thread ID:"+ID+"][Invivo Test:"+invivoTestFullName+"] the checkpoint of the considered object should be applied here ...");		
 					this.environmentShield.applyCheckpointOnContext(context);				
 				
 					this.doInvivoTestingSession(context);
 					
-					System.out.println("... while its rollback is here.");		
+					System.out.println("[Thread ID:"+ID+"][Invivo Test:"+invivoTestFullName+"] ... while its rollback is here.");		
 					this.environmentShield.applyRollbackOnContext(context);
 					
 					this.notifyOtherThreads(ID);
@@ -116,10 +122,12 @@ public abstract class AbstractGovernanceManager implements ThreadHarness {
 				}
 			} finally {
 					this.inVivoTestingSession.resetConfiguration();
+//					System.out.println("$$$$$ unlockCount: " + INVIVO_SESSION_LOCK.getHoldCount());
 					for (int unlockCount = INVIVO_SESSION_LOCK.getHoldCount(); unlockCount > 0; unlockCount--) {
 						INVIVO_SESSION_LOCK.unlock();
 					}
 					THREAD_INVIVO_SESSION_COUNTER --;
+//					new Throwable().printStackTrace();
 			}
 		}	
 	}
