@@ -40,7 +40,7 @@ shows how to disable the classes in both the packages:
   * ``org.objectweb.asm.*``
   * ``com.fasterxml.jackson.*``
   
- Most of the times the JVM notifies an error like:
+ Most of the times when the JVM notifies an error like:
  ``Java.lang.linkage error when instrumenting XXX``
  it is possible a class that have been already loaded (and instrumented) is going to be processed again. If the class ``XXX`` is really not relevant for the Invivo testing campaign, thus it may be useful to exclude it as described above.
 
