@@ -97,7 +97,8 @@ How to Launch some Experiments
  ```
  * OpenSymphony OSCache: Generate new tests by means of Evosuite
  Generate the new tests only if needed, and be carefull to do not overwrite pre-exiting test turned to be launched invivo.
- As first, copy the source code of the CUTs inside the folder `groucho-lab/src/extra/java`. Then customize the properties of the Maven profile [`generateTestStubsProfile`](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/pom.xml#L458). Finally, execute the following commands:
+ As first step, it is recommended to backup the content of the folder `groucho-lab/src/extra/java`, for example copy it somewhere else. 
+ Then, before the generation process be sure to customize the properties of the Maven profile [`generateTestStubsProfile`](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/pom.xml#L458). Finally, execute the following commands:
  ```bash
  cd groucho-lab
  mvn -PgenerateTestStubsProfile evosuite:generate
