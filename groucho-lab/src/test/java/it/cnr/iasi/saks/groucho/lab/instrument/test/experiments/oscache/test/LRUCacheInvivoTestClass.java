@@ -19,6 +19,7 @@ import it.cnr.iasi.saks.groucho.lab.instrument.test.utils.OSCacheLRUCacheFactory
 import it.cnr.iasi.saks.groucho.performanceOverheadTest.TestGovernanceManager_ActivationWithProbability;
 
 import org.apache.commons.io.FileUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class LRUCacheInvivoTestClass {
@@ -58,8 +59,9 @@ public class LRUCacheInvivoTestClass {
 		int i =0;
 		for (Method m : ConfigurableLRUCacheUnitTest.class.getMethods()){
 //		for (Method m : LRUCacheTest.class.getMethods()){
-			String fullReflectiveMethodName = m.getDeclaringClass().getCanonicalName()+"@"+m.getName(); 
-			if (m.isAnnotationPresent(Test.class)){	
+			String fullReflectiveMethodName = m.getDeclaringClass().getCanonicalName()+"@"+m.getName();
+			// TODO check ! Ignore
+			if (m.isAnnotationPresent(Test.class) && (! m.isAnnotationPresent(Ignore.class))){	
 				System.out.println("["+mName+"] Starting the invivo testing session on: " + fullReflectiveMethodName);
 				try {
 					shield.applyCheckpoint(memCache);
