@@ -32,7 +32,7 @@ schemes:
 - "http"
 paths:
   /isunknown:
-    get:
+    post:
       tags:
       - "isStateUnknown"
       summary: "Check if a given state has been previously observed"

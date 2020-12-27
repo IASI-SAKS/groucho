@@ -27,7 +27,7 @@ public interface IsunknownApi {
     @RequestMapping(value = "/isunknown",
         produces = { "application/json" }, 
         consumes = { "application/json" },
-        method = RequestMethod.GET)
+        method = RequestMethod.POST)
     ResponseEntity<Boolean> isStateUnknown(@ApiParam(value = "The Actual Internal Representation as a String of the Considered State" ,required=true )  @Valid @RequestBody String body);
 
     @ApiOperation(value = "Check if a given state has been previously observed", nickname = "isStateUnknownLSH", notes = "Returns TRUE if a State has been never observed, FALSE otherwise. The input parameter is supposed to be a codification in LSH of the actual internal state representation.", tags={ "isStateUnknown", })
