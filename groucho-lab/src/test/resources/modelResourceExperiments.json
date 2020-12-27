@@ -8,5 +8,14 @@
       "carvingDepth" : 1,
       "pauseOtherThreads" : false
     }
+  }, {
+    "className" : "it.cnr.iasi.saks.foo.MyDummyLRUCache",
+    "methodName" : "size",	
+    "annotation" : {
+      "invivoTestClass" : "it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.oscache.test.LRUCacheInvivoTestClass",
+      "invivoTest" : "invivoTestMethod",
+      "carvingDepth" : 1,
+      "pauseOtherThreads" : false
+    }
   } ]
 }

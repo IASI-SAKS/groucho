@@ -15,44 +15,54 @@
  * along with GROUCHO.  If not, see <https://www.gnu.org/licenses/>
  *
  */
-package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.oscache.test;
+package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.oscache.testIssueCache236;
 
 import java.util.Properties;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 import com.opensymphony.oscache.base.Config;
 import com.opensymphony.oscache.base.algorithm.LRUCache;
 import com.opensymphony.oscache.plugins.diskpersistence.HashDiskPersistenceListener;
 
 /*
- * This class declares a common configuration for those Unit Tests 
- * that would comply with the environmental set-up and described in ISSUE CACHE-236
- * for the classes:
+ * This class is an implementation of a Unit Test 
+ * proposed in the description of the ISSUE CACHE-236 for
+ * the class:
  * <ul>
  * <li> com.opensymphony.oscache.base.algorithm.Cache</li>
  * <li> com.opensymphony.oscache.base.algorithm.AbstractConcurrentReadCache</li>
  * </ul>
- * and distributed with OpenSymphony versions 2.1 and 2.2  
+ * distributed with OpenSymphony versions 2.1 and 2.2
+ * 
+ * Actually this code is an inspired re-implementation of the
+ * test: 
+ * <ul>
+ * <li> com.opensymphony.oscache.base.algorithm.TestLRUCache.java
+ * </ul>
  * 
  */
 
-public abstract class LRUCache_AbstractUnitTest {
+public class LRUCache_RemoveEntryInternalUnitTest extends LRUCache{
     
-	protected static final int CACHE_CAPACITY=4;
-	protected static final boolean CACHE_UNLIMITED_DISK=true;
-	protected static final boolean CACHE_PERSISTENCE_OVERFLOW_ONLY=true;
-	protected static final String CACHE_PERSISTENCE_CLASS="com.opensymphony.oscache.plugins.diskpersistence.HashDiskPersistenceListener";
-	protected static final String CACHE_PATH=System.getProperty("java.io.tmpdir");
-	protected static final boolean CACHE_BLOCKING=true;
-	protected static final boolean CACHE_MEMORY=true;
+    private static final int CACHE_CAPACITY=4;
+    private static final boolean CACHE_UNLIMITED_DISK=true;
+    private static final boolean CACHE_PERSISTENCE_OVERFLOW_ONLY=true;
+    private static final String CACHE_PERSISTENCE_CLASS="com.opensymphony.oscache.plugins.diskpersistence.HashDiskPersistenceListener";
+    private static final String CACHE_PATH=System.getProperty("java.io.tmpdir");
+    private static final boolean CACHE_BLOCKING=true;
+    private static final boolean CACHE_MEMORY=true;
 
-	protected LRUCache cache = null;
+    private final String KEY_PREFIX = "Key-";
+    private final String CONTENT_PREFIX = "Content-";
+	
+    public LRUCache_RemoveEntryInternalUnitTest() {
+    	super(CACHE_CAPACITY);
 
-    public LRUCache_AbstractUnitTest() {
-    	this.cache = new LRUCache(CACHE_CAPACITY);
-
-    	this.cache.setMemoryCaching(CACHE_MEMORY);
-    	this.cache.setUnlimitedDiskCache(CACHE_UNLIMITED_DISK);
-    	this.cache.setOverflowPersistence(CACHE_PERSISTENCE_OVERFLOW_ONLY);
+    	this.setMemoryCaching(CACHE_MEMORY);
+    	this.setUnlimitedDiskCache(CACHE_UNLIMITED_DISK);
+    	this.setOverflowPersistence(CACHE_PERSISTENCE_OVERFLOW_ONLY);
 
     	this.setUpHashDiskPersistenceListener();
     }
@@ -71,7 +81,22 @@ public abstract class LRUCache_AbstractUnitTest {
 
         listener.configure(new Config(p));
         
-        this.cache.setPersistenceListener(listener);            	
+        this.setPersistenceListener(listener);            	
+    }
+
+
+    @Test
+    public void testRemoval(){
+    	for (int i=0; i < CACHE_CAPACITY+2; i++) {
+    		String key = KEY_PREFIX + i;
+    		this.itemPut(key);
+    	}
+   	
+        // Get the last element
+        this.itemRetrieved(KEY_PREFIX+0);
+
+        // The least recently used item is key + 1
+        Assert.assertTrue((KEY_PREFIX + 1).equals(this.removeItem()));
     }
 
 }

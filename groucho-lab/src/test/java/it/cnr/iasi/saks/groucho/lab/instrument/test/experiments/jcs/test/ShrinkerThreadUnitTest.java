@@ -38,7 +38,7 @@ import org.junit.Test;
  * org.apache.jcs.engine.memory.shrinking.ShrinkerThreadUnitTest
  * distributed with Apache JCS 1.3
  * 
- * This new implementation has only 2 minor purposes:
+ * This new implementation has only 3 minor purposes:
  * 1. migrate the test to JUnit 4
  * 2. separate the configuration part of the tests from their actual execution.
  *    this way it is easier to reuse them during invivo testing sessions.
