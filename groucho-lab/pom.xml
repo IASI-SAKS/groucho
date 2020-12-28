@@ -474,7 +474,7 @@
 					<artifactId>jacoco-maven-plugin</artifactId>
 					<version>${jacoco.coverageExperiment.version}</version>
 					<executions>
-						<!-- NOTE THAT AUTOMATIC REPORTTING IS USELESS, AS THE SOURCE FILES OF THE JARS: jcsAND oscache ARE NEEDED: -->
+						<!-- NOTE THAT AUTOMATIC REPORTING IS USELESS, AS THE SOURCE FILES OF THE JARS: jcsAND oscache ARE NEEDED: -->
 						<!-- GENERATE THE REPORTS OFFLINE AS DESCRIBED IN  jacocolibSnippets.txt -->
 						<execution>
 							<id>jacoco-no-invivo</id>
