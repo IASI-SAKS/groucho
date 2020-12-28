@@ -1,0 +1,1 @@
+Fat Jars: instrumentation done by means of Jacoco CLI 0.8.5
