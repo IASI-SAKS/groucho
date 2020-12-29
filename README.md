@@ -65,7 +65,7 @@ In case the source code of a class is not available for modification, the inject
  
 In order to apply the annotations from a given JSON report, please refer the following example shows:
  * the specific GROUCHO agent [`${groucho-lab.build.directory}/${groucho-lab.build.finalName}.jar`](https://github.com/IASI-SAKS/groucho/tree/master/groucho-lab/src/main/java/it/cnr/iasi/saks/groucho/lab/instrument) responsible for the injection
- * how to enact such an agent within a [pom.xml](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/pom.xml#L274-L276)
+ * how to enact such an agent within a [pom.xml](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/pom.xml#L302-L304)
 
 About QA Aspects
 -------
@@ -95,7 +95,7 @@ How to Launch some Experiments
  cd groucho-lab
  mvn -PosCacheExperimentsProfile clean verify
  ```
- * OpenSymphony OSCache: Generate new tests by means of Evosuite
+ * OpenSymphony OSCache: Generate new tests by means of Evosuite.
  Generate the new tests only if needed, and be carefull to do not overwrite pre-exiting test turned to be launched invivo.
  As first step, it is recommended to backup the content of the folder `groucho-lab/src/extra/java`, for example copy it somewhere else. 
  Then, before the generation process be sure to customize the properties of the Maven profile [`generateTestStubsProfile`](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/pom.xml#L572). Finally, execute the following commands:
@@ -111,10 +111,10 @@ How to Launch some Experiments
  cd groucho-lab
 TBD
  ```
- * Coverage Experiment on both Apache JCS and OpenSymphony OSCache
- For both the applications test cases are lauched in a traditional way (by means of SUREFIRE plugin) or
- invivo while the library is actually used for some purpose and starting from that specific configuration
- (this step exploits FAILSAFE plugin). The experiment has been coded by means of the profile: [`jacocoCoverageExperimentProfile`](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/pom.xml#L434)
+ * Coverage Experiment on both Apache JCS and OpenSymphony OSCache.
+  For both the applications the test cases are lauched in a traditional way (by means of the SUREFIRE plugin), and
+ invivo starting from an actual state/configuration the instances of the classes in the library acheived during some computations
+ (this step exploits the FAILSAFE plugin). The experiment has been coded by means of the profile: [`jacocoCoverageExperimentProfile`](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/pom.xml#L434)
  
  ```bash
  cd groucho-lab
