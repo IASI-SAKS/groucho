@@ -1,0 +1,16 @@
+
+PATH_JACOCO_CLI_JAR="ToBeDefined"
+PATH_OSCACHE_SRC="ToBeDefined"
+PATH_OSCACHE_JAR="ToBeDefined"
+PATH_JCS_SRC="ToBeDefined"
+PATH_JCS_JAT="ToBeDefined"
+
+mkdir -p target/jacoco-gen/oscache-ut/ target/jacoco-gen/oscache-it/ target/jacoco-gen/jcs-ut/ target/jacoco-gen/jcs-it/
+
+java -jar ${PATH_JACOCO_CLI_JAR}/jacococli.jar report target/jacoco.exec --classfiles ${PATH_OSCACHE_JAR}/oscache-2.1.1.jar --sourcefiles ${PATH_OSCACHE_SRC} --html target/jacoco-gen/oscache-ut/ --xml target/jacoco-gen/oscache-ut/file.xml --csv target/jacoco-gen/oscache-ut/file.csv
+
+java -jar ${PATH_JACOCO_CLI_JAR}/jacococli.jar report target/jacoco-it.exec --classfiles ${PATH_OSCACHE_JAR}/oscache-2.1.1.jar --sourcefiles ${PATH_OSCACHE_SRC} --html target/jacoco-gen/oscache-it/ --xml target/jacoco-gen/oscache-it/file.xml --csv target/jacoco-gen/oscache-it/file.csv
+
+java -jar ${PATH_JACOCO_CLI_JAR}/jacococli.jar report target/jacoco.exec --classfiles ${PATH_JCS_JAR}/jcs-1.3.jar --sourcefiles ${PATH_JCS_SRC} --html target/jacoco-gen/jcs-ut/ --xml target/jacoco-gen/jcs-ut/file.xml --csv target/jacoco-gen/jcs-ut/file.csv
+
+java -jar ${PATH_JACOCO_CLI_JAR}/jacococli.jar report target/jacoco-it.exec --classfiles ${PATH_JCS_JAR}/jcs-1.3.jar --sourcefiles ${PATH_JCS_SRC} --html target/jacoco-gen/jcs-it/ --xml target/jacoco-gen/jcs-it/file.xml --csv target/jacoco-gen/jcs-it/file.csv
