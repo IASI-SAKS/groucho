@@ -121,7 +121,7 @@ TBD
  mvn -PjacocoCoverageExperimentProfile verify
  ```
  The results of the coverage are respectivelly reported in the files: ``groucho-lab/target/jacoco.exec`` and ``groucho-lab/target/jacoco-it.exec``. 
- Note that the reporting phase hase been disabled, because it will require the source files of both of the jars: ``jcs`` and ``oscache``. The right way to extract these information is to run Jacoco CLI offline on both the files (each time pointing to the local direcotory with the source files of the considered lib).
+ Note that the reporting phase hase been disabled, because it will require the source files of both of the jars: ``jcs`` and ``oscache``. The right way to extract these information is to run [Jacoco CLI](https://www.jacoco.org/jacoco/) offline on both the files (each time pointing to the local direcotory with the source files of the considered lib).
  Also, please note that this profile relies on two [fat-jars](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/groucho-lab/src/test/resources/lib/fat-jars/) of the libraries ``jcs`` and ``oscache``. They have been [instrmented offline](https://www.jacoco.org/jacoco/trunk/doc/offline.html) by means of Jacoco CLI (0.8.5).
  
  
