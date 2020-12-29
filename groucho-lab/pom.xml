@@ -514,6 +514,7 @@
 					<version>${maven-surefire.version}</version>
 					<executions>
 						<execution>
+							<id>surefire-no-invivo</id>
 							<goals>
 								<goal>test</goal>
 							</goals>
@@ -536,7 +537,7 @@
 					<version>2.19.1</version>
 					<executions>
 						<execution>
-							<id>actual</id>
+							<id>failsafe-invivo</id>
 							<goals>
 								<goal>integration-test</goal>
 								<goal>verify</goal>
