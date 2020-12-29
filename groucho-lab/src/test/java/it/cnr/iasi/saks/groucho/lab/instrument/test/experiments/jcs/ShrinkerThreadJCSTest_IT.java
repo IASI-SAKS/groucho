@@ -97,7 +97,9 @@ public class ShrinkerThreadJCSTest_IT {
 //****************************
 
 		for (int run = 0; run < 10; run++) {
-			int items = 30 + RandomGenerator.getInstance().nextInt(99);
+			// In the conf file "/test-conf/TestDiskCache.ccf" (used below) the maxCapacity before disk caching is set to 100
+			// Sometimes the number of items added in the cache will exceed such limit enabling caching on the disk.
+			int items = 40 + RandomGenerator.getInstance().nextInt(99);
 			LRUMemoryCache lru = this.configureLRUMemoryCache(items);
 			
 	        System.out.println("Waiting for a while ...");
@@ -112,6 +114,7 @@ public class ShrinkerThreadJCSTest_IT {
 
 	        int memSize = lru.getSize();
 			boolean condition = ShrinkerThreadInvivoTestClass.getExitStatus();
+			// This expected results come from the description of the ISSUE JCS-16
 			boolean expected = (items + ShrinkerThreadUnitTest.DEFAULT_ITEMS < lru.getCacheAttributes().getMaxObjects());
 	        System.out.println("[Run "+ run +"]\tItems: " + items + "\tSize: " + memSize + "\tCondition:"+condition + "\tExpected:"+expected);			
 			Assert.assertEquals(expected, condition);
