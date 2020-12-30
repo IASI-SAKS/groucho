@@ -523,10 +523,10 @@
 					<configuration>
 						<reuseForks>false</reuseForks>
 						<useUnlimitedThreads>true</useUnlimitedThreads>
-						<test>ch.usi.precrime.lrucache.LRUCacheTest,
-							it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.test.ShrinkerThreadUnitTest</test>
 <!-- 						<test>ch.usi.precrime.lrucache.LRUCacheTest, -->
-<!-- 							it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.test.ShrinkerThreadLRUCacheUnitTest#testSimpleShrinkMutiple</test> -->
+<!-- 							it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.test.ShrinkerThreadUnitTest</test> -->
+						<test>ch.usi.precrime.lrucache.LRUCacheTest,
+							it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.test.ShrinkerThreadLRUCacheUnitTest#testSimpleShrinkMutiple</test>
 					</configuration>
 				</plugin>
 				<plugin>
