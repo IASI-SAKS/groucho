@@ -26,10 +26,11 @@ public class LRUCacheOSCacheTest_IT {
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
 //****************************
 
-		for (int run = 0; run < 10; run++) {
-			int items = 30 + RandomGenerator.getInstance().nextInt(99);
+		for (int run = 0; run < 15; run++) {
+			int capacity = 30 + RandomGenerator.getInstance().nextInt(99);
+			int items = this.getNumberOfItems(capacity);
 			
-			LRUCache lru = this.configureLRUCache(items);
+			LRUCache lru = this.configureLRUCache(capacity, items);
 			
 	        System.out.println("Waiting for a while ...");
 	        Thread.sleep( 5000 );
@@ -60,16 +61,46 @@ public class LRUCacheOSCacheTest_IT {
 				 */
 			}	
 			Assert.assertEquals("Something wrong happened, the cache has been corrupted!!", memSize, items);			
+//			Assert.assertEquals("Something wrong happened, the cache has been corrupted!!", memSize, capacity);			
 		}
 	}
 	
-	private LRUCache configureLRUCache(int items) throws IOException {
+	private LRUCache configureLRUCache(int capacity, int items) throws IOException {
 		
-		LRUCache cache = OSCacheLRUCacheFactory.crateLRUCache(items);
+		LRUCache cache = OSCacheLRUCacheFactory.crateLRUCache(capacity);
 		
 		this.addElementsInCache(items, cache);
 		
 		return cache;
+	}
+	
+	
+	private int getNumberOfItems (int capacity) {	
+		int items;
+		switch (RandomGenerator.getInstance().nextInt(7)) {
+		case 0:
+			items = 0;
+			break;
+		case 1:
+			items = 1;
+			break;
+		case 2:
+			items = (capacity / 2) - 1;						
+			break;
+		case 3:
+			items = capacity / 2;
+			break;
+		case 4:
+			items = (capacity / 2) + 1;			
+			break;
+		case 5:
+			items = capacity - 1;
+			break;
+		default:
+			items = capacity;
+			break;
+		}
+		return items;
 	}
 	
 	private void addElementsInCache(int items, LRUCache lru) {
