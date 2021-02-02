@@ -50,12 +50,12 @@ import org.junit.Test;
 
 public class ShrinkerThreadUnitTest {
 
-	private MemoryCacheWrapper memory;
+	protected MemoryCacheWrapper memory;
 
-	private final static String DEFAULT_CACHE_REGION = "testRegion";
+	protected final static String DEFAULT_CACHE_REGION = "testRegion";
 	
 	public final static int DEFAULT_ITEMS = 10;
-	private int items;
+	protected int items;
 
 	public ShrinkerThreadUnitTest() {
 	}
