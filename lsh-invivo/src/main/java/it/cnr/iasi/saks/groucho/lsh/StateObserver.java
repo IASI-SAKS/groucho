@@ -22,8 +22,8 @@ import it.cnr.iasi.saks.groucho.lsh.exceptions.LSHException;
 
 public interface StateObserver {
 
-	public boolean isStateUnknown(String carvedState) throws LSHException;
-	public void markState(String carvedState) throws LSHException;
-	public void resetStateObserver() throws LSHException;
+	boolean isStateUnknown(String carvedState) throws LSHException;
+	void markState(String carvedState) throws LSHException;
+	void resetStateObserver() throws LSHException;
 		
 }

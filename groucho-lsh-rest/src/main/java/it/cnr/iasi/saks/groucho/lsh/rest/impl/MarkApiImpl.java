@@ -16,13 +16,12 @@ public class MarkApiImpl {
     }
 
     public static ResponseEntity<Boolean> markStateLSH(String stateStringLSH) {
-        boolean state;
         try {
-            state = stateObserver.markState(stateStringLSH);
+            stateObserver.markState(stateStringLSH);
         } catch (LSHException e) {
             e.printStackTrace();
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(new Boolean(state), HttpStatus.OK);
+        return new ResponseEntity(Boolean.TRUE, HttpStatus.OK);
     }
 }
