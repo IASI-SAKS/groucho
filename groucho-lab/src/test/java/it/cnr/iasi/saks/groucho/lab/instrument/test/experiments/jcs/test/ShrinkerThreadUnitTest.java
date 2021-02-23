@@ -97,7 +97,10 @@ public class ShrinkerThreadUnitTest {
 
 		CompositeCacheAttributes cacheAttr = new CompositeCacheAttributes();
 		cacheAttr.setMaxMemoryIdleTimeSeconds(1);
-		cacheAttr.setMaxSpoolPerRun(10);
+
+//		cacheAttr.setMaxSpoolPerRun(10);
+		int maxSpool = this.memory.getSize();
+		cacheAttr.setMaxSpoolPerRun(maxSpool);
 
 		this.memory.setCacheAttributes(cacheAttr);
 
@@ -117,9 +120,6 @@ public class ShrinkerThreadUnitTest {
 
 		// set this to 2 seconds ago.
 		elementAttr.lastAccessTime = System.currentTimeMillis() - 2000;
-//		long refTS = System.currentTimeMillis();
-//		long newCreationTime =  refTS - 2000;
-//		elementAttr.lastAccessTime = newCreationTime;
 
 		ShrinkerThread shrinker = new ShrinkerThread(this.memory);
 		Thread runner = new Thread(shrinker);
@@ -130,8 +130,6 @@ public class ShrinkerThreadUnitTest {
 		ICacheElement returnedElement2 = this.memory.get(key);
 		Assert.assertTrue("Waterfall should have been called.", this.memory.getWaterfallCallCounter() > 0);
 		Assert.assertNull("We not should have received an element.  It should have been spooled.", returnedElement2);
-//		String msg = "( refTS: " + refTS + ", newCreationTime: " + newCreationTime+" )";
-//		Assert.assertNull("We not should have received an element.  It should have been spooled." +msg, returnedElement2);
 	}
 
 	@Ignore
