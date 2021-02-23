@@ -99,7 +99,7 @@ public class ShrinkerThreadUnitTest {
 		cacheAttr.setMaxMemoryIdleTimeSeconds(1);
 
 //		cacheAttr.setMaxSpoolPerRun(10);
-		int maxSpool = this.memory.getSize();
+		int maxSpool = this.memory.getSize()+this.items;
 		cacheAttr.setMaxSpoolPerRun(maxSpool);
 
 		this.memory.setCacheAttributes(cacheAttr);
