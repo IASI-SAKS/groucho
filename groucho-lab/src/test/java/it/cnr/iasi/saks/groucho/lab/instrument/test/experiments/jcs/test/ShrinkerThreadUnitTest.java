@@ -300,8 +300,13 @@ public class ShrinkerThreadUnitTest {
 		// number of times.", 3, handler.getExceededIdleTimeBackgroundCount() );
 
 		int size = this.memory.getSize();
-		System.out.println("++size in testSimpleShrinkMutipleWithEventHandler++" + size + "++expected++" + (this.items - 3));
-		Assert.assertEquals("Wrong number of elements remain.", this.items - 3, this.memory.getSize());
+		int expectedSize = ((sizeBeforeUpdates + this.items)>= this.memory.getCacheAttributes().getMaxObjects())?this.memory.getCacheAttributes().getMaxObjects()-3:sizeBeforeUpdates+this.items-3;
+		System.out.println("++sizeBeforeUpdates++" + sizeBeforeUpdates + " " + this.items);
+
+//		System.out.println("++size in testSimpleShrinkMutipleWithEventHandler++" + size + "++expected++" + (this.items - 3));
+//		Assert.assertEquals("Wrong number of elements remain.", this.items - 3, this.memory.getSize());
+		System.out.println("++size in testSimpleShrinkMutipleWithEventHandler++" + size + "++expected++" + expectedSize);
+		Assert.assertEquals("Wrong number of elements remain.", expectedSize, this.memory.getSize());
 	}
 	
 	public int getConfiguredItemsToTest(){
