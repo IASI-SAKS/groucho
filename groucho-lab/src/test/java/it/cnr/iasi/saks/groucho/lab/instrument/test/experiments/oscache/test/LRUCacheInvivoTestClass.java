@@ -60,7 +60,6 @@ public class LRUCacheInvivoTestClass {
 		for (Method m : ConfigurableLRUCacheUnitTest.class.getMethods()){
 //		for (Method m : LRUCacheTest.class.getMethods()){
 			String fullReflectiveMethodName = m.getDeclaringClass().getCanonicalName()+"@"+m.getName();
-			// TODO check ! Ignore
 			if (m.isAnnotationPresent(Test.class) && (! m.isAnnotationPresent(Ignore.class))){	
 				System.out.println("["+mName+"] Starting the invivo testing session on: " + fullReflectiveMethodName);
 				try {
