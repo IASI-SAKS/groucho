@@ -18,6 +18,7 @@
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.test;
 
 import java.io.IOException;
+import java.util.Set;
 
 import org.apache.jcs.engine.CacheElement;
 import org.apache.jcs.engine.CompositeCacheAttributes;
@@ -31,6 +32,7 @@ import org.apache.jcs.engine.memory.shrinking.ShrinkerThread;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /*
@@ -54,10 +56,13 @@ public class ShrinkerThreadUnitTest {
 
 	protected final static String DEFAULT_CACHE_REGION = "testRegion";
 	
+	public final static String DEFAULT_KEY_PREFIX = "key-";
+
 	public final static int DEFAULT_ITEMS = 10;
 	protected int items;
 
 	public ShrinkerThreadUnitTest() {
+		this.items = -1;
 	}
 
 	public void configureMemoryCache(MemoryCache m) {
@@ -96,10 +101,10 @@ public class ShrinkerThreadUnitTest {
 
 		this.memory.setCacheAttributes(cacheAttr);
 
-		String key = "key";
+		String key = DEFAULT_KEY_PREFIX + 0;
 		String value = "value";
 
-		ICacheElement element = new CacheElement("testRegion", key, value);
+		ICacheElement element = new CacheElement(DEFAULT_CACHE_REGION, key, value);
 
 		ElementAttributes elementAttr = new ElementAttributes();
 		elementAttr.setIsEternal(false);
@@ -112,6 +117,9 @@ public class ShrinkerThreadUnitTest {
 
 		// set this to 2 seconds ago.
 		elementAttr.lastAccessTime = System.currentTimeMillis() - 2000;
+//		long refTS = System.currentTimeMillis();
+//		long newCreationTime =  refTS - 2000;
+//		elementAttr.lastAccessTime = newCreationTime;
 
 		ShrinkerThread shrinker = new ShrinkerThread(this.memory);
 		Thread runner = new Thread(shrinker);
@@ -122,6 +130,48 @@ public class ShrinkerThreadUnitTest {
 		ICacheElement returnedElement2 = this.memory.get(key);
 		Assert.assertTrue("Waterfall should have been called.", this.memory.getWaterfallCallCounter() > 0);
 		Assert.assertNull("We not should have received an element.  It should have been spooled.", returnedElement2);
+//		String msg = "( refTS: " + refTS + ", newCreationTime: " + newCreationTime+" )";
+//		Assert.assertNull("We not should have received an element.  It should have been spooled." +msg, returnedElement2);
+	}
+
+	@Ignore
+	@Test
+	public void testFoo() throws IOException, InterruptedException {
+
+		CompositeCacheAttributes cacheAttr = new CompositeCacheAttributes();
+		cacheAttr.setMaxMemoryIdleTimeSeconds(1);
+		cacheAttr.setMaxSpoolPerRun(10);
+
+		this.memory.setCacheAttributes(cacheAttr);
+
+		String key = DEFAULT_KEY_PREFIX+"dummy";
+		String key2 = DEFAULT_KEY_PREFIX+"foo";
+		String value = "value";
+
+		ICacheElement element = new CacheElement(DEFAULT_CACHE_REGION, key, value);
+
+		ElementAttributes elementAttr = new ElementAttributes();
+		elementAttr.setIsEternal(false);
+		element.setElementAttributes(elementAttr);
+		element.getElementAttributes().setMaxLifeSeconds(1);
+		this.memory.update(element);
+		
+		ICacheElement element2 = new CacheElement(DEFAULT_CACHE_REGION, key2, value);
+		element2.setElementAttributes(elementAttr);
+		element2.getElementAttributes().setMaxLifeSeconds(1);
+		this.memory.update(element2);
+
+		ICacheElement i = this.memory.get(key);
+		i = this.memory.get(key2);
+
+		boolean b = this.memory.remove("key:.*");
+		
+		i = this.memory.get(key);
+		i = this.memory.get(key2);
+
+		Set s = this.memory.getCompositeCache().getGroupKeys(DEFAULT_CACHE_REGION);
+		
+		Assert.assertNotNull(s);
 	}
 
 	/**
@@ -149,9 +199,9 @@ public class ShrinkerThreadUnitTest {
 			regionName = compositeCache.getCacheName();
 		}
 		System.out.println(regionName);
-		
+				
 		for (int i = sizeBeforeUpdates; i < sizeBeforeUpdates + this.items; i++) {
-			String key = "key" + i;
+			String key = DEFAULT_KEY_PREFIX + i;
 			String value = "value";
 
 			ICacheElement element = new CacheElement(regionName, key, value);
@@ -216,7 +266,7 @@ public class ShrinkerThreadUnitTest {
 		ElementEventHandlerMockImpl handler = new ElementEventHandlerMockImpl();
 
 		for (int i = sizeBeforeUpdates; i < sizeBeforeUpdates + this.items; i++) {
-			String key = "key" + i;
+			String key = DEFAULT_KEY_PREFIX + i;
 			String value = "value";
 
 			ICacheElement element = new CacheElement("testRegion", key, value);
@@ -253,5 +303,12 @@ public class ShrinkerThreadUnitTest {
 		System.out.println("++size in testSimpleShrinkMutipleWithEventHandler++" + size + "++expected++" + (this.items - 3));
 		Assert.assertEquals("Wrong number of elements remain.", this.items - 3, this.memory.getSize());
 	}
-
+	
+	public int getConfiguredItemsToTest(){
+		if (this.items < 0) {
+			return DEFAULT_ITEMS;
+		}
+		return this.items;
+	}
+	
 }
