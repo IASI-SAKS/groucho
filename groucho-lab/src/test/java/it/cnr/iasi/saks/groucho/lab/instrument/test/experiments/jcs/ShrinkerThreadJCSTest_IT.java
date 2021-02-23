@@ -26,6 +26,7 @@ import org.junit.Test;
 import it.cnr.iasi.saks.groucho.carvingStateTests.RandomGenerator;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.test.ShrinkerThreadInvivoTestClass;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.test.ShrinkerThreadUnitTest;
+import it.cnr.iasi.saks.groucho.lab.instrument.test.utils.JCSLRUCacheFactory;
 import it.cnr.iasi.saks.groucho.performanceOverheadTest.TestGovernanceManager_ActivationWithProbability;
 import it.cnr.iasi.saks.groucho.tests.util.PropertyUtilNoSingleton;
 
@@ -86,6 +87,12 @@ public class ShrinkerThreadJCSTest_IT {
 		Assert.assertTrue(condition);
 	}
 
+	/*
+	 * This is an old version of the test 
+	 * expecting that just one test case is run invivo and using 
+	 * and asset originally described with ISSUE JCS-16
+	 */
+	@Ignore
 	@Test
 	public void invokeInvivoTest() throws IOException, InterruptedException {
 		// the following statement binds the PropertyUtil to a No Singleton instance.
@@ -100,7 +107,8 @@ public class ShrinkerThreadJCSTest_IT {
 			// In the conf file "/test-conf/TestDiskCache.ccf" (used below) the maxCapacity before disk caching is set to 100
 			// Sometimes the number of items added in the cache will exceed such limit enabling caching on the disk.
 			int items = 40 + RandomGenerator.getInstance().nextInt(99);
-			LRUMemoryCache lru = this.configureLRUMemoryCache(items);
+			LRUMemoryCache lru = JCSLRUCacheFactory.configureLRUMemoryCache();
+			this.addElementsInCache(items, lru);
 			
 	        System.out.println("Waiting for a while ...");
 	        Thread.sleep( 5000 );
@@ -116,34 +124,79 @@ public class ShrinkerThreadJCSTest_IT {
 			boolean condition = ShrinkerThreadInvivoTestClass.getExitStatus();
 			// This expected results come from the description of the ISSUE JCS-16
 			boolean expected = (items + ShrinkerThreadUnitTest.DEFAULT_ITEMS < lru.getCacheAttributes().getMaxObjects());
-	        System.out.println("[Run "+ run +"]\tItems: " + items + "\tSize: " + memSize + "\tCondition:"+condition + "\tExpected:"+expected);			
+	        System.out.println("[Run "+ run +"]\tItems: " + items + "\tSize: " + memSize + "("+lru.getCacheAttributes().getMaxObjects()+")"+"\tCondition:"+condition + "\tExpected:"+expected);			
 			Assert.assertEquals(expected, condition);
+	        
+	        lru.getCompositeCache().removeAll();
 		}
 
 //		Assert.assertTrue(condition);
 	}
 
-	private LRUMemoryCache configureLRUMemoryCache() throws IOException {
-		return this.configureLRUMemoryCache(0);
+	@Test
+	public void invokeInvivoTestPro() throws IOException, InterruptedException {
+		// the following statement binds the PropertyUtil to a No Singleton instance.
+		// in other words, all the other classes accessing to
+		// PropertyUtil.getInstance();
+		// will not be affected by singleton
+		PropertyUtilNoSingleton prop = PropertyUtilNoSingleton.getInstance();
+		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
+//****************************
+
+		for (int run = 0; run < 10; run++) {
+			// In the conf file "/test-conf/TestDiskCache.ccf" (used below) the maxCapacity before disk caching is set to 100
+			// Sometimes the number of items added in the cache will exceed such limit enabling caching on the disk.
+			int items = 40 + RandomGenerator.getInstance().nextInt(99);
+			LRUMemoryCache lru = JCSLRUCacheFactory.configureLRUMemoryCache();
+			this.addElementsInCache(items, lru);
+			
+	        System.out.println("Waiting for a while ...");
+	        Thread.sleep( 5000 );
+	        System.out.println("... ok");
+
+	        TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
+
+	        this.addElementsInCache(1, lru);
+
+	        TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
+
+	        int memSize = lru.getSize();
+			boolean condition = ShrinkerThreadInvivoTestClass.getExitStatus();
+			
+			boolean expected = false;
+			if (items < lru.getCacheAttributes().getMaxObjects()) {
+				expected = items == memSize;
+			} else {
+				// Not sure we can do better than this.
+				// The actual number of elements swapped fro the memory (e.g. to the disk) depends on the algorithm associated with the
+				// Auxiliary bound with the LRU instance.
+				// Also, it seems that there is no method in LRU that returns the whole size of the LRU, but only the current size in mem.
+				expected = memSize < lru.getCacheAttributes().getMaxObjects();
+			}
+			
+			String failedTests = "";
+			try {
+				for (String item : ShrinkerThreadInvivoTestClass.getFailedTests()) {
+					failedTests += item + ", ";
+				}
+
+				System.out.println("[Run "+ run +"]\tItems: " + items + "\tSize: " + memSize + "\tCondition: "+condition + "\tFailed Tests: "+failedTests);			
+
+				Assert.assertTrue("Some Tests Failed: "+failedTests, condition);
+			}catch (AssertionError aErr) {
+				/** Actually there is nothing to do here.
+				 *  The experiment simply has to keep going trying 
+				 *  invivo testing sessions over other configurations
+				 */
+			}	
+			
+			Assert.assertTrue("Something wrong happened, possibly the cache has been corrupted!!", expected);
+	        lru.getCompositeCache().removeAll();
+		}
+
+//		Assert.assertTrue(condition);
 	}
-		
-	private LRUMemoryCache configureLRUMemoryCache(int items) throws IOException {
-		CompositeCacheManager cacheMgr = CompositeCacheManager.getUnconfiguredInstance();
-//      cacheMgr.configure( "/TestDiskCache.ccf" );
-		cacheMgr.configure("/test-conf/TestDiskCache.ccf");
-
-		String region = "indexedRegion1";
-		
-		CompositeCache cache = cacheMgr.getCache(region);
-
-		LRUMemoryCache lru = new LRUMemoryCache();
-		lru.initialize(cache);
-		
-		this.addElementsInCache(items, lru);
-		
-		return lru;
-	}
-
+	
 	private void addElementsInCache(int items, LRUMemoryCache lru)
 			throws IOException {
 		for (int i = 0; i < items; i++) {
