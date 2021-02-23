@@ -57,13 +57,13 @@ public class ShrinkerThreadInvivoTestClass {
 
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);			
 
-//		this.testSimpleShrinkInvivo(memCache);
-//
-		this.testSimpleShrinkMutipleInvivo(memCache);
-//
-//		this.testSimpleShrinkMutipleWithEventHandlerInvivo(memCache);
+////		this.testSimpleShrinkInvivo(memCache);
+////
+//		this.testSimpleShrinkMutipleInvivo(memCache);
+////
+////		this.testSimpleShrinkMutipleWithEventHandlerInvivo(memCache);
 		
-//		this.testAll(memCache);
+		this.testAll(memCache);
 
 		return getExitStatus();
 	}
@@ -141,6 +141,7 @@ public class ShrinkerThreadInvivoTestClass {
 				System.out.println("["+mName+"] Starting the invivo testing session on: " + fullReflectiveMethodName);
 				
 //if (fullReflectiveMethodName.endsWith("@testSimpleShrinkMutiple")) {
+//if (! fullReflectiveMethodName.endsWith("@testSimpleShrink")) {
 
 				ShrinkerThreadUnitTest unitTest = new ShrinkerThreadUnitTest();
 
