@@ -55,7 +55,7 @@ public class LRUCacheOSCacheTest_IT {
 
 				Assert.assertTrue("Some Tests Failed: "+failedTests, condition);
 			}catch (AssertionError aErr) {
-				/** Actually there is nothing to here.
+				/** Actually there is nothing to do here.
 				 *  The experiment simply has to keep going trying 
 				 *  invivo testing sessions over other configurations
 				 */
