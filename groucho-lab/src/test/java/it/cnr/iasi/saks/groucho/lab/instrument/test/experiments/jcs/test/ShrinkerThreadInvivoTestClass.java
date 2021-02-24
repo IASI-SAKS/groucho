@@ -49,7 +49,7 @@ public class ShrinkerThreadInvivoTestClass {
 	private boolean flagCopied = false;
 
 			
-	public boolean invivoTestMethod(Context c) throws InvocationTargetException{
+	public boolean simpleInvivoTestMethod(Context c) throws InvocationTargetException{
 		this.configure();
 
 		LRUMemoryCache memCache = ((LRUMemoryCache) c.getInstrumentedObject());
@@ -57,12 +57,22 @@ public class ShrinkerThreadInvivoTestClass {
 
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);			
 
-////		this.testSimpleShrinkInvivo(memCache);
-////
-//		this.testSimpleShrinkMutipleInvivo(memCache);
-////
-////		this.testSimpleShrinkMutipleWithEventHandlerInvivo(memCache);
+//		this.testSimpleShrinkInvivo(memCache);
+//
+		this.testSimpleShrinkMutipleInvivo(memCache);
+//
+//		this.testSimpleShrinkMutipleWithEventHandlerInvivo(memCache);
 		
+		return getExitStatus();
+	}
+
+	public boolean invivoTestMethod(Context c) throws InvocationTargetException{
+		this.configure();
+
+		LRUMemoryCache memCache = ((LRUMemoryCache) c.getInstrumentedObject());
+
+		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);			
+
 		this.testAll(memCache);
 
 		return getExitStatus();
