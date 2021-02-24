@@ -38,7 +38,6 @@ import org.apache.jcs.engine.behavior.ICacheElement;
 import org.apache.jcs.engine.behavior.ICompositeCacheAttributes;
 import org.apache.jcs.engine.behavior.IElementAttributes;
 import org.apache.jcs.engine.control.CompositeCache;
-import org.apache.jcs.engine.control.CompositeCacheManager;
 
 public class ShrinkerThreadJCSTest_IT {
 
@@ -91,6 +90,8 @@ public class ShrinkerThreadJCSTest_IT {
 	 * This is an old version of the test 
 	 * expecting that just one test case is run invivo and using 
 	 * and asset originally described with ISSUE JCS-16
+	 * 
+	 * It can be run by enabling (in the model resource file) the invivo test in @see it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.test.ShrinkerThreadInvivoTestClass#simpleInvivoTestMethod(Context c)
 	 */
 	@Ignore
 	@Test
@@ -101,7 +102,6 @@ public class ShrinkerThreadJCSTest_IT {
 		// will not be affected by singleton
 		PropertyUtilNoSingleton prop = PropertyUtilNoSingleton.getInstance();
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
-//****************************
 
 		for (int run = 0; run < 10; run++) {
 			// In the conf file "/test-conf/TestDiskCache.ccf" (used below) the maxCapacity before disk caching is set to 100
@@ -129,8 +129,6 @@ public class ShrinkerThreadJCSTest_IT {
 	        
 	        lru.getCompositeCache().removeAll();
 		}
-
-//		Assert.assertTrue(condition);
 	}
 
 	@Test
@@ -141,7 +139,6 @@ public class ShrinkerThreadJCSTest_IT {
 		// will not be affected by singleton
 		PropertyUtilNoSingleton prop = PropertyUtilNoSingleton.getInstance();
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
-//****************************
 
 		for (int run = 0; run < 10; run++) {
 			// In the conf file "/test-conf/TestDiskCache.ccf" (used below) the maxCapacity before disk caching is set to 100
@@ -193,8 +190,6 @@ public class ShrinkerThreadJCSTest_IT {
 			Assert.assertTrue("Something wrong happened, possibly the cache has been corrupted!!", expected);
 	        lru.getCompositeCache().removeAll();
 		}
-
-//		Assert.assertTrue(condition);
 	}
 	
 	private void addElementsInCache(int items, LRUMemoryCache lru)
