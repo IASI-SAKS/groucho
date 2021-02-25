@@ -45,6 +45,7 @@ public class ShrinkerThreadInvivoTestClass {
 	private static final String LABEL_INDEXED_DISK_CACHE_PATH = "jcs.auxiliary.indexedDiskCache.attributes.DiskPath";
 	private static final String LABEL_INDEXED_DISK_CACHE2_PATH = "jcs.auxiliary.indexedDiskCache2.attributes.DiskPath";
 	
+	private String backupDir;
 	private Map<String, String> backupDirMap = null;
 	private boolean flagCopied = false;
 
@@ -81,6 +82,7 @@ public class ShrinkerThreadInvivoTestClass {
 	private void configure() {
 		setExitStatus();
 		FAILED_TESTS.clear();
+		this.backupDir = null;
 		this.backupDirMap = new HashMap<String, String>();
 	}
 
@@ -211,10 +213,17 @@ System.out.println("stampo questo:"+e.getCause().getMessage());
 				File copyDirFile = new File(copyDir);
 				File originalDirFile = new File(originalDir);
 
-				FileUtils.copyDirectory(copyDirFile, originalDirFile);
+				FileUtils.copyDirectory(copyDirFile, originalDirFile);				
+//				FileUtils.deleteDirectory(copyDirFile);
+//				copyDirFile.delete();
 			}
 
 			this.flagCopied = false;
+
+			File destDir = new File(this.backupDir);
+			FileUtils.deleteQuietly(destDir);
+			this.backupDir = null;
+			
 			this.backupDirMap.clear();
 		}
 	}
@@ -226,8 +235,8 @@ System.out.println("stampo questo:"+e.getCause().getMessage());
 		String diskCache2Path = p.getProperty(LABEL_INDEXED_DISK_CACHE2_PATH);
 		
 		this.backupDirMap.clear();
-		String backupDir = JCSLRUCacheFactory.generateTmpDir("jcs-copy");
-		File destDir = new File(backupDir);
+		this.backupDir = JCSLRUCacheFactory.generateTmpDir("jcs-copy");
+		File destDir = new File(this.backupDir);
 		File sourceDir;
 		
 		if (diskCachePath != null) { 

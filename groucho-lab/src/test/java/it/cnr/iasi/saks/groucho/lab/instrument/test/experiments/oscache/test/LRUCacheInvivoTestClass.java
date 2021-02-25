@@ -199,7 +199,7 @@ public class LRUCacheInvivoTestClass {
 		PersistenceListener listener = memCache.getPersistenceListener();
 		if (( listener instanceof AbstractDiskPersistenceListener ) && (!this.flagCopied)){
 			AbstractDiskPersistenceListener diskListener =  (AbstractDiskPersistenceListener) listener;
-			String destinationDir = OSCacheLRUCacheFactory.GENERATE_CACHE_PATH("copy");
+			String destinationDir = OSCacheLRUCacheFactory.GENERATE_CACHE_PATH("osc-copy");
 			this.destDir = new File(destinationDir);
 			this.sourceDir = diskListener.getCachePath();
 			
@@ -212,6 +212,9 @@ public class LRUCacheInvivoTestClass {
 		if (flagCopied) {
 			try {
 				FileUtils.copyDirectory(this.destDir, this.sourceDir);
+				FileUtils.deleteQuietly(this.destDir);
+//				FileUtils.deleteDirectory(this.destDir);
+//				this.destDir.delete();
 			} finally {
 				this.destDir = null;
 				this.sourceDir = null;
