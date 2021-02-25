@@ -140,7 +140,7 @@ public class ShrinkerThreadJCSTest_IT {
 		PropertyUtilNoSingleton prop = PropertyUtilNoSingleton.getInstance();
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
 
-		for (int run = 0; run < 10; run++) {
+		for (int run = 0; run < 15; run++) {
 			// In the conf file "/test-conf/TestDiskCache.ccf" (used below) the maxCapacity before disk caching is set to 100
 			// Sometimes the number of items added in the cache will exceed such limit enabling caching on the disk.
 			int items = 40 + RandomGenerator.getInstance().nextInt(99);
