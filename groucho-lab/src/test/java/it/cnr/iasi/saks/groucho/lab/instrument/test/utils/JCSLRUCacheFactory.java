@@ -81,6 +81,14 @@ public class JCSLRUCacheFactory {
 		return subdir;
 	}
 	
+	/*
+	 * This method forces the clean-up of the cache by removing the
+	 * files that store the entries on the disk.
+     * This is a brute-force approach for removing items and it has
+     * sense only wrt a demo/testing scenario.
+	 *
+	 * This feature is not supposed to be used in production.
+	 */	
 	public static void bruteForceCacheDisposal() throws IOException {
 		Properties p = new Properties();
 		p.load(JCSLRUCacheFactory.class.getResourceAsStream(JCSLRUCacheFactory.getConfFile()));
@@ -96,12 +104,4 @@ public class JCSLRUCacheFactory {
 		FileUtils.deleteQuietly(dirToBeDisposed);
 	}
 	
-	public static void main(String args[]) {
-		try {
-			JCSLRUCacheFactory.bruteForceCacheDisposal();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 }
