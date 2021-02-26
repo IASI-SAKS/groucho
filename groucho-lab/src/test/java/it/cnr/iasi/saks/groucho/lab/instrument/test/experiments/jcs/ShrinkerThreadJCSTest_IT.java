@@ -128,6 +128,9 @@ public class ShrinkerThreadJCSTest_IT {
 			Assert.assertEquals(expected, condition);
 	        
 	        lru.getCompositeCache().removeAll();
+	        lru.dispose();
+	        
+	        JCSLRUCacheFactory.bruteForceCacheDisposal();
 		}
 	}
 
@@ -189,6 +192,9 @@ public class ShrinkerThreadJCSTest_IT {
 			
 			Assert.assertTrue("Something wrong happened, possibly the cache has been corrupted!!", expected);
 	        lru.getCompositeCache().removeAll();
+	        lru.dispose();
+	        
+	        JCSLRUCacheFactory.bruteForceCacheDisposal();
 		}
 	}
 	
