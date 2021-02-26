@@ -3,7 +3,9 @@ package it.cnr.iasi.saks.groucho.lab.instrument.test.utils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Properties;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.jcs.engine.control.CompositeCache;
 import org.apache.jcs.engine.control.CompositeCacheManager;
 import org.apache.jcs.engine.memory.lru.LRUMemoryCache;
@@ -18,6 +20,9 @@ public class JCSLRUCacheFactory {
 
 	private static final String DEFAULT_CACHE_PATH = System.getProperty("java.io.tmpdir");
 	protected String CACHE_PATH = DEFAULT_CACHE_PATH;
+	
+	public static final String LABEL_INDEXED_DISK_CACHE_PATH = "jcs.auxiliary.indexedDiskCache.attributes.DiskPath";
+	public static final String LABEL_INDEXED_DISK_CACHE2_PATH = "jcs.auxiliary.indexedDiskCache2.attributes.DiskPath";
 	
 	public static LRUMemoryCache configureLRUMemoryCache() throws IOException {
 		return JCSLRUCacheFactory.configureLRUMemoryCache(null);
@@ -74,5 +79,29 @@ public class JCSLRUCacheFactory {
 		subdir.mkdir();
 		
 		return subdir;
+	}
+	
+	public static void bruteForceCacheDisposal() throws IOException {
+		Properties p = new Properties();
+		p.load(JCSLRUCacheFactory.class.getResourceAsStream(JCSLRUCacheFactory.getConfFile()));
+
+		File dirToBeDisposed;
+		
+		String diskCachePath = p.getProperty(LABEL_INDEXED_DISK_CACHE_PATH);
+		dirToBeDisposed = new File(diskCachePath);
+		FileUtils.deleteQuietly(dirToBeDisposed);
+
+		String diskCache2Path = p.getProperty(LABEL_INDEXED_DISK_CACHE2_PATH);
+		dirToBeDisposed = new File(diskCache2Path);
+		FileUtils.deleteQuietly(dirToBeDisposed);
+	}
+	
+	public static void main(String args[]) {
+		try {
+			JCSLRUCacheFactory.bruteForceCacheDisposal();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

@@ -42,9 +42,6 @@ public class ShrinkerThreadInvivoTestClass {
 	
 	private static List<String> FAILED_TESTS = new ArrayList<String>();
 	
-	private static final String LABEL_INDEXED_DISK_CACHE_PATH = "jcs.auxiliary.indexedDiskCache.attributes.DiskPath";
-	private static final String LABEL_INDEXED_DISK_CACHE2_PATH = "jcs.auxiliary.indexedDiskCache2.attributes.DiskPath";
-	
 	private String backupDir;
 	private Map<String, String> backupDirMap = null;
 	private boolean flagCopied = false;
@@ -231,8 +228,8 @@ System.out.println("stampo questo:"+e.getCause().getMessage());
 	private void saveDataFromPersistency() throws IOException {		
 		Properties p = new Properties();
 		p.load(this.getClass().getResourceAsStream(JCSLRUCacheFactory.getConfFile()));
-		String diskCachePath = p.getProperty(LABEL_INDEXED_DISK_CACHE_PATH);
-		String diskCache2Path = p.getProperty(LABEL_INDEXED_DISK_CACHE2_PATH);
+		String diskCachePath = p.getProperty(JCSLRUCacheFactory.LABEL_INDEXED_DISK_CACHE_PATH);
+		String diskCache2Path = p.getProperty(JCSLRUCacheFactory.LABEL_INDEXED_DISK_CACHE2_PATH);
 		
 		this.backupDirMap.clear();
 		this.backupDir = JCSLRUCacheFactory.generateTmpDir("jcs-copy");
