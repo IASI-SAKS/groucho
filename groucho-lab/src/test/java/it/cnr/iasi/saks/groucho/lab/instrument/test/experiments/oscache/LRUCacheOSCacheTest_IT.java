@@ -68,7 +68,7 @@ public class LRUCacheOSCacheTest_IT {
 					failedTests += item + ", ";
 				}
 				
-				System.out.println("[Run "+ run +"]\tItems: " + items + "\tSize: " + memSize + "\tCondition: "+condition + "\tFailed Tests: "+failedTests);			
+				System.out.println("[Run "+ run +"]\tItems: " + items + "\tSize: " + memSize + "\tCapacity: " + capacity + "\tCondition: "+condition + "\tFailed Tests: "+failedTests);			
 
 				Assert.assertTrue("Some Tests Failed: "+failedTests, condition);
 			}catch (AssertionError aErr) {
