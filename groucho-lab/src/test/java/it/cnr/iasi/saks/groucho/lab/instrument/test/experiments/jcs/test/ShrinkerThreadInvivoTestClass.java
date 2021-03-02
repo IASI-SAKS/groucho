@@ -175,13 +175,20 @@ System.out.println("stampo questo:"+e.getCause().getMessage());
 						FAILED_TESTS.add(mName + " --> Some Failure on " + fullReflectiveMethodName + " (" + e.getCause().getMessage() +")");						
 					}
 				} catch (IOException e) {
-					e.getCause().printStackTrace();
+					Throwable cause =	e.getCause();
+					if (cause != null) {
+						cause.printStackTrace();
+					} else {
+						System.out.println("-------- CAUSE IS NULL --------");
+					}
+					
 					FAILED_TESTS.add(mName + " --> Error while trying to save data from the persistency (" + e.getMessage() +")");
 				} finally {
 					try {
 //this.toy();
 						this.restoreDataFromPersistency();
 					} catch (IOException e) {
+						e.printStackTrace();
 						InvocationTargetException targetException = new InvocationTargetException(e.getCause(), mName + " --> Data have not been restored and they may result corrupted. File System Shield Error on " + fullReflectiveMethodName);
 						throw targetException;
 					}finally {
@@ -210,7 +217,9 @@ System.out.println("stampo questo:"+e.getCause().getMessage());
 				File copyDirFile = new File(copyDir);
 				File originalDirFile = new File(originalDir);
 
-				FileUtils.copyDirectory(copyDirFile, originalDirFile);				
+				FileUtils.cleanDirectory(originalDirFile);			
+				FileUtils.copyDirectory(copyDirFile, originalDirFile);
+				
 //				FileUtils.deleteDirectory(copyDirFile);
 //				copyDirFile.delete();
 			}
