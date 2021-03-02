@@ -114,11 +114,15 @@ public class JCSLRUCacheFactory {
 		
 		String diskCachePath = p.getProperty(LABEL_INDEXED_DISK_CACHE_PATH);
 		dirToBeDisposed = new File(diskCachePath);
-		FileUtils.deleteQuietly(dirToBeDisposed);
+//		FileUtils.deleteDirectory(dirToBeDisposed);
+		FileUtils.cleanDirectory(dirToBeDisposed);
+//		FileUtils.deleteQuietly(dirToBeDisposed);
 
 		String diskCache2Path = p.getProperty(LABEL_INDEXED_DISK_CACHE2_PATH);
 		dirToBeDisposed = new File(diskCache2Path);
-		FileUtils.deleteQuietly(dirToBeDisposed);
+//		FileUtils.deleteDirectory(dirToBeDisposed);
+		FileUtils.cleanDirectory(dirToBeDisposed);
+//		FileUtils.deleteQuietly(dirToBeDisposed);
 	}
 	
 }
