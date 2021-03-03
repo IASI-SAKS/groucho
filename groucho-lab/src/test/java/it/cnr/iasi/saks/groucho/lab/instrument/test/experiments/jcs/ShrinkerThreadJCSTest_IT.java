@@ -144,34 +144,42 @@ public class ShrinkerThreadJCSTest_IT {
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
 
 		for (int run = 0; run < 15; run++) {
+			LRUMemoryCache lru = JCSLRUCacheFactory.configureLRUMemoryCache();
+
 			// In the conf file "/test-conf/TestDiskCache.ccf" (used below) the maxCapacity before disk caching is set to 100
 			// Sometimes the number of items added in the cache will exceed such limit enabling caching on the disk.
-			int items = 45 + RandomGenerator.getInstance().nextInt(99);
-			LRUMemoryCache lru = JCSLRUCacheFactory.configureLRUMemoryCache();
+			int capacity = lru.getCacheAttributes().getMaxObjects();
+			int items = this.getNumberOfItems(capacity);
+//			int items = 45 + RandomGenerator.getInstance().nextInt(99);
+			
 			this.addElementsInCache(items, lru);
 			
-	        System.out.println("Waiting for a while ...");
+	        String rndPrefix = RandomGenerator.getInstance().nextString(10);
+
+	        System.out.println("Waiting for a while ..."+lru.getSize());
 	        Thread.sleep( 5000 );
 	        System.out.println("... ok");
 
+	        
 	        TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
 
-	        this.addElementsInCache(1, lru);
-
+	        this.addElementsInCache(1, lru, rndPrefix);
+	        items ++;
+	        
 	        TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
 
 	        int memSize = lru.getSize();
 			boolean condition = ShrinkerThreadInvivoTestClass.getExitStatus();
 			
 			boolean expected = false;
-			if (items < lru.getCacheAttributes().getMaxObjects()) {
+			if (items < capacity) {
 				expected = items == memSize;
 			} else {
 				// Not sure we can do better than this.
-				// The actual number of elements swapped fro the memory (e.g. to the disk) depends on the algorithm associated with the
+				// The actual number of elements swapped from the memory (e.g. to the disk) depends on the algorithm associated with the
 				// Auxiliary bound with the LRU instance.
 				// Also, it seems that there is no method in LRU that returns the whole size of the LRU, but only the current size in mem.
-				expected = memSize < lru.getCacheAttributes().getMaxObjects();
+				expected = memSize < capacity;
 			}
 			
 			String failedTests = "";
@@ -180,7 +188,7 @@ public class ShrinkerThreadJCSTest_IT {
 					failedTests += item + ", ";
 				}
 
-				System.out.println("[Run "+ run +"]\tItems: " + items + "\tSize: " + memSize + "\tCondition: "+condition + "\tFailed Tests: "+failedTests);			
+				System.out.println("[Run "+ run +"]\tItems: " + items + "\tSize: " + memSize + "\tCapacity: " + capacity + "\tCondition: "+condition + "\tFailed Tests: "+failedTests);			
 
 				Assert.assertTrue("Some Tests Failed: "+failedTests, condition);
 			}catch (AssertionError aErr) {
@@ -200,8 +208,17 @@ public class ShrinkerThreadJCSTest_IT {
 	
 	private void addElementsInCache(int items, LRUMemoryCache lru)
 			throws IOException {
+		this.addElementsInCache(items, lru, "");
+	}
+	
+	private void addElementsInCache(int items, LRUMemoryCache lru, String keyPrefix)
+			throws IOException {
+		String prefix = "key";
+		if ((keyPrefix != null) && (!keyPrefix.isEmpty())) {
+			prefix = keyPrefix;
+		}
 		for (int i = 0; i < items; i++) {
-			String key = "key" + i;
+			String key = prefix + i;
 			String value = "value";
 
 			ICacheElement element = new CacheElement("testRegion", key, value);
@@ -215,5 +232,34 @@ public class ShrinkerThreadJCSTest_IT {
 			Assert.assertNotNull("We should have received an element", returnedElement1);
 		}
 	}
+
+	private int getNumberOfItems (int capacity) {	
+		int items;
+		switch (RandomGenerator.getInstance().nextInt(7)) {
+		case 0:
+			items = 0;
+			break;
+		case 1:
+			items = 1;
+			break;
+		case 2:
+			items = (capacity / 2) - 1;						
+			break;
+		case 3:
+			items = capacity / 2;
+			break;
+		case 4:
+			items = (capacity / 2) + 1;			
+			break;
+		case 5:
+			items = capacity - 1;
+			break;
+		default:
+			items = capacity;
+			break;
+		}
+		return items;
+	}
+
 
 }
