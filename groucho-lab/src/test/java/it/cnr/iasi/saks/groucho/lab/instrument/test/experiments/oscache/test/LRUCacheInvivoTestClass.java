@@ -1,3 +1,20 @@
+/* 
+ * This file is part of the GROUCHO project.
+ * 
+ * GROUCHO is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * GROUCHO is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with GROUCHO.  If not, see <https://www.gnu.org/licenses/>
+ *
+ */
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.oscache.test;
 
 import java.io.File;
@@ -10,8 +27,6 @@ import java.util.List;
 import com.opensymphony.oscache.base.algorithm.LRUCache;
 import com.opensymphony.oscache.base.persistence.PersistenceListener;
 import com.opensymphony.oscache.plugins.diskpersistence.AbstractDiskPersistenceListener;
-
-import ch.usi.precrime.lrucache.LRUCacheTest;
 
 import it.cnr.iasi.saks.groucho.common.Context;
 import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
@@ -60,7 +75,6 @@ public class LRUCacheInvivoTestClass {
 		for (Method m : ConfigurableLRUCacheUnitTest.class.getMethods()){
 //		for (Method m : LRUCacheTest.class.getMethods()){
 			String fullReflectiveMethodName = m.getDeclaringClass().getCanonicalName()+"@"+m.getName();
-			// TODO check ! Ignore
 			if (m.isAnnotationPresent(Test.class) && (! m.isAnnotationPresent(Ignore.class))){	
 				System.out.println("["+mName+"] Starting the invivo testing session on: " + fullReflectiveMethodName);
 				try {
@@ -200,7 +214,7 @@ public class LRUCacheInvivoTestClass {
 		PersistenceListener listener = memCache.getPersistenceListener();
 		if (( listener instanceof AbstractDiskPersistenceListener ) && (!this.flagCopied)){
 			AbstractDiskPersistenceListener diskListener =  (AbstractDiskPersistenceListener) listener;
-			String destinationDir = OSCacheLRUCacheFactory.GENERATE_CACHE_PATH("copy");
+			String destinationDir = OSCacheLRUCacheFactory.GENERATE_CACHE_PATH("osc-copy");
 			this.destDir = new File(destinationDir);
 			this.sourceDir = diskListener.getCachePath();
 			
@@ -213,6 +227,9 @@ public class LRUCacheInvivoTestClass {
 		if (flagCopied) {
 			try {
 				FileUtils.copyDirectory(this.destDir, this.sourceDir);
+				FileUtils.deleteQuietly(this.destDir);
+//				FileUtils.deleteDirectory(this.destDir);
+//				this.destDir.delete();
 			} finally {
 				this.destDir = null;
 				this.sourceDir = null;

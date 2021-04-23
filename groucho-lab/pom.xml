@@ -499,7 +499,7 @@
 					</executions>
 					<configuration>
 						<includes>
-						<!-- NOTE THAT THIS INCLUDES ARE NOT CONSULTED, AS AUTOMATIC REPORTTING IS DISABLED (see above). -->
+						<!-- NOTE THAT THESE INCLUDES ARE NOT CONSULTED, AS AUTOMATIC REPORTTING IS DISABLED (see above). -->
 						<!-- THE INTENT OF THESE STATEMENTS IS ONLY TO DOCUMENT THE CLASSES THAT MAY BE INTERESTING FOR THIS EXPERIMENT. -->
 							<include>com/opensymphony/oscache/base/algorithm/AbstractConcurrentReadCache.class</include>
 							<include>com/opensymphony/oscache/base/algorithm/LRUCache.class</include>
@@ -523,10 +523,10 @@
 					<configuration>
 						<reuseForks>false</reuseForks>
 						<useUnlimitedThreads>true</useUnlimitedThreads>
-<!-- 						<test>ch.usi.precrime.lrucache.LRUCacheTest, -->
-<!-- 							it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.test.ShrinkerThreadUnitTest</test> -->
 						<test>ch.usi.precrime.lrucache.LRUCacheTest,
-							it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.test.ShrinkerThreadLRUCacheUnitTest#testSimpleShrinkMutiple</test>
+							it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.test.ShrinkerThreadUnitTest</test>
+<!-- 						<test>ch.usi.precrime.lrucache.LRUCacheTest, -->
+<!-- 							it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.test.ShrinkerThreadLRUCacheUnitTest#testSimpleShrinkMutiple</test> -->
 					</configuration>
 				</plugin>
 				<plugin>
