@@ -28,8 +28,6 @@ import com.opensymphony.oscache.base.algorithm.LRUCache;
 import com.opensymphony.oscache.base.persistence.PersistenceListener;
 import com.opensymphony.oscache.plugins.diskpersistence.AbstractDiskPersistenceListener;
 
-import ch.usi.precrime.lrucache.LRUCacheTest;
-
 import it.cnr.iasi.saks.groucho.common.Context;
 import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.utils.OSCacheLRUCacheFactory;
