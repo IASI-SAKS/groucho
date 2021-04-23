@@ -156,7 +156,7 @@ public class ShrinkerThreadJCSTest_IT {
 			
 	        String rndPrefix = RandomGenerator.getInstance().nextString(10);
 
-	        System.out.println("Waiting for a while ..."+lru.getSize());
+	        System.out.println("Waiting for a while ...");
 	        Thread.sleep( 5000 );
 	        System.out.println("... ok");
 
