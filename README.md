@@ -59,14 +59,6 @@ Each method that could be subject to In Vivo testing must be annotated as `Testa
 	}
 ```
 
-In case the source code of a class is not available for modification, the injection can be specified by means of a JSON record. An example is reported in:
- * [modelResource.json](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/src/test/resources/modelResource.json)
- * [testingConf.properties](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/src/test/resources/testingConf.properties) by setting the property `groucho.lab.intrument.jsonFile` to the path of the file of the JSON record
- 
-In order to apply the annotations from a given JSON report, please refer the following example shows:
- * the specific GROUCHO agent [`${groucho-lab.build.directory}/${groucho-lab.build.finalName}.jar`](https://github.com/IASI-SAKS/groucho/tree/master/groucho-lab/src/main/java/it/cnr/iasi/saks/groucho/lab/instrument) responsible for the injection
- * how to enact such an agent within a [pom.xml](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/pom.xml#L302-L304)
-
 About QA Aspects
 -------
 Some quality gates are defined and monitored by means of SonarCloud and Jacoco. As GROUCHO is a multi-module maven project, there are few
