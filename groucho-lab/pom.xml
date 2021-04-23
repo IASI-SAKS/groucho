@@ -80,7 +80,7 @@
 		<groucho-lab.build.depencenciesDirectory>${project.build.directory}/dependency</groucho-lab.build.depencenciesDirectory>
 
 
-		<!-- argLine must be defined, otherwise surfire/failsafe will broke the 
+		<!-- argLine must be defined, otherwise both Surfire and Failsafe will broke the 
 			build when using @{argLine} (see **HERE-ARG-LINE**) -->
 		<argLine></argLine>
 	</properties>
