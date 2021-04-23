@@ -5,7 +5,7 @@ Status](https://travis-ci.org/IASI-SAKS/groucho.svg?branch=master)](https://trav
 
 Building
 -------
-GROUCHO is (mainly) a Maven project. Build and install it with `mvn install`. In order to correctly build GROUCHO, the variable `JAVA_HOME` has to be set, for more details see the section [Java Home](https://github.com/IASI-SAKS/groucho#java-home).
+GROUCHO is (mainly) a Maven project. Build and install it with `mvn install`. In order to build GROUCHO correctly, the variable `JAVA_HOME` has to be set, for more details see the section [Java Home](https://github.com/IASI-SAKS/groucho#java-home).
 
 GROUCHO relies on an instrumented JVM (provided by [CROCHET](https://github.com/gmu-swe/crochet)) that will be located in `groucho-crochet/target/jre-inst/`.
 
@@ -20,7 +20,7 @@ Possible hints are:
 
 About the Java Instrumentation
 -------
-For safety reasons, GROUCHO does not apply its instrumentation on the whole set of Java classes in the class path. More specifically, and in addition to all the classes that CROCHET does not instrument, any agent built from inheritance of the ``it.cnr.iasi.saks.groucho.instrument.AbstractClassTranformer``  does not apply to the instrumentation the classes belonging to the following packages:
+For safety reasons, GROUCHO does not apply its instrumentation on the whole set of Java classes in the classpath. More specifically, and in addition to all the classes that CROCHET does not instrument, any agent built from inheritance of the ``it.cnr.iasi.saks.groucho.instrument.AbstractClassTranformer``  does not apply to the instrumentation the classes belonging to the following packages:
  * ``java.*``
  * ``sun.*``
  * ``it.cnr.iasi.saks.groucho.*``
