@@ -2,26 +2,37 @@ package it.cnr.iasi.saks.groucho.lsh.rest.impl;
 
 import it.cnr.iasi.saks.groucho.lsh.StateObserver;
 import it.cnr.iasi.saks.groucho.lsh.exceptions.LSHException;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import it.cnr.iasi.saks.groucho.lsh.factory.StateObserverFactory;
+import it.cnr.iasi.saks.groucho.lsh.util.StateObserverLSH;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.*;
+import org.springframework.stereotype.Service;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+@Service
+@Slf4j
 public class MarkApiImpl {
-    private static StateObserver stateObserver = (StateObserver) (new ClassPathXmlApplicationContext("applicationContext.xml")).getBean("stateObserver");
+    private StateObserverFactory stateObserverFactory = new StateObserverFactory();
+    private StateObserver stateObserver = stateObserverFactory.getStateObserver();
+    // TODO next StateObserver -> StateObserverLSH
+    private StateObserverLSH stateObserverLSH = (StateObserverLSH) stateObserverFactory.getStateObserverLSH();
 
-    private MarkApiImpl() {}
-
-    public static ResponseEntity<Boolean> markState(String body) {
-        return markStateLSH(CommonImplFunctions.toLSH(body));
-    }
-
-    public static ResponseEntity<Boolean> markStateLSH(String stateStringLSH) {
+    public ResponseEntity<Boolean> markState(String body) {
+        // TODO impl instead
+        // TODO if 400 error return httpstatus
         try {
-            stateObserver.markState(stateStringLSH);
-        } catch (LSHException e) {
-            e.printStackTrace();
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            stateObserver.markState(body);
+        } catch (LSHException ex) {
+            log.error("ERROR: ", ex);
+            // TODO 400 || 404 checkLSHUtil return boolean
+            return new ResponseEntity(Boolean.FALSE, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity(Boolean.TRUE, HttpStatus.OK);
+    }
+
+    public ResponseEntity<Boolean> markStateLSH(String stateStringLSH) {
+        NotImplementedException ex = new NotImplementedException();
+        log.error("ERROR: ", ex);
+        throw ex;
     }
 }
