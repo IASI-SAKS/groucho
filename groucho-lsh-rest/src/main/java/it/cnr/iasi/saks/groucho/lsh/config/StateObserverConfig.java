@@ -4,8 +4,7 @@ import it.cnr.iasi.saks.groucho.lsh.StateObserver;
 import it.cnr.iasi.saks.groucho.lsh.exceptions.LSHException;
 import it.cnr.iasi.saks.groucho.lsh.jep.LSHInvivoJep;
 import it.cnr.iasi.saks.groucho.lsh.util.StateObserverLSH;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 @Configuration
