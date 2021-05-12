@@ -1,4 +1,4 @@
-package it.cnr.iasi.saks.groucho.lsh.rest.impl;
+package it.cnr.iasi.saks.groucho.lsh.service.impl;
 
 import it.cnr.iasi.saks.groucho.lsh.StateObserver;
 import it.cnr.iasi.saks.groucho.lsh.exceptions.LSHException;

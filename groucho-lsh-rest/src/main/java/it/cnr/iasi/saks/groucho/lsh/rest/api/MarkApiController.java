@@ -2,7 +2,7 @@ package it.cnr.iasi.saks.groucho.lsh.rest.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.ApiParam;
-import it.cnr.iasi.saks.groucho.lsh.rest.impl.MarkApiImpl;
+import it.cnr.iasi.saks.groucho.lsh.service.impl.MarkApiImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
