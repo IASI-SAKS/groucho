@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Qualifier("reset")
 @Slf4j
-public class ResetApiImpl implements ResetApiService {
+public class ResetApiServiceImpl implements ResetApiService {
     private StateObserverFactory stateObserverFactory = new StateObserverFactory();
     private StateObserver stateObserver = stateObserverFactory.getStateObserver();
 

@@ -14,7 +14,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 @Service
 @Qualifier("mark")
 @Slf4j
-public class MarkApiImpl implements MarkApiService {
+public class MarkApiServiceImpl implements MarkApiService {
     private StateObserverFactory stateObserverFactory = new StateObserverFactory();
     private StateObserver stateObserver = stateObserverFactory.getStateObserver();
     // TODO next StateObserver -> StateObserverLSH
