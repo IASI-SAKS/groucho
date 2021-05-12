@@ -5,4 +5,5 @@
        xsi:schemaLocation = "http://www.springframework.org/schema/beans
    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
     <bean id = "stateObserver" class = "it.cnr.iasi.saks.groucho.lsh.jep.LSHInvivoJep"></bean>
+    <bean id = "stateObserverLSH" class = "it.cnr.iasi.saks.groucho.lsh.jep.LSHInvivoJep"></bean>
 </beans>

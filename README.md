@@ -5,7 +5,7 @@ Status](https://travis-ci.org/IASI-SAKS/groucho.svg?branch=master)](https://trav
 
 Building
 -------
-GROUCHO is (mainly) a Maven project. Build and install it with `mvn install`. In order to correctly build GROUCHO, the variable `JAVA_HOME` has to be set, for more details see the section [Java Home](https://github.com/IASI-SAKS/groucho#java-home).
+GROUCHO is (mainly) a Maven project. Build and install it with `mvn install`. In order to build GROUCHO correctly, the variable `JAVA_HOME` has to be set, for more details see the section [Java Home](https://github.com/IASI-SAKS/groucho#java-home).
 
 GROUCHO relies on an instrumented JVM (provided by [CROCHET](https://github.com/gmu-swe/crochet)) that will be located in `groucho-crochet/target/jre-inst/`.
 
@@ -20,7 +20,7 @@ Possible hints are:
 
 About the Java Instrumentation
 -------
-For safety reasons, GROUCHO does not apply its instrumentation on the whole set of Java classes in the class path. More specifically, and in addition to all the classes that CROCHET does not instrument, any agent built from inheritance of the ``it.cnr.iasi.saks.groucho.instrument.AbstractClassTranformer``  does not apply to the instrumentation the classes belonging to the following packages:
+For safety reasons, GROUCHO does not apply its instrumentation on the whole set of Java classes in the classpath. More specifically, and in addition to all the classes that CROCHET does not instrument, any agent built from inheritance of the ``it.cnr.iasi.saks.groucho.instrument.AbstractClassTranformer``  does not apply to the instrumentation the classes belonging to the following packages:
  * ``java.*``
  * ``sun.*``
  * ``it.cnr.iasi.saks.groucho.*``
@@ -59,14 +59,6 @@ Each method that could be subject to In Vivo testing must be annotated as `Testa
 	}
 ```
 
-In case the source code of a class is not available for modification, the injection can be specified by means of a JSON record. An example is reported in:
- * [modelResource.json](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/src/test/resources/modelResource.json)
- * [testingConf.properties](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/src/test/resources/testingConf.properties) by setting the property `groucho.lab.intrument.jsonFile` to the path of the file of the JSON record
- 
-In order to apply the annotations from a given JSON report, please refer the following example shows:
- * the specific GROUCHO agent [`${groucho-lab.build.directory}/${groucho-lab.build.finalName}.jar`](https://github.com/IASI-SAKS/groucho/tree/master/groucho-lab/src/main/java/it/cnr/iasi/saks/groucho/lab/instrument) responsible for the injection
- * how to enact such an agent within a [pom.xml](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/pom.xml#L302-L304)
-
 About QA Aspects
 -------
 Some quality gates are defined and monitored by means of SonarCloud and Jacoco. As GROUCHO is a multi-module maven project, there are few
@@ -82,47 +74,3 @@ always include in the ``POM`` an empty definition of the property argLine. Indee
    Within GROUCHO the module [groucho-sonar](groucho-sonar) has such intent. The followed documentation is:
     * [Maven Multi-Module Builds](https://github.com/jacoco/jacoco/wiki/MavenMultiModule#maven-multi-module-builds)
     * [Multi-module Apache Maven example](https://github.com/SonarSource/sonar-scanning-examples/tree/master/sonarqube-scanner-maven/maven-multimodule)
-
-How to Launch some Experiments
--------
- * Apache JCS: Launch the experiment with the original test cases from Apache JCS
- ```bash
- cd groucho-lab
- mvn -PjcsExperimentsProfile clean verify
- ```
- * OpenSymphony OSCache: Launch the experiment with a [configurable unit test](groucho-lab/src/test/java/it/cnr/iasi/saks/groucho/lab/instrument/test/experiments/oscache/test/ConfigurableLRUCacheUnitTest.java) derived from a [test case independently developed at USI](groucho-lab/src/test/java/ch/usi/precrime/lrucache/LRUCacheTest.java) 
- ```bash
- cd groucho-lab
- mvn -PosCacheExperimentsProfile clean verify
- ```
- * OpenSymphony OSCache: Generate new tests by means of Evosuite.
- Generate the new tests only if needed, and be carefull to do not overwrite pre-exiting test turned to be launched invivo.
- As first step, it is recommended to backup the content of the folder `groucho-lab/src/extra/java`, for example copy it somewhere else. 
- Then, before the generation process be sure to customize the properties of the Maven profile [`generateTestStubsProfile`](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/pom.xml#L572). Finally, execute the following commands:
- ```bash
- cd groucho-lab
- mvn -PgenerateTestStubsProfile evosuite:generate
- mvn -PgenerateTestStubsProfile evosuite:export
- ```
-  The new test will be exported into `groucho-lab/src/extra/test`. Avoid to add this folder in the repository. Turn these test generated for offline session into test cases that could launched online (e.g. avoiding new instantiation of the SUT/CUT). Once the conversion is over, copy the test cases into ``groucho-lab/src/test/java``.
- 
- * OpenSymphony OSCache: Launch the experiment with the test generated by Evosuite 
- ```bash
- cd groucho-lab
-TBD
- ```
- * Coverage Experiment on both Apache JCS and OpenSymphony OSCache.
-  For both the applications the test cases are lauched in a traditional way (by means of the SUREFIRE plugin), and
- invivo starting from an actual state/configuration the instances of the classes in the library acheived during some computations
- (this step exploits the FAILSAFE plugin). The experiment has been coded by means of the profile: [`jacocoCoverageExperimentProfile`](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/pom.xml#L434)
- 
- ```bash
- cd groucho-lab
- mvn -PjacocoCoverageExperimentProfile verify
- ```
- The results of the coverage are respectivelly reported in the files: ``groucho-lab/target/jacoco.exec`` and ``groucho-lab/target/jacoco-it.exec``. 
- Note that the reporting phase hase been disabled, because it will require the source files of both of the jars: ``jcs`` and ``oscache``. The right way to extract these information is to run [Jacoco CLI](https://www.jacoco.org/jacoco/) offline on both the files (each time pointing to the local direcotory with the source files of the considered lib).
- Also, please note that this profile relies on two [fat-jars](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/groucho-lab/src/test/resources/lib/fat-jars/) of the libraries ``jcs`` and ``oscache``. They have been [instrmented offline](https://www.jacoco.org/jacoco/trunk/doc/offline.html) by means of Jacoco CLI (0.8.5).
- 
- 
-    

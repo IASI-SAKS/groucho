@@ -26,6 +26,7 @@ import org.junit.Test;
 import it.cnr.iasi.saks.groucho.carvingStateTests.RandomGenerator;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.test.ShrinkerThreadInvivoTestClass;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.test.ShrinkerThreadUnitTest;
+import it.cnr.iasi.saks.groucho.lab.instrument.test.utils.JCSLRUCacheFactory;
 import it.cnr.iasi.saks.groucho.performanceOverheadTest.TestGovernanceManager_ActivationWithProbability;
 import it.cnr.iasi.saks.groucho.tests.util.PropertyUtilNoSingleton;
 
@@ -37,7 +38,6 @@ import org.apache.jcs.engine.behavior.ICacheElement;
 import org.apache.jcs.engine.behavior.ICompositeCacheAttributes;
 import org.apache.jcs.engine.behavior.IElementAttributes;
 import org.apache.jcs.engine.control.CompositeCache;
-import org.apache.jcs.engine.control.CompositeCacheManager;
 
 public class ShrinkerThreadJCSTest_IT {
 
@@ -86,6 +86,14 @@ public class ShrinkerThreadJCSTest_IT {
 		Assert.assertTrue(condition);
 	}
 
+	/*
+	 * This is an old version of the test 
+	 * expecting that just one test case is run invivo and using 
+	 * and asset originally described with ISSUE JCS-16
+	 * 
+	 * It can be run by enabling (in the model resource file) the invivo test in @see it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.test.ShrinkerThreadInvivoTestClass#simpleInvivoTestMethod(Context c)
+	 */
+	@Ignore
 	@Test
 	public void invokeInvivoTest() throws IOException, InterruptedException {
 		// the following statement binds the PropertyUtil to a No Singleton instance.
@@ -94,13 +102,13 @@ public class ShrinkerThreadJCSTest_IT {
 		// will not be affected by singleton
 		PropertyUtilNoSingleton prop = PropertyUtilNoSingleton.getInstance();
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
-//****************************
 
 		for (int run = 0; run < 10; run++) {
 			// In the conf file "/test-conf/TestDiskCache.ccf" (used below) the maxCapacity before disk caching is set to 100
 			// Sometimes the number of items added in the cache will exceed such limit enabling caching on the disk.
 			int items = 40 + RandomGenerator.getInstance().nextInt(99);
-			LRUMemoryCache lru = this.configureLRUMemoryCache(items);
+			LRUMemoryCache lru = JCSLRUCacheFactory.configureLRUMemoryCache();
+			this.addElementsInCache(items, lru);
 			
 	        System.out.println("Waiting for a while ...");
 	        Thread.sleep( 5000 );
@@ -116,38 +124,101 @@ public class ShrinkerThreadJCSTest_IT {
 			boolean condition = ShrinkerThreadInvivoTestClass.getExitStatus();
 			// This expected results come from the description of the ISSUE JCS-16
 			boolean expected = (items + ShrinkerThreadUnitTest.DEFAULT_ITEMS < lru.getCacheAttributes().getMaxObjects());
-	        System.out.println("[Run "+ run +"]\tItems: " + items + "\tSize: " + memSize + "\tCondition:"+condition + "\tExpected:"+expected);			
+	        System.out.println("[Run "+ run +"]\tItems: " + items + "\tSize: " + memSize + "("+lru.getCacheAttributes().getMaxObjects()+")"+"\tCondition:"+condition + "\tExpected:"+expected);			
 			Assert.assertEquals(expected, condition);
+	        
+	        lru.getCompositeCache().removeAll();
+	        lru.dispose();
+	        
+	        JCSLRUCacheFactory.bruteForceCacheDisposal();
 		}
-
-//		Assert.assertTrue(condition);
 	}
 
-	private LRUMemoryCache configureLRUMemoryCache() throws IOException {
-		return this.configureLRUMemoryCache(0);
+	@Test
+	public void invokeInvivoTestPro() throws IOException, InterruptedException {
+		// the following statement binds the PropertyUtil to a No Singleton instance.
+		// in other words, all the other classes accessing to
+		// PropertyUtil.getInstance();
+		// will not be affected by singleton
+		PropertyUtilNoSingleton prop = PropertyUtilNoSingleton.getInstance();
+		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
+
+		for (int run = 0; run < 15; run++) {
+			LRUMemoryCache lru = JCSLRUCacheFactory.configureLRUMemoryCache();
+
+			// In the conf file "/test-conf/TestDiskCache.ccf" (used below) the maxCapacity before disk caching is set to 100
+			// Sometimes the number of items added in the cache will exceed such limit enabling caching on the disk.
+			int capacity = lru.getCacheAttributes().getMaxObjects();
+			int items = this.getNumberOfItems(capacity);
+//			int items = 45 + RandomGenerator.getInstance().nextInt(99);
+			
+			this.addElementsInCache(items, lru);
+			
+	        String rndPrefix = RandomGenerator.getInstance().nextString(10);
+
+	        System.out.println("Waiting for a while ...");
+	        Thread.sleep( 5000 );
+	        System.out.println("... ok");
+
+	        
+	        TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
+
+	        this.addElementsInCache(1, lru, rndPrefix);
+	        items ++;
+	        
+	        TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
+
+	        int memSize = lru.getSize();
+			boolean condition = ShrinkerThreadInvivoTestClass.getExitStatus();
+			
+			boolean expected = false;
+			if (items < capacity) {
+				expected = items == memSize;
+			} else {
+				// Not sure we can do better than this.
+				// The actual number of elements swapped from the memory (e.g. to the disk) depends on the algorithm associated with the
+				// Auxiliary bound with the LRU instance.
+				// Also, it seems that there is no method in LRU that returns the whole size of the LRU, but only the current size in mem.
+				expected = memSize < capacity;
+			}
+			
+			String failedTests = "";
+			try {
+				for (String item : ShrinkerThreadInvivoTestClass.getFailedTests()) {
+					failedTests += item + ", ";
+				}
+
+				System.out.println("[Run "+ run +"]\tItems: " + items + "\tSize: " + memSize + "\tCapacity: " + capacity + "\tCondition: "+condition + "\tFailed Tests: "+failedTests);			
+
+				Assert.assertTrue("Some Tests Failed: "+failedTests, condition);
+			}catch (AssertionError aErr) {
+				/** Actually there is nothing to do here.
+				 *  The experiment simply has to keep going trying 
+				 *  invivo testing sessions over other configurations
+				 */
+			}	
+			
+			Assert.assertTrue("Something wrong happened, possibly the cache has been corrupted!!", expected);
+	        lru.getCompositeCache().removeAll();
+	        lru.dispose();
+	        
+	        JCSLRUCacheFactory.bruteForceCacheDisposal();
+		}
 	}
-		
-	private LRUMemoryCache configureLRUMemoryCache(int items) throws IOException {
-		CompositeCacheManager cacheMgr = CompositeCacheManager.getUnconfiguredInstance();
-//      cacheMgr.configure( "/TestDiskCache.ccf" );
-		cacheMgr.configure("/test-conf/TestDiskCache.ccf");
-
-		String region = "indexedRegion1";
-		
-		CompositeCache cache = cacheMgr.getCache(region);
-
-		LRUMemoryCache lru = new LRUMemoryCache();
-		lru.initialize(cache);
-		
-		this.addElementsInCache(items, lru);
-		
-		return lru;
-	}
-
+	
 	private void addElementsInCache(int items, LRUMemoryCache lru)
 			throws IOException {
+		this.addElementsInCache(items, lru, "");
+	}
+	
+	private void addElementsInCache(int items, LRUMemoryCache lru, String keyPrefix)
+			throws IOException {
+		String prefix = "key";
+		if ((keyPrefix != null) && (!keyPrefix.isEmpty())) {
+			prefix = keyPrefix;
+		}
 		for (int i = 0; i < items; i++) {
-			String key = "key" + i;
+			String key = prefix + i;
 			String value = "value";
 
 			ICacheElement element = new CacheElement("testRegion", key, value);
@@ -161,5 +232,34 @@ public class ShrinkerThreadJCSTest_IT {
 			Assert.assertNotNull("We should have received an element", returnedElement1);
 		}
 	}
+
+	private int getNumberOfItems (int capacity) {	
+		int items;
+		switch (RandomGenerator.getInstance().nextInt(7)) {
+		case 0:
+			items = 0;
+			break;
+		case 1:
+			items = 1;
+			break;
+		case 2:
+			items = (capacity / 2) - 1;						
+			break;
+		case 3:
+			items = capacity / 2;
+			break;
+		case 4:
+			items = (capacity / 2) + 1;			
+			break;
+		case 5:
+			items = capacity - 1;
+			break;
+		default:
+			items = capacity;
+			break;
+		}
+		return items;
+	}
+
 
 }
