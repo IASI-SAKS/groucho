@@ -3,15 +3,18 @@ package it.cnr.iasi.saks.groucho.lsh.service.impl;
 import it.cnr.iasi.saks.groucho.lsh.StateObserver;
 import it.cnr.iasi.saks.groucho.lsh.exceptions.LSHException;
 import it.cnr.iasi.saks.groucho.lsh.factory.StateObserverFactory;
+import it.cnr.iasi.saks.groucho.lsh.service.IsunknownApiService;
 import it.cnr.iasi.saks.groucho.lsh.util.StateObserverLSH;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 @Service
+@Qualifier("isunknown")
 @Slf4j
-public class IsunknownApiImpl {
+public class IsunknownApiImpl implements IsunknownApiService {
     private StateObserverFactory stateObserverFactory = new StateObserverFactory();
     private StateObserver stateObserver = stateObserverFactory.getStateObserver();
     // TODO next StateObserver -> StateObserverLSH

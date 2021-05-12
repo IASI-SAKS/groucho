@@ -3,15 +3,18 @@ package it.cnr.iasi.saks.groucho.lsh.service.impl;
 import it.cnr.iasi.saks.groucho.lsh.StateObserver;
 import it.cnr.iasi.saks.groucho.lsh.exceptions.LSHException;
 import it.cnr.iasi.saks.groucho.lsh.factory.StateObserverFactory;
+import it.cnr.iasi.saks.groucho.lsh.service.MarkApiService;
 import it.cnr.iasi.saks.groucho.lsh.util.StateObserverLSH;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 @Service
+@Qualifier("mark")
 @Slf4j
-public class MarkApiImpl {
+public class MarkApiImpl implements MarkApiService {
     private StateObserverFactory stateObserverFactory = new StateObserverFactory();
     private StateObserver stateObserver = stateObserverFactory.getStateObserver();
     // TODO next StateObserver -> StateObserverLSH
