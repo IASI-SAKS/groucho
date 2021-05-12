@@ -1,7 +1,8 @@
-package it.cnr.iasi.saks.groucho.lsh.rest.api;
+package it.cnr.iasi.saks.groucho.lsh.rest.api.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.ApiParam;
+import it.cnr.iasi.saks.groucho.lsh.rest.api.IsunknownApi;
 import it.cnr.iasi.saks.groucho.lsh.service.IsunknownApiService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.*;
