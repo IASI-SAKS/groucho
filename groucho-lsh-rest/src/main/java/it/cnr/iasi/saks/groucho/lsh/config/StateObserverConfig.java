@@ -3,7 +3,7 @@ package it.cnr.iasi.saks.groucho.lsh.config;
 import it.cnr.iasi.saks.groucho.lsh.StateObserver;
 import it.cnr.iasi.saks.groucho.lsh.exceptions.LSHException;
 import it.cnr.iasi.saks.groucho.lsh.jep.LSHInvivoJep;
-import it.cnr.iasi.saks.groucho.lsh.util.StateObserverLSH;
+import it.cnr.iasi.saks.groucho.lsh.util.StateObserverLSH_InsideUtil;
 import org.springframework.context.annotation.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -15,7 +15,7 @@ public class StateObserverConfig {
     }
 
     @Bean
-    public StateObserverLSH stateObserverLSH() throws LSHException {
+    public StateObserverLSH_InsideUtil stateObserverLSH() throws LSHException {
         throw new NotImplementedException();
 //        return new LSHInvivoJep();
     }

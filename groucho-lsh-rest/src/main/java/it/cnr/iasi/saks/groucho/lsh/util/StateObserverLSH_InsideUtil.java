@@ -20,5 +20,5 @@ package it.cnr.iasi.saks.groucho.lsh.util;
 
 import  it.cnr.iasi.saks.groucho.lsh.StateObserver;
 
-public interface StateObserverLSH extends StateObserver {
+public interface StateObserverLSH_InsideUtil extends StateObserver {
 }
