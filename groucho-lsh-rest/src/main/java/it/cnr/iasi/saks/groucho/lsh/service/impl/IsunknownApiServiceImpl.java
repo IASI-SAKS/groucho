@@ -34,10 +34,6 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 @Qualifier("isunknown")
 @Slf4j
 public class IsunknownApiServiceImpl implements IsunknownApiService {
-//    private StateObserverFactoryOLD stateObserverFactory = new StateObserverFactoryOLD();
-//    private StateObserver stateObserver = stateObserverFactory.getStateObserver();
-//    // TODO next StateObserver -> StateObserverLSH
-//    private StateObserverLSH_InsideUtil stateObserverLSH = (StateObserverLSH_InsideUtil) stateObserverFactory.getStateObserverLSH();
 
 	public ResponseEntity<Boolean> isStateUnknown(String body) {
 		// TODO impl instead

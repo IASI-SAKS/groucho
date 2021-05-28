@@ -32,8 +32,6 @@ import org.springframework.stereotype.Service;
 @Qualifier("reset")
 @Slf4j
 public class ResetApiServiceImpl implements ResetApiService {
-//    private StateObserverFactoryOLD stateObserverFactory = new StateObserverFactoryOLD();
-//    private StateObserver stateObserver = stateObserverFactory.getStateObserver();
 
     public ResponseEntity<Boolean> resetStateObserver() {
         // TODO impl instead
