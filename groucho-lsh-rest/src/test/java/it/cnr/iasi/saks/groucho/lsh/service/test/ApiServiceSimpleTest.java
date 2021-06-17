@@ -20,11 +20,8 @@ package it.cnr.iasi.saks.groucho.lsh.service.test;
 import org.junit.Test;
 import org.springframework.http.ResponseEntity;
 import org.junit.Assert;
-import org.junit.Ignore;
 
-import it.cnr.iasi.saks.groucho.lsh.StateObserver;
 import it.cnr.iasi.saks.groucho.lsh.StateObserverFactory;
-import it.cnr.iasi.saks.groucho.lsh.StateObserverLSH;
 import it.cnr.iasi.saks.groucho.lsh.exceptions.LSHException;
 import it.cnr.iasi.saks.groucho.lsh.service.IsunknownApiService;
 import it.cnr.iasi.saks.groucho.lsh.service.MarkApiService;

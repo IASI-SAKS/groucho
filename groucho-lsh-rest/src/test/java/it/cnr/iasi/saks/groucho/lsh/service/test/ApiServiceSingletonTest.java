@@ -21,19 +21,13 @@ import org.junit.Test;
 import org.springframework.http.ResponseEntity;
 import org.junit.Assert;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 
-import it.cnr.iasi.saks.groucho.lsh.StateObserver;
 import it.cnr.iasi.saks.groucho.lsh.StateObserverFactory;
-import it.cnr.iasi.saks.groucho.lsh.StateObserverLSH;
 import it.cnr.iasi.saks.groucho.lsh.exceptions.LSHException;
 import it.cnr.iasi.saks.groucho.lsh.service.IsunknownApiService;
 import it.cnr.iasi.saks.groucho.lsh.service.MarkApiService;
-import it.cnr.iasi.saks.groucho.lsh.service.ResetApiService;
 import it.cnr.iasi.saks.groucho.lsh.service.impl.IsunknownApiServiceImpl;
 import it.cnr.iasi.saks.groucho.lsh.service.impl.MarkApiServiceImpl;
-import it.cnr.iasi.saks.groucho.lsh.service.impl.ResetApiServiceImpl;
-import it.cnr.iasi.saks.groucho.lsh.tests.util.StateObserverFactoryNoSingleton;
 
 public class ApiServiceSingletonTest {
 
