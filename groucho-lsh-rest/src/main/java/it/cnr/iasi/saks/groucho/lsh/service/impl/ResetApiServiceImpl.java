@@ -29,7 +29,8 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 
 @Service
-@Qualifier("reset")
+//@Qualifier("reset")
+@Qualifier("ResetApiService")
 @Slf4j
 public class ResetApiServiceImpl implements ResetApiService {
 

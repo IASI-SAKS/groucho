@@ -35,6 +35,7 @@ import javax.validation.Valid;
 @Slf4j
 public class MarkApiController implements MarkApi {
     @Autowired @Qualifier("MarkApiService")
+//    @Autowired @Qualifier("mark")
     private MarkApiService markApiService;
     private final ObjectMapper objectMapper;
     private final HttpServletRequest request;

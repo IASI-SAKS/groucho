@@ -31,7 +31,8 @@ import org.springframework.stereotype.Service;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 @Service
-@Qualifier("mark")
+//@Qualifier("mark")
+@Qualifier("MarkApiService")
 @Slf4j
 public class MarkApiServiceImpl implements MarkApiService {
 

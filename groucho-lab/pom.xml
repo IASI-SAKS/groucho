@@ -152,6 +152,20 @@
 			<version>1.3</version>
 		</dependency>
 		
+<!-- This dependency is only required by some test from biojava -->
+        <dependency>
+            <groupId>xmlunit</groupId>
+            <artifactId>xmlunit</artifactId>
+            <version>1.6</version>
+            <scope>test</scope>
+        </dependency>    
+    
+		<dependency>
+			<groupId>org.biojava</groupId>
+			<artifactId>biojava-structure</artifactId>
+			<version>5.4.0</version>
+		</dependency>		
+        
 		<dependency>
   			<groupId>org.apache.directory.studio</groupId>
   			<artifactId>org.apache.commons.io</artifactId>
