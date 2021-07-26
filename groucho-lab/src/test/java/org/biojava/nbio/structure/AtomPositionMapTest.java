@@ -34,10 +34,13 @@ import java.util.NavigableMap;
 import static org.junit.Assert.*;
 import static org.junit.Assume.*;
 
+import org.junit.Ignore;
+
 /**
  * A unit test for {@link org.biojava.nbio.structure.AtomPositionMap}.
  * @author dmyerstu
  */
+@Ignore
 public class AtomPositionMapTest {
 
 	@Before

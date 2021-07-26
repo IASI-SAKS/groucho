@@ -34,10 +34,13 @@ import org.biojava.nbio.structure.io.PDBFileParser;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import org.junit.Ignore;
+
 /**
  * Various tests for functionality in {@link EntityInfo} and {@link org.biojava.nbio.structure.io.EntityFinder}
  * @author Jose Duarte
  */
+@Ignore 
 public class TestEntityResIndexMapping {
 
 	private static final String PATH_TO_TEST_FILES = "/org/biojava/nbio/structure/io/";

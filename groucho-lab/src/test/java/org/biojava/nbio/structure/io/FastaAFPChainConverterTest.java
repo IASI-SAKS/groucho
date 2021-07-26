@@ -47,12 +47,14 @@ import java.io.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import org.junit.Ignore;
 
 /**
  * A test for {@link FastaAFPChainConverter}.
  * @author dmyersturnbull
  *
  */
+@Ignore
 public class FastaAFPChainConverterTest {
 
 	static {

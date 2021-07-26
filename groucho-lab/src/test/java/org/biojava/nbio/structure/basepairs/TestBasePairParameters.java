@@ -31,6 +31,8 @@ import java.io.IOException;
 
 import static org.junit.Assert.*;
 
+import org.junit.Ignore;
+
 /**
  * This class tests the implementations of the search for base pairs for different RCSB structures
  * and the tests uses 3DNA as a comparator program. (other programs such as CURVES and NEWHELIX work similarly but
@@ -39,6 +41,7 @@ import static org.junit.Assert.*;
  * @since 5.0.0
  *
  */
+@Ignore
 public class TestBasePairParameters {
 
 	@Test

@@ -52,6 +52,9 @@ import org.biojava.nbio.structure.io.mmcif.model.CIFLabel;
 import org.biojava.nbio.structure.io.mmcif.model.IgnoreField;
 import org.junit.Test;
 
+import org.junit.Ignore;
+
+@Ignore
 public class TestMMCIFWriting {
 
 	@Test

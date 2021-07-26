@@ -35,10 +35,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.Ignore;
+
 /**
  * @author Spencer Bliven
  *
  */
+@Ignore
 public class StructureSequenceMatcherTest {
 
 	private Structure struct1;

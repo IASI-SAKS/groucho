@@ -31,12 +31,15 @@ import java.io.ObjectOutputStream;
 
 import static org.junit.Assert.*;
 
+import org.junit.Ignore;
+
 /**
  * Test the serialization and deserialization of BioJava structure objects.
  *
  * @author Aleix Lafita
  *
  */
+@Ignore
 public class TestStructureSerialization {
 
 	@Test

@@ -39,6 +39,9 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+import org.junit.Ignore;
+
+@Ignore
 // TODO dmyersturnbull: we should merge TestAtomCache and AtomCacheTest
 public class TestAtomCache {
 
