@@ -39,12 +39,14 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+import org.junit.Ignore;
 
 /** This class tests the correct loading of Nucleotides
  *
  * @author Andreas Prlic
  * @since 3.0.3
  */
+@Ignore
 public class TestNucleotides {
 
 	private static AtomCache cache;

@@ -30,6 +30,8 @@ import org.biojava.nbio.structure.StructureException;
 import org.biojava.nbio.structure.StructureIO;
 import org.junit.Test;
 
+import org.junit.Ignore;
+
 /**
  * Test the {@link SubunitExtractor} correctness on different real structures
  * with different types of difficulties.
@@ -37,6 +39,7 @@ import org.junit.Test;
  * @author Aleix Lafita
  *
  */
+@Ignore
 public class TestSubunitExtractor {
 
 	/**

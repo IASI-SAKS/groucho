@@ -32,6 +32,8 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import org.junit.Ignore;
+
 /**
  * Test the correctness of the DSSP implementation in BioJava
  * for the calculation of secondary structure in a Structure object.
@@ -47,6 +49,7 @@ import static org.junit.Assert.*;
  * @author Aleix Lafita
  *
  */
+@Ignore
 public class TestSecStrucCalc {
 
 	@Test

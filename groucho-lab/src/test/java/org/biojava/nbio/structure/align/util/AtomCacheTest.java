@@ -67,12 +67,14 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.junit.Ignore;
 
 /**
  * A test for {@link AtomCache}.
  * @author dmyerstu
  * @since 3.0.6
  */
+@Ignore 
 public class AtomCacheTest {
 
 	private static Logger logger = LoggerFactory.getLogger(AtomCacheTest.class);
