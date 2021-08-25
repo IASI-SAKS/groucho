@@ -10,8 +10,8 @@
 	You should have received a copy of the GNU General Public License along with 
 	this source. If not, see <http://www.gnu.org/licenses/>. -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>it.cnr.iasi.saks.groucho</groupId>
 	<artifactId>groucho-lab</artifactId>
@@ -42,6 +42,7 @@
 
 
 	<properties>
+
 		<junit.version>4.11</junit.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -61,7 +62,7 @@
 
 		<evosuite.version>1.0.6</evosuite.version>
 
-  		<apache-commons-io.version>2.4</apache-commons-io.version>
+		<apache-commons-io.version>2.4</apache-commons-io.version>
 
 		<groucho-core.version>1.0-SNAPSHOT</groucho-core.version>
 		<groucho-lsh-rest.version>1.0-SNAPSHOT</groucho-lsh-rest.version>
@@ -80,7 +81,7 @@
 		<groucho-lab.build.depencenciesDirectory>${project.build.directory}/dependency</groucho-lab.build.depencenciesDirectory>
 
 
-		<!-- argLine must be defined, otherwise both Surfire and Failsafe will broke the 
+		<!-- argLine must be defined, otherwise both Surfire and Failsafe will broke the
 			build when using @{argLine} (see **HERE-ARG-LINE**) -->
 		<argLine></argLine>
 	</properties>
@@ -115,12 +116,12 @@
 		</dependency>
 
 		<dependency>
-		  <groupId>org.evosuite</groupId>
-		  <artifactId>evosuite-standalone-runtime</artifactId>
-		  <version>${evosuite.version}</version>
-		  <scope>test</scope>
-		</dependency>		
-		
+			<groupId>org.evosuite</groupId>
+			<artifactId>evosuite-standalone-runtime</artifactId>
+			<version>${evosuite.version}</version>
+			<scope>test</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
@@ -151,28 +152,47 @@
 			<artifactId>jcs</artifactId>
 			<version>1.3</version>
 		</dependency>
-		
-<!-- This dependency is only required by some test from biojava -->
-        <dependency>
-            <groupId>xmlunit</groupId>
-            <artifactId>xmlunit</artifactId>
-            <version>1.6</version>
-            <scope>test</scope>
-        </dependency>    
-    
+
+		<!-- This dependency is only required by some test from biojava -->
+		<dependency>
+			<groupId>xmlunit</groupId>
+			<artifactId>xmlunit</artifactId>
+			<version>1.6</version>
+			<scope>test</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>org.biojava</groupId>
 			<artifactId>biojava-structure</artifactId>
 			<version>5.4.0</version>
-		</dependency>		
-        
+		</dependency>
+
 		<dependency>
-  			<groupId>org.apache.directory.studio</groupId>
-  			<artifactId>org.apache.commons.io</artifactId>
-  			<version>${apache-commons-io.version}</version>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.54</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.directory.studio</groupId>
+			<artifactId>org.apache.commons.io</artifactId>
+			<version>${apache-commons-io.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.4</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.clojure</groupId>
+			<artifactId>clojure</artifactId>
+			<version>1.5.1</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -355,6 +375,62 @@
 				</plugins>
 			</build>
 		</profile>
+
+		<profile>
+			<id>fastjsonExperimentsProfile</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>${maven-surefire.version}</version>
+						<configuration>
+							<skipTests>true</skipTests>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<!-- <version>NO VERSOIN FOR THE MOMENT AS IN THE PATCH FOR CROCHET</version> -->
+						<!-- <version>2.18.1</version> -->
+						<version>2.19.1</version>
+						<executions>
+							<execution>
+								<id>actual</id>
+								<goals>
+									<goal>integration-test</goal>
+									<goal>verify</goal>
+								</goals>
+								<configuration>
+									<test>it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.fastjsonDriver_IT</test>
+									<reuseForks>false</reuseForks>
+									<useUnlimitedThreads>true</useUnlimitedThreads>
+									<jvm>${groucho-crochet.build.directory}/jre-inst/bin/java</jvm>
+									<argLine>
+										-Xmx4G
+										-agentpath:${groucho-crochet.build.directory}/libtagging.so
+										-javaagent:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar
+										-Xbootclasspath/p:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar
+										@{argLine}
+										-javaagent:${groucho-lab.build.directory}/${groucho-lab.build.finalName}.jar
+										-Xbootclasspath/p:${groucho-lab.build.depencenciesDirectory}
+										-Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConfExperiments.properties
+										<!-- -->
+										-javaagent:${groucho-core.build.directory}/${groucho-core.build.finalName}.jar
+										-Xbootclasspath/p:${groucho-lab.build.depencenciesDirectory}
+										-Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConfExperiments.properties
+									</argLine>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
 		<!-- -->
 		<profile>
 			<id>osCacheExperimentsProfile</id>
@@ -431,7 +507,7 @@
 										-javaagent:${groucho-lab.build.directory}/${groucho-lab.build.finalName}.jar
 										-Xbootclasspath/p:${groucho-lab.build.depencenciesDirectory}
 										-Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConfExperiments.properties
-										<!-- -->										
+										<!-- -->
 										-javaagent:${groucho-core.build.directory}/${groucho-core.build.finalName}.jar
 										-Xbootclasspath/p:${groucho-lab.build.depencenciesDirectory}
 										-Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConfExperiments.properties
@@ -444,146 +520,146 @@
 			</build>
 		</profile>
 		<!--  -->
-	<profile>
-		<id>jacocoCoverageExperimentProfile</id>
-		<activation>
-			<activeByDefault>false</activeByDefault>
-		</activation>
-		<dependencies>
-			<dependency>
-				<groupId>opensymphony</groupId>
-				<artifactId>oscache</artifactId>
-				<version>2.1.1</version>
-				<scope>system</scope>
-				<systemPath>${groucho-lab.build.directory}/../src/test/resources/lib/fat-jars/oscache-2.1.1-fat.jar</systemPath>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.jcs</groupId>
-				<artifactId>jcs</artifactId>
-				<version>1.3</version>
-				<scope>system</scope>
-				<systemPath>${groucho-lab.build.directory}/../src/test/resources/lib/fat-jars/jcs-1.3-fat.jar</systemPath>
-			</dependency>
-			<dependency>
-				<groupId>commons-logging</groupId>
-				<artifactId>commons-logging</artifactId>
-				<version>1.1</version>
-			</dependency>
-			<dependency>
-				<groupId>concurrent</groupId>
-				<artifactId>concurrent</artifactId>
-				<version>1.0</version>
-			</dependency>
-			<dependency>
-				<groupId>org.jacoco</groupId>
-				<artifactId>org.jacoco.agent</artifactId>
-				<classifier>runtime</classifier>
-				<version>${jacoco.coverageExperiment.version}</version>
-			</dependency>
-		</dependencies>
-		<build>
-			<plugins>
-				<plugin>
+		<profile>
+			<id>jacocoCoverageExperimentProfile</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>opensymphony</groupId>
+					<artifactId>oscache</artifactId>
+					<version>2.1.1</version>
+					<scope>system</scope>
+					<systemPath>${groucho-lab.build.directory}/../src/test/resources/lib/fat-jars/oscache-2.1.1-fat.jar</systemPath>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.jcs</groupId>
+					<artifactId>jcs</artifactId>
+					<version>1.3</version>
+					<scope>system</scope>
+					<systemPath>${groucho-lab.build.directory}/../src/test/resources/lib/fat-jars/jcs-1.3-fat.jar</systemPath>
+				</dependency>
+				<dependency>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+					<version>1.1</version>
+				</dependency>
+				<dependency>
+					<groupId>concurrent</groupId>
+					<artifactId>concurrent</artifactId>
+					<version>1.0</version>
+				</dependency>
+				<dependency>
 					<groupId>org.jacoco</groupId>
-					<artifactId>jacoco-maven-plugin</artifactId>
+					<artifactId>org.jacoco.agent</artifactId>
+					<classifier>runtime</classifier>
 					<version>${jacoco.coverageExperiment.version}</version>
-					<executions>
-						<!-- NOTE THAT AUTOMATIC REPORTING IS USELESS, AS THE SOURCE FILES OF THE JARS: jcsAND oscache ARE NEEDED: -->
-						<!-- GENERATE THE REPORTS OFFLINE AS DESCRIBED IN  jacocolibSnippets.txt -->
-						<execution>
-							<id>jacoco-no-invivo</id>
-							<goals>
-								<goal>prepare-agent</goal>
-							</goals>
-							<configuration>
-								<!-- <destfile>${groucho-lab.build.directory}/jacoco-no-invivo.exec</destfile> -->
-								<!-- <propertyName>surefireArgLine</propertyName> -->
-							</configuration>
-						</execution>
-						<execution>
-							<id>jacoco-invivo</id>
-							<goals>
-								<goal>prepare-agent-integration</goal>
-							</goals>
-							<configuration>
-								<!-- <destfile>${groucho-lab.build.directory}/jacoco-invivo.exec</destfile> -->
-								<!-- <propertyName>failsafeArgLine</propertyName> -->
-							</configuration>
-						</execution>
-					</executions>
-					<configuration>
-						<includes>
-						<!-- NOTE THAT THESE INCLUDES ARE NOT CONSULTED, AS AUTOMATIC REPORTTING IS DISABLED (see above). -->
-						<!-- THE INTENT OF THESE STATEMENTS IS ONLY TO DOCUMENT THE CLASSES THAT MAY BE INTERESTING FOR THIS EXPERIMENT. -->
-							<include>com/opensymphony/oscache/base/algorithm/AbstractConcurrentReadCache.class</include>
-							<include>com/opensymphony/oscache/base/algorithm/LRUCache.class</include>
-							<include>org/apache/jcs/engine/memory/lru/LRUMemoryCache.class</include>
-							<include>org/apache/jcs/engine/memory/shrinking/ShrinkerThread.class</include>
-						</includes>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>${maven-surefire.version}</version>
-					<executions>
-						<execution>
-							<id>surefire-no-invivo</id>
-							<goals>
-								<goal>test</goal>
-							</goals>
-						</execution>
-					</executions>
-					<configuration>
-						<reuseForks>false</reuseForks>
-						<useUnlimitedThreads>true</useUnlimitedThreads>
-						<test>ch.usi.precrime.lrucache.LRUCacheTest,
-							it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.test.ShrinkerThreadUnitTest</test>
-<!-- 						<test>ch.usi.precrime.lrucache.LRUCacheTest, -->
-<!-- 							it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.test.ShrinkerThreadLRUCacheUnitTest#testSimpleShrinkMutiple</test> -->
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-failsafe-plugin</artifactId>
-					<!-- <version>NO VERSOIN FOR THE MOMENT AS IN THE PATCH FOR CROCHET</version> -->
-					<!-- <version>2.18.1</version> -->
-					<version>2.19.1</version>
-					<executions>
-						<execution>
-							<id>failsafe-invivo</id>
-							<goals>
-								<goal>integration-test</goal>
-								<goal>verify</goal>
-							</goals>
-							<configuration>
-								<test>it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.oscache.LRUCacheOSCacheTest_IT,
-									it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.ShrinkerThreadJCSTest_IT</test>
-								<reuseForks>false</reuseForks>
-								<useUnlimitedThreads>true</useUnlimitedThreads>
-								<jvm>${groucho-crochet.build.directory}/jre-inst/bin/java</jvm>
-								<argLine>
-									-Xmx4G
-									-agentpath:${groucho-crochet.build.directory}/libtagging.so
-									-javaagent:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar
-									-Xbootclasspath/p:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar
-									@{argLine}
-									-javaagent:${groucho-lab.build.directory}/${groucho-lab.build.finalName}.jar
-									-Xbootclasspath/p:${groucho-lab.build.depencenciesDirectory}
-									-Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConfExperiments.properties
-									<!-- -->
-									-javaagent:${groucho-core.build.directory}/${groucho-core.build.finalName}.jar
-									-Xbootclasspath/p:${groucho-lab.build.depencenciesDirectory}
-									-Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConfExperiments.properties
-									<!-- -->
-								</argLine>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
-			</plugins>
-		</build>
-	</profile>
+				</dependency>
+			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.jacoco</groupId>
+						<artifactId>jacoco-maven-plugin</artifactId>
+						<version>${jacoco.coverageExperiment.version}</version>
+						<executions>
+							<!-- NOTE THAT AUTOMATIC REPORTING IS USELESS, AS THE SOURCE FILES OF THE JARS: jcsAND oscache ARE NEEDED: -->
+							<!-- GENERATE THE REPORTS OFFLINE AS DESCRIBED IN  jacocolibSnippets.txt -->
+							<execution>
+								<id>jacoco-no-invivo</id>
+								<goals>
+									<goal>prepare-agent</goal>
+								</goals>
+								<configuration>
+									<!-- <destfile>${groucho-lab.build.directory}/jacoco-no-invivo.exec</destfile> -->
+									<!-- <propertyName>surefireArgLine</propertyName> -->
+								</configuration>
+							</execution>
+							<execution>
+								<id>jacoco-invivo</id>
+								<goals>
+									<goal>prepare-agent-integration</goal>
+								</goals>
+								<configuration>
+									<!-- <destfile>${groucho-lab.build.directory}/jacoco-invivo.exec</destfile> -->
+									<!-- <propertyName>failsafeArgLine</propertyName> -->
+								</configuration>
+							</execution>
+						</executions>
+						<configuration>
+							<includes>
+								<!-- NOTE THAT THESE INCLUDES ARE NOT CONSULTED, AS AUTOMATIC REPORTTING IS DISABLED (see above). -->
+								<!-- THE INTENT OF THESE STATEMENTS IS ONLY TO DOCUMENT THE CLASSES THAT MAY BE INTERESTING FOR THIS EXPERIMENT. -->
+								<include>com/opensymphony/oscache/base/algorithm/AbstractConcurrentReadCache.class</include>
+								<include>com/opensymphony/oscache/base/algorithm/LRUCache.class</include>
+								<include>org/apache/jcs/engine/memory/lru/LRUMemoryCache.class</include>
+								<include>org/apache/jcs/engine/memory/shrinking/ShrinkerThread.class</include>
+							</includes>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>${maven-surefire.version}</version>
+						<executions>
+							<execution>
+								<id>surefire-no-invivo</id>
+								<goals>
+									<goal>test</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<reuseForks>false</reuseForks>
+							<useUnlimitedThreads>true</useUnlimitedThreads>
+							<test>ch.usi.precrime.lrucache.LRUCacheTest,
+								it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.test.ShrinkerThreadUnitTest</test>
+							<!-- 						<test>ch.usi.precrime.lrucache.LRUCacheTest, -->
+							<!-- 							it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.test.ShrinkerThreadLRUCacheUnitTest#testSimpleShrinkMutiple</test> -->
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<!-- <version>NO VERSOIN FOR THE MOMENT AS IN THE PATCH FOR CROCHET</version> -->
+						<!-- <version>2.18.1</version> -->
+						<version>2.19.1</version>
+						<executions>
+							<execution>
+								<id>failsafe-invivo</id>
+								<goals>
+									<goal>integration-test</goal>
+									<goal>verify</goal>
+								</goals>
+								<configuration>
+									<test>it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.oscache.LRUCacheOSCacheTest_IT,
+										it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.ShrinkerThreadJCSTest_IT</test>
+									<reuseForks>false</reuseForks>
+									<useUnlimitedThreads>true</useUnlimitedThreads>
+									<jvm>${groucho-crochet.build.directory}/jre-inst/bin/java</jvm>
+									<argLine>
+										-Xmx4G
+										-agentpath:${groucho-crochet.build.directory}/libtagging.so
+										-javaagent:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar
+										-Xbootclasspath/p:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar
+										@{argLine}
+										-javaagent:${groucho-lab.build.directory}/${groucho-lab.build.finalName}.jar
+										-Xbootclasspath/p:${groucho-lab.build.depencenciesDirectory}
+										-Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConfExperiments.properties
+										<!-- -->
+										-javaagent:${groucho-core.build.directory}/${groucho-core.build.finalName}.jar
+										-Xbootclasspath/p:${groucho-lab.build.depencenciesDirectory}
+										-Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConfExperiments.properties
+										<!-- -->
+									</argLine>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 		<!-- -->
 		<profile>
 			<id>generateTestStubsProfile</id>
@@ -592,31 +668,31 @@
 			</activation>
 			<dependencies>
 				<dependency>
-    				<groupId>commons-collections</groupId>
-    				<artifactId>commons-collections</artifactId>
-    				<version>3.2.2</version>
+					<groupId>commons-collections</groupId>
+					<artifactId>commons-collections</artifactId>
+					<version>3.2.2</version>
 				</dependency>
-         	</dependencies>
+			</dependencies>
 			<properties>
-<!-- 				<cuts>com.opensymphony.oscache.web.filter.CacheFilter, com.opensymphony.oscache.base.algorithm.AbstractConcurrentReadCache</cuts> -->
-<!-- 				<cuts>com.opensymphony.oscache.base.algorithm.AbstractConcurrentReadCache</cuts> -->
-				<cuts>com.opensymphony.oscache.base.algorithm.LRUCache</cuts>				
+				<!-- 				<cuts>com.opensymphony.oscache.web.filter.CacheFilter, com.opensymphony.oscache.base.algorithm.AbstractConcurrentReadCache</cuts> -->
+				<!-- 				<cuts>com.opensymphony.oscache.base.algorithm.AbstractConcurrentReadCache</cuts> -->
+				<cuts>com.opensymphony.oscache.base.algorithm.LRUCache</cuts>
 				<targetFolder>${basedir}/../groucho-lab/src/extra/test</targetFolder>
-<!-- 				<criterion>LINE</criterion> -->
-<!-- 				<criterion>BRANCH</criterion> -->
-<!-- 				<criterion>OUTPUT:BRANCH</criterion> -->
+				<!-- 				<criterion>LINE</criterion> -->
+				<!-- 				<criterion>BRANCH</criterion> -->
+				<!-- 				<criterion>OUTPUT:BRANCH</criterion> -->
 				<criterion>METHOD:OUTPUT:CBRANCH</criterion>
-<!-- 				<criterion>LINE:BRANCH:METHOD:OUTPUT:CBRANCH</criterion> -->
-<!-- 				<criterion>LINE:BRANCH:METHOD</criterion> -->
-<!-- 				<criterion>CBRANCH</criterion> -->
-<!-- 				<criterion>WEAKMUTATION</criterion> -->
-<!-- 				<timeInMinutesPerClass>15</timeInMinutesPerClass> -->
-<!-- 				<timeInMinutesPerClass>30</timeInMinutesPerClass> -->
+				<!-- 				<criterion>LINE:BRANCH:METHOD:OUTPUT:CBRANCH</criterion> -->
+				<!-- 				<criterion>LINE:BRANCH:METHOD</criterion> -->
+				<!-- 				<criterion>CBRANCH</criterion> -->
+				<!-- 				<criterion>WEAKMUTATION</criterion> -->
+				<!-- 				<timeInMinutesPerClass>15</timeInMinutesPerClass> -->
+				<!-- 				<timeInMinutesPerClass>30</timeInMinutesPerClass> -->
 				<timeInMinutesPerClass>60</timeInMinutesPerClass>
-<!-- 				<extraArgs>-Dsearch_budget=120</extraArgs> -->
-<!-- 				<extraArgs>-Dsearch_budget=120 -Dassertions=false</extraArgs> -->
-<!-- 				<extraArgs>-Dsearch_budget=120 -Dassertions=false -generateMOSuite</extraArgs> -->
-<!-- 				<extraArgs>-Dsearch_budget=120 -Dassertions=false -generateMOSuite -Dalgorithm=dynamosa</extraArgs> -->
+				<!-- 				<extraArgs>-Dsearch_budget=120</extraArgs> -->
+				<!-- 				<extraArgs>-Dsearch_budget=120 -Dassertions=false</extraArgs> -->
+				<!-- 				<extraArgs>-Dsearch_budget=120 -Dassertions=false -generateMOSuite</extraArgs> -->
+				<!-- 				<extraArgs>-Dsearch_budget=120 -Dassertions=false -generateMOSuite -Dalgorithm=dynamosa</extraArgs> -->
 			</properties>
 			<build>
 				<plugins>

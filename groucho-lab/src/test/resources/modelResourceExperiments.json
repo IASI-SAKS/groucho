@@ -1,21 +1,13 @@
 {
-  "lst" : [ {
-    "className" : "org.apache.jcs.engine.memory.lru.LRUMemoryCache",
-    "methodName" : "update",
+  "lst" : [  {
+    "className" : "com.alibaba.fastjson.JSON",
+    "methodName" : "toJSONString",
     "annotation" : {
-      "invivoTestClass" : "it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.jcs.test.ShrinkerThreadInvivoTestClass",
+      "invivoTestClass" : "it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.fastjsonInvivoTestClass",
       "invivoTest" : "invivoTestMethod",
       "carvingDepth" : 1,
       "pauseOtherThreads" : false
     }
-  }, {
-    "className" : "it.cnr.iasi.saks.foo.MyDummyLRUCache",
-    "methodName" : "size",	
-    "annotation" : {
-      "invivoTestClass" : "it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.oscache.test.LRUCacheInvivoTestClass",
-      "invivoTest" : "invivoTestMethod",
-      "carvingDepth" : 1,
-      "pauseOtherThreads" : false
-    }
-  } ]
+  }
+  ]
 }
