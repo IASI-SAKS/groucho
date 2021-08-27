@@ -42,7 +42,6 @@
 
 
 	<properties>
-
 		<junit.version>4.11</junit.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -180,19 +179,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.18.4</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.clojure</groupId>
-			<artifactId>clojure</artifactId>
-			<version>1.5.1</version>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -405,7 +391,7 @@
 									<goal>verify</goal>
 								</goals>
 								<configuration>
-									<test>it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.fastjsonDriver_IT</test>
+									<test>it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.FastjsonDriver_IT</test>
 									<reuseForks>false</reuseForks>
 									<useUnlimitedThreads>true</useUnlimitedThreads>
 									<jvm>${groucho-crochet.build.directory}/jre-inst/bin/java</jvm>
@@ -414,14 +400,14 @@
 										-agentpath:${groucho-crochet.build.directory}/libtagging.so
 										-javaagent:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar
 										-Xbootclasspath/p:${groucho-crochet.build.directory}/${groucho-crochet.build.finalName}.jar
-										@{argLine}
+										 @{argLine}
 										-javaagent:${groucho-lab.build.directory}/${groucho-lab.build.finalName}.jar
 										-Xbootclasspath/p:${groucho-lab.build.depencenciesDirectory}
-										-Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConfExperiments.properties
+										-Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConfFlakinessExperiments.properties
 										<!-- -->
 										-javaagent:${groucho-core.build.directory}/${groucho-core.build.finalName}.jar
 										-Xbootclasspath/p:${groucho-lab.build.depencenciesDirectory}
-										-Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConfExperiments.properties
+										-Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConfFlakinessExperiments.properties
 									</argLine>
 								</configuration>
 							</execution>

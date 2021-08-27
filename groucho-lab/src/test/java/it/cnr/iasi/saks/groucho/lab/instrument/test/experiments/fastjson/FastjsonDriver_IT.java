@@ -20,19 +20,18 @@ package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson;
 import java.io.IOException;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.fastjsonInvivoTestClass;
+import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.*;
+import it.cnr.iasi.saks.foo.JSONWrapper;
 import it.cnr.iasi.saks.groucho.performanceOverheadTest.TestGovernanceManager_ActivationWithProbability;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.resources.*;
-import com.alibaba.fastjson.JSON;
 
-public class fastjsonDriver_IT {
+public class FastjsonDriver_IT {
 
 	@Test
-	public void invokeInvivoTestPro() throws IOException, InterruptedException {
-		System.out.println("invokeInvivoTestPro()");
+	public void driver() throws IOException, InterruptedException {
+		System.out.println("Running driver for Fastjson.");
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
 
 		Group group = new Group();
@@ -45,16 +44,13 @@ public class fastjsonDriver_IT {
 
 		User rootUser = new User();
 		rootUser.setId(3L);
-
 		rootUser.setName("root");
 
 		group.addUser(guestUser);
 		group.addUser(rootUser);
 
-		String jsonString = JSON.toJSONString(group);
-		System.out.println(jsonString);
-
-		boolean condition = fastjsonInvivoTestClass.getExitStatus();
+		String jsonString = (new JSONWrapper()).toJSONStringWrapper(group);
+		boolean condition = FastjsonInvivoTestClass.getExitStatus();
 		Assert.assertTrue(condition);
 		System.out.println("DONE");
 	}

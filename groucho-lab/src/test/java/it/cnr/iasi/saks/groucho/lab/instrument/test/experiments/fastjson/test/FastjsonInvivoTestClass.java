@@ -17,26 +17,18 @@
  */
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 
-import com.alibaba.json.bvt.jsonp.JSONPParseTest2;
 import com.alibaba.json.bvt.writeClassName.WriteDuplicateType;
 import it.cnr.iasi.saks.groucho.common.Context;
 import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
 import it.cnr.iasi.saks.groucho.performanceOverheadTest.TestGovernanceManager_ActivationWithProbability;
 
-import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
-
-import org.junit.Ignore;
-import org.junit.Test;
-
-public class fastjsonInvivoTestClass {
+public class FastjsonInvivoTestClass {
 	private static boolean EXIT_STATUS = false;
 	
 	private static List<String> FAILED_TESTS = new ArrayList<String>();
@@ -48,18 +40,16 @@ public class fastjsonInvivoTestClass {
 			
 	public boolean invivoTestMethod(Context c) throws InvocationTargetException{
 		this.configure();
-	
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
 
-		this.testSimpleShrinkMutipleInvivo();
+		this.testFlakyMethod();
+		setExitStatus();
 		return getExitStatus();
 	}
 
-	private void testSimpleShrinkMutipleInvivo() {
+	private void testFlakyMethod() {
 		String mName = this.getCurrentMethodName();
-		System.out.println("--------------------------------------------");
 		System.out.println("["+mName+"] Testing invivo ...");
-		System.out.println("--------------------------------------------");
 
 		WriteDuplicateType unitTest = new WriteDuplicateType();
 		try{
