@@ -26,6 +26,14 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
+	<repositories>
+		<repository>
+			<id>data-local</id>
+			<name>data</name>
+			<url>file://${project.basedir}/libs</url>
+		</repository>
+	</repositories>
+
 	<developers>
 		<developer>
 			<id>gulyx</id>
@@ -170,6 +178,13 @@
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 			<version>1.2.54</version>
+		</dependency>
+
+		<!-- custom jvmserializers jar -->
+		<dependency>
+			<groupId>com.local</groupId>
+			<artifactId>jvm-serializers</artifactId>
+			<version>1.0</version>
 		</dependency>
 
 		<dependency>
