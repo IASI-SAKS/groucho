@@ -21,18 +21,22 @@ import it.cnr.iasi.saks.groucho.lsh.StateObserver;
 import it.cnr.iasi.saks.groucho.lsh.StateObserverFactory;
 import it.cnr.iasi.saks.groucho.lsh.StateObserverLSH;
 import it.cnr.iasi.saks.groucho.lsh.exceptions.LSHException;
+import it.cnr.iasi.saks.groucho.lsh.rest.api.impl.IsunknownApiController;
 //import it.cnr.iasi.saks.groucho.lsh.factoryOLD.StateObserverFactoryOLD;
 import it.cnr.iasi.saks.groucho.lsh.service.IsunknownApiService;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 //import it.cnr.iasi.saks.groucho.lsh.util.StateObserverLSH_InsideUtil;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 
 @Service
 @Qualifier("isunknown")
-@Slf4j
 public class IsunknownApiServiceImpl implements IsunknownApiService {
+    protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	public ResponseEntity<Boolean> isStateUnknown(String body) {
 		// TODO impl instead
@@ -44,7 +48,7 @@ public class IsunknownApiServiceImpl implements IsunknownApiService {
 
             response = stateObserver.isStateUnknown(body);
         } catch (LSHException ex) {
-            log.error("ERROR: ", ex);
+            logger.error("ERROR: ", ex);
             // TODO 400 || 404 checkLSHUtil return boolean
             return new ResponseEntity<Boolean>(HttpStatus.NOT_FOUND);
         }
@@ -61,7 +65,7 @@ public class IsunknownApiServiceImpl implements IsunknownApiService {
 
             response = stateObserverLSH.isStateUnknown(stateStringLSH);
         } catch (LSHException ex) {
-            log.error("ERROR: ", ex);
+            logger.error("ERROR: ", ex);
             // TODO 400 || 404 checkLSHUtil return boolean
             return new ResponseEntity<Boolean>(HttpStatus.NOT_FOUND);
         }

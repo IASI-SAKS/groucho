@@ -23,7 +23,10 @@ import it.cnr.iasi.saks.groucho.lsh.StateObserverLSH;
 import it.cnr.iasi.saks.groucho.lsh.exceptions.LSHException;
 //import it.cnr.iasi.saks.groucho.lsh.factoryOLD.StateObserverFactoryOLD;
 import it.cnr.iasi.saks.groucho.lsh.service.ResetApiService;
-import lombok.extern.slf4j.Slf4j;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -31,8 +34,8 @@ import org.springframework.stereotype.Service;
 @Service
 //@Qualifier("reset")
 @Qualifier("ResetApiService")
-@Slf4j
 public class ResetApiServiceImpl implements ResetApiService {
+    protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public ResponseEntity<Boolean> resetStateObserver() {
         // TODO impl instead
@@ -45,7 +48,7 @@ public class ResetApiServiceImpl implements ResetApiService {
             stateObserver.resetStateObserver();
             stateObserverLSH.resetStateObserver();            
         } catch (LSHException ex) {
-            log.error("ERROR: ", ex);
+            logger.error("ERROR: ", ex);
             // TODO 400 || 404 checkLSHUtil return boolean
             return new ResponseEntity<Boolean>(HttpStatus.NOT_FOUND);
         }

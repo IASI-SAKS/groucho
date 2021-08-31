@@ -23,18 +23,19 @@ import it.cnr.iasi.saks.groucho.lsh.StateObserverLSH;
 import it.cnr.iasi.saks.groucho.lsh.exceptions.LSHException;
 //import it.cnr.iasi.saks.groucho.lsh.factoryOLD.StateObserverFactoryOLD;
 import it.cnr.iasi.saks.groucho.lsh.service.MarkApiService;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 //import it.cnr.iasi.saks.groucho.lsh.util.StateObserverLSH_InsideUtil;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 @Service
 //@Qualifier("mark")
 @Qualifier("MarkApiService")
-@Slf4j
 public class MarkApiServiceImpl implements MarkApiService {
+    protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public ResponseEntity<Boolean> markState(String body) {
         // TODO impl instead
@@ -45,7 +46,7 @@ public class MarkApiServiceImpl implements MarkApiService {
 
             stateObserver.markState(body);
         } catch (LSHException ex) {
-            log.error("ERROR: ", ex);
+            logger.error("ERROR: ", ex);
             // TODO 400 || 404 checkLSHUtil return boolean
             return new ResponseEntity<Boolean>(Boolean.FALSE, HttpStatus.NOT_FOUND);
         }
@@ -61,7 +62,7 @@ public class MarkApiServiceImpl implements MarkApiService {
 
             stateObserverLSH.markState(stateStringLSH);
         } catch (LSHException ex) {
-            log.error("ERROR: ", ex);
+            logger.error("ERROR: ", ex);
             // TODO 400 || 404 checkLSHUtil return boolean
             return new ResponseEntity<Boolean>(Boolean.FALSE, HttpStatus.NOT_FOUND);
         }
