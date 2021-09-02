@@ -34,7 +34,8 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 
 @Service
-@Qualifier("isunknown")
+//@Qualifier("isunknown")
+@Qualifier("IsUnknownApiService")
 public class IsunknownApiServiceImpl implements IsunknownApiService {
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
 

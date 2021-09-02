@@ -36,7 +36,7 @@ import javax.validation.Valid;
 @Generated(value="io.swagger.codegen.languages.SpringCodegen", date="2020-07-02T22:49:41.406+02:00")
 @Controller
 public class IsunknownApiController implements IsunknownApi {
-    @Autowired @Qualifier("isunknown")
+    @Autowired @Qualifier("IsUnknownApiService")
     private IsunknownApiService isunknownApiService;
     private final ObjectMapper objectMapper;
     private final HttpServletRequest request;
