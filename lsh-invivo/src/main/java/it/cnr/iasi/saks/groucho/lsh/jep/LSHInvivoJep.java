@@ -25,13 +25,14 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
 import it.cnr.iasi.saks.groucho.lsh.StateObserver;
+import it.cnr.iasi.saks.groucho.lsh.StateObserverLSH;
 import it.cnr.iasi.saks.groucho.lsh.exceptions.LSHException;
 import jep.Interpreter;
 import jep.JepException;
 import jep.SharedInterpreter;
 //import jep.SubInterpreter;
 
-public class LSHInvivoJep implements StateObserver {
+public class LSHInvivoJep implements StateObserver, StateObserverLSH {
 
 	private static final Object LOCK = new Object();
 
@@ -78,7 +79,6 @@ public class LSHInvivoJep implements StateObserver {
 			}
 		}
 
-		// TODO Auto-generated method stub
 		return runInvivoFlag;
 	}
 
