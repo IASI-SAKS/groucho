@@ -26,8 +26,6 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-
-
 	<developers>
 		<developer>
 			<id>gulyx</id>
@@ -86,12 +84,11 @@
 		<argLine></argLine>
 	</properties>
 
-	<!-- TODO: move repo location to test libs -->
 	<repositories>
 		<repository>
 			<id>data-local</id>
 			<name>data</name>
-			<url>file://${project.basedir}/libs</url>
+			<url>file://${project.basedir}/src/test/resources/libs</url>
 		</repository>
 	</repositories>
 
@@ -186,7 +183,7 @@
 		<dependency>
 			<groupId>com.local</groupId>
 			<artifactId>jvmserializers</artifactId>
-			<version>2.0</version>
+			<version>3.0</version>
 		</dependency>
 
 		<dependency>
@@ -429,6 +426,47 @@
 										-Xbootclasspath/p:${groucho-lab.build.depencenciesDirectory}
 										-Dgroucho.config.file.location=${groucho-lab.build.directory}/../src/test/resources/testingConfFlakinessExperiments.properties
 									</argLine>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+
+		<profile>
+			<id>benchmarkProfile</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>${maven-surefire.version}</version>
+						<configuration>
+							<skipTests>true</skipTests>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<!-- <version>NO VERSOIN FOR THE MOMENT AS IN THE PATCH FOR CROCHET</version> -->
+						<!-- <version>2.18.1</version> -->
+						<version>2.19.1</version>
+						<executions>
+							<execution>
+								<id>actual</id>
+								<goals>
+									<goal>integration-test</goal>
+									<goal>verify</goal>
+								</goals>
+								<configuration>
+									<test>it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.BenchmarkDriver_IT</test>
+									<reuseForks>false</reuseForks>
+									<useUnlimitedThreads>true</useUnlimitedThreads>
 								</configuration>
 							</execution>
 						</executions>

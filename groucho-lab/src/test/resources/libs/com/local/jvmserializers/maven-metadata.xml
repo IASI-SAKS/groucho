@@ -3,10 +3,10 @@
   <groupId>com.local</groupId>
   <artifactId>jvmserializers</artifactId>
   <versioning>
-    <release>2.0</release>
+    <release>3.0</release>
     <versions>
-      <version>2.0</version>
+      <version>3.0</version>
     </versions>
-    <lastUpdated>20210902131517</lastUpdated>
+    <lastUpdated>20210903134255</lastUpdated>
   </versioning>
 </metadata>
