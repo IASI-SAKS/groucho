@@ -8,5 +8,14 @@
       "carvingDepth" : 1,
       "pauseOtherThreads" : false
     }
+  },{
+    "className" : "serializers.json.FastJSONDatabind",
+    "methodName" : "serialize",
+    "annotation" : {
+      "invivoTestClass" : "it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.FastjsonInvivoTestClass",
+      "invivoTest" : "invivoTestMethod",
+      "carvingDepth" : 1,
+      "pauseOtherThreads" : false
+    }
   }]
 }
