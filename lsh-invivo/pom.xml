@@ -68,7 +68,6 @@
 		<python.target.resource>${project.build.outputDirectory}/python</python.target.resource>
 
         <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
-
 <!--         argLine must be defined, otherwise surfire/failsafe will broke the build when using @{argLine} (see **HERE-ARG-LINE**) -->
         <argLine></argLine>
 	</properties>
@@ -158,7 +157,7 @@
 <!-- 								<argument>-b${basedir}/target/xxhash</argument> -->
 <!-- 								<argument>- -prefix=${jep-inst-path}</argument> -->
 <!-- About the next line please consider ISSUE#17  on GitHub at: https://github.com/IASI-SAKS/groucho/issues/17-->
-<!-- 								<argument>-REMOVE_THIS_SPACE-system</argument> -->
+ 								<argument>--system</argument>
 								<argument>-b${jep-path}</argument>
 								<argument>-t${jep-inst-path}</argument>
 								<argument>jep</argument>
@@ -179,7 +178,7 @@
 <!-- 								<argument>-b${basedir}/target/xxhash</argument> -->
 <!-- 								<argument>- -prefix=${jep-inst-path}</argument> -->
 <!-- About the next line please consider ISSUE#17  on GitHub at: https://github.com/IASI-SAKS/groucho/issues/17-->
-<!-- 								<argument>-REMOVE_THIS_SPACE-system</argument> -->
+ 								<argument>--system</argument>
 								<argument>-b${xxhash-path}</argument>
 								<argument>-t${jep-inst-path}</argument>
 								<argument>xxhash</argument>
@@ -212,6 +211,7 @@
 					</argLine>
 				</configuration>
 			</plugin>
+
 		</plugins>
 	</build>
 </project>
