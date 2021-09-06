@@ -1,15 +1,6 @@
 {
   "lst" : [ {
-    "className" : "it.cnr.iasi.saks.foo.JSONWrapper",
-    "methodName" : "toJSONStringWrapper",
-    "annotation" : {
-      "invivoTestClass" : "it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.FastjsonInvivoTestClass",
-      "invivoTest" : "invivoTestMethod",
-      "carvingDepth" : 1,
-      "pauseOtherThreads" : false
-    }
-  },{
-    "className" : "serializers.json.FastJSONDatabind",
+    "className" : "it.cnr.iasi.saks.jvmserializers.MyGenericSerializer",
     "methodName" : "serialize",
     "annotation" : {
       "invivoTestClass" : "it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.FastjsonInvivoTestClass",

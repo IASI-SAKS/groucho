@@ -17,31 +17,26 @@
  */
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson;
 
-import it.cnr.iasi.saks.groucho.performanceOverheadTest.TestGovernanceManager_ActivationWithProbability;
-import org.junit.Assert;
+import it.cnr.iasi.saks.jvmserializers.MyFastJSONArrayDatabind;
+import it.cnr.iasi.saks.jvmserializers.MyFastJSONDatabind;
 import org.junit.Test;
 import java.io.IOException;
 import serializers.*;
-import serializers.json.*;
-import serializers.jackson.*;
 
 public class BenchmarkDriver_IT extends MediaItemBenchmark {
-
 	@Test
-	public void driver() throws IOException, InterruptedException {
+	public void runBench() throws IOException, InterruptedException {
 		System.out.println("Running BenchmarkDriver_IT.");
 		TestGroups groups = new TestGroups();
 		addTests(groups);
 		String inputPath = System.getProperty("user.dir")+"/src/test/resources/input/";
 		runBenchmark(new String[]{new String(inputPath+"media.1.json")});
 		System.out.println("DONE");
-	}
 
 	@Override
 	protected void addTests(TestGroups groups)
 	{
-		FastJSONDatabind.register(groups);
-		FastJSONArrayDatabind.register(groups);
-		System.out.println("added" +groups);
+		MyFastJSONDatabind.register(groups);
+		MyFastJSONArrayDatabind.register(groups);
 	}
 }
