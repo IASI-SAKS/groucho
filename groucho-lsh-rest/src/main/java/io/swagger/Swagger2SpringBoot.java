@@ -7,9 +7,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-@ComponentScan(basePackages = {"io.swagger", "it.cnr.iasi.saks.groucho.lsh.config"})
+//@ComponentScan(basePackages = {"io.swagger", "it.cnr.iasi.saks.groucho.lsh.config"})
+@ComponentScan(basePackages = { "io.swagger", "it.cnr.iasi.saks.groucho.lsh.rest.api", "it.cnr.iasi.saks.groucho.lsh.service"})
+//@ComponentScan(basePackages = { "io.swagger", "it.cnr.iasi.saks.groucho.lsh.rest.api"})
 public class Swagger2SpringBoot implements CommandLineRunner {
-    @Override
+//    @Override
     public void run(String... arg0) throws Exception {
         if (arg0.length > 0 && arg0[0].equals("exitcode")) {
             throw new ExitException();
@@ -23,7 +25,7 @@ public class Swagger2SpringBoot implements CommandLineRunner {
     class ExitException extends RuntimeException implements ExitCodeGenerator {
         private static final long serialVersionUID = 1L;
 
-        @Override
+//        @Override
         public int getExitCode() {
             return 10;
         }
