@@ -17,11 +17,11 @@
  */
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 
-import com.alibaba.json.bvt.writeClassName.WriteDuplicateType;
 import it.cnr.iasi.saks.groucho.common.Context;
-import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
 import it.cnr.iasi.saks.groucho.performanceOverheadTest.TestGovernanceManager_ActivationWithProbability;
-
+import com.alibaba.json.bvt.jsonp.*;
+import com.alibaba.json.bvt.serializer.date.*;
+import com.alibaba.json.bvt.issue_1200.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,28 +37,99 @@ public class FastjsonInvivoTestClass {
 	private Map<String, String> backupDirMap = null;
 	private boolean flagCopied = false;
 
-			
+	/*
+	Class Under Test - JSON
+	Method Under Test - parseObject()
+	Required Fastjson Version - 1.2.54
+	*/
 	public boolean invivoTestMethod(Context c) throws InvocationTargetException{
 		this.configure();
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
-
-		this.testFlakyMethod();
+		testParseObject();
 		setExitStatus();
 		return getExitStatus();
 	}
 
-	private void testFlakyMethod() {
+	/*
+	Class Under Test - JSON
+	Method Under Test - toJSONString()
+	Required Fastjson Version - 1.2.54
+	*/
+	public boolean invivoTestMethod2(Context c) throws InvocationTargetException{
+		this.configure();
+		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
+		testToJSONString();
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	/*Runs all the unit tests that exercise JSON.parseObject() [V. 1.2.54]*/
+	private void testParseObject() {
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
 
-		WriteDuplicateType unitTest = new WriteDuplicateType();
+		JSONPParseTest2 unitTest = new JSONPParseTest2();
+		JSONPParseTest3 unitTest2 = new JSONPParseTest3();
+		DateTest4_indian unitTest3 = new DateTest4_indian();
+		DateTest5_iso8601 unitTest4 = new DateTest5_iso8601();
+
 		try{
-			unitTest.test_dupType2();
+			unitTest.test_f();
 		}catch(Throwable t) {
 			resetExitStatus();
 			System.out.println(t.getMessage());
 			System.out.println("... ops!!!!!!!!!!");
+			System.out.println(unitTest.getClass() + " failed.");
 		}
+		try{
+			unitTest2.test_f();
+		}catch(Throwable t) {
+			resetExitStatus();
+			System.out.println(t.getMessage());
+			System.out.println("... ops!!!!!!!!!!");
+			System.out.println(unitTest2.getClass() + " failed.");
+		}
+		try{
+			unitTest3.test_date();
+		}catch(Throwable t) {
+			resetExitStatus();
+			System.out.println(t.getMessage());
+			System.out.println("... ops!!!!!!!!!!");
+			System.out.println(unitTest3.getClass() + " failed.");
+		}
+		try{
+			unitTest4.test_date();
+		}catch(Throwable t) {
+			resetExitStatus();
+			System.out.println(t.getMessage());
+			System.out.println("... ops!!!!!!!!!!");
+			System.out.println(unitTest4.getClass() + " failed.");
+		}
+		System.out.println("... done!");
+	}
+
+	/*Runs all the unit tests that exercise JSON.toJSONString() [V. 1.2.54]*/
+	private void testToJSONString() {
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		Issue1298 unitTest = new Issue1298();
+		try{
+			unitTest.test_for_issue();
+		}catch(Throwable t) {
+			//resetExitStatus();
+			System.out.println(t.getMessage());
+			System.out.println("... ops!!!!!!!!!!");
+			System.out.println(unitTest.getClass() + " failed.");
+		}
+		try{
+			unitTest.test_for_issue_1();
+		}catch(Throwable t) {
+			resetExitStatus();
+			System.out.println(t.getMessage());
+			System.out.println("... ops!!!!!!!!!!");
+			System.out.println(unitTest.getClass() + " failed.");
+		}
+
 		System.out.println("... done!");
 	}
 

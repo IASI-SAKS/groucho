@@ -1,10 +1,10 @@
 {
   "lst" : [ {
     "className" : "it.cnr.iasi.saks.jvmserializers.MyGenericSerializer",
-    "methodName" : "serialize",
+    "methodName" : "mySerialize",
     "annotation" : {
       "invivoTestClass" : "it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.FastjsonInvivoTestClass",
-      "invivoTest" : "invivoTestMethod",
+      "invivoTest" : "invivoTestMethod2",
       "carvingDepth" : 1,
       "pauseOtherThreads" : false
     }
