@@ -7,14 +7,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.parser.Feature;
 
-public class MyGenericSerializer<T> extends Serializer<T>
-{
+public class MyGenericSerializer<T> extends Serializer<T> {
 	private final String name;
 	private final Class<T> type;
 	private int serializerFeatures;
 
-	public MyGenericSerializer(String name, Class<T> clazz)
-	{
+	public MyGenericSerializer(String name, Class<T> clazz) {
 		this.name = name;
 		type = clazz;
 		serializerFeatures |= SerializerFeature.QuoteFieldNames.getMask();
@@ -25,19 +23,17 @@ public class MyGenericSerializer<T> extends Serializer<T>
 	}
 
 	@Override
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
-	public void serializeItems(T[] items, OutputStream out) throws IOException
-	{
-		if(this.name == "json/fastjson/databind"){
+	public void serializeItems(T[] items, OutputStream out) throws IOException {
+		if (this.name == "json/fastjson/databind") {
 			for (int i = 0, len = items.length; i < len; ++i) {
 				JSON.writeJSONString(out, items[i], SerializerFeature.WriteEnumUsingToString,
 						SerializerFeature.DisableCircularReferenceDetect);
 			}
-		} else{
+		} else {
 			for (int i = 0, len = items.length; i < len; ++i) {
 				JSON.writeJSONString(out,
 						items[i],
@@ -48,9 +44,8 @@ public class MyGenericSerializer<T> extends Serializer<T>
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public T deserialize(byte[] array) throws Exception
-	{
-		if(this.name == "json/fastjson/databind"){
+	public T deserialize(byte[] array) throws Exception {
+		if (this.name == "json/fastjson/databind") {
 			return (T) JSON.parseObject(array, type, Feature.DisableCircularReferenceDetect);
 		} else {
 			return (T) JSON.parseObject(array, type, Feature.SupportArrayToBean, Feature.DisableCircularReferenceDetect);
@@ -58,12 +53,15 @@ public class MyGenericSerializer<T> extends Serializer<T>
 	}
 
 	@Override
-	public byte[] serialize(T data) throws IOException
-	{
-		if(this.name == "json/fastjson/databind") {
+	public byte[] serialize(T data) throws IOException {
+		if (this.name == "json/fastjson/databind") {
 			return JSON.toJSONBytes(data, SerializerFeature.WriteEnumUsingToString, SerializerFeature.DisableCircularReferenceDetect);
 		} else {
 			return JSON.toJSONBytes(data, serializerFeatures);
 		}
+	}
+	@Override
+	public String mySerialize(T data) throws IOException {
+			return JSON.toJSONString(data);
 	}
 }
