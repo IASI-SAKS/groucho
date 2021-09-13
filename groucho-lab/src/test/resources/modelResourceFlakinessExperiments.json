@@ -4,7 +4,7 @@
     "methodName" : "mySerialize",
     "annotation" : {
       "invivoTestClass" : "it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.FastjsonInvivoTestClass",
-      "invivoTest" : "invivoTestMethod2",
+      "invivoTest" : "invivoTestToJSONString",
       "carvingDepth" : 1,
       "pauseOtherThreads" : false
     }
