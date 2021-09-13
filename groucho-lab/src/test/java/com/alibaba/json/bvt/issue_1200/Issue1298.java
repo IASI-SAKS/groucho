@@ -1,3 +1,4 @@
+/*FastJSON V 1.2.54*/
 package com.alibaba.json.bvt.issue_1200;
 
 import com.alibaba.fastjson.JSON;
