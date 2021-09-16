@@ -52,18 +52,25 @@ public class FastjsonInvivoTestClass {
 
 	private static List<String> FAILED_TESTS = new ArrayList<String>();
 
-	/*Simple inVivo test to try out parametrized unit tests*/
+	/* Simple inVivo test method to try out parametrized unit tests
+	- Class Under Test - JSON
+	- Method Under Test - parseObject()
+	- Fastjson Version - 1.2.54
+	*/
 	public boolean invivoTestSimple(Context c) throws InvocationTargetException{
 		this.configure();
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
-
-		byte[] input =  (byte[]) c.getOtherReferencesInContext().get(0);
 
 		String mName = this.getCurrentMethodName();
+
+		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
 		System.out.println("["+mName+"] Testing invivo ...");
+
+		byte[] input =  (byte[]) c.getOtherReferencesInContext().get(0);
 		JSONPParseTest2 unitTest = new JSONPParseTest2();
+		//JSONPParseTest3 unitTest = new JSONPParseTest3();
+		unitTest.configureArray(input);
 		try {
-			unitTest.test_f(input);
+			unitTest.test_f();
 			System.out.println( "test_f passed.");
 		} catch(Throwable t) {
 			FAILED_TESTS.add(mName);
@@ -74,7 +81,6 @@ public class FastjsonInvivoTestClass {
 		setExitStatus();
 		return getExitStatus();
 	}
-
 
 	/*
 	- Class Under Test - JSON
