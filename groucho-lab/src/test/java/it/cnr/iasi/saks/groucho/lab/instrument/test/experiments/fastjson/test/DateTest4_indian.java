@@ -10,6 +10,12 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+/*
+ * This class is a re-implementation of the original Unit Test:
+ *  com.alibaba.json.bvt.serializer.date.DateTest4_indian
+ * distributed with Fastjson 1.2.54
+ */
+
 public class DateTest4_indian extends TestCase {
 
     //TimeZone.getTimezone("Asia/Shangai") and Locale.CHINA
