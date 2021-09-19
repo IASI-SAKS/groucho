@@ -105,7 +105,7 @@ public class FastjsonInvivoTestClass {
 	- Class Under Test - JSON
 	- Method Under Test - parseObject()
 	- Fastjson Version - 1.2.54
-	- Context input: timezone info ?...
+	- Context input: timezone, locale
 	*/
 	public boolean invivoParseObject2(Context c) throws InvocationTargetException{
 		this.configure();
@@ -122,27 +122,35 @@ public class FastjsonInvivoTestClass {
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
 		try {
-			//Apply checkpoint and rollback ...
+			//Apply checkpoint
+			// shield.applyCheckpoint(input);
 			DateTest5_iso8601 unitTest = new DateTest5_iso8601();
-			//Configure with timezone info
-			//unitTest.configure();
+			//Configure test with Context info
+			unitTest.configure(TimeZone.getDefault(), Locale.getDefault());
 			unitTest.test_date();
 			System.out.println("DateTest5_iso8601#test_date passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("DateTest5_iso8601#test_date failed.");
 		}
+		//finally {
+		//	shield.applyRollback(input);
+		//}
 		try {
-			//Apply checkpoint and rollback ...
+			//Apply checkpoint
+			// shield.applyCheckpoint(input);
 			DateTest4_indian unitTest = new DateTest4_indian();
-			//Configure with timezone info
-			//unitTest.configure();
+			//Configure test with Context info
+			unitTest.configure(TimeZone.getDefault(), Locale.getDefault());
 			unitTest.test_date();
 			System.out.println("DateTest4_indian#test_date passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("DateTest4_indian#test_date failed.");
 		}
+		//finally {
+		//	shield.applyRollback(input);
+		//}
 	}
 
 	/*
@@ -154,7 +162,7 @@ public class FastjsonInvivoTestClass {
 	public boolean invivoParseObject3(Context c) throws InvocationTargetException{
 		this.configure();
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
-		//Get map info from the context
+		//Configure test with Context info
 		testParseObject3();
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
 		setExitStatus();
@@ -210,6 +218,38 @@ public class FastjsonInvivoTestClass {
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("DateTest#test_date failed.");
+		}
+	}
+
+
+	/*
+	- Class Under Test - JSON
+	- Method Under Test - toJSONString()
+	- Fastjson Version - 1.2.54
+	- Context input: timezone, locale, JSONReader?
+	*/
+	public boolean invivoReadObject(Context c) throws InvocationTargetException{
+		this.configure();
+		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
+		//Get info from the context
+		testReadObject();
+		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	/*Runs some flaky tests that exercise JSONReader.readObject() [V. 1.2.54]*/
+	private void testReadObject() {
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		try {
+			DateTest_tz unitTest = new DateTest_tz();
+			//It should be configured with input from the Context
+			unitTest.configure(TimeZone.getTimeZone("Asia/Shangai"), Locale.CHINA);
+			System.out.println("DateTest_tz#test_codec passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("DateTest_tz#test_codec passed.");
 		}
 	}
 
