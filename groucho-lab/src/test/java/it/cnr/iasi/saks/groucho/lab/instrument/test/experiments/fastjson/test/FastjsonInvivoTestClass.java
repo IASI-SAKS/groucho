@@ -22,6 +22,7 @@ import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+import com.alibaba.json.bvt.issue_1200.Issue1298;
 import it.cnr.iasi.saks.groucho.common.Context;
 import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
 import it.cnr.iasi.saks.groucho.performanceOverheadTest.TestGovernanceManager_ActivationWithProbability;
@@ -126,7 +127,8 @@ public class FastjsonInvivoTestClass {
 			// shield.applyCheckpoint(input);
 			DateTest5_iso8601 unitTest = new DateTest5_iso8601();
 			//Configure test with Context info
-			unitTest.configure(TimeZone.getDefault(), Locale.getDefault());
+			unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
+			//unitTest.configure(TimeZone.getDefault(), Locale.getDefault());
 			unitTest.test_date();
 			System.out.println("DateTest5_iso8601#test_date passed.");
 		}catch(Throwable t){
@@ -141,12 +143,28 @@ public class FastjsonInvivoTestClass {
 			// shield.applyCheckpoint(input);
 			DateTest4_indian unitTest = new DateTest4_indian();
 			//Configure test with Context info
-			unitTest.configure(TimeZone.getDefault(), Locale.getDefault());
+			unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
+			//unitTest.configure(TimeZone.getDefault(), Locale.getDefault());
 			unitTest.test_date();
 			System.out.println("DateTest4_indian#test_date passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("DateTest4_indian#test_date failed.");
+		}
+		//finally {
+		//	shield.applyRollback(input);
+		//}
+		try {
+			// shield.applyCheckpoint(input);
+			Issue1679 unitTest = new Issue1679();
+			//It should be configured with input from the Context
+			unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
+			//unitTest.configure(TimeZone.getDefault(), Locale.getDefault());
+			unitTest.test_for_issue();
+			System.out.println("Issue1679#test_for_issue passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("Issue1679#test_for_issue failed.");
 		}
 		//finally {
 		//	shield.applyRollback(input);
@@ -219,12 +237,44 @@ public class FastjsonInvivoTestClass {
 			System.out.println(t.getMessage());
 			System.out.println("DateTest#test_date failed.");
 		}
+		try {
+			it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.Issue1298 unitTest = new it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.Issue1298();
+			//It should be configured with input from the Context
+			 unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"), Locale.US);
+			//unitTest.configure(TimeZone.getDefault(), Locale.getDefault());
+			unitTest.test_for_issue();
+			System.out.println("DateTest#test_for_issue passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("DateTest#test_for_issue  failed.");
+		}
+		try {
+			it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.Issue1298 unitTest = new it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.Issue1298();
+			//It should be configured with input from the Context
+			unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"), Locale.US);
+			//unitTest.configure(TimeZone.getDefault(), Locale.getDefault());
+			unitTest.test_for_issue_1();
+			System.out.println("DateTest#test_for_issue_1 passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("DateTest#test_for_issue_1  failed.");
+		}
+		try {
+			Issue1977 unitTest = new Issue1977();
+			//It should be configured with input from the Context
+			unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
+			unitTest.test_for_issue();
+			System.out.println("Issue1977#test_for_issue passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("Issue1977#test_for_issue failed.");
+		}
 	}
 
 
 	/*
-	- Class Under Test - JSON
-	- Method Under Test - toJSONString()
+	- Class Under Test - JSONReader
+	- Method Under Test - ReadObject()
 	- Fastjson Version - 1.2.54
 	- Context input: timezone, locale, JSONReader?
 	*/
