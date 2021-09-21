@@ -19,35 +19,12 @@ package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-import com.alibaba.json.bvt.issue_1200.Issue1298;
 import it.cnr.iasi.saks.groucho.common.Context;
 import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
+import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1254.*;
 import it.cnr.iasi.saks.groucho.performanceOverheadTest.TestGovernanceManager_ActivationWithProbability;
-import it.cnr.iasi.saks.jvmserializers.MyGenericSerializer;
-
-import com.alibaba.fastjson.JSON;
-import com.alibaba.json.bvt.asm.*;
-import com.alibaba.json.bvt.bug.*;
-import com.alibaba.json.bvt.date.*;
-//import com.alibaba.json.bvt.geo.*;
-import com.alibaba.json.bvt.guava.*;
-import com.alibaba.json.bvt.issue_1100.*;
-import com.alibaba.json.bvt.issue_1200.*;
-import com.alibaba.json.bvt.issue_1300.*;
-import com.alibaba.json.bvt.issue_1400.*;
-import com.alibaba.json.bvt.issue_1500.*;
-//import com.alibaba.json.bvt.issue_1700.*;
-import com.alibaba.json.bvt.issue_1900.*;
-import com.alibaba.json.bvt.issue_2100.*;
-import com.alibaba.json.bvt.issue_2400.*;
-import com.alibaba.json.bvt.issue_3000.*;
-import com.alibaba.json.bvt.jsonp.*;
-import com.alibaba.json.bvt.parser.deser.*;
-import com.alibaba.json.bvt.serializer.date.*;
-import com.alibaba.json.bvt.writeClassName.V2.*;
 
 public class FastjsonInvivoTestClass {
 
@@ -56,9 +33,10 @@ public class FastjsonInvivoTestClass {
 	private static List<String> FAILED_TESTS = new ArrayList<String>();
 
 	/*
+	- Fastjson Version - 1.2.54
 	- Class Under Test - JSON
 	- Method Under Test - parseObject()
-	- Fastjson Version - 1.2.54
+	- Flaky Test(s) - JSONPParseTest2, JSONPParseTest3
 	- Context input: byte[] array
 	*/
 	public boolean invivoParseObject(Context c) throws InvocationTargetException{
@@ -103,30 +81,29 @@ public class FastjsonInvivoTestClass {
 	}
 
 	/*
+	- Fastjson Version - 1.2.54
 	- Class Under Test - JSON
 	- Method Under Test - parseObject()
-	- Fastjson Version - 1.2.54
-	- Context input: timezone, locale
+	- Flaky Test(s) - DateTest5_iso8601#test_date, DateTest4_indian#test_date, Issue1679#test_for_issue
+	- Context input: TimeZone, Locale
 	*/
 	public boolean invivoParseObject2(Context c) throws InvocationTargetException{
 		this.configure();
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
-		//Get timezone info from the context
+		//Get (TimeZone, Locale) from C
 		testParseObject2();
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
 		setExitStatus();
 		return getExitStatus();
 	}
 
-	/*Runs some flaky tests that exercise JSON.parseObject() [V. 1.2.54]*/
 	private void testParseObject2() {
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
 		try {
-			//Apply checkpoint
-			// shield.applyCheckpoint(input);
+	 	// shield.applyCheckpoint(input);
 			DateTest5_iso8601 unitTest = new DateTest5_iso8601();
-			//Configure test with Context info
+			//To configure with input from C
 			unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
 			//unitTest.configure(TimeZone.getDefault(), Locale.getDefault());
 			unitTest.test_date();
@@ -142,7 +119,7 @@ public class FastjsonInvivoTestClass {
 			//Apply checkpoint
 			// shield.applyCheckpoint(input);
 			DateTest4_indian unitTest = new DateTest4_indian();
-			//Configure test with Context info
+			//To configure with input from C
 			unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
 			//unitTest.configure(TimeZone.getDefault(), Locale.getDefault());
 			unitTest.test_date();
@@ -157,7 +134,7 @@ public class FastjsonInvivoTestClass {
 		try {
 			// shield.applyCheckpoint(input);
 			Issue1679 unitTest = new Issue1679();
-			//It should be configured with input from the Context
+			//To configure with input from C
 			unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
 			//unitTest.configure(TimeZone.getDefault(), Locale.getDefault());
 			unitTest.test_for_issue();
@@ -172,28 +149,21 @@ public class FastjsonInvivoTestClass {
 	}
 
 	/*
+	- Fastjson Version - 1.2.54
 	- Class Under Test - JSON
 	- Method Under Test - parseObject()
-	- Fastjson Version - 1.2.54
+	- Flaky Test(s) - Issue1480#test_for_issue
 	- Context input: HashMap<Integer, Integer>
 	*/
 	public boolean invivoParseObject3(Context c) throws InvocationTargetException{
 		this.configure();
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
-		//Configure test with Context info
-		testParseObject3();
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
-		setExitStatus();
-		return getExitStatus();
-	}
 
-	/*Runs some flaky tests that exercise JSON.parseObject() [V. 1.2.54]*/
-	private void testParseObject3() {
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
 		try {
 			Issue1480 unitTest = new Issue1480();
-			//Configure with HashMap from C
+			//To configure with HashMap from C
 			//unitTest.configure();
 			unitTest.test_for_issue();
 			System.out.println("Issue1480#test_for_issue passed.");
@@ -201,13 +171,18 @@ public class FastjsonInvivoTestClass {
 			System.out.println(t.getMessage());
 			System.out.println("Issue1480#test_for_issue failed.");
 		}
+
+		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
+		setExitStatus();
+		return getExitStatus();
 	}
 
 	/*
+	- Fastjson Version - 1.2.54
 	- Class Under Test - JSON
 	- Method Under Test - toJSONString()
-	- Fastjson Version - 1.2.54
-	- Context input: date, timezone, locale
+	- Flaky Test(s) - Issue1298#test_for_issue,  Issue1298#test_for_issue_1
+	- Context input: TimeZone, Locale
 	*/
 	public boolean invivoToJsonString(Context c) throws InvocationTargetException{
 		this.configure();
@@ -219,45 +194,31 @@ public class FastjsonInvivoTestClass {
 		return getExitStatus();
 	}
 
-	/*Runs some flaky tests that exercise JSON.toJSONString() [V. 1.2.54]*/
 	private void testToJsonString() {
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+
 		try {
-			DateTest unitTest = new DateTest();
+			Issue1298 unitTest = new Issue1298();
 			//It should be configured with input from the Context
-			//unitTest.configure(...);
-			long millis = 1324138987429L;
-			Date date = new Date(millis);
-			//unitTest.configure(TimeZone.getTimeZone("Asia/Shangai"), Locale.CHINA, date);
-			unitTest.configure(TimeZone.getDefault(), Locale.getDefault(), date);
-			unitTest.test_date();
-			System.out.println("DateTest#test_date passed.");
-		}catch(Throwable t){
-			System.out.println(t.getMessage());
-			System.out.println("DateTest#test_date failed.");
-		}
-		try {
-			it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.Issue1298 unitTest = new it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.Issue1298();
-			//It should be configured with input from the Context
-			 unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"), Locale.US);
+			 unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
 			//unitTest.configure(TimeZone.getDefault(), Locale.getDefault());
 			unitTest.test_for_issue();
-			System.out.println("DateTest#test_for_issue passed.");
+			System.out.println("Issue1298#test_for_issue passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
-			System.out.println("DateTest#test_for_issue  failed.");
+			System.out.println("Issue1298#test_for_issue  failed.");
 		}
 		try {
-			it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.Issue1298 unitTest = new it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.Issue1298();
+			Issue1298 unitTest = new Issue1298();
 			//It should be configured with input from the Context
-			unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"), Locale.US);
+			unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
 			//unitTest.configure(TimeZone.getDefault(), Locale.getDefault());
 			unitTest.test_for_issue_1();
-			System.out.println("DateTest#test_for_issue_1 passed.");
+			System.out.println("Issue1298#test_for_issue_1 passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
-			System.out.println("DateTest#test_for_issue_1  failed.");
+			System.out.println("Issue1298#test_for_issue_1  failed.");
 		}
 		try {
 			Issue1977 unitTest = new Issue1977();
@@ -271,176 +232,164 @@ public class FastjsonInvivoTestClass {
 		}
 	}
 
-
 	/*
-	- Class Under Test - JSONReader
-	- Method Under Test - ReadObject()
+	- NOTE: the flakiness was removed
 	- Fastjson Version - 1.2.54
-	- Context input: timezone, locale, JSONReader?
+	- Class Under Test - JSON
+	- Method Under Test - toJSONString()
+	- Flaky Test(s) - DateTest#test_date
+	- Context input: TimeZone, Locale, Date (?)
 	*/
-	public boolean invivoReadObject(Context c) throws InvocationTargetException{
+	public boolean invivoToJsonString2(Context c) throws InvocationTargetException{
 		this.configure();
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
-		//Get info from the context
-		testReadObject();
+		//Get timezone info from the context
+		testToJsonString2();
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
 		setExitStatus();
 		return getExitStatus();
 	}
 
-	/*Runs some flaky tests that exercise JSONReader.readObject() [V. 1.2.54]*/
-	private void testReadObject() {
+	/*Runs some flaky tests that exercise JSON.toJSONString() [V. 1.2.54]*/
+	private void testToJsonString2() {
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		try {
+			DateTest unitTest = new DateTest();
+			//It should be configured with input from the Context
+			//unitTest.configure(...);
+			long millis = 1324138987429L;
+			Date date = new Date(millis);
+			//unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA, date);
+			unitTest.configure(TimeZone.getDefault(), Locale.getDefault(), date);
+			unitTest.test_date();
+			System.out.println("DateTest#test_date passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("DateTest#test_date failed.");
+		}
+	}
+
+	/*
+	- Fastjson Version - 1.2.54
+	- Class Under Test - JSONReader
+	- Method Under Test - ReadObject()
+	- Flaky Test(s) - DateTest_tz#test_codec
+	- Context input: TimeZone, Locale, JSONReader?
+	*/
+	public boolean invivoReadObject(Context c) throws InvocationTargetException {
+		this.configure();
+		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
+
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
 		try {
 			DateTest_tz unitTest = new DateTest_tz();
-			//It should be configured with input from the Context
-			unitTest.configure(TimeZone.getTimeZone("Asia/Shangai"), Locale.CHINA);
+			//To configure with Context input
+			unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
+			//unitTest.configure(TimeZone.getDefault(), Locale.getDefault());
+			unitTest.test_codec();
 			System.out.println("DateTest_tz#test_codec passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
-			System.out.println("DateTest_tz#test_codec passed.");
+			System.out.println("DateTest_tz#test_codec failed.");
 		}
+		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
+		setExitStatus();
+		return getExitStatus();
 	}
 
 	/*
-	- Class Under Test - JSON
-	- Method Under Test - parseObject()
-	- Fastjson Version - 1.2.73
+	- Fastjson Version - 1.2.54
+	- Class Under Test - DefaultJSONParser
+	- Method Under Test - parseArray()
+	- Context input: TimeZone
 	*/
-	/*public boolean myInvivoParseObject2(Context c) throws InvocationTargetException{
-		this.configure();
+	public boolean invivoParseArray(Context c) throws InvocationTargetException{
+			this.configure();
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
-		testAllParseObject2();
+
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		try {
+			DefaultExtJSONParser_parseArray unitTest = new DefaultExtJSONParser_parseArray();
+			//To configure with Context input
+			unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"));
+			unitTest.test_7();
+			System.out.println("DefaultExtJSONParser_parseArray#test_7 passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("DefaultExtJSONParser_parseArray#test_7 failed.");
+		}
+
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
 		setExitStatus();
 		return getExitStatus();
-	}*/
+	}
 
 	/*
+	- Fastjson Version - 1.2.54
+	- Class Under Test - DefaultJSONParser
+	- Method Under Test - parse()
+	- Context input: TimeZone
+	*/
+	public boolean invivoParse(Context c) throws InvocationTargetException {
+		this.configure();
+		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
+
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+
+		try {
+			DefaultExtJSONParser_parseArray unitTest = new DefaultExtJSONParser_parseArray();
+			//To configure with Context input
+			unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"));
+			unitTest.test_8();
+			System.out.println("DefaultExtJSONParser_parseArray#test_8 passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("DefaultExtJSONParser_parseArray#test_8 failed.");
+		}
+
+		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	/*
+	- TODO - Adapt Issue1177_2#test_for_issue
 	- Class Under Test - JSON
 	- Method Under Test - toJSONString()
 	- Fastjson Version - 1.2.54
+	- Context input: byte[]
 	*/
-	/*public boolean invivoTestToJSONString(Context c) throws InvocationTargetException{
+	public boolean invivoToJsonString3(Context c) throws InvocationTargetException{
 		this.configure();
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
-		testAllToJSONString();
+		//Get info from the context
+		//String input =  (String) c.getOtherReferencesInContext().get(0);
+		//Object o = c.getOtherReferencesInContext().get(0);
+		//System.out.println(o);
+		testToJsonString3(null);
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
 		setExitStatus();
 		return getExitStatus();
-	}*/
+	}
 
-	/*
-        - Class Under Test - JSON
-        - Method Under Test - toJSONString()
-        - Fastjson Version - 1.2.73
-    */
-	/*public boolean invivoTestToJSONString2(Context c) throws InvocationTargetException{
-		this.configure();
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
-		testAllToJSONString2();
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
-		setExitStatus();
-		return getExitStatus();
-	}*/
-
-
-
-	/*Runs all the flaky tests that exercise JSON.parseObject() [V. 1.2.73]*/
-	/*private void testAllParseObject2() {
+	private void testToJsonString3(String input) {
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
-		List<Method> tests = new ArrayList<Method>();
 		try {
-			tests.add(Issue1584.class.getDeclaredMethod("test_for_issue"));
-			tests.add(Issue3082.class.getDeclaredMethod("test_for_issue"));
-			tests.add(SqlDateDeserializerTest2.class.getDeclaredMethod("test_sqlDate"));
-			tests.add(WriteClassNameTest_Map.class.getDeclaredMethod("test_list"));
-			tests.add(Issue1492.class.getDeclaredMethod("test_for_issue"));
+			Issue1177_2 unitTest = new Issue1177_2();
+			unitTest.configure(input);
+			unitTest.test_for_issue();
+			System.out.println("Issue1177_2#test_for_issue passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
+			System.out.println("Issue1177_2#test_for_issue failed.");
 		}
-		for (Method m : tests){
-			try {
-				m.invoke(m.getDeclaringClass().newInstance());
-				System.out.println(m.getName() + " passed.");
-			} catch(Throwable t) {
-				FAILED_TESTS.add(mName);
-				resetExitStatus();
-				System.out.println(t.getMessage());
-				System.out.println(m.getName() + " failed.");
-			}
-		}
-	}*/
+	}
 
-	/* Runs all the flaky tests that exercise JSON.toJSONString() [V. 1.2.54] */
-//	private void testAllToJSONString() {
-//		String mName = this.getCurrentMethodName();
-//		System.out.println("["+mName+"] Testing invivo ...");
-//		List<Method> tests = new ArrayList<Method>();
-//		try {
-//			tests.add(Issue1298.class.getDeclaredMethod("test_for_issue"));
-//			tests.add(Issue1298.class.getDeclaredMethod("test_for_issue_1"));
-//			tests.add(DateTest.class.getDeclaredMethod("test_date"));
-//			tests.add(com.alibaba.json.bvt.writeClassName.V1.WriteDuplicateType.class.getDeclaredMethod("test_dupType2"));
-//			tests.add(Issue1177_2.class.getDeclaredMethod("test_for_issue"));
-//		}catch(Throwable t){
-//			System.out.println(t.getMessage());
-//		}
-//		for (Method m : tests){
-//			try {
-//				m.invoke(m.getDeclaringClass().newInstance());
-//				System.out.println(m.getName() + " passed.");
-//			} catch(Throwable t) {
-//				FAILED_TESTS.add(mName);
-//				resetExitStatus();
-//				System.out.println("message" +t.getMessage());
-//				System.out.println(m.getName() + " failed.");
-//			}
-//		}
-//	}
-
-	/* Runs all the flaky tests that exercise JSON.toJSONString() [V. 1.2.73] */
-//	private void testAllToJSONString2() {
-//		String mName = this.getCurrentMethodName();
-//		System.out.println("["+mName+"] Testing invivo ...");
-//		List<Method> tests = new ArrayList<Method>();
-//		try {
-//			//tests.add(Issue1780_JSONObject.class.getDeclaredMethod("test_for_issue"));
-//			//tests.add(Issue1780_Module.class.getDeclaredMethod("test_for_issue"));
-//			tests.add(Issue1363.class.getDeclaredMethod("test_for_issue"));
-//			tests.add(Issue1363.class.getDeclaredMethod("test_for_issue_1"));
-//			tests.add(SortFieldTest.class.getDeclaredMethod("test_1"));
-//			tests.add(Bug_for_yangzhou.class.getDeclaredMethod("test_for_issue"));
-//			tests.add(Issue1177_1.class.getDeclaredMethod("test_for_issue"));
-//			//tests.add(FeatureCollectionTest.class.getDeclaredMethod("test_geo"));
-//			tests.add(Issue2447.class.getDeclaredMethod("test_for_issue"));
-//			tests.add(Issue2447.class.getDeclaredMethod("test_for_issue2"));
-//			tests.add(Issue2428.class.getDeclaredMethod("test_for_issue"));
-//			tests.add(com.alibaba.json.bvt.writeClassName.V2.WriteDuplicateType.class.getDeclaredMethod("test_dupType"));
-//			tests.add(HashMultimapTest.class.getDeclaredMethod("test_for_multimap"));
-//			tests.add(Issue1972.class.getDeclaredMethod("test_for_issue"));
-//
-//			/*Build failure*/
-//			//tests.add(Issue2182.class.getDeclaredMethod("test_for_issue"));
-//			//tests.add(MultiMapTes.class.getDeclaredMethod("test_multimap"));
-//			// ...
-//		}catch(Throwable t){
-//			System.out.println(t.getMessage());
-//		}
-//		for (Method m : tests){
-//			try {
-//				m.invoke(m.getDeclaringClass().newInstance());
-//				System.out.println(m.getName() + " passed.");
-//			} catch(Throwable t) {
-//				FAILED_TESTS.add(mName);
-//				resetExitStatus();
-//				System.out.println("message" +t.getMessage());
-//				System.out.println(m.getName() + " failed.");
-//			}
-//		}
-//	}
 
 	private String getCurrentMethodName() {
 		String nameofCurrMethod = Thread.currentThread().getStackTrace()[2].getMethodName();
@@ -451,7 +400,6 @@ public class FastjsonInvivoTestClass {
 		setExitStatus();
 		FAILED_TESTS.clear();
 	}
-
 
 	public synchronized static boolean getExitStatus(){
 		return EXIT_STATUS;
@@ -473,4 +421,5 @@ public class FastjsonInvivoTestClass {
 		}
 		return list;
 	}
+
 }
