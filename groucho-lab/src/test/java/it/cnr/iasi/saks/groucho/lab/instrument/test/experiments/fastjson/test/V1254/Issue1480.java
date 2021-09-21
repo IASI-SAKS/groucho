@@ -1,5 +1,5 @@
 /*Fastjson V 1.2.54*/
-package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
+package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1254;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -21,13 +21,13 @@ public class Issue1480 extends TestCase {
 
     protected HashMap<Integer,Integer> map;
 
-    public void configureMap(HashMap<Integer,Integer> m){
+    public void configure(HashMap<Integer,Integer> m){
         this.map = m;
         System.out.println("... configuration done.");
     }
 
     //Temporary mimics the driver to be implemented
-    public void configureTestMap(){
+    public void mockConfigure(){
         this.map = new HashMap<Integer,Integer>();
         this.map.put(1,10);
         this.map.put(2,4);
@@ -40,7 +40,7 @@ public class Issue1480 extends TestCase {
 
     @Test
     public void test_for_issue() throws Exception {
-        this.configureTestMap();  //Temporary configuration for map
+        this.mockConfigure();  //Temporary configuration for map
         Map<Integer,Integer> map = this.map;
 
         String json = JSON.toJSONString(map);

@@ -1,5 +1,5 @@
 /*Fastjson V 1.2.51*/
-package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
+package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1254;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;

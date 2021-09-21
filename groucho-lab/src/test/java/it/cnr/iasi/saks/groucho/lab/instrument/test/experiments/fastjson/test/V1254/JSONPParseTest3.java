@@ -1,24 +1,26 @@
 /*Fastjson V 1.2.54*/
-package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
+package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1254;
 
+
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPObject;
-import junit.framework.TestCase;
 import org.json.JSONException;
-import java.util.*;
-
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;
 
 /*
  * This class is a re-implementation of the original Unit Test:
- *  com.alibaba.json.bvt.jsonp.JSONParseTest2
+ *  com.alibaba.json.bvt.jsonp.JSONParseTest3
  * distributed with Fastjson 1.2.54
  */
 
-public class JSONPParseTest2 extends TestCase {
+public class JSONPParseTest3 extends TestCase {
 
     protected byte[] array;
     protected LinkedHashMap<String,String> actual = new LinkedHashMap();
@@ -32,12 +34,11 @@ public class JSONPParseTest2 extends TestCase {
     @Test
     public void test_f() throws Exception {
         String input = new String(this.array);
-        String text = "parent.callback (" + input + " );   /**/ ";
+        String text = "parent.callback (" + input + ",1,2 );   /**/ ";
 
         JSONPObject jsonpObject = JSON.parseObject(text, JSONPObject.class);
         Assert.assertEquals("parent.callback", jsonpObject.getFunction());
-
-        Assert.assertEquals(1, jsonpObject.getParameters().size());
+        Assert.assertEquals(3, jsonpObject.getParameters().size());
 
         JSONObject param = (JSONObject) jsonpObject.getParameters().get(0);
         org.json.JSONObject expectedObject = new org.json.JSONObject(input);
@@ -46,12 +47,22 @@ public class JSONPParseTest2 extends TestCase {
         loopThroughJsonObject(expectedObject, null);
         Assert.assertEquals(expected, actual);
 
-        String json = JSON.toJSONString(jsonpObject);
-        String expected = "parent.callback(" + input + ")";
+        String json = JSON.toJSONString(jsonpObject, SerializerFeature.BrowserSecure);
+        String expected = "/**/parent.callback(" + mockBrowserSecure(input) + "),1,2)";
         Assert.assertEquals(expected, json);
     }
 
+    //Mocks BrowserSecure Feature
+    public String mockBrowserSecure(String input){
+        String secure = input.replaceAll("\\(", "\\\\u0028");
+        secure = secure.replaceAll("\\)", "\\\\u0029");
+        secure = secure.replaceAll("<", "\\\\u003C");
+        secure = secure.replaceAll(">", "\\\\u003E");
+        return secure;
+    }
 
+
+    /*Iterator adapted for FastJson objects*/
     public void loopThroughFastJsonObject(Object input, String k) throws JSONException {
 
         if (input instanceof JSONObject) {
@@ -129,7 +140,6 @@ public class JSONPParseTest2 extends TestCase {
                     loopThroughJsonObject(a, k +"[" + i + "]");
                 }else{
                     String val = input.toString();
-                    //k = k +".";
                     expected.put(k,val);
                     break;
                 }
@@ -138,5 +148,6 @@ public class JSONPParseTest2 extends TestCase {
         }
 
     }
-}
 
+
+}

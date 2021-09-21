@@ -1,15 +1,12 @@
 /*Fastjson V 1.2.73*/
-package com.alibaba.json.bvt.writeClassName.V2;
+package com.alibaba.json.bvt.writeClassName.V1273;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
-import com.alibaba.fastjson.annotation.JSONType;
 import com.alibaba.fastjson.parser.Feature;
-import com.alibaba.fastjson.parser.ParserConfig;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import junit.framework.TestCase;
-import org.junit.Assert;
 
 import java.util.*;
 

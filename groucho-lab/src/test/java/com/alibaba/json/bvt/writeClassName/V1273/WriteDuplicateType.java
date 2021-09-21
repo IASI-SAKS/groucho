@@ -1,5 +1,5 @@
 /*Fastjson V 1.2.73*/
-package com.alibaba.json.bvt.writeClassName.V2;
+package com.alibaba.json.bvt.writeClassName.V1273;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;

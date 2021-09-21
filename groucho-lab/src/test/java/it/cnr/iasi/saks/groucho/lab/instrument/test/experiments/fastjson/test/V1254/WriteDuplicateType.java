@@ -1,18 +1,30 @@
 /*Fastjson V 1.2.54*/
-package com.alibaba.json.bvt.writeClassName.V1;
-
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-
-import org.junit.Assert;
+package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1254;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-
 import junit.framework.TestCase;
+import org.junit.Assert;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class WriteDuplicateType extends TestCase {
+
+    DianDianCart cart;
+
+    public void configure( DianDianCart c){
+        this.cart = c;
+        System.out.println("... configuration done.");
+    }
+
+    //Temporary mimics the driver to be implemented
+    public void configureTestMap(){
+       this.cart = new DianDianCart();
+        cart.setId(1001);
+        System.out.println("... configuration done.");
+    }
 
     public void test_dupType() throws Exception {
         DianDianCart cart = new DianDianCart();
@@ -23,6 +35,7 @@ public class WriteDuplicateType extends TestCase {
         JSONObject obj = new JSONObject();
         obj.put("id", 1001);
         obj.put(JSON.DEFAULT_TYPE_KEY, "com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart");
+
         cartMap.put("1001", obj);
         
         String text1 = JSON.toJSONString(cartMap, SerializerFeature.WriteClassName);
@@ -31,19 +44,16 @@ public class WriteDuplicateType extends TestCase {
     }
     
     public void test_dupType2() throws Exception {
-        DianDianCart cart = new DianDianCart();
-        cart.setId(1001);
-        
+        configureTestMap();
         LinkedHashMap<String, HashMap<String, Object>> cartMap = new LinkedHashMap<String, HashMap<String, Object>>();
-        
         HashMap<String, Object> obj = new HashMap<String, Object>();
-        obj.put("id", 1001);
+        obj.put("id", this.cart.getId());
         obj.put(JSON.DEFAULT_TYPE_KEY, "com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart");
-        cartMap.put("1001", obj);
-        
+
+        cartMap.put(Integer.toString(this.cart.getId()), obj);
         String text1 = JSON.toJSONString(cartMap, SerializerFeature.WriteClassName);
-        Assert.assertEquals("{\"@type\":\"java.util.LinkedHashMap\",\"1001\":{\"@type\":\"com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart\",\"id\":1001}}", text1);
-        
+
+        Assert.assertEquals("{\"@type\":\"java.util.LinkedHashMap\",\"+" +Integer.toString(this.cart.getId())+ "\":{\"@type\":\"com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart\",\"id\":"+Integer.toString(this.cart.getId())+"}}", text1);
     }
     
     
