@@ -20,6 +20,7 @@ package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
+import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.utils.*;
 import it.cnr.iasi.saks.groucho.common.Context;
 import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1254.*;
@@ -156,21 +157,27 @@ public class FastjsonInvivoTestClassV1254 {
 	*/
 	public boolean invivoParseObject3(Context c) throws InvocationTargetException{
 		this.configure();
+		byte[] input =  (byte[]) c.getOtherReferencesInContext().get(0);
+		HashMap<String, String> contextMap = InputGenerator.generateMap(input);
+
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
 
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+
 		try {
+			shield.applyCheckpoint(input);
 			Issue1480 unitTest = new Issue1480();
-			//To configure with HashMap from C
-			//unitTest.configure();
+			unitTest.configure(contextMap);
 			unitTest.test_for_issue();
 			System.out.println("Issue1480#test_for_issue passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("Issue1480#test_for_issue failed.");
+		}finally {
+			shield.applyRollback(input);
 		}
-
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
 		setExitStatus();
 		return getExitStatus();
@@ -257,10 +264,11 @@ public class FastjsonInvivoTestClassV1254 {
 			DateTest unitTest = new DateTest();
 			//It should be configured with input from the Context
 			//unitTest.configure(...);
-			long millis = 1324138987429L;
-			Date date = new Date(millis);
-			//unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA, date);
-			unitTest.configure(TimeZone.getDefault(), Locale.getDefault(), date);
+			//long millis = 1324138987429L;
+			Date date = new Date();
+			System.out.println("date" +date);
+			unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA, date);
+			//unitTest.configure(TimeZone.getDefault(), Locale.getDefault(), date);
 			unitTest.test_date();
 			System.out.println("DateTest#test_date passed.");
 		}catch(Throwable t){

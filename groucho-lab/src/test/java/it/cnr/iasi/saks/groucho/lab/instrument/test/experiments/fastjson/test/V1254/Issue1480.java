@@ -19,58 +19,55 @@ import junit.framework.TestCase;
 
 public class Issue1480 extends TestCase {
 
-    protected HashMap<Integer,Integer> map;
+    protected HashMap<String,String> map;
 
-    public void configure(HashMap<Integer,Integer> m){
+    public void configure(HashMap<String,String> m){
         this.map = m;
-        System.out.println("... configuration done.");
-    }
-
-    //Temporarily mimics the driver to be implemented
-    public void mockConfigure(){
-        this.map = new HashMap<Integer,Integer>();
-        this.map.put(1,10);
-        this.map.put(2,4);
-        this.map.put(3,5);
-        this.map.put(4,5);
-        this.map.put(37306,98);
-        this.map.put(36796,9);
         System.out.println("... configuration done.");
     }
 
     @Test
     public void test_for_issue() throws Exception {
-        this.mockConfigure();  //Temporary configuration for map
-        Map<Integer,Integer> map = this.map;
+
+        Map<String,String> map = this.map;
 
         String json = JSON.toJSONString(map);
-        //Example of map.toString: {1=10, 2=4, 3=5, 4=5, 37306=98, 36796=9}
-        String jsonExpected = map.toString();
-        jsonExpected = jsonExpected.replaceAll("=", ":").replaceAll("\\s", "");
 
-        //Flaky assert - the HashMap does not guarantee the iterating order when generating a String representation
-        // Assert.assertEquals("{1:10,2:4,3:5,4:5,37306:98,36796:9}",json);
+        String jsonExpected = new String();
+        Iterator<?> mapkeys = map.keySet().iterator();
+
+        while (mapkeys.hasNext()) {
+            String key = (String) mapkeys.next();
+            if (mapkeys.hasNext()){
+                jsonExpected = jsonExpected  +JSON.toJSONString(key) + ":" +JSON.toJSONString(map.get(key))+ ",";
+            }else{
+                jsonExpected = jsonExpected +JSON.toJSONString(key) + ":" +JSON.toJSONString(map.get(key));
+                jsonExpected = "{" + jsonExpected +"}";
+            }
+        }
+
         Assert.assertEquals(jsonExpected,json);
 
-        Map<Integer,Integer> map1 = JSON.parseObject(json,new TypeReference<HashMap<Integer,Integer>>() {});
-        Map<Integer,Integer> map1Expected = JSON.parseObject(jsonExpected,new TypeReference<HashMap<Integer,Integer>>() {});
+        Map<String,String> map1 = JSON.parseObject(json,new TypeReference<HashMap<String,String>>() {});
+        Map<String,String>  map1Expected = JSON.parseObject(jsonExpected,new TypeReference<HashMap<String,String>>() {});
 
         Iterator<?> keys = map1.keySet().iterator();
 
         while (keys.hasNext()) {
-            Integer key = (Integer) keys.next();
-            Assert.assertEquals(map1.get(Integer.valueOf(key)),map1Expected.get(Integer.valueOf(key)));
+            String key = (String) keys.next();
+            Assert.assertEquals(map1.get(key),map1Expected.get(key));
         }
 
-        JSONObject map2 = JSON.parseObject("{35504:1,1:10,2:4,3:5,4:5,37306:98,36796:9\n" + "}");
-        String stringExpected = new String("{35504:1,"+json.substring(1, json.length()-1)+ "\n}");
+        String stringActual = new String("{\"35504\":\"1\","+json.substring(1, json.length()-1)+ "\n}");
+        JSONObject map2 = JSON.parseObject(stringActual);
+        String stringExpected = new String("{\"35504\":\"1\","+jsonExpected.substring(1, json.length()-1)+ "\n}");
         JSONObject map2Expected = JSON.parseObject(stringExpected);
 
         Iterator<?> keys2 = map2.keySet().iterator();
 
         while (keys2.hasNext()) {
-            Integer key = (Integer) keys2.next();
-            Assert.assertEquals(map2.get(Integer.valueOf(key)),map2Expected.get(Integer.valueOf(key)));
+            String key = (String) keys2.next();
+            Assert.assertEquals(map2.get(String.valueOf(key)),map2Expected.get(String.valueOf(key)));
         }
     }
 }
