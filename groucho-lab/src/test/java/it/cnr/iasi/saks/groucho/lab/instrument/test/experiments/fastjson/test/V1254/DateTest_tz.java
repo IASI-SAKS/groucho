@@ -4,12 +4,19 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONReader;
 import junit.framework.TestCase;
 import org.junit.Assert;
+import org.junit.Test;
 
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+
+/*
+ * This class is a re-implementation of the original Unit Test:
+ *  com.alibaba.json.bvt.date.DateTest_tz
+ * distributed with Fastjson 1.2.54
+ */
 
 public class DateTest_tz extends TestCase {
 
@@ -19,6 +26,7 @@ public class DateTest_tz extends TestCase {
      JSON.defaultLocale = l;
     }
 
+    @Test
     public void test_codec() throws Exception {
         JSONReader reader = new JSONReader(new StringReader("{\"value\":\"2016-04-29\"}"));
         reader.setLocale(Locale.CHINA);

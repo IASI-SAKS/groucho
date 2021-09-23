@@ -4,9 +4,17 @@ package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.Locale;
 import java.util.TimeZone;
+
+/*
+ * This class is a re-implementation of the original Unit Test:
+ *  com.alibaba.json.bvt.issue_1900.Issue1977
+ * distributed with Fastjson 1.2.54
+ */
 
 public class Issue1977 extends TestCase {
 
@@ -16,10 +24,11 @@ public class Issue1977 extends TestCase {
         JSON.defaultLocale = l;
     }
 
+    @Test
     public void test_for_issue() throws Exception {
         java.sql.Date date = new java.sql.Date(1533265119604L);
         String json = JSON.toJSONString(date, SerializerFeature.UseISO8601DateFormat);
-        assertEquals("\"2018-08-03T10:58:39.604+08:00\"", json);
+        Assert.assertEquals("\"2018-08-03T10:58:39.604+08:00\"", json);
 //        new java.sql.Date();
     }
 }

@@ -6,9 +6,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import junit.framework.TestCase;
 import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+
+/*
+ * This class is a re-implementation of the original Unit Test:
+ *  com.alibaba.json.bvt.writeClassName.WriteDuplicateType
+ * distributed with Fastjson 1.2.54
+ */
 
 public class WriteDuplicateType extends TestCase {
 
@@ -19,13 +26,14 @@ public class WriteDuplicateType extends TestCase {
         System.out.println("... configuration done.");
     }
 
-    //Temporary mimics the driver to be implemented
+    //Temporarily mimics the driver to be implemented
     public void configureTestMap(){
        this.cart = new DianDianCart();
         cart.setId(1001);
         System.out.println("... configuration done.");
     }
 
+    @Test
     public void test_dupType() throws Exception {
         DianDianCart cart = new DianDianCart();
         cart.setId(1001);
@@ -42,7 +50,7 @@ public class WriteDuplicateType extends TestCase {
         Assert.assertEquals("{\"@type\":\"java.util.LinkedHashMap\",\"1001\":{\"@type\":\"com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart\",\"id\":1001}}", text1);
         
     }
-    
+    @Test
     public void test_dupType2() throws Exception {
         configureTestMap();
         LinkedHashMap<String, HashMap<String, Object>> cartMap = new LinkedHashMap<String, HashMap<String, Object>>();
@@ -55,8 +63,8 @@ public class WriteDuplicateType extends TestCase {
 
         Assert.assertEquals("{\"@type\":\"java.util.LinkedHashMap\",\"+" +Integer.toString(this.cart.getId())+ "\":{\"@type\":\"com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart\",\"id\":"+Integer.toString(this.cart.getId())+"}}", text1);
     }
-    
-    
+
+    @Test
     public void test_dupType3() throws Exception {
         DianDianCart cart = new DianDianCart();
         cart.setId(1001);

@@ -26,7 +26,7 @@ public class Issue1480 extends TestCase {
         System.out.println("... configuration done.");
     }
 
-    //Temporary mimics the driver to be implemented
+    //Temporarily mimics the driver to be implemented
     public void mockConfigure(){
         this.map = new HashMap<Integer,Integer>();
         this.map.put(1,10);
