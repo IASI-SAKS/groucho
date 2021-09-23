@@ -3,8 +3,8 @@
     "className" : "it.cnr.iasi.saks.jvmserializers.MyGenericSerializer",
     "methodName" : "deserialize",
     "annotation" : {
-      "invivoTestClass" : "it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.FastjsonInvivoTestClass",
-      "invivoTest" : "invivoParseObject2",
+      "invivoTestClass" : "it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.FastjsonInvivoTestClassV1273",
+      "invivoTest" : "invivoToJsonString2",
       "carvingDepth" : 1,
       "pauseOtherThreads" : false
     }

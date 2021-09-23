@@ -18,7 +18,6 @@
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.*;
 
 import it.cnr.iasi.saks.groucho.common.Context;
@@ -26,7 +25,7 @@ import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1254.*;
 import it.cnr.iasi.saks.groucho.performanceOverheadTest.TestGovernanceManager_ActivationWithProbability;
 
-public class FastjsonInvivoTestClass {
+public class FastjsonInvivoTestClassV1254 {
 
 	private static boolean EXIT_STATUS = false;
 
@@ -366,22 +365,18 @@ public class FastjsonInvivoTestClass {
 	public boolean invivoToJsonString3(Context c) throws InvocationTargetException{
 		this.configure();
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
-		//Get info from the context
-		//String input =  (String) c.getOtherReferencesInContext().get(0);
-		//Object o = c.getOtherReferencesInContext().get(0);
-		//System.out.println(o);
-		testToJsonString3(null);
+		testToJsonString3();
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
 		setExitStatus();
 		return getExitStatus();
 	}
 
-	private void testToJsonString3(String input) {
+	private void testToJsonString3() {
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
 		try {
 			Issue1177_2 unitTest = new Issue1177_2();
-			unitTest.configure(input);
+			unitTest.mockConfigure();
 			unitTest.test_for_issue();
 			System.out.println("Issue1177_2#test_for_issue passed.");
 		}catch(Throwable t){
