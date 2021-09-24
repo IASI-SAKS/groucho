@@ -6,20 +6,24 @@ import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.*;
 
 /*
  * This class is a re-implementation of the original Unit Test:
- *  com.alibaba.json.bvt.serializer.date.DateTest5_iso8601
+ * com.alibaba.json.bvt.serializer.date.DateTest5_iso8601
  * distributed with Fastjson 1.2.54
  */
 
-public class DateTest5_iso8601 extends TestCase {
+public class DateTest5_iso8601 {
 
     Date d;
+
+    public DateTest5_iso8601() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.d = sdf.parse("2018-09-12 15:10:19");
+       }
 
     public void configure(Date d){
         this.d = d;
@@ -45,7 +49,6 @@ public class DateTest5_iso8601 extends TestCase {
         String formattedDate4 =sdf2.format(this.d);
         String date4String = "{\"gmtCreate\":\""+formattedDate4+"T151019Z\"}";
         Date date4 = JSON.parseObject(date4String, VO.class).getGmtCreate();
-
 
         String date5String = "{\"gmtCreate\":\""+formattedDate+"T15:10:19Z\"}"; // "2018-09-12T15:10:19Z"
         Date date5 = JSON.parseObject(date5String, VO.class).getGmtCreate();

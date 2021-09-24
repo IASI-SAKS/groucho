@@ -2,6 +2,7 @@
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1254;
 
 
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import com.alibaba.fastjson.JSON;
@@ -20,11 +21,15 @@ import org.junit.Test;
  * distributed with Fastjson 1.2.54
  */
 
-public class JSONPParseTest3 extends TestCase {
+public class JSONPParseTest3 {
 
     protected byte[] array;
     protected LinkedHashMap<String,String> actual = new LinkedHashMap();
     protected LinkedHashMap<String,String> expected = new LinkedHashMap();
+
+    public JSONPParseTest3() {
+        this.array = new String("parent.callback ({'id':1, 'name':'ido)nans'},1,2 );   /**/ ").getBytes(StandardCharsets.UTF_8);
+    }
 
     public void configureArray(byte[] array){
         this.array = array;

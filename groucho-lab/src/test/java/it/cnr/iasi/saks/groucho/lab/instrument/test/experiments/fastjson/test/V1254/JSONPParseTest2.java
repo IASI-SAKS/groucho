@@ -7,6 +7,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPObject;
 import junit.framework.TestCase;
 import org.json.JSONException;
+
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import org.junit.Assert;
@@ -18,11 +20,15 @@ import org.junit.Test;
  * distributed with Fastjson 1.2.54
  */
 
-public class JSONPParseTest2 extends TestCase {
+public class JSONPParseTest2 {
 
     protected byte[] array;
     protected LinkedHashMap<String,String> actual = new LinkedHashMap();
     protected LinkedHashMap<String,String> expected = new LinkedHashMap();
+
+    public JSONPParseTest2() {
+        this.array = new String("parent.callback ({'id':1, 'name':'idonans'} );   /**/ ").getBytes(StandardCharsets.UTF_8);
+    }
 
     public void configureArray(byte[] array){
         this.array = array;

@@ -1,6 +1,7 @@
 /*Fastjson V 1.2.54*/
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1254;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -17,9 +18,20 @@ import junit.framework.TestCase;
  * distributed with Fastjson 1.2.54
  */
 
-public class Issue1480 extends TestCase {
+public class Issue1480 {
 
     protected HashMap<String,String> map;
+
+    public Issue1480() {
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("1","10");
+        map.put("2","4");
+        map.put("3","5");
+        map.put("4","5");
+        map.put("37306","98");
+        map.put("36796","9");
+        this.map = map;
+    }
 
     public void configure(HashMap<String,String> m){
         this.map = m;

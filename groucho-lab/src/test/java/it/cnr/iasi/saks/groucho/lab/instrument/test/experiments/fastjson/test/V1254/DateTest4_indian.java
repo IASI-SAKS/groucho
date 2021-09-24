@@ -6,10 +6,9 @@ import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.*;
 
 /*
  * This class is a re-implementation of the original Unit Test:
@@ -17,9 +16,14 @@ import java.util.TimeZone;
  * distributed with Fastjson 1.2.54
  */
 
-public class DateTest4_indian extends TestCase {
+public class DateTest4_indian {
 
     Date d;
+
+    public DateTest4_indian() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.d = sdf.parse("2018-09-11 23:54:36");
+    }
 
     public void configure(Date d){
         this.d = d;

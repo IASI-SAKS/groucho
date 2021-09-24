@@ -3,14 +3,11 @@ package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.*;
 
 /*
  * This class is a re-implementation of the original Unit Test:
@@ -18,18 +15,23 @@ import java.util.TimeZone;
  * distributed with Fastjson 1.2.54
  */
 
-public class DateTest extends TestCase {
+public class DateTest {
 
-    Date date;
+    Date d;
+
+    public DateTest() {
+        long millis = 1324138987429L;
+        this.d = new Date(millis);
+    }
 
     public void configure(Date d){
-         this.date = d;
+         this.d = d;
     }
 
     @Test
     public void test_date() throws Exception {
 
-        Date date = this.date;
+        Date date = this.d;
         long millis = date.getTime();
         String stringMillis = Long.toString(millis);
 
