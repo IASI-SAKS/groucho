@@ -284,9 +284,7 @@ public class FastjsonInvivoTestClassV1254 {
 		System.out.println("["+mName+"] Testing invivo ...");
 		try {
 			DateTest_tz unitTest = new DateTest_tz();
-			//To configure with Context input
-			unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
-			//unitTest.configure(TimeZone.getDefault(), Locale.getDefault());
+			unitTest.configure(InputGenerator.generateDate());
 			unitTest.test_codec();
 			System.out.println("DateTest_tz#test_codec passed.");
 		}catch(Throwable t){

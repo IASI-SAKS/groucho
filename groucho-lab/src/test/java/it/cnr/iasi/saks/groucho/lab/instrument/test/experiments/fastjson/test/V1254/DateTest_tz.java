@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.StringReader;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -18,17 +19,26 @@ import java.util.TimeZone;
  * distributed with Fastjson 1.2.54
  */
 
-public class DateTest_tz extends TestCase {
+public class DateTest_tz {
 
-    //TimeZone.getTimezone("Asia/Shangai") and Locale.CHINA
-    public void configure(TimeZone tz, Locale l){
-     JSON.defaultTimeZone = tz;
-     JSON.defaultLocale = l;
+    Date d;
+
+    public DateTest_tz() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        this.d = sdf.parse("2016-04-29");
+    }
+
+    public void configure(Date d){
+     this.d = d;
     }
 
     @Test
     public void test_codec() throws Exception {
-        JSONReader reader = new JSONReader(new StringReader("{\"value\":\"2016-04-29\"}"));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); //"2016-04-29"
+        String formattedDate =sdf.format(this.d);
+        JSONReader reader = new JSONReader(new StringReader("{\"value\":\""+formattedDate+"\"}"));
+
         reader.setLocale(Locale.CHINA);
         reader.setTimzeZone(TimeZone.getTimeZone("Asia/Shanghai"));
 
@@ -37,12 +47,12 @@ public class DateTest_tz extends TestCase {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
         format.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
-        Date date = format.parse("2016-04-29");
+
+        Date date = format.parse(formattedDate);
         Assert.assertEquals(date.getTime(), model.value.getTime());
 
         Assert.assertEquals(TimeZone.getTimeZone("Asia/Shanghai"), reader.getTimzeZone());
         Assert.assertEquals(Locale.CHINA, reader.getLocal());
-
         reader.close();
     }
     
