@@ -128,18 +128,16 @@ public class FastjsonInvivoTestClassV1254 {
 //		finally {
 //			shield.applyRollback(input);
 //		}
-//		try {
-//			// shield.applyCheckpoint(input);
-//			Issue1679 unitTest = new Issue1679();
-//			//To configure with input from C
-//			unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
-//			//unitTest.configure(TimeZone.getDefault(), Locale.getDefault());
-//			unitTest.test_for_issue();
-//			System.out.println("Issue1679#test_for_issue passed.");
-//		}catch(Throwable t){
-//			System.out.println(t.getMessage());
-//			System.out.println("Issue1679#test_for_issue failed.");
-//		}
+		try {
+			// shield.applyCheckpoint(input);
+			Issue1679 unitTest = new Issue1679();
+			unitTest.configure(InputGenerator.generateDate());
+			unitTest.test_for_issue();
+			System.out.println("Issue1679#test_for_issue passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("Issue1679#test_for_issue failed.");
+		}
 //		finally {
 //			shield.applyRollback(input);
 //		}

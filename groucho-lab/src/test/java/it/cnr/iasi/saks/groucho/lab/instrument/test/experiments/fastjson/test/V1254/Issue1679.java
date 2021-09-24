@@ -3,13 +3,11 @@ package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
 
 /*
  * This class is a re-implementation of the original Unit Test:
@@ -17,19 +15,32 @@ import java.util.TimeZone;
  * distributed with Fastjson 1.2.54
  */
 
-public class Issue1679 extends TestCase {
+public class Issue1679 {
 
-    //TimeZone.getTimezone("Asia/Shangai") and Locale.CHINA
-    public void configure(TimeZone tz, Locale l){
-        JSON.defaultTimeZone = tz;
-        JSON.defaultLocale = l;
+    Date d;
+
+    public Issue1679() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.d = sdf.parse("2018-01-10 08:30:00");
+    }
+
+    public void configure(Date d){
+        this.d = d;
     }
 
     @Test
     public void test_for_issue() throws Exception {
-        String json = "{\"create\":\"2018-01-10 08:30:00\"}";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String formattedDate =sdf.format(this.d);
+
+        String json = "{\"create\":\""+formattedDate+"\"}";
         User user = JSON.parseObject(json, User.class);
-        Assert.assertEquals("\"2018-01-10T08:30:00+08:00\"", JSON.toJSONString(user.create, SerializerFeature.UseISO8601DateFormat));
+
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        String formattedDate2 =sdf2.format(this.d);
+
+        //It should only pass for Timezone: Asia/Shanghai, Locale: CHINA
+        Assert.assertEquals("\""+formattedDate2+"+08:00\"", JSON.toJSONString(user.create, SerializerFeature.UseISO8601DateFormat));
     }
 
     public static class User{
