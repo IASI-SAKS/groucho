@@ -6,6 +6,7 @@ import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -18,25 +19,45 @@ import java.util.TimeZone;
 
 public class DateTest5_iso8601 extends TestCase {
 
-    //TimeZone.getTimezone("Asia/Shangai") and Locale.CHINA
-    public void configure(TimeZone tz, Locale l){
-        JSON.defaultTimeZone = tz;
-        JSON.defaultLocale = l;
+    Date d;
+
+    public void configure(Date d){
+        this.d = d;
     }
 
     @Test
     public void test_date() throws Exception {
-        Date date1 = JSON.parseObject("{\"gmtCreate\":\"2018-09-12\"}", VO.class).getGmtCreate();
-        Assert.assertNotNull(date1);
-        Date date2 = JSON.parseObject("{\"gmtCreate\":\"2018-09-12T15:10:19+00:00\"}", VO.class).getGmtCreate();
-        Date date3 = JSON.parseObject("{\"gmtCreate\":\"2018-09-12T15:10:19Z\"}", VO.class).getGmtCreate();
-        Date date4 = JSON.parseObject("{\"gmtCreate\":\"20180912T151019Z\"}", VO.class).getGmtCreate();
-        Date date5 = JSON.parseObject("{\"gmtCreate\":\"2018-09-12T15:10:19Z\"}", VO.class).getGmtCreate();
-        Date date6 = JSON.parseObject("{\"gmtCreate\":\"20180912\"}", VO.class).getGmtCreate();
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); //"2018-09-12"
+        String formattedDate =sdf.format(this.d);
+        String date1String = "{\"gmtCreate\":\""+formattedDate+"\"}";
+        Date date1 = JSON.parseObject(date1String, VO.class).getGmtCreate();
+
+        Assert.assertNotNull(date1);
+
+        String date2String = "{\"gmtCreate\":\""+formattedDate+"T15:10:19+00:00\"}"; // "2018-09-12T15:10:19+00:00"
+        Date date2 = JSON.parseObject(date2String, VO.class).getGmtCreate();
+
+        String date3String = "{\"gmtCreate\":\""+formattedDate+"T15:10:19Z\"}"; // "2018-09-12T15:10:19Z"
+        Date date3 = JSON.parseObject(date3String, VO.class).getGmtCreate();
+
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd"); // "20180912T151019Z"
+        String formattedDate4 =sdf2.format(this.d);
+        String date4String = "{\"gmtCreate\":\""+formattedDate4+"T151019Z\"}";
+        Date date4 = JSON.parseObject(date4String, VO.class).getGmtCreate();
+
+
+        String date5String = "{\"gmtCreate\":\""+formattedDate+"T15:10:19Z\"}"; // "2018-09-12T15:10:19Z"
+        Date date5 = JSON.parseObject(date5String, VO.class).getGmtCreate();
+
+        String date6String = "{\"gmtCreate\":\""+formattedDate4+"\"}"; // "20180912"
+        Date date6 = JSON.parseObject(date6String, VO.class).getGmtCreate();
+
+        //This should only pass for Timezone: Asia/Shanghai, Locale: CHINA
         long delta_2_1 = date2.getTime() - date1.getTime();
         Assert.assertEquals(83419000, delta_2_1);
 
+        //This should only pass for Timezone: Asia/Shanghai, Locale: CHINA
         long delta_3_1 = date3.getTime() - date1.getTime();
         Assert.assertEquals(83419000, delta_3_1);
 

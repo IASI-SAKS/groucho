@@ -6,6 +6,7 @@ import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -18,29 +19,41 @@ import java.util.TimeZone;
 
 public class DateTest4_indian extends TestCase {
 
-    //TimeZone.getTimezone("Asia/Shangai") and Locale.CHINA
-    public void configure(TimeZone tz, Locale l){
-        JSON.defaultTimeZone = tz;
-        JSON.defaultLocale = l;
+    Date d;
+
+    public void configure(Date d){
+        this.d = d;
     }
 
     @Test
     public void test_date() throws Exception {
 
-        Date date1 = JSON.parseObject("{\"gmtCreate\":\"2018-09-11T21:29:34+0530\"}", VO.class).getGmtCreate();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"); //"2021-09-23T23:54:36"
+        String formattedDate =sdf.format(this.d);
+
+        String date1String = "{\"gmtCreate\":\""+formattedDate+"+0530\"}";
+        Date date1 = JSON.parseObject(date1String, VO.class).getGmtCreate();
 
         Assert.assertNotNull(date1);
 
-        Date date2 = JSON.parseObject("{\"gmtCreate\":\"2018-09-11T21:29:34+0500\"}", VO.class).getGmtCreate();
-        Date date3 = JSON.parseObject("{\"gmtCreate\":\"2018-09-11T21:29:34+0545\"}", VO.class).getGmtCreate();
-        Date date4 = JSON.parseObject("{\"gmtCreate\":\"2018-09-11T21:29:34+1245\"}", VO.class).getGmtCreate();
-        Date date5 = JSON.parseObject("{\"gmtCreate\":\"2018-09-11T21:29:34+1345\"}", VO.class).getGmtCreate();
+        String date2String = "{\"gmtCreate\":\""+formattedDate+"+0500\"}";
+        Date date2 = JSON.parseObject(date2String, VO.class).getGmtCreate();
 
+        String date3String = "{\"gmtCreate\":\""+formattedDate+"+0545\"}";
+        Date date3 = JSON.parseObject(date3String, VO.class).getGmtCreate();
+
+        String date4String = "{\"gmtCreate\":\""+formattedDate+"+1245\"}";
+        Date date4 = JSON.parseObject(date4String, VO.class).getGmtCreate();
+
+        String date5String = "{\"gmtCreate\":\""+formattedDate+"+1345\"}";
+        Date date5 = JSON.parseObject(date5String, VO.class).getGmtCreate();
+
+        //These should only pass for Timezone: Asia/Shanghai, Locale: CHINA
         long delta_2_1 = date2.getTime() - date1.getTime();
         Assert.assertEquals(1800000, delta_2_1);
 
         long delta_3_1 = date3.getTime() - date1.getTime();
-        Assert.assertEquals(-900000, delta_3_1);
+        Assert.assertEquals(-900000, delta_3_1); //
 
         long delta_4_3 = date4.getTime() - date3.getTime();
         Assert.assertEquals(-25200000, delta_4_3);

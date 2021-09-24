@@ -21,23 +21,13 @@ import java.util.TimeZone;
 public class DateTest extends TestCase {
 
     Date date;
-    Locale locale;
-    TimeZone timezone;
 
-    //TimeZone.getTimezone("Asia/Shangai") and Locale.CHINA
-    public void configure(TimeZone tz, Locale l, Date d){
-        this.locale = l;
-        this.timezone = tz;
-        JSON.defaultTimeZone = tz;
-        JSON.defaultLocale = l;
-        this.date = d;
+    public void configure(Date d){
+         this.date = d;
     }
 
     @Test
     public void test_date() throws Exception {
-
-        //long millis = 1324138987429L;
-        //Date date = new Date(millis);
 
         Date date = this.date;
         long millis = date.getTime();
@@ -46,13 +36,11 @@ public class DateTest extends TestCase {
         Assert.assertEquals(stringMillis, JSON.toJSONString(date));
         Assert.assertEquals("new Date("+stringMillis +")", JSON.toJSONString(date, SerializerFeature.WriteClassName));
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", this.locale);
-        sdf.setTimeZone(this.timezone);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String formattedDate ="\""+ sdf.format(date)+"\"";
         Assert.assertEquals(formattedDate, JSON.toJSONString(date, SerializerFeature.WriteDateUseDateFormat));
 
-        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", this.locale);
-        sdf2.setTimeZone(this.timezone);
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         String formattedDate2 ="\""+ sdf2.format(date)+"\"";
         Assert.assertEquals(formattedDate2, JSON.toJSONStringWithDateFormat(date, "yyyy-MM-dd HH:mm:ss.SSS"));
 
