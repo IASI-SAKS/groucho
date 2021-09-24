@@ -20,6 +20,7 @@ package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.utils.*;
 import it.cnr.iasi.saks.groucho.common.Context;
 import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
@@ -100,52 +101,48 @@ public class FastjsonInvivoTestClassV1254 {
 	private void testParseObject2() {
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		//RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
 		try {
-	 	// shield.applyCheckpoint(input);
+	 		//shield.applyCheckpoint(input);
 			DateTest5_iso8601 unitTest = new DateTest5_iso8601();
-			//To configure with input from C
-			unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
-			//unitTest.configure(TimeZone.getDefault(), Locale.getDefault());
+			unitTest.configure(InputGenerator.generateDate());
 			unitTest.test_date();
 			System.out.println("DateTest5_iso8601#test_date passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("DateTest5_iso8601#test_date failed.");
 		}
-		//finally {
-		//	shield.applyRollback(input);
-		//}
+//		finally {
+//			shield.applyRollback(input);
+//		}
 		try {
-			//Apply checkpoint
 			// shield.applyCheckpoint(input);
 			DateTest4_indian unitTest = new DateTest4_indian();
-			//To configure with input from C
-			unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
-			//unitTest.configure(TimeZone.getDefault(), Locale.getDefault());
+			//unitTest.configure(InputGenerator.generateDate());
 			unitTest.test_date();
 			System.out.println("DateTest4_indian#test_date passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("DateTest4_indian#test_date failed.");
 		}
-		//finally {
-		//	shield.applyRollback(input);
-		//}
-		try {
-			// shield.applyCheckpoint(input);
-			Issue1679 unitTest = new Issue1679();
-			//To configure with input from C
-			unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
-			//unitTest.configure(TimeZone.getDefault(), Locale.getDefault());
-			unitTest.test_for_issue();
-			System.out.println("Issue1679#test_for_issue passed.");
-		}catch(Throwable t){
-			System.out.println(t.getMessage());
-			System.out.println("Issue1679#test_for_issue failed.");
-		}
-		//finally {
-		//	shield.applyRollback(input);
-		//}
+//		finally {
+//			shield.applyRollback(input);
+//		}
+//		try {
+//			// shield.applyCheckpoint(input);
+//			Issue1679 unitTest = new Issue1679();
+//			//To configure with input from C
+//			unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
+//			//unitTest.configure(TimeZone.getDefault(), Locale.getDefault());
+//			unitTest.test_for_issue();
+//			System.out.println("Issue1679#test_for_issue passed.");
+//		}catch(Throwable t){
+//			System.out.println(t.getMessage());
+//			System.out.println("Issue1679#test_for_issue failed.");
+//		}
+//		finally {
+//			shield.applyRollback(input);
+//		}
 	}
 
 	/*
@@ -155,11 +152,12 @@ public class FastjsonInvivoTestClassV1254 {
 	- Flaky Test(s) - Issue1480#test_for_issue
 	- Context input: HashMap<Integer, Integer>
 	*/
-	public boolean invivoParseObject3(Context c) throws InvocationTargetException{
+	public boolean invivoParseObject3(Context c) throws InvocationTargetException, JsonProcessingException {
 		this.configure();
 		byte[] input =  (byte[]) c.getOtherReferencesInContext().get(0);
 		HashMap<String, String> contextMap = InputGenerator.generateMap(input);
 
+		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
 
 		String mName = this.getCurrentMethodName();
@@ -262,13 +260,9 @@ public class FastjsonInvivoTestClassV1254 {
 		System.out.println("["+mName+"] Testing invivo ...");
 		try {
 			DateTest unitTest = new DateTest();
-			//It should be configured with input from the Context
-			//unitTest.configure(...);
-			//long millis = 1324138987429L;
 			Date date = new Date();
 			System.out.println("date" +date);
-			unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA, date);
-			//unitTest.configure(TimeZone.getDefault(), Locale.getDefault(), date);
+			unitTest.configure(date);
 			unitTest.test_date();
 			System.out.println("DateTest#test_date passed.");
 		}catch(Throwable t){

@@ -1,10 +1,13 @@
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.utils;
 
 
+import com.alibaba.fastjson.*;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.sql.Time;
 import java.util.*;
 
 
@@ -12,17 +15,20 @@ import java.util.*;
 
 public class InputGenerator {
 
-    public static HashMap<String, String> generateMap(byte[] array){
+    public static HashMap<String, String> generateMap(byte[] array) throws JsonProcessingException {
         String text = new String(array);
-        JSONObject obj = JSON.parseObject(text);
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode obj = mapper.readTree(text);
+
         HashMap map = new HashMap<String,String>();
 
-        Iterator<?> keys = obj.keySet().iterator();
+        Iterator<Map.Entry<String, JsonNode>> entries = obj.fields();
 
-        while (keys.hasNext()) {
-            String key = (String) keys.next();
-            map.put(key, obj.get(key));
+        while (entries.hasNext()) {
+            Map.Entry<String, JsonNode> entry = (Map.Entry<String, JsonNode>) entries.next();
+            map.put(entry.getKey(), entry.getValue());
         }
+
         System.out.println("... input generation done!");
 
         return map;
