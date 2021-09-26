@@ -7,7 +7,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.xml.bind.v2.TODO;
+import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1254.WriteDuplicateType;
+import org.apache.commons.lang.SerializationUtils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.Serializable;
 import java.util.*;
 
 
@@ -49,6 +54,16 @@ public class InputGenerator {
         Locale l = Locale.getDefault();
         System.out.println("... input generation done!");
         return l;
+    }
+
+    public static WriteDuplicateType.DianDianCart generateDianDianCart(Object o){
+        byte[] array = SerializationUtils.serialize((Serializable) o);
+        int rnd = new Random().nextInt(array.length);
+        int id = (array[rnd]);
+        WriteDuplicateType.DianDianCart cart = new WriteDuplicateType.DianDianCart();
+        cart.setId(id);
+        System.out.println("... input generation done!");
+        return cart;
     }
 
 }

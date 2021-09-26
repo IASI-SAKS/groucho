@@ -157,7 +157,6 @@ public class FastjsonInvivoTestClassV1254 {
 		HashMap<String, String> contextMap = InputGenerator.generateMap(input);
 
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
 
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
@@ -184,13 +183,13 @@ public class FastjsonInvivoTestClassV1254 {
 	- Fastjson Version - 1.2.54
 	- Class Under Test - JSON
 	- Method Under Test - toJSONString()
-	- Flaky Test(s) - Issue1298#test_for_issue,  Issue1298#test_for_issue_1
-	- Context input: TimeZone, Locale
+	- Flaky Test(s) - Issue1298#test_for_issue,  Issue1298#test_for_issue_1,
+					  Issue1977#test_for_issue, DateTest#test_date
+	- Context input: Date
 	*/
 	public boolean invivoToJsonString(Context c) throws InvocationTargetException{
 		this.configure();
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
-		//Get timezone info from the context
 		testToJsonString();
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
 		setExitStatus();
@@ -242,40 +241,48 @@ public class FastjsonInvivoTestClassV1254 {
 		finally {
 			shield.applyRollback(input);
 		}
-	}
-
-	/*
-	- Fastjson Version - 1.2.54
-	- Class Under Test - JSON
-	- Method Under Test - toJSONString()
-	- Flaky Test(s) - DateTest#test_date
-	- Context input: Date
-	*/
-	public boolean invivoToJsonString2(Context c) throws InvocationTargetException{
-		this.configure();
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
-		//Get timezone info from the context
-		testToJsonString2();
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
-		setExitStatus();
-		return getExitStatus();
-	}
-
-	/*Runs some flaky tests that exercise JSON.toJSONString() [V. 1.2.54]*/
-	private void testToJsonString2() {
-		String mName = this.getCurrentMethodName();
-		System.out.println("["+mName+"] Testing invivo ...");
 		try {
+			shield.applyCheckpoint(input);
 			DateTest unitTest = new DateTest();
-			Date date = new Date();
-			System.out.println("date" +date);
-			unitTest.configure(date);
+			unitTest.configure(input);
 			unitTest.test_date();
 			System.out.println("DateTest#test_date passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("DateTest#test_date failed.");
 		}
+		finally {
+			shield.applyRollback(input);
+		}
+	}
+
+	/*
+	- Fastjson Version - 1.2.54
+	- Class Under Test - JSON
+	- Method Under Test - toJSONString()
+	- Flaky Test(s) - WriteDuplicateType
+	- Context input: DianDianCart
+	*/
+	public boolean invivoToJsonString2(Context c) throws InvocationTargetException{
+		this.configure();
+		Object contextData = c.getOtherReferencesInContext().get(0);
+
+		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
+		String mName = this.getCurrentMethodName();
+
+		System.out.println("["+mName+"] Testing invivo ...");
+		try {
+			WriteDuplicateType unitTest = new WriteDuplicateType();
+			unitTest.configure(InputGenerator.generateDianDianCart(contextData));
+			unitTest.test_dupType2();
+			System.out.println("WriteDuplicateType#test_dupType2 passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("WriteDuplicateType#test_dupType2 failed.");
+		}
+		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
+		setExitStatus();
+		return getExitStatus();
 	}
 
 	/*
