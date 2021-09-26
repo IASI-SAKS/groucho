@@ -13,6 +13,8 @@ import org.junit.Test;
 
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 /*
  * This class is a re-implementation of the original Unit Test:
@@ -20,12 +22,20 @@ import java.util.*;
  * distributed with Fastjson 1.2.54
  */
 
-public class DefaultExtJSONParser_parseArray extends TestCase {
+public class DefaultExtJSONParser_parseArray {
 
-    //TimeZone.getTimezone("Asia/Shanghai")
-    public void configure(TimeZone tz){
-       JSON.defaultTimeZone = tz;
-        System.out.println("Configuration done.");
+    String formattedDate;
+
+    public DefaultExtJSONParser_parseArray() throws ParseException {
+        //JSON.defaultTimeZone = TimeZone.getTimeZone("Asia/Shanghai");
+        this.formattedDate = "2011-01-09T13:49:53.254";
+      }
+
+    public void configure(Date d){
+       //JSON.defaultTimeZone = TimeZone.getTimeZone("Asia/Shanghai");
+       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+       this.formattedDate = sdf.format(d);
+       System.out.println("Configuration done.");
     }
 
     @Test
@@ -108,11 +118,18 @@ public class DefaultExtJSONParser_parseArray extends TestCase {
 
     @Test
     public void test_7() throws Exception {
-        DefaultJSONParser parser = new DefaultJSONParser("[\"2011-01-09T13:49:53.254\", \"xxx\", true, false, null, {}]");
+        DefaultJSONParser parser = new DefaultJSONParser("[\""+formattedDate+"\", \"xxx\", true, false, null, {}]");
         parser.config(Feature.AllowISO8601DateFormat, true);
         ArrayList list = new ArrayList();
         parser.parseArray(list);
-        Assert.assertEquals(new Date(1294552193254L), list.get(0));
+
+        //The TZ is set to replicate the original test oracle.
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+        Date expectedDate = sdf.parse(this.formattedDate);
+
+        Assert.assertEquals(expectedDate, list.get(0));
+
         Assert.assertEquals("xxx", list.get(1));
         Assert.assertEquals(Boolean.TRUE, list.get(2));
         Assert.assertEquals(Boolean.FALSE, list.get(3));
@@ -122,10 +139,17 @@ public class DefaultExtJSONParser_parseArray extends TestCase {
 
     @Test
     public void test_8() throws Exception {
-        DefaultJSONParser parser = new DefaultJSONParser("\"2011-01-09T13:49:53.254\"");
+
+        DefaultJSONParser parser = new DefaultJSONParser("\""+this.formattedDate+"\"");
         parser.config(Feature.AllowISO8601DateFormat, true);
+
+        //The TZ is set to replicate the original test oracle.
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+        Date expected = sdf.parse(this.formattedDate);
+
         Object value = parser.parse();
-        Assert.assertEquals(new Date(1294552193254L), value);
+        Assert.assertEquals(expected, value);
     }
 
     @Test

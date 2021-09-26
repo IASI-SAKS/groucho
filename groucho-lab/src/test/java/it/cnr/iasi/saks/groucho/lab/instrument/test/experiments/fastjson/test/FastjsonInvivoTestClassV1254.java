@@ -86,7 +86,7 @@ public class FastjsonInvivoTestClassV1254 {
 	- Class Under Test - JSON
 	- Method Under Test - parseObject()
 	- Flaky Test(s) - DateTest5_iso8601#test_date, DateTest4_indian#test_date, Issue1679#test_for_issue
-	- Context input: TimeZone, Locale
+	- Context input: Date
 	*/
 	public boolean invivoParseObject2(Context c) throws InvocationTargetException{
 		this.configure();
@@ -235,12 +235,11 @@ public class FastjsonInvivoTestClassV1254 {
 	}
 
 	/*
-	- NOTE: the flakiness was removed
 	- Fastjson Version - 1.2.54
 	- Class Under Test - JSON
 	- Method Under Test - toJSONString()
 	- Flaky Test(s) - DateTest#test_date
-	- Context input: TimeZone, Locale, Date (?)
+	- Context input: Date
 	*/
 	public boolean invivoToJsonString2(Context c) throws InvocationTargetException{
 		this.configure();
@@ -303,15 +302,14 @@ public class FastjsonInvivoTestClassV1254 {
 	- Context input: TimeZone
 	*/
 	public boolean invivoParseArray(Context c) throws InvocationTargetException{
-			this.configure();
+		this.configure();
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
 
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
 		try {
 			DefaultExtJSONParser_parseArray unitTest = new DefaultExtJSONParser_parseArray();
-			//To configure with Context input
-			unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"));
+			unitTest.configure(InputGenerator.generateDate());
 			unitTest.test_7();
 			System.out.println("DefaultExtJSONParser_parseArray#test_7 passed.");
 		}catch(Throwable t){
@@ -328,7 +326,7 @@ public class FastjsonInvivoTestClassV1254 {
 	- Fastjson Version - 1.2.54
 	- Class Under Test - DefaultJSONParser
 	- Method Under Test - parse()
-	- Context input: TimeZone
+	- Context input: Date
 	*/
 	public boolean invivoParse(Context c) throws InvocationTargetException {
 		this.configure();
@@ -339,8 +337,7 @@ public class FastjsonInvivoTestClassV1254 {
 
 		try {
 			DefaultExtJSONParser_parseArray unitTest = new DefaultExtJSONParser_parseArray();
-			//To configure with Context input
-			unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"));
+			unitTest.configure(InputGenerator.generateDate());
 			unitTest.test_8();
 			System.out.println("DefaultExtJSONParser_parseArray#test_8 passed.");
 		}catch(Throwable t){
