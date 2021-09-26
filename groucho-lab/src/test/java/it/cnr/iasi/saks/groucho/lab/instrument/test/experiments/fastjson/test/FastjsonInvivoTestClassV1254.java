@@ -20,6 +20,7 @@ package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
+import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.utils.*;
 import it.cnr.iasi.saks.groucho.common.Context;
@@ -199,38 +200,47 @@ public class FastjsonInvivoTestClassV1254 {
 	private void testToJsonString() {
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		Date input = InputGenerator.generateDate();
 
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
 		try {
+			shield.applyCheckpoint(input);
 			Issue1298 unitTest = new Issue1298();
-			//It should be configured with input from the Context
-			 unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
-			//unitTest.configure(TimeZone.getDefault(), Locale.getDefault());
+			unitTest.configure(input);
 			unitTest.test_for_issue();
 			System.out.println("Issue1298#test_for_issue passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("Issue1298#test_for_issue  failed.");
 		}
+		finally {
+			shield.applyRollback(input);
+		}
 		try {
+			shield.applyCheckpoint(input);
 			Issue1298 unitTest = new Issue1298();
-			//It should be configured with input from the Context
-			unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
-			//unitTest.configure(TimeZone.getDefault(), Locale.getDefault());
+			unitTest.configure(input);
 			unitTest.test_for_issue_1();
 			System.out.println("Issue1298#test_for_issue_1 passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("Issue1298#test_for_issue_1  failed.");
 		}
+		finally {
+			shield.applyRollback(input);
+		}
 		try {
+			shield.applyCheckpoint(input);
 			Issue1977 unitTest = new Issue1977();
-			//It should be configured with input from the Context
-			unitTest.configure(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA);
+			unitTest.configure(input);
 			unitTest.test_for_issue();
 			System.out.println("Issue1977#test_for_issue passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("Issue1977#test_for_issue failed.");
+		}
+		finally {
+			shield.applyRollback(input);
 		}
 	}
 

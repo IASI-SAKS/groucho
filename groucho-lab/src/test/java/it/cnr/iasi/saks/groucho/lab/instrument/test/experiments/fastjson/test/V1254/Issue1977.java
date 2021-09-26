@@ -7,6 +7,8 @@ import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -16,19 +18,28 @@ import java.util.TimeZone;
  * distributed with Fastjson 1.2.54
  */
 
-public class Issue1977 extends TestCase {
+public class Issue1977 {
 
-    //TimeZone.getTimezone("Asia/Shangai") and Locale.CHINA
-    public void configure(TimeZone tz, Locale l){
-        JSON.defaultTimeZone = tz;
-        JSON.defaultLocale = l;
+    Long millis;
+
+    public Issue1977() {
+        this.millis = 1533265119604L;
+    }
+
+    public void configure(Date d){
+      this.millis = d.getTime();
     }
 
     @Test
     public void test_for_issue() throws Exception {
-        java.sql.Date date = new java.sql.Date(1533265119604L);
+        java.sql.Date date = new java.sql.Date(this.millis);
         String json = JSON.toJSONString(date, SerializerFeature.UseISO8601DateFormat);
-        Assert.assertEquals("\"2018-08-03T10:58:39.604+08:00\"", json);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+        String expected = "\"" + sdf.format(date) + "+08:00\"";  // +08:00 is Asia/Shanghai GMT Offset
+
+        Assert.assertEquals(expected, json);
 //        new java.sql.Date();
     }
 }
