@@ -20,34 +20,38 @@ public class DateTest {
     Date d;
 
     public DateTest() {
-        long millis = 1324138987429L;
-        this.d = new Date(millis);
+        this.d = new Date(1324138987429L);
     }
 
     public void configure(Date d){
-         this.d = d;
+        this.d = d;
     }
 
     @Test
     public void test_date() throws Exception {
 
-        Date date = this.d;
-        long millis = date.getTime();
-        String stringMillis = Long.toString(millis);
+        //The TZ and the Locale are set to replicate the original test oracle.
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.CHINA);
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
 
-        Assert.assertEquals(stringMillis, JSON.toJSONString(date));
-        Assert.assertEquals("new Date("+stringMillis +")", JSON.toJSONString(date, SerializerFeature.WriteClassName));
+        String formattedDate = sdf.format(this.d);
+        Date date = sdf.parse(formattedDate);
+        String dateMillis = Long.toString(date.getTime());
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String formattedDate ="\""+ sdf.format(date)+"\"";
-        Assert.assertEquals(formattedDate, JSON.toJSONString(date, SerializerFeature.WriteDateUseDateFormat));
+        Assert.assertEquals(dateMillis, JSON.toJSONString(date));
+        Assert.assertEquals("new Date("+dateMillis +")", JSON.toJSONString(date, SerializerFeature.WriteClassName));
 
-        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+        sdf2.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+
         String formattedDate2 ="\""+ sdf2.format(date)+"\"";
-        Assert.assertEquals(formattedDate2, JSON.toJSONStringWithDateFormat(date, "yyyy-MM-dd HH:mm:ss.SSS"));
+        Assert.assertEquals(formattedDate2, JSON.toJSONString(date, SerializerFeature.WriteDateUseDateFormat));
 
-        String formattedDate3 ="\'"+ sdf2.format(date)+"\'";
-         Assert.assertEquals(formattedDate3, JSON.toJSONStringWithDateFormat(date, "yyyy-MM-dd HH:mm:ss.SSS",
+        String formattedDate3 ="\""+ formattedDate +"\"";
+        Assert.assertEquals(formattedDate3, JSON.toJSONStringWithDateFormat(date, "yyyy-MM-dd HH:mm:ss.SSS"));
+
+        String formattedDate4 ="\'"+ formattedDate +"\'";
+         Assert.assertEquals(formattedDate4, JSON.toJSONStringWithDateFormat(date, "yyyy-MM-dd HH:mm:ss.SSS",
                                                 SerializerFeature.UseSingleQuotes));
     }
 }

@@ -210,7 +210,7 @@ public class FastjsonInvivoTestClassV1254 {
 			System.out.println("Issue1298#test_for_issue passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
-			System.out.println("Issue1298#test_for_issue  failed.");
+			System.out.println("Issue1298#test_for_issue failed.");
 		}
 		finally {
 			shield.applyRollback(input);
@@ -368,33 +368,34 @@ public class FastjsonInvivoTestClassV1254 {
 	}
 
 	/*
-	- TODO - Adapt Issue1177_2#test_for_issue
-	- Class Under Test - JSON
-	- Method Under Test - toJSONString()
+	- Class Under Test - JSONPath
+	- Method Under Test - set() (?)
 	- Fastjson Version - 1.2.54
-	- Context input: byte[]
+	- Context input: String jsonObject, String key
 	*/
-	public boolean invivoToJsonString3(Context c) throws InvocationTargetException{
+	public boolean invivoToJsonString3(Context c) throws InvocationTargetException, JsonProcessingException {
 		this.configure();
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
-		testToJsonString3();
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
-		setExitStatus();
-		return getExitStatus();
-	}
+		Object contextData = c.getOtherReferencesInContext().get(0);
+		//String inputText = InputGenerator.generateString(contextData);
+		//String inputKey = InputGenerator.generateKey(contextData);
 
-	private void testToJsonString3() {
+		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
+
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
 		try {
 			Issue1177_2 unitTest = new Issue1177_2();
-			unitTest.mockConfigure();
+			//unitTest.configure(inputText, inputKey);
 			unitTest.test_for_issue();
 			System.out.println("Issue1177_2#test_for_issue passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("Issue1177_2#test_for_issue failed.");
 		}
+
+		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
+		setExitStatus();
+		return getExitStatus();
 	}
 
 
