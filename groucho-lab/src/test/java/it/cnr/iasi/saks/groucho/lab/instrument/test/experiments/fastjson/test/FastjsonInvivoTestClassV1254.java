@@ -374,6 +374,7 @@ public class FastjsonInvivoTestClassV1254 {
 	*/
 	public boolean invivoJSONPath(Context c) throws InvocationTargetException, JsonProcessingException {
 		this.configure();
+
 		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
 		HashMap<String, String> objectMap = InputGenerator.generateSimpleHashMap(contextData);
 
@@ -381,7 +382,10 @@ public class FastjsonInvivoTestClassV1254 {
 
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
 		try {
+			shield.applyCheckpoint(objectMap);
 			Issue1177_2 unitTest = new Issue1177_2();
 			unitTest.configure(objectMap);
 			unitTest.test_for_issue();
@@ -389,6 +393,8 @@ public class FastjsonInvivoTestClassV1254 {
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("Issue1177_2#test_for_issue failed.");
+		}finally {
+			shield.applyRollback(objectMap);
 		}
 
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
