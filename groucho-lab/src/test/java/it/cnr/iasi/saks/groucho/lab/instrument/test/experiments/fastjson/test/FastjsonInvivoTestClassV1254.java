@@ -260,24 +260,31 @@ public class FastjsonInvivoTestClassV1254 {
 	- Class Under Test - JSON
 	- Method Under Test - toJSONString()
 	- Flaky Test(s) - WriteDuplicateType
-	- Context input: DianDianCart
+	- Context input: LinkedHashMap<String, HashMap<String, Object>>
 	*/
-	public boolean invivoToJsonString2(Context c) throws InvocationTargetException{
+	public boolean invivoCartMap(Context c) throws InvocationTargetException{
 		this.configure();
-		Object contextData = c.getOtherReferencesInContext().get(0);
+		byte[] contextData = (byte[]) c.getOtherReferencesInContext().get(0);
 
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
 		String mName = this.getCurrentMethodName();
 
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		LinkedHashMap<String, HashMap<String, Object>> cartMap = InputGenerator.generateCartMap(0, contextData);
+
 		try {
+			shield.applyCheckpoint(cartMap);
 			WriteDuplicateType unitTest = new WriteDuplicateType();
-			unitTest.configure(InputGenerator.generateDianDianCart(contextData));
+			unitTest.configure(cartMap);
 			unitTest.test_dupType2();
 			System.out.println("WriteDuplicateType#test_dupType2 passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("WriteDuplicateType#test_dupType2 failed.");
+		}
+		finally {
+			shield.applyRollback(cartMap);
 		}
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
 		setExitStatus();

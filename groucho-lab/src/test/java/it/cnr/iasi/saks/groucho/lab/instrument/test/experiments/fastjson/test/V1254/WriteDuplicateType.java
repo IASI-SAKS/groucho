@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 /*
@@ -18,22 +19,21 @@ import java.util.LinkedHashMap;
  */
 
 public class WriteDuplicateType {
+    LinkedHashMap<String, HashMap<String, Object>> cartMap;
 
-    DianDianCart ddc;
 
     public  WriteDuplicateType(){
-        this.ddc = new DianDianCart();
-        ddc.setId(1001);
+        this.cartMap = new LinkedHashMap();
     }
 
-    public void configure(DianDianCart c){
-        this.ddc = c;
-        System.out.println("... configuration done.");
+    public void configure( LinkedHashMap<String, HashMap<String, Object>> c){
+       this.cartMap = c;
+       System.out.println("... configuration done.");
     }
 
     @Test
     public void test_dupType() throws Exception {
-       com.alibaba.json.bvt.writeClassName.V1254.WriteDuplicateType.DianDianCart cart = new com.alibaba.json.bvt.writeClassName.V1254.WriteDuplicateType.DianDianCart();
+        com.alibaba.json.bvt.writeClassName.V1254.WriteDuplicateType.DianDianCart cart = new com.alibaba.json.bvt.writeClassName.V1254.WriteDuplicateType.DianDianCart();
         cart.setId(1001);
 
         LinkedHashMap<String, JSONObject> cartMap = new LinkedHashMap<String, JSONObject>();
@@ -49,15 +49,27 @@ public class WriteDuplicateType {
 
     @Test
     public void test_dupType2() throws Exception {
-        LinkedHashMap<String, HashMap<String, Object>> cartMap = new LinkedHashMap<String, HashMap<String, Object>>();
+        LinkedHashMap<String, HashMap<String, Object>> cartMap = this.cartMap;
         HashMap<String, Object> obj = new HashMap<String, Object>();
-        obj.put("id", this.ddc.getId());
+        obj.put("id", 1001);
         obj.put(JSON.DEFAULT_TYPE_KEY, "com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart");
+        cartMap.put("1001", obj);
 
-        cartMap.put(Integer.toString(this.ddc.getId()), obj);
         String text1 = JSON.toJSONString(cartMap, SerializerFeature.WriteClassName);
 
-        Assert.assertEquals("{\"@type\":\"java.util.LinkedHashMap\",\"" +Integer.toString(this.ddc.getId())+ "\":{\"@type\":\"com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart\",\"id\":"+Integer.toString(this.ddc.getId())+"}}", text1);
+        Iterator<?> keys = this.cartMap.keySet().iterator();
+
+        String expected = "{\"@type\":\"java.util.LinkedHashMap\"";
+
+        while (keys.hasNext()) {
+            String key = (String) keys.next();
+            expected = expected + ",\"" + key + "\""
+             + ":{\"@type\":\"com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart\",\"id\":"
+             + Integer.valueOf(key) + "}";
+        }
+        expected =  expected + "}";
+
+        Assert.assertEquals(expected, text1);
     }
 
     @Test

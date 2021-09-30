@@ -4,7 +4,7 @@
     "methodName" : "deserialize",
     "annotation" : {
       "invivoTestClass" : "it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.FastjsonInvivoTestClassV1254",
-      "invivoTest" : "invivoJSONPath",
+      "invivoTest" : "invivoCartMap",
       "carvingDepth" : 1,
       "pauseOtherThreads" : false
     }

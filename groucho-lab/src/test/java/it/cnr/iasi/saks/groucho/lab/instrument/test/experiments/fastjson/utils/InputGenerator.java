@@ -1,5 +1,6 @@
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.utils;
 
+import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,6 +35,7 @@ public class InputGenerator {
         return map;
     }
 
+    //Generates a HashMap containing the textual representation of a JSON Object leaf nodes
     public static HashMap<String, String> generateSimpleHashMap(byte[] array) {
         String text = new String(array);
         org.json.JSONObject expectedObject = new org.json.JSONObject(text);
@@ -63,9 +65,24 @@ public class InputGenerator {
         return l;
     }
 
-    //TODO: Generate Map
-    public static WriteDuplicateType.DianDianCart generateDianDianCart(Object o){
-        byte[] array = SerializationUtils.serialize((Serializable) o);
+    //Generates a cartMap containing zero or more elements
+    public static LinkedHashMap<String, HashMap<String, Object>> generateCartMap(int elements, byte[] array) {
+        LinkedHashMap<String, HashMap<String, Object>> cartMap = new LinkedHashMap<String, HashMap<String, Object>>();
+
+        for(int i = 0; i < elements; i++){
+            HashMap<String, Object> obj = new HashMap<String, Object>();
+            WriteDuplicateType.DianDianCart ddc = generateDianDianCart(array);
+            obj.put("id", ddc.getId());
+            obj.put(JSON.DEFAULT_TYPE_KEY, "com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart");
+            cartMap.put(String.valueOf(ddc.getId()), obj);
+        }
+
+        System.out.println("... input generation done!");
+        return cartMap;
+    }
+
+    public static WriteDuplicateType.DianDianCart generateDianDianCart(byte[] array){
+
         int rnd = new Random().nextInt(array.length);
         int id = (array[rnd]);
         WriteDuplicateType.DianDianCart cart = new WriteDuplicateType.DianDianCart();
