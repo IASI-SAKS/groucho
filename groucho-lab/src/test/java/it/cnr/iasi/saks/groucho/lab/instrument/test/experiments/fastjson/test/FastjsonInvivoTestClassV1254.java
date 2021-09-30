@@ -20,7 +20,6 @@ package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.utils.*;
 import it.cnr.iasi.saks.groucho.common.Context;
@@ -154,7 +153,7 @@ public class FastjsonInvivoTestClassV1254 {
 	public boolean invivoParseObject3(Context c) throws InvocationTargetException, JsonProcessingException {
 		this.configure();
 		byte[] input =  (byte[]) c.getOtherReferencesInContext().get(0);
-		HashMap<String, String> contextMap = InputGenerator.generateMap(input);
+		HashMap<String, String> contextMap = InputGenerator.generateHashMap(input);
 
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
 
@@ -368,16 +367,15 @@ public class FastjsonInvivoTestClassV1254 {
 	}
 
 	/*
+	- Fastjson Version - 1.2.54
 	- Class Under Test - JSONPath
 	- Method Under Test - set() (?)
-	- Fastjson Version - 1.2.54
-	- Context input: String jsonObject, String key
+	- Context input: HashMap<String, String>
 	*/
-	public boolean invivoToJsonString3(Context c) throws InvocationTargetException, JsonProcessingException {
+	public boolean invivoJSONPath(Context c) throws InvocationTargetException, JsonProcessingException {
 		this.configure();
-		Object contextData = c.getOtherReferencesInContext().get(0);
-		//String inputText = InputGenerator.generateString(contextData);
-		//String inputKey = InputGenerator.generateKey(contextData);
+		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
+		HashMap<String, String> objectMap = InputGenerator.generateSimpleHashMap(contextData);
 
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
 
@@ -385,7 +383,7 @@ public class FastjsonInvivoTestClassV1254 {
 		System.out.println("["+mName+"] Testing invivo ...");
 		try {
 			Issue1177_2 unitTest = new Issue1177_2();
-			//unitTest.configure(inputText, inputKey);
+			unitTest.configure(objectMap);
 			unitTest.test_for_issue();
 			System.out.println("Issue1177_2#test_for_issue passed.");
 		}catch(Throwable t){

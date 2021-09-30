@@ -1,17 +1,11 @@
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.utils;
 
-
-import com.alibaba.fastjson.*;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.xml.bind.v2.TODO;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1254.WriteDuplicateType;
 import org.apache.commons.lang.SerializationUtils;
 
-import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.*;
 
@@ -20,8 +14,9 @@ import java.util.*;
 
 public class InputGenerator {
 
-    public static HashMap<String, String> generateMap(byte[] array) throws JsonProcessingException {
+    public static HashMap<String, String> generateHashMap(byte[] array) throws JsonProcessingException {
         String text = new String(array);
+
         ObjectMapper mapper = new ObjectMapper();
         JsonNode obj = mapper.readTree(text);
 
@@ -36,6 +31,18 @@ public class InputGenerator {
 
         System.out.println("... input generation done!");
 
+        return map;
+    }
+
+    public static HashMap<String, String> generateSimpleHashMap(byte[] array) {
+        String text = new String(array);
+        org.json.JSONObject expectedObject = new org.json.JSONObject(text);
+
+        HashMap map = new HashMap<String,String>();
+
+        map = createHashMap(expectedObject, null, map);
+
+        System.out.println("... input generation done!");
         return map;
     }
 
@@ -56,6 +63,7 @@ public class InputGenerator {
         return l;
     }
 
+    //TODO: Generate Map
     public static WriteDuplicateType.DianDianCart generateDianDianCart(Object o){
         byte[] array = SerializationUtils.serialize((Serializable) o);
         int rnd = new Random().nextInt(array.length);
@@ -65,5 +73,46 @@ public class InputGenerator {
         System.out.println("... input generation done!");
         return cart;
     }
+
+    public static HashMap<String,String> createHashMap(Object input, String k, HashMap<String,String> map) throws org.json.JSONException {
+
+        if (input instanceof org.json.JSONObject) {
+
+            Iterator<?> keys = ((org.json.JSONObject) input).keys();
+
+            while (keys.hasNext()) {
+
+                String key = (String) keys.next();
+
+                if (!(((org.json.JSONObject) input).get(key) instanceof org.json.JSONArray)){
+                    if (((org.json.JSONObject) input).get(key) instanceof org.json.JSONObject) {
+                        createHashMap(((org.json.JSONObject) input).get(key), key, map);
+                    } else {
+                        String val = ((org.json.JSONObject) input).get(key).toString();
+                        map.put(key, val.toString());
+                    }
+                }
+                else {
+                    createHashMap(new org.json.JSONArray(((org.json.JSONObject) input).get(key).toString()), key, map);
+                }
+            }
+        }
+        if (input instanceof org.json.JSONArray) {
+
+            for (int i = 0; i < ((org.json.JSONArray) input).length(); i++) {
+
+                if(((org.json.JSONArray) input).get(i) instanceof org.json.JSONObject){
+                    org.json.JSONObject a = ((org.json.JSONArray) input).getJSONObject(i);
+                    createHashMap(a, k +"[" + i + "]", map);
+                }else{
+                    String val = input.toString();
+                    break;
+                }
+            }
+
+        }
+        return map;
+    }
+
 
 }

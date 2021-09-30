@@ -1,18 +1,12 @@
 /*FastJSON V 1.2.54*/
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1254;
 
-import clojure.lang.Obj;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.JSONPath;
-import com.alibaba.fastjson.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import junit.framework.TestCase;
-import org.apache.commons.lang.StringUtils;
+import com.alibaba.fastjson.*;
 import com.jayway.jsonpath.*;
 import org.junit.Assert;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /*
@@ -22,30 +16,47 @@ import java.util.Map;
  */
 public class Issue1177_2 {
 
+    Map<String, Model> m;
     String text;
-    String key;
 
     public Issue1177_2() {
         this.text = "{\"a\":{\"x\":\"y\"},\"b\":{\"x\":\"y\"}}";
-        this.key = "x";
+        this.m =  JSONObject.parseObject(this.text, new TypeReference<Map<String, Model>>(){});
     }
 
-    public void configure(String text, String key){
-        this.text = text;
-        this.key = key;
+    public void configure(HashMap<String, String> m){
+
+        HashMap<String, String> simpleMap = m;
+        Iterator<?> keys = simpleMap.keySet().iterator();
+
+        this.text = "{";
+        int i = 0;
+
+        while (keys.hasNext()) {
+            i ++;
+            String id = "a"+i;
+            String key = (String) keys.next();
+            String replacement = simpleMap.get(key);
+            if(keys.hasNext()){
+                this.text = this.text + "\""+id+"\":" + "{\"x\":\"" +replacement +"\"},";
+            }else {
+                this.text = this.text + "\""+id+"\":" + "{\"x\":\"" +replacement +"\"}}";
+            }
+        }
+        this.m =  JSONObject.parseObject(this.text, new TypeReference<Map<String, Model>>(){});
+
         System.out.println("... configuration done.");
     }
 
     public void test_for_issue() throws Exception {
-        String text = this.text;
 
-        Map<String, Model> jsonObject = JSONObject.parseObject(text, new TypeReference<Map<String, Model>>(){});
+        Map<String, Model> jsonObject = this.m;
 
-        String jsonpath = "$.."+key;
+        String jsonpath = "$..x";
         String value="y2";
-        JSONPath.set(jsonObject, jsonpath, value);
 
-        Object expectedObject = JsonPath.parse(text).set(jsonpath, value).json();
+        JSONPath.set(jsonObject, jsonpath, value);
+        Object expectedObject = JsonPath.parse(this.text).set(jsonpath, value).json();
 
         Assert.assertEquals(JSON.toJSONString(expectedObject), JSON.toJSONString(jsonObject));
     }
@@ -53,4 +64,5 @@ public class Issue1177_2 {
     public static class Model {
         public String x;
     }
+
 }
