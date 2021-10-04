@@ -66,8 +66,10 @@ public class InputGenerator {
     }
 
     //Generates a cartMap containing zero or more elements
-    public static LinkedHashMap<String, HashMap<String, Object>> generateCartMap(int elements, byte[] array) {
+    public static LinkedHashMap<String, HashMap<String, Object>> generateCartMap(byte[] array) {
         LinkedHashMap<String, HashMap<String, Object>> cartMap = new LinkedHashMap<String, HashMap<String, Object>>();
+
+        int elements = (int) (Math.random() * 5);
 
         for(int i = 0; i < elements; i++){
             HashMap<String, Object> obj = new HashMap<String, Object>();

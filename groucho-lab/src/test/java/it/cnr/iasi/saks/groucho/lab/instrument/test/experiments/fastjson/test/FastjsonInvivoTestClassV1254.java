@@ -272,7 +272,7 @@ public class FastjsonInvivoTestClassV1254 {
 
 		System.out.println("["+mName+"] Testing invivo ...");
 		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
-		LinkedHashMap<String, HashMap<String, Object>> cartMap = InputGenerator.generateCartMap(0, contextData);
+		LinkedHashMap<String, HashMap<String, Object>> cartMap = InputGenerator.generateCartMap(contextData);
 
 		try {
 			shield.applyCheckpoint(cartMap);
@@ -291,8 +291,6 @@ public class FastjsonInvivoTestClassV1254 {
 		setExitStatus();
 		return getExitStatus();
 	}
-
-
 
 	/*
 	- Fastjson Version - 1.2.54
