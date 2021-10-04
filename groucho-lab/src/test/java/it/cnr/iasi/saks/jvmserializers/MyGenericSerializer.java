@@ -60,8 +60,4 @@ public class MyGenericSerializer<T> extends Serializer<T> {
 			return JSON.toJSONBytes(data, serializerFeatures);
 		}
 	}
-	@Override
-	public String mySerialize(T data) throws IOException {
-			return JSON.toJSONString(data);
-	}
 }
