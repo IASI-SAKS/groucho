@@ -27,17 +27,18 @@ public class JSONPParseTest2 {
     protected LinkedHashMap<String,String> expected = new LinkedHashMap();
 
     public JSONPParseTest2() {
-        this.array = new String("parent.callback ({'id':1, 'name':'idonans'} );   /**/ ").getBytes(StandardCharsets.UTF_8);
+        this.array = new String("{\"id\":1, \"name\":\"idonans\"}").getBytes(StandardCharsets.UTF_8);
     }
 
-    public void configureArray(byte[] array){
+    public void configure(byte[] array){
         this.array = array;
         System.out.println("... configuration done.");
     }
 
     @Test
-    public void test_f() throws Exception {
+    public void test_f() {
         String input = new String(this.array);
+        input = input.replace(", ", ",");
         String text = "parent.callback (" + input + " );   /**/ ";
 
         JSONPObject jsonpObject = JSON.parseObject(text, JSONPObject.class);

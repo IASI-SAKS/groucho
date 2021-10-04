@@ -28,7 +28,7 @@ public class JSONPParseTest3 {
     protected LinkedHashMap<String,String> expected = new LinkedHashMap();
 
     public JSONPParseTest3() {
-        this.array = new String("parent.callback ({'id':1, 'name':'ido)nans'},1,2 );   /**/ ").getBytes(StandardCharsets.UTF_8);
+        this.array = new String("{\"id\":1, \"name\":\"ido)nans\"}").getBytes(StandardCharsets.UTF_8);
     }
 
     public void configureArray(byte[] array){
@@ -39,6 +39,8 @@ public class JSONPParseTest3 {
     @Test
     public void test_f() throws Exception {
         String input = new String(this.array);
+        input = input.replace(", ", ",");
+
         String text = "parent.callback (" + input + ",1,2 );   /**/ ";
 
         JSONPObject jsonpObject = JSON.parseObject(text, JSONPObject.class);

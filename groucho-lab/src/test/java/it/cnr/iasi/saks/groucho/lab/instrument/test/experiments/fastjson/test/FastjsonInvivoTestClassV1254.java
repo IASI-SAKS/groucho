@@ -35,30 +35,27 @@ public class FastjsonInvivoTestClassV1254 {
 
 	/*
 	- Fastjson Version - 1.2.54
-	- Class Under Test - JSON
-	- Method Under Test - parseObject()
-	- Flaky Test(s) - JSONPParseTest2, JSONPParseTest3
 	- Context input: byte[] array
+	- Flaky Test(s) - JSONPParseTest2, JSONPParseTest3
 	*/
-	public boolean invivoParseObject(Context c) throws InvocationTargetException{
+	public boolean invivoJSONParse(Context c) throws InvocationTargetException{
 		this.configure();
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
 		byte[] input =  (byte[]) c.getOtherReferencesInContext().get(0);
-		testParseObject(input);
+		testJSONParse(input);
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
 		setExitStatus();
 		return getExitStatus();
 	}
 
-	/*Runs some flaky tests that exercise JSON.parseObject() [V. 1.2.54]*/
-	private void testParseObject(byte[] input) {
+	private void testJSONParse(byte[] input) {
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
 		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
 		try {
 			shield.applyCheckpoint(input);
 			JSONPParseTest2 unitTest = new JSONPParseTest2();
-			unitTest.configureArray(input);
+			unitTest.configure(input);
 			unitTest.test_f();
 			System.out.println("JSONPParseTest2#test_f passed.");
 		}catch(Throwable t){
@@ -80,7 +77,6 @@ public class FastjsonInvivoTestClassV1254 {
 			shield.applyRollback(input);
 		}
 	}
-
 
 	/*
 	- Fastjson Version - 1.2.54
