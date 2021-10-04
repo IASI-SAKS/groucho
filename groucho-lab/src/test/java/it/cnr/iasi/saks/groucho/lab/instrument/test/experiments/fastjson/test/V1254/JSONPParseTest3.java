@@ -55,7 +55,7 @@ public class JSONPParseTest3 {
         Assert.assertEquals(expected, actual);
 
         String json = JSON.toJSONString(jsonpObject, SerializerFeature.BrowserSecure);
-        String expected = "/**/parent.callback(" + mockBrowserSecure(input) + "),1,2)";
+        String expected = "/**/parent.callback(" + mockBrowserSecure(input) + ",1,2)";
         Assert.assertEquals(expected, json);
     }
 

@@ -302,26 +302,25 @@ public class FastjsonInvivoTestClassV1254 {
 	*/
 	public boolean invivoParseArray(Context c) throws JsonProcessingException {
 		this.configure();
-
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
+
 		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
 
 		String mName = this.getCurrentMethodName();
 		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
-		String array = InputGenerator.generateStringArray(contextData);
 
 		System.out.println("["+mName+"] Testing invivo ...");
 		try {
-			shield.applyCheckpoint(array);
+			shield.applyCheckpoint(contextData);
 			DefaultExtJSONParser_parseArray unitTest = new DefaultExtJSONParser_parseArray();
-			unitTest.configureArray(array);
+			unitTest.configureArray(InputGenerator.generateStringArray(contextData));
 			unitTest.test_7();
 			System.out.println("DefaultExtJSONParser_parseArray#test_7 passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("DefaultExtJSONParser_parseArray#test_7 failed.");
 		}finally {
-			shield.applyRollback(array);
+			shield.applyRollback(contextData);
 		}
 
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
