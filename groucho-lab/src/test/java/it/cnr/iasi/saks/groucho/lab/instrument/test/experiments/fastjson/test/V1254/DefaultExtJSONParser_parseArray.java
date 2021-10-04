@@ -25,17 +25,23 @@ import java.util.*;
 public class DefaultExtJSONParser_parseArray {
 
     String formattedDate;
+    String array;
 
     public DefaultExtJSONParser_parseArray() throws ParseException {
         //JSON.defaultTimeZone = TimeZone.getTimeZone("Asia/Shanghai");
         this.formattedDate = "2011-01-09T13:49:53.254";
+        this.array = "[\"2011-01-09T13:49:53.254\", \"xxx\", true, false, null, {}]";
       }
 
-    public void configure(Date d){
+    public void configureDate(Date d){
        //JSON.defaultTimeZone = TimeZone.getTimeZone("Asia/Shanghai");
        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
        this.formattedDate = sdf.format(d);
        System.out.println("Configuration done.");
+    }
+    public void configureArray(String array){
+        this.array = array;
+        System.out.println("Configuration done.");
     }
 
     @Test
@@ -118,23 +124,51 @@ public class DefaultExtJSONParser_parseArray {
 
     @Test
     public void test_7() throws Exception {
-        DefaultJSONParser parser = new DefaultJSONParser("[\""+formattedDate+"\", \"xxx\", true, false, null, {}]");
+        DefaultJSONParser parser = new DefaultJSONParser(array);
         parser.config(Feature.AllowISO8601DateFormat, true);
         ArrayList list = new ArrayList();
         parser.parseArray(list);
 
-        //The TZ is set to replicate the original test oracle.
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
-        Date expectedDate = sdf.parse(this.formattedDate);
+        String input = this.array.substring(1, array.length()-1);
+        String[] tokens = input.split(", ");
 
-        Assert.assertEquals(expectedDate, list.get(0));
+        if(tokens.length == 1 && tokens[0] == ""){
+            Assert.assertEquals(this.array.trim(), list.toString());
+        }else {
+            for (int i = 0; i < tokens.length; i++) {
+                String token = tokens[i];
+                if (token.startsWith("\"")) {
+                    String formattedToken = token.replaceAll("\"", "");
+                    if (isDate(formattedToken)) {
+                        //The TZ is set to replicate the original test oracle.
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+                        Date expectedDate = sdf.parse(formattedToken);
+                        Assert.assertEquals(expectedDate, list.get(i));
+                    } else {
+                        Assert.assertEquals(formattedToken, list.get(i));
+                    }
 
-        Assert.assertEquals("xxx", list.get(1));
-        Assert.assertEquals(Boolean.TRUE, list.get(2));
-        Assert.assertEquals(Boolean.FALSE, list.get(3));
-        Assert.assertEquals(null, list.get(4));
-        Assert.assertEquals(new JSONObject(), list.get(5));
+                } else if (token == "null") {
+                    Assert.assertEquals(null, list.get(i));
+                } else if (token == "true" || token == "false") {
+                    Assert.assertEquals(Boolean.parseBoolean(token), list.get(i));
+                } else if (token == "{}") {
+                    Assert.assertEquals(new JSONObject(), list.get(i));
+                }
+            }
+        }
+
+    }
+
+    public boolean isDate(String datestr){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        try {
+           sdf.parse(datestr);
+        } catch (ParseException e) {
+            return false;
+        }
+        return true;
     }
 
     @Test

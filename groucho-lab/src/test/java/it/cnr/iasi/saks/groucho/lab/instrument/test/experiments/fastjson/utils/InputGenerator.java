@@ -1,13 +1,13 @@
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.utils;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1254.WriteDuplicateType;
-import org.apache.commons.lang.SerializationUtils;
 
-import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -89,6 +89,72 @@ public class InputGenerator {
         cart.setId(id);
         System.out.println("... input generation done!");
         return cart;
+    }
+
+    public static String generateStringArray(byte[] array) throws JsonProcessingException {
+
+       ArrayList<String> values = new ArrayList<>();
+       String elements = "";
+
+       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+       String formattedDate = "\""+ sdf.format(generateDate()) +"\"";
+       values.add(formattedDate);
+
+       String key = generateRandomKey(array);
+       String s = "\"" + key + "\"";
+       values.add(s);
+
+        Random r = new Random();
+        String b = String.valueOf(r.nextBoolean());
+        values.add(b);
+
+        values.add("null");
+
+        values.add("{}");
+
+        int arraySize = (int) (Math.random() * 5);
+
+        for(int i = 0; i < arraySize; i++){
+
+            int rIndex = (int) (Math.random() * values.size()-1);
+
+            if(i == arraySize - 1){
+                elements = elements + values.get(rIndex);
+                //System.out.println("elements" + elements);
+            }
+            else{
+                elements = elements + values.get(rIndex) + ", ";
+                //System.out.println("elements" + elements);
+            }
+        }
+
+        String ar = "[" + elements + "]";
+        System.out.println("... input generation done!");
+        return ar;
+    }
+
+    public static String generateRandomKey(byte[] array) throws JsonProcessingException {
+        ArrayList<String> keys = new ArrayList<>();
+        String text  = new String(array);
+
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode obj = mapper.readTree(text);
+
+        Iterator<Map.Entry<String, JsonNode>> entries = obj.fields();
+
+        while (entries.hasNext()){
+            String entryKey = entries.next().getKey();
+            keys.add(entryKey);
+        }
+
+        Random r = new Random();
+        int rIndex = r.nextInt(keys.size()-1);
+
+        String randomKey = keys.get(rIndex);
+        System.out.println("... input generation done!");
+
+        return randomKey;
+
     }
 
     public static HashMap<String,String> createHashMap(Object input, String k, HashMap<String,String> map) throws org.json.JSONException {

@@ -81,67 +81,6 @@ public class FastjsonInvivoTestClassV1254 {
 		}
 	}
 
-	/*
-	- Fastjson Version - 1.2.54
-	- Class Under Test - JSON
-	- Method Under Test - parseObject()
-	- Flaky Test(s) - DateTest5_iso8601#test_date, DateTest4_indian#test_date, Issue1679#test_for_issue
-	- Context input: Date
-	*/
-	public boolean invivoParseObject2(Context c) throws InvocationTargetException{
-		this.configure();
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
-		//Get (TimeZone, Locale) from C
-		testParseObject2();
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
-		setExitStatus();
-		return getExitStatus();
-	}
-
-	private void testParseObject2() {
-		String mName = this.getCurrentMethodName();
-		System.out.println("["+mName+"] Testing invivo ...");
-		//RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
-		try {
-	 		//shield.applyCheckpoint(input);
-			DateTest5_iso8601 unitTest = new DateTest5_iso8601();
-			unitTest.configure(InputGenerator.generateDate());
-			unitTest.test_date();
-			System.out.println("DateTest5_iso8601#test_date passed.");
-		}catch(Throwable t){
-			System.out.println(t.getMessage());
-			System.out.println("DateTest5_iso8601#test_date failed.");
-		}
-//		finally {
-//			shield.applyRollback(input);
-//		}
-		try {
-			// shield.applyCheckpoint(input);
-			DateTest4_indian unitTest = new DateTest4_indian();
-			//unitTest.configure(InputGenerator.generateDate());
-			unitTest.test_date();
-			System.out.println("DateTest4_indian#test_date passed.");
-		}catch(Throwable t){
-			System.out.println(t.getMessage());
-			System.out.println("DateTest4_indian#test_date failed.");
-		}
-//		finally {
-//			shield.applyRollback(input);
-//		}
-		try {
-			// shield.applyCheckpoint(input);
-			Issue1679 unitTest = new Issue1679();
-			unitTest.configure(InputGenerator.generateDate());
-			unitTest.test_for_issue();
-			System.out.println("Issue1679#test_for_issue passed.");
-		}catch(Throwable t){
-			System.out.println(t.getMessage());
-			System.out.println("Issue1679#test_for_issue failed.");
-		}
-//		finally {
-//			shield.applyRollback(input);
-//		}
-	}
 
 	/*
 	- Fastjson Version - 1.2.54
@@ -180,22 +119,23 @@ public class FastjsonInvivoTestClassV1254 {
 
 	/*
 	- Fastjson Version - 1.2.54
-	- Class Under Test - JSON
-	- Method Under Test - toJSONString()
-	- Flaky Test(s) - Issue1298#test_for_issue,  Issue1298#test_for_issue_1,
-					  Issue1977#test_for_issue, DateTest#test_date
 	- Context input: Date
+	- Flaky Test(s) - Issue1298#test_for_issue,  Issue1298#test_for_issue_1,
+					  Issue1977#test_for_issue, DateTest#test_date,
+					  DateTest5_iso8601#test_date, DateTest4_indian#test_date,
+					  Issue1679#test_for_issue, DateTest_tz#test_codec,
+					  DefaultExtJSONParser_parseArray#test_8
 	*/
-	public boolean invivoToJsonString(Context c) throws InvocationTargetException{
+	public boolean invivoTestDate(Context c) {
 		this.configure();
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
-		testToJsonString();
+		testDate();
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
 		setExitStatus();
 		return getExitStatus();
 	}
 
-	private void testToJsonString() {
+	private void testDate() {
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
 		Date input = InputGenerator.generateDate();
@@ -253,6 +193,71 @@ public class FastjsonInvivoTestClassV1254 {
 		finally {
 			shield.applyRollback(input);
 		}
+		try {
+			shield.applyCheckpoint(input);
+			DateTest5_iso8601 unitTest = new DateTest5_iso8601();
+			unitTest.configure(input);
+			unitTest.test_date();
+			System.out.println("DateTest5_iso8601#test_date passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("DateTest5_iso8601#test_date failed.");
+		}
+		finally {
+			shield.applyRollback(input);
+		}
+		try {
+			shield.applyCheckpoint(input);
+			DateTest4_indian unitTest = new DateTest4_indian();
+			unitTest.configure(input);
+			unitTest.test_date();
+			System.out.println("DateTest4_indian#test_date passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("DateTest4_indian#test_date failed.");
+		}
+		finally {
+			shield.applyRollback(input);
+		}
+		try {
+			shield.applyCheckpoint(input);
+			Issue1679 unitTest = new Issue1679();
+			unitTest.configure(input);
+			unitTest.test_for_issue();
+			System.out.println("Issue1679#test_for_issue passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("Issue1679#test_for_issue failed.");
+		}
+		finally {
+			shield.applyRollback(input);
+		}
+		try {
+			shield.applyCheckpoint(input);
+			DateTest_tz unitTest = new DateTest_tz();
+			unitTest.configure(input);
+			unitTest.test_codec();
+			System.out.println("DateTest_tz#test_codec passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("DateTest_tz#test_codec failed.");
+		}
+		finally {
+			shield.applyRollback(input);
+		}
+		try {
+			shield.applyCheckpoint(input);
+			DefaultExtJSONParser_parseArray unitTest = new DefaultExtJSONParser_parseArray();
+			unitTest.configureDate(input);
+			unitTest.test_8();
+			System.out.println("DefaultExtJSONParser_parseArray#test_8 passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("DefaultExtJSONParser_parseArray#test_8 failed.");
+		}
+		finally {
+			shield.applyRollback(input);
+		}
 	}
 
 	/*
@@ -291,81 +296,36 @@ public class FastjsonInvivoTestClassV1254 {
 		return getExitStatus();
 	}
 
-	/*
-	- Fastjson Version - 1.2.54
-	- Class Under Test - JSONReader
-	- Method Under Test - ReadObject()
-	- Flaky Test(s) - DateTest_tz#test_codec
-	- Context input: TimeZone, Locale, JSONReader?
-	*/
-	public boolean invivoReadObject(Context c) throws InvocationTargetException {
-		this.configure();
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
 
-		String mName = this.getCurrentMethodName();
-		System.out.println("["+mName+"] Testing invivo ...");
-		try {
-			DateTest_tz unitTest = new DateTest_tz();
-			unitTest.configure(InputGenerator.generateDate());
-			unitTest.test_codec();
-			System.out.println("DateTest_tz#test_codec passed.");
-		}catch(Throwable t){
-			System.out.println(t.getMessage());
-			System.out.println("DateTest_tz#test_codec failed.");
-		}
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
-		setExitStatus();
-		return getExitStatus();
-	}
 
 	/*
 	- Fastjson Version - 1.2.54
 	- Class Under Test - DefaultJSONParser
 	- Method Under Test - parseArray()
-	- Context input: TimeZone
+	- Context input: String representation of an array
 	*/
-	public boolean invivoParseArray(Context c) throws InvocationTargetException{
+	public boolean invivoParseArray(Context c) throws JsonProcessingException {
 		this.configure();
+
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
+		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
 
 		String mName = this.getCurrentMethodName();
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		String array = InputGenerator.generateStringArray(contextData);
+
 		System.out.println("["+mName+"] Testing invivo ...");
 		try {
+			shield.applyCheckpoint(array);
 			DefaultExtJSONParser_parseArray unitTest = new DefaultExtJSONParser_parseArray();
-			unitTest.configure(InputGenerator.generateDate());
+			unitTest.configureArray(array);
 			unitTest.test_7();
 			System.out.println("DefaultExtJSONParser_parseArray#test_7 passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("DefaultExtJSONParser_parseArray#test_7 failed.");
-		}
-
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
-		setExitStatus();
-		return getExitStatus();
-	}
-
-	/*
-	- Fastjson Version - 1.2.54
-	- Class Under Test - DefaultJSONParser
-	- Method Under Test - parse()
-	- Context input: Date
-	*/
-	public boolean invivoParse(Context c) throws InvocationTargetException {
-		this.configure();
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
-
-		String mName = this.getCurrentMethodName();
-		System.out.println("["+mName+"] Testing invivo ...");
-
-		try {
-			DefaultExtJSONParser_parseArray unitTest = new DefaultExtJSONParser_parseArray();
-			unitTest.configure(InputGenerator.generateDate());
-			unitTest.test_8();
-			System.out.println("DefaultExtJSONParser_parseArray#test_8 passed.");
-		}catch(Throwable t){
-			System.out.println(t.getMessage());
-			System.out.println("DefaultExtJSONParser_parseArray#test_8 failed.");
+		}finally {
+			shield.applyRollback(array);
 		}
 
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
