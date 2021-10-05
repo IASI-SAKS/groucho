@@ -174,7 +174,7 @@ public class InputGenerator {
                         createHashMap(((org.json.JSONObject) input).get(key), key, map);
                     } else {
                         String val = ((org.json.JSONObject) input).get(key).toString();
-                        map.put(key, val.toString());
+                        map.put(key, val);
                     }
                 }
                 else {
@@ -190,8 +190,7 @@ public class InputGenerator {
                     org.json.JSONObject a = ((org.json.JSONArray) input).getJSONObject(i);
                     createHashMap(a, k +"[" + i + "]", map);
                 }else{
-                    String val = input.toString();
-                    break;
+                   break;
                 }
             }
 

@@ -83,12 +83,12 @@ public class FastjsonInvivoTestClassV1254 {
 	- Class Under Test - JSON
 	- Method Under Test - parseObject()
 	- Flaky Test(s) - Issue1480#test_for_issue
-	- Context input: HashMap<Integer, Integer>
+	- Context input: HashMap<String, String>
 	*/
-	public boolean invivoParseObject3(Context c) throws InvocationTargetException, JsonProcessingException {
+	public boolean invivoParseMap(Context c) throws JsonProcessingException {
 		this.configure();
-		byte[] input =  (byte[]) c.getOtherReferencesInContext().get(0);
-		HashMap<String, String> contextMap = InputGenerator.generateHashMap(input);
+		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
+		HashMap<String, String> contextMap = InputGenerator.generateSimpleHashMap(contextData);
 
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
 
@@ -97,7 +97,7 @@ public class FastjsonInvivoTestClassV1254 {
 		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
 
 		try {
-			shield.applyCheckpoint(input);
+			shield.applyCheckpoint(contextData);
 			Issue1480 unitTest = new Issue1480();
 			unitTest.configure(contextMap);
 			unitTest.test_for_issue();
@@ -106,7 +106,7 @@ public class FastjsonInvivoTestClassV1254 {
 			System.out.println(t.getMessage());
 			System.out.println("Issue1480#test_for_issue failed.");
 		}finally {
-			shield.applyRollback(input);
+			shield.applyRollback(contextData);
 		}
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
 		setExitStatus();
