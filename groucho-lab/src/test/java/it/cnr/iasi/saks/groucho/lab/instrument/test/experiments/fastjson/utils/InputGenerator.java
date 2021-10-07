@@ -1,11 +1,13 @@
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.utils;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1254.WriteDuplicateType;
+import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1273.Issue2447;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -15,6 +17,79 @@ import java.util.*;
 
 public class InputGenerator {
 
+    /* Generates a simple date */
+    public static Date generateDate(){
+        System.out.println("... input generation done!");
+        return new Date();
+    }
+
+    /* Generates a simple Timezone */
+    public static TimeZone generateTimeZone(){
+        TimeZone tz = TimeZone.getDefault();
+        System.out.println("... input generation done!");
+        return tz;
+    }
+
+    /* Generates a simple Locale */
+    public static Locale generateLocale(){
+        Locale l = Locale.getDefault();
+        System.out.println("... input generation done!");
+        return l;
+    }
+
+    /* Generates a JSON Object (same as byte[] array */
+    public static JSONObject generateJSONObject(byte[] array){
+        String text = new String(array);
+        JSONObject jo = JSON.parseObject(text);
+        System.out.println("jo");
+        System.out.println(jo);
+        System.out.println("... input generation done!");
+        return jo;
+    }
+
+    /* Generates a JSON Object (random elements from byte[] array */
+    public static JSONObject generateRandomJSONObject(byte[] array){
+        String text = new String(array);
+        JSONObject jo = JSON.parseObject(text);
+        JSONObject randomJo = new JSONObject();
+        List<String> keysAsList = new ArrayList(jo.keySet());
+
+        Random r = new Random();
+        int elements = r.nextInt(keysAsList.size());
+        for(int i = 0; i < elements; i++){
+            Random r2 = new Random();
+            String rKey = keysAsList.get(r2.nextInt(keysAsList.size()));
+            Object rObject = jo.get(rKey);
+            randomJo.put(rKey, rObject);
+        }
+
+        System.out.println("... input generation done!");
+        return randomJo;
+    }
+
+    /* Generates a JSON Object (random elements from byte[] array) */
+    public static JSONArray generateJSONArray(byte[] array){
+        String text = new String(array);
+        JSONObject jo = JSON.parseObject(text);
+        JSONArray randomJa = new JSONArray();
+
+        List<String> keysAsList = new ArrayList(jo.keySet());
+
+        Random r = new Random();
+        int elements = r.nextInt(keysAsList.size());
+        for(int i = 0; i < elements; i++){
+            Random r2 = new Random();
+            String rKey = keysAsList.get(r2.nextInt(keysAsList.size()));
+            Object rObject = jo.get(rKey);
+            randomJa.add(rObject);
+        }
+
+        System.out.println("... input generation done!");
+        return randomJa;
+    }
+
+
+    /* Generates a HashMap from a JSONObject (depth 1) */
     public static HashMap<String, String> generateHashMap(byte[] array) throws JsonProcessingException {
         String text = new String(array);
 
@@ -35,7 +110,7 @@ public class InputGenerator {
         return map;
     }
 
-    //Generates a HashMap containing the textual representation of a JSON Object leaf nodes
+    /* Generates a HashMap containing the textual representation of a JSON Object leaf nodes */
     public static HashMap<String, String> generateSimpleHashMap(byte[] array) {
         String text = new String(array);
         org.json.JSONObject expectedObject = new org.json.JSONObject(text);
@@ -48,24 +123,8 @@ public class InputGenerator {
         return map;
     }
 
-    public static Date generateDate(){
-        System.out.println("... input generation done!");
-        return new Date();
-    }
 
-    public static TimeZone generateTimeZone(){
-        TimeZone tz = TimeZone.getDefault();
-        System.out.println("... input generation done!");
-        return tz;
-    }
-
-    public static Locale generateLocale(){
-        Locale l = Locale.getDefault();
-        System.out.println("... input generation done!");
-        return l;
-    }
-
-    //Generates a cartMap containing zero or more elements
+    /* Generates a cartMap containing zero or more elements */
     public static LinkedHashMap<String, HashMap<String, Object>> generateCartMap(byte[] array) {
         LinkedHashMap<String, HashMap<String, Object>> cartMap = new LinkedHashMap<String, HashMap<String, Object>>();
 
@@ -83,6 +142,7 @@ public class InputGenerator {
         return cartMap;
     }
 
+    /* Generates a DianDianCart with a random id */
     public static WriteDuplicateType.DianDianCart generateDianDianCart(byte[] array){
 
         int rnd = new Random().nextInt(array.length);
@@ -93,9 +153,29 @@ public class InputGenerator {
         return cart;
     }
 
-    public static String generateStringArray(byte[] array) throws JsonProcessingException {
+    /* Generates a VO with a random id, lat and long */
+    public static Issue2447.VO generateVO (byte[] array){
+        Random rnd = new Random();
 
-       ArrayList<String> values = new ArrayList<>();
+        int id = (array[rnd.nextInt(array.length)]);
+
+        int lat = (array[rnd.nextInt(array.length)]);
+
+        int lon = (array[rnd.nextInt(array.length)]);
+
+        Issue2447.VO vo = new Issue2447.VO();
+
+        vo.id =  Math.abs(id);
+        vo.location = new Issue2447.Location(Math.abs(lon), Math.abs(lat));
+
+        System.out.println("... input generation done!");
+        return vo;
+    }
+
+    /* Generates a String representation of an array composed of standard elements */
+    public static String generateStringArray(byte[] array) throws JsonProcessingException {
+        
+        ArrayList<String> values = new ArrayList<>();
        String elements = "";
 
        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
@@ -135,6 +215,7 @@ public class InputGenerator {
         return ar;
     }
 
+    /* Generates a random key from a JSONObject */
     public static String generateRandomKey(byte[] array) throws JsonProcessingException {
         ArrayList<String> keys = new ArrayList<>();
         String text  = new String(array);
@@ -156,10 +237,9 @@ public class InputGenerator {
         System.out.println("... input generation done!");
 
         return randomKey;
-
     }
 
-    public static HashMap<String,String> createHashMap(Object input, String k, HashMap<String,String> map) throws org.json.JSONException {
+        public static HashMap<String,String> createHashMap(Object input, String k, HashMap<String,String> map) throws org.json.JSONException {
 
         if (input instanceof org.json.JSONObject) {
 

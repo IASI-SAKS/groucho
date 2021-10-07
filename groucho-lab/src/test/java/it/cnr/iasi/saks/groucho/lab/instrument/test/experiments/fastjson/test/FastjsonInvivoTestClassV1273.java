@@ -17,11 +17,15 @@
  */
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import it.cnr.iasi.saks.groucho.common.Context;
 import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1273.*;
+import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.utils.InputGenerator;
 import it.cnr.iasi.saks.groucho.performanceOverheadTest.TestGovernanceManager_ActivationWithProbability;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
@@ -33,86 +37,80 @@ public class FastjsonInvivoTestClassV1273 {
 
 	/*
 	- Fastjson Version - 1.2.73
-	- Class Under Test - JSON
-	- Method Under Test - ToJSONString()
-	- Flaky Test(s) - Issue1363#test_for_issue, Issue1363#test_for_issue_1
-	- Context input: DataSimpleVO(String, Object), DataSimpleVO(String, Object);
+	- Flaky Test(s) - Issue2447#test_for_issue, Issue2447#test_for_issue2
+	- Context input: VO, VO2;
 	*/
-	public boolean invivoToJsonString(Context c) throws InvocationTargetException{
+	public boolean invivoTestVO(Context c) {
 		this.configure();
+		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
+
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
-		//Get Context info
-		testToJsonString();
+
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+
+		try {
+			shield.applyCheckpoint(contextData);
+			Issue2447 unitTest = new Issue2447();
+			unitTest.configure(InputGenerator.generateVO(contextData));
+			unitTest.test_for_issue();
+			System.out.println("Issue2447#test_for_issue passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("Issue2447#test_for_issue failed.");
+		}
+		finally {
+			shield.applyRollback(contextData);
+		}
+		try {
+			shield.applyCheckpoint(contextData);
+			Issue2447 unitTest = new Issue2447();
+			unitTest.configure(InputGenerator.generateVO(contextData));
+			unitTest.test_for_issue2();
+			System.out.println("Issue2447#test_for_issue2 passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("Issue2447#test_for_issue2 failed.");
+		}
+		finally {
+			shield.applyRollback(contextData);
+		}
 		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
 		setExitStatus();
 		return getExitStatus();
 	}
 
-	private void testToJsonString() {
-		String mName = this.getCurrentMethodName();
-		System.out.println("["+mName+"] Testing invivo ...");
-		//RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
-		try {
-			//shield.applyCheckpoint(input);
-			Issue1363 unitTest = new Issue1363();
-			unitTest.mockConfigure();
-			//unitTest.configure(input);
-			unitTest.test_for_issue();
-			System.out.println("Issue1363#test_for_issue passed.");
-		}catch(Throwable t){
-			System.out.println(t.getMessage());
-			System.out.println("Issue1363#test_for_issue failed.");
-		}
-//		finally {
-//			shield.applyRollback(input);
-//		}
-		try {
-			//shield.applyCheckpoint(input);
-			Issue1363 unitTest = new Issue1363();
-			unitTest.mockConfigure();
-			//unitTest.configure(input);
-			unitTest.test_for_issue_1();
-			System.out.println("Issue1363#test_for_issue_1 passed.");
-		}catch(Throwable t){
-			System.out.println(t.getMessage());
-			System.out.println("Issue1363#test_for_issue_1 failed.");
-		}
-//		finally {
-//			shield.applyRollback(input);
-//		}
-	}
-
 	/*
 	- Fastjson Version - 1.2.73
-	- Class Under Test - JSON
-	- Method Under Test - ToJSONString()
-	- Flaky Test(s) - Issue1363#test_for_issue, Issue1363#test_for_issue_1
-	- Context input: JSONObject(String, String), JSONArray[String];
+	- Flaky Test(s) - Issue1492#test_for_issue
+	- Context input: JSONObject, JSONArray;
 	*/
-		public boolean invivoToJsonString2(Context c) throws InvocationTargetException{
+		public boolean invivoJsonObjArr(Context c) throws InvocationTargetException{
 			this.configure();
+			byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
 			TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
-			//Get Context info
-			testToJsonString2();
+			RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+
+			String mName = this.getCurrentMethodName();
+			System.out.println("["+mName+"] Testing invivo ...");
+			try {
+				shield.applyCheckpoint(contextData);
+				Issue1492 unitTest = new Issue1492();
+				unitTest.configure(InputGenerator.generateRandomJSONObject(contextData), InputGenerator.generateJSONArray(contextData));
+				unitTest.test_for_issue();
+				System.out.println("Issue1492#test_for_issue passed.");
+			}catch(Throwable t){
+				System.out.println(t.getMessage());
+				System.out.println("Issue1492#test_for_issue failed.");
+			}
+			finally {
+				shield.applyRollback(contextData);
+			}
 			TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
 			setExitStatus();
 			return getExitStatus();
 		}
-
-	private void testToJsonString2() {
-		String mName = this.getCurrentMethodName();
-		System.out.println("["+mName+"] Testing invivo ...");
-		try {
-			Issue1492 unitTest = new Issue1492();
-			unitTest.mockConfigure();
-			//unitTest.configure(input);
-			unitTest.test_for_issue();
-			System.out.println("Issue1492#test_for_issue passed.");
-		}catch(Throwable t){
-			System.out.println(t.getMessage());
-			System.out.println("Issue1492#test_for_issue failed.");
-		}
-	}
 
 	private String getCurrentMethodName() {
 		String nameofCurrMethod = Thread.currentThread().getStackTrace()[2].getMethodName();

@@ -4,6 +4,7 @@ package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;
@@ -15,18 +16,11 @@ import java.io.Serializable;
  * distributed with Fastjson 1.2.73
  */
 
-public class Issue1492 extends TestCase {
+public class Issue1492 {
     JSONObject obj;
     JSONArray arr;
 
-    public void configure(JSONObject o,  JSONArray a){
-        this.obj = o;
-        this.arr = a;
-        System.out.println("... configuration done.");
-    }
-
-    //Temporarily mimics the driver to be implemented
-    public void mockConfigure(){
+    public Issue1492(){
         this.obj = new JSONObject();
         obj.put("key1","value1");
         obj.put("key2","value2");
@@ -34,7 +28,11 @@ public class Issue1492 extends TestCase {
         this.arr = new JSONArray();
         arr.add("key1");
         arr.add("key2");
+    }
 
+    public void configure(JSONObject o, JSONArray a){
+        this.obj = o;
+        this.arr = a;
         System.out.println("... configuration done.");
     }
 
@@ -45,14 +43,12 @@ public class Issue1492 extends TestCase {
         // test for JSONObject
         resp.setData(this.obj);
         String str = JSON.toJSONString(resp);
-        System.out.println(str);
         DubboResponse resp1 = JSON.parseObject(str, DubboResponse.class);
         Assert.assertEquals(str, JSON.toJSONString(resp1));
 
         // test for JSONArray
         resp.setData(this.arr);
         String str2 = JSON.toJSONString(resp);
-        System.out.println(str2);
         DubboResponse resp2 = JSON.parseObject(str2, DubboResponse.class);
         Assert.assertEquals(str2, JSON.toJSONString(resp2));
     }
