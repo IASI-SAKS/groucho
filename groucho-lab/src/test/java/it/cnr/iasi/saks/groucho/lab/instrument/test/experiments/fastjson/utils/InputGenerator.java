@@ -142,6 +142,24 @@ public class InputGenerator {
         return cartMap;
     }
 
+    /* Generates a simple cartMap containing zero or more elements */
+    public static LinkedHashMap<String, JSONObject> generateSimpleCartMap(byte[] array) {
+        LinkedHashMap<String, JSONObject> cartMap = new LinkedHashMap<String, JSONObject>();
+
+        int elements = (int) (Math.random() * 5);
+
+        for(int i = 0; i < elements; i++){
+            WriteDuplicateType.DianDianCart ddc = generateDianDianCart(array);
+            JSONObject obj = new JSONObject();
+            obj.put(JSON.DEFAULT_TYPE_KEY, "com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart");
+            obj.put("id", ddc.getId());
+            cartMap.put(String.valueOf(ddc.getId()), obj);
+        }
+
+        System.out.println("... input generation done!");
+        return cartMap;
+    }
+
     /* Generates a DianDianCart with a random id */
     public static WriteDuplicateType.DianDianCart generateDianDianCart(byte[] array){
 

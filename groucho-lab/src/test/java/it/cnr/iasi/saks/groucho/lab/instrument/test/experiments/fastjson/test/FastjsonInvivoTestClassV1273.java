@@ -44,8 +44,6 @@ public class FastjsonInvivoTestClassV1273 {
 		this.configure();
 		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
 
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
-
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
 		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
@@ -76,7 +74,6 @@ public class FastjsonInvivoTestClassV1273 {
 		finally {
 			shield.applyRollback(contextData);
 		}
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
 		setExitStatus();
 		return getExitStatus();
 	}
@@ -89,7 +86,6 @@ public class FastjsonInvivoTestClassV1273 {
 		public boolean invivoJsonObjArr(Context c) throws InvocationTargetException{
 			this.configure();
 			byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
-			TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
 			RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
 
 			String mName = this.getCurrentMethodName();
@@ -107,10 +103,38 @@ public class FastjsonInvivoTestClassV1273 {
 			finally {
 				shield.applyRollback(contextData);
 			}
-			TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
 			setExitStatus();
 			return getExitStatus();
 		}
+
+	/*
+	- Fastjson Version - 1.2.73
+	- Flaky Test(s) - WriteDuplicateType#test_dupType
+	- Context input: LinkedHashMap<String, JSONObject>
+	*/
+	public boolean invivoDupType(Context c) throws InvocationTargetException{
+		this.configure();
+		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		try {
+			shield.applyCheckpoint(contextData);
+			WriteDuplicateType unitTest = new WriteDuplicateType();
+			unitTest.configure(InputGenerator.generateSimpleCartMap(contextData));
+			unitTest.test_dupType();
+			System.out.println("WriteDuplicateType#test_dupType passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("WriteDuplicateType#test_dupType failed.");
+		}
+		finally {
+			shield.applyRollback(contextData);
+		}
+		setExitStatus();
+		return getExitStatus();
+	}
 
 	private String getCurrentMethodName() {
 		String nameofCurrMethod = Thread.currentThread().getStackTrace()[2].getMethodName();
