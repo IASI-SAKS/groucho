@@ -30,14 +30,15 @@ public class BenchmarkDriver_IT extends MediaItemBenchmark {
 		TestGroups groups = new TestGroups();
 		addTests(groups);
 		String inputPath = System.getProperty("user.dir") + "/src/test/resources/input/";
-		runBenchmark(new String[]{new String(inputPath + "media.1.json")});
+		String[] args = new String[1];
+		args[0] = inputPath + "media.1.json";
+		runBenchmark(args);
 		System.out.println("DONE");
 	}
 	@Override
 	protected void addTests (TestGroups groups)
 	{
 		MyFastJSONDatabind.register(groups);
-		MyFastJSONArrayDatabind.register(groups);
 	}
 
 }

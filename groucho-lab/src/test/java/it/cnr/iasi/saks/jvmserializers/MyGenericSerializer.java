@@ -45,11 +45,7 @@ public class MyGenericSerializer<T> extends Serializer<T> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public T deserialize(byte[] array) throws Exception {
-		if (this.name == "json/fastjson/databind") {
-			return (T) JSON.parseObject(array, type, Feature.DisableCircularReferenceDetect);
-		} else {
-			return (T) JSON.parseObject(array, type, Feature.SupportArrayToBean, Feature.DisableCircularReferenceDetect);
-		}
+		return (T) JSON.parseObject(array, type, Feature.DisableCircularReferenceDetect);
 	}
 
 	@Override
