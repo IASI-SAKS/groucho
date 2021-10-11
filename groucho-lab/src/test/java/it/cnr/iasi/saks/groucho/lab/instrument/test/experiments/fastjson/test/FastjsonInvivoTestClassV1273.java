@@ -19,6 +19,7 @@ package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import it.cnr.iasi.saks.groucho.common.Context;
 import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1273.*;
@@ -77,6 +78,49 @@ public class FastjsonInvivoTestClassV1273 {
 		setExitStatus();
 		return getExitStatus();
 	}
+
+    /*
+- Fastjson Version - 1.2.73
+- Flaky Test(s) - Issue2447JSONPath_reverse_test#ttest_reserve,
+                  Issue2447JSONPath_reverse_test#ttest_reserve3
+- Context input: String text;
+*/
+    public boolean invivoPathReverse(Context c) throws JsonProcessingException {
+        this.configure();
+        byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
+        String mName = this.getCurrentMethodName();
+        System.out.println("["+mName+"] Testing invivo ...");
+        RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+
+        try {
+            shield.applyCheckpoint(contextData);
+            JSONPath_reverse_test unitTest = new JSONPath_reverse_test();
+            unitTest.configureSimple(InputGenerator.generateSimpleJsonString(contextData));
+            unitTest.test_reserve();
+            System.out.println("JSONPath_reverse_test#test_reserve passed.");
+        }catch(Throwable t){
+            System.out.println(t.getMessage());
+            System.out.println("JSONPath_reverse_test#test_reserve failed.");
+        }
+        finally {
+            shield.applyRollback(contextData);
+        }
+        try {
+            shield.applyCheckpoint(contextData);
+            JSONPath_reverse_test unitTest = new JSONPath_reverse_test();
+            unitTest.configureNested(InputGenerator.generateNestedJsonString(contextData));
+            unitTest.test_reserve3();
+            System.out.println("JSONPath_reverse_test#test_reserve3 passed.");
+        }catch(Throwable t){
+            System.out.println(t.getMessage());
+            System.out.println("JSONPath_reverse_test#test_reserve3 failed.");
+        }
+        finally {
+            shield.applyRollback(contextData);
+        }
+        setExitStatus();
+        return getExitStatus();
+    }
 
 	/*
 	- Fastjson Version - 1.2.73
