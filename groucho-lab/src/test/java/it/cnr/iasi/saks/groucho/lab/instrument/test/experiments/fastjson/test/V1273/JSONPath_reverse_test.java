@@ -100,13 +100,14 @@ public class JSONPath_reverse_test
              + "\"" + key1 + "\":" + "\"" + nestedObjects.get(key1) + "\","
              + "\"" + key2 + "\":" + "\"" + nestedObjects.get(key2) + "\"}}";
 
-        String actual = JSONPath.reserveToObject(parentObject, parentKey+'.'+key1, parentKey+'.'+key2).toString();
-        String actual2 = JSONPath.reserveToObject(parentObject, parentKey+'.'+key2, parentKey+'.'+key1, "ab.c").toString();
+        String actual = JSONPath.reserveToObject(parentObject, parentKey+'.'+key2, parentKey+'.'+key1).toString();
+        String actual2 = JSONPath.reserveToObject(parentObject, parentKey+'.'+key1, parentKey+'.'+key2, "ab.c").toString();
         System.out.println("epxected nested: " +expected);
         System.out.println("actual nested: " +actual );
-        System.out.println("actual nested2: " +actual2 );
 
         Assert.assertEquals(expected, actual);
+
+        System.out.println("actual nested2: " +actual2 );
         Assert.assertEquals(expected, actual2);
     }
 
