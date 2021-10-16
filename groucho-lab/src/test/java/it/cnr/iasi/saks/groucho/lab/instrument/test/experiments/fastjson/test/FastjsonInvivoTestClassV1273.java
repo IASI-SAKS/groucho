@@ -108,7 +108,7 @@ public class FastjsonInvivoTestClassV1273 {
         try {
             shield.applyCheckpoint(contextData);
             JSONPath_reverse_test unitTest = new JSONPath_reverse_test();
-            unitTest.configureNested(InputGenerator.generateNestedJsonString(contextData));
+            unitTest.configureNested(InputGenerator.generateJSONObject(1, contextData));
             unitTest.test_reserve3();
             System.out.println("JSONPath_reverse_test#test_reserve3 passed.");
         }catch(Throwable t){

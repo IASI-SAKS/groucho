@@ -37,14 +37,23 @@ public class InputGenerator {
         return l;
     }
 
-    /* Generates a JSON Object (same as byte[] array) */
-    public static JSONObject generateJSONObject(byte[] array){
-        String text = new String(array);
-        JSONObject jo = JSON.parseObject(text);
-        System.out.println("jo");
-        System.out.println(jo);
+    // Generates a JSON Object
+     public static org.json.JSONObject generateJSONObject(int type, byte[] array) {
+
+        String text = "";
+
+        //Simple object
+        if(type == 0){
+        text =  new String(array);
+        }
+        //Nested object
+        else if(type == 1){
+            text =  "{\"parent\":" +new String(array) + "}";
+        }
+        org.json.JSONObject object = new org.json.JSONObject(text);
+
         System.out.println("... input generation done!");
-        return jo;
+        return object;
     }
 
     /* Generates a JSON Object (random elements from byte[] array) */
@@ -191,19 +200,19 @@ public class InputGenerator {
 
     //Generates a simple Json Object String with unique elements (e.g. "{\"id\":1001,\"name\":\"ljw\",\"age\":50}" )
     public static String generateSimpleJsonString(byte[] array) throws JsonProcessingException {
-       String text = new String(array);
-       org.json.JSONObject obj = new org.json.JSONObject(text);
+        String text = new String(array);
+        org.json.JSONObject obj = new org.json.JSONObject(text);
 
-       HashMap<String, String> leafMap = new HashMap<>();
-       leafMap = createHashMap(obj, null, leafMap);
+        HashMap<String, String> leafMap = new HashMap<>();
+        leafMap = createHashMap(obj, null, leafMap);
 
-       List<String> keysAsList = new ArrayList(leafMap.keySet());
+        List<String> keysAsList = new ArrayList(leafMap.keySet());
 
-        int elements = (int) Math.floor(Math.random() * (5 - 2 + 1) +2);
-	    String simpleJsonString = "{";
+        Random r = new Random();
+        int elements = r.nextInt(keysAsList.size() -1) +1;
+        String simpleJsonString = "{";
 
         for (int i = 0; i < elements; i++){
-            Random r = new Random();
             int rElement = r.nextInt(keysAsList.size());
 
             String key = keysAsList.get(rElement);
@@ -219,42 +228,6 @@ public class InputGenerator {
 
         System.out.println("... input generation done!");
         return simpleJsonString;
-    }
-
-    //Generates a nested Json Object String with unique elements (e.g. "{\"player\":{\"name\":\"ljw\",\"id\":1001}}" )
-    public static String generateNestedJsonString(byte[] array) throws JsonProcessingException {
-        String text = new String(array);
-        org.json.JSONObject obj = new org.json.JSONObject(text);
-
-        HashMap<String, String> leafMap = new HashMap<>();
-        leafMap = createHashMap(obj, null, leafMap);
-
-        List<String> keysAsList = new ArrayList(leafMap.keySet());
-        String nestedJsonString = "{";
-
-
-        //At least three elements required
-        int elements = (int) Math.floor(Math.random() * (5 - 3 + 1) +3);
-        Random r = new Random();
-
-        for (int i = 0; i < elements; i++) {
-
-            int rElement = r.nextInt(keysAsList.size());
-
-            String key = keysAsList.get(rElement);
-            keysAsList.remove(rElement);
-            String val = leafMap.get(key);
-
-            if (i == 0) {
-                nestedJsonString = nestedJsonString + "\"" + key + "\":{";
-            } else if (i == elements - 1) {
-                nestedJsonString = nestedJsonString + "\"" + key + "\":" + "\"" + val + "\"}}";
-            } else {
-                nestedJsonString = nestedJsonString + "\"" + key + "\":" + "\"" + val + "\",";
-            }
-        }
-        System.out.println("... input generation done!");
-        return nestedJsonString;
     }
 
     /* Generates a String representation of an array composed of predefined elements */
