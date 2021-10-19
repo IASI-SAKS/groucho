@@ -18,8 +18,8 @@ public class JSONPath_reverse_test
         this.JsonString3 = "{\"player\":{\"id\":1001,\"name\":\"ljw\",\"age\":50}}";
     }
 
-    public void configureSimple(String string){
-        this.JsonString = string;
+    public void configureSimple(org.json.JSONObject object){
+        this.JsonString =  String.valueOf(object);
     }
 
     public void configureNested(org.json.JSONObject object){
@@ -114,8 +114,10 @@ public class JSONPath_reverse_test
             }
             expectedNested = expectedNested + "]]";
             String actualNested = JSONPath.reserveToArray(object, randomParentKey, "*").toString();
-            Assert.assertEquals(expectedNested, actualNested);
+            System.out.println("expected: " +expectedNested);
+            System.out.println("actual: " +actualNested);
 
+            Assert.assertEquals(expectedNested, actualNested);
         }
     }
 

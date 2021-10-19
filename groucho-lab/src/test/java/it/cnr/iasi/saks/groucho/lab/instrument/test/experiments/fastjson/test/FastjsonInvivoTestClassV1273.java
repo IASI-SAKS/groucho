@@ -95,7 +95,7 @@ public class FastjsonInvivoTestClassV1273 {
         try {
             shield.applyCheckpoint(contextData);
             JSONPath_reverse_test unitTest = new JSONPath_reverse_test();
-            unitTest.configureSimple(InputGenerator.generateSimpleJsonString(contextData));
+            unitTest.configureSimple(InputGenerator.generateJSONObject(0, contextData));
             unitTest.test_reserve();
             System.out.println("JSONPath_reverse_test#test_reserve passed.");
         }catch(Throwable t){
