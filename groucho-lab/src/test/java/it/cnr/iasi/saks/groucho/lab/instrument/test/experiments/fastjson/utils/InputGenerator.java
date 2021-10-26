@@ -198,38 +198,6 @@ public class InputGenerator {
         return vo;
     }
 
-    //Generates a simple Json Object String with unique elements (e.g. "{\"id\":1001,\"name\":\"ljw\",\"age\":50}" )
-    public static String generateSimpleJsonString(byte[] array) throws JsonProcessingException {
-        String text = new String(array);
-        org.json.JSONObject obj = new org.json.JSONObject(text);
-
-        HashMap<String, String> leafMap = new HashMap<>();
-        leafMap = createHashMap(obj, null, leafMap);
-
-        List<String> keysAsList = new ArrayList(leafMap.keySet());
-
-        Random r = new Random();
-        int elements = r.nextInt(keysAsList.size() -1) +1;
-        String simpleJsonString = "{";
-
-        for (int i = 0; i < elements; i++){
-            int rElement = r.nextInt(keysAsList.size());
-
-            String key = keysAsList.get(rElement);
-            keysAsList.remove(rElement);
-            String val = leafMap.get(key);
-
-            if (i == elements - 1) {
-                simpleJsonString = simpleJsonString + "\"" + key + "\":" + "\"" + val + "\"}";
-            }else {
-                simpleJsonString = simpleJsonString + "\"" + key + "\":" + "\"" + val + "\",";
-            }
-        }
-
-        System.out.println("... input generation done!");
-        return simpleJsonString;
-    }
-
     /* Generates a String representation of an array composed of predefined elements */
     public static String generateStringArray(byte[] array) throws JsonProcessingException {
 
