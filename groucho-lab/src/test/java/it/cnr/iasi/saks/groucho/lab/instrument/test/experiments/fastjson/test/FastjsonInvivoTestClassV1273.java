@@ -124,7 +124,7 @@ public class FastjsonInvivoTestClassV1273 {
 
 	/*
 	- Fastjson Version - 1.2.73
-	- Flaky Test(s) - Issue1780_JSONObject#test_for_issue
+	- Flaky Test(s) - Issue1780_JSONObject#test_for_issue, Issue1780_Module#test_for_issue
 	- Context input: JSONObject ;
 	*/
 	public boolean invivoTest1780(Context c) {
@@ -144,6 +144,19 @@ public class FastjsonInvivoTestClassV1273 {
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("Issue1780_JSONObject#test_for_issue failed.");
+		}
+		finally {
+			shield.applyRollback(contextData);
+		}
+		try {
+			shield.applyCheckpoint(contextData);
+			Issue1780_Module unitTest = new Issue1780_Module();
+			unitTest.configure(InputGenerator.generateJSONObject(0, contextData));
+			unitTest.test_for_issue();
+			System.out.println("Issue1780_Module#test_for_issue passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("Issue1780_Module#test_for_issue failed.");
 		}
 		finally {
 			shield.applyRollback(contextData);
