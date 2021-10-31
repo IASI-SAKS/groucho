@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
 import junit.framework.TestCase;
 import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.*;
 
@@ -36,6 +37,7 @@ public class Issue1177_1 {
          this.jsonpath = path+keyToReplace;
     }
 
+    @Test
     public void test_for_issue() throws Exception {
         String text = this.text;
         System.out.println("INPUT: " +text +'\n');
