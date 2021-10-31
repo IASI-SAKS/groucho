@@ -29,32 +29,31 @@ public class Issue1780_Module {
 
 	@Test
 	public void test_for_issue() {
-		org.json.JSONObject object = new org.json.JSONObject(JsonString);
-		String expected = "{";
-		org.json.JSONObject req = new org.json.JSONObject();
-
+		org.json.JSONObject req = new org.json.JSONObject(JsonString);
 
 		SerializeConfig config = new SerializeConfig();
 		config.register(new myModule());
 
-		Iterator<?> keys = object.keys();
+		String expected = "{";
+
+
+		Iterator<?> keys = req.keys();
 		while (keys.hasNext()) {
 			String key = (String) keys.next();
-			req.put(key, object.get(key));
 
-			if(object.get(key) instanceof String){
+			if(req.get(key) instanceof String){
 				if(keys.hasNext()){
-					expected = expected+ "\"" +key + "\":" + "\""+object.get(key).toString()+"\",";
+					expected = expected+ "\"" +key + "\":" + "\""+req.get(key).toString()+"\",";
 
 				}else {
-					expected = expected+ "\"" +key + "\":" + "\""+object.get(key).toString()+"\"";
+					expected = expected+ "\"" +key + "\":" + "\""+req.get(key).toString()+"\"";
 				}
 			}else{
 				if(keys.hasNext()){
-					expected = expected + "\"" +key + "\":" + object.get(key).toString() +",";
+					expected = expected + "\"" +key + "\":" + req.get(key).toString() +",";
 
 				}else {
-					expected = expected + "\"" +key + "\":" + object.get(key).toString();
+					expected = expected + "\"" +key + "\":" + req.get(key).toString();
 				}
 			}
 		}
