@@ -17,13 +17,16 @@
  */
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 
+import com.alibaba.json.bvt.issue_1300.Issue1363;
 import com.alibaba.json.bvt.issue_1400.Issue1492;
 import com.alibaba.json.bvt.issue_2400.Issue2447;
+import com.alibaba.json.bvt.guava.ArrayListMultimapTest;
 import com.alibaba.json.bvt.path.JSONPath_reverse_test;
 import com.alibaba.json.bvt.issue_1700.Issue1780_JSONObject;
 import com.alibaba.json.bvt.issue_1700.Issue1780_Module;
 import com.alibaba.json.bvt.writeClassName.V1273.WriteDuplicateType;
 import it.cnr.iasi.saks.groucho.common.Context;
+import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.utils.InputGenerator;
 
 
 import java.util.ArrayList;
@@ -105,6 +108,30 @@ public class FastjsonInvivoTestClassV1273_Default {
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("Issue1780_Module#test_for_issue failed.");
+		}
+		try {
+			Issue1363 unitTest = new Issue1363();
+			unitTest.test_for_issue();
+			System.out.println("Issue1363#test_for_issue passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("Issue1363#test_for_issue failed.");
+		}
+		try {
+			Issue1363 unitTest =  new Issue1363();
+			unitTest.test_for_issue_1();
+			System.out.println("Issue1363#test_for_issue_1passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("Issue1363#test_for_issue_1 failed.");
+		}
+		try {
+			ArrayListMultimapTest unitTest = new ArrayListMultimapTest();
+			unitTest.test_for_multimap();
+			System.out.println("ArrayListMultimapTest#test_for_multimap passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("ArrayListMultimapTest#test_for_multimap failed.");
 		}
 		setExitStatus();
 		return getExitStatus();

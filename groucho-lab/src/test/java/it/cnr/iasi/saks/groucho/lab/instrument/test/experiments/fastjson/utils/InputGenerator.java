@@ -1,5 +1,6 @@
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.utils;
 
+import clojure.lang.Obj;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -8,6 +9,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.primitives.Ints;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1254.WriteDuplicateType;
+import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1273.Issue1363;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1273.Issue2447;
 import com.google.common.collect.ArrayListMultimap;
 
@@ -226,6 +228,21 @@ public class InputGenerator {
         vo.id =  Math.abs(id);
         vo.location = new Issue2447.Location(Math.abs(lon), Math.abs(lat));
 
+        System.out.println("... input generation done!");
+        return vo;
+    }
+
+    /* Generates a DataSimpleVO with a random String id and value */
+    public static com.alibaba.json.bvt.issue_1300.Issue1363.DataSimpleVO generateDataSimpleVO (byte[] array){
+
+        HashMap<String, String> jsonHashMap = generateSimpleHashMap(array);
+        List<String> keysAsArray = new ArrayList<>(jsonHashMap.keySet());
+
+        Random r = new Random();
+        String key = jsonHashMap.get(keysAsArray.get(r.nextInt(keysAsArray.size())));
+        Object value =  jsonHashMap.get(key);
+
+        com.alibaba.json.bvt.issue_1300.Issue1363.DataSimpleVO vo = new com.alibaba.json.bvt.issue_1300.Issue1363.DataSimpleVO(key, value);
         System.out.println("... input generation done!");
         return vo;
     }

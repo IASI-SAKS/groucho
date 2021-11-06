@@ -120,6 +120,49 @@ public class FastjsonInvivoTestClassV1273 {
 
 	/*
 	- Fastjson Version - 1.2.73
+	- Flaky Test(s) - Issue1363#test_for_issue,
+				  Issue1363#test_for_issue_1
+	*/
+	public boolean invivo1363(Context c) throws JsonProcessingException {
+		this.configure();
+		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+
+		try {
+			shield.applyCheckpoint(contextData);
+			Issue1363 unitTest = new Issue1363();
+			com.alibaba.json.bvt.issue_1300.Issue1363.DataSimpleVO a = InputGenerator.generateDataSimpleVO(contextData);
+			com.alibaba.json.bvt.issue_1300.Issue1363.DataSimpleVO b = InputGenerator.generateDataSimpleVO(contextData);
+			unitTest.configure(a,b);
+			unitTest.test_for_issue();
+			System.out.println("Issue1363#test_for_issue passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("Issue1363#test_for_issue failed.");
+		}
+		try {
+			shield.applyCheckpoint(contextData);
+			Issue1363 unitTest =  new Issue1363();
+			com.alibaba.json.bvt.issue_1300.Issue1363.DataSimpleVO a = InputGenerator.generateDataSimpleVO(contextData);
+			com.alibaba.json.bvt.issue_1300.Issue1363.DataSimpleVO b = InputGenerator.generateDataSimpleVO(contextData);
+			unitTest.configure(a,b);
+			unitTest.test_for_issue_1();
+			System.out.println("Issue1363#test_for_issue_1 passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("Issue1363#test_for_issue_1 failed.");
+		}
+		finally {
+			shield.applyRollback(contextData);
+		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	/*
+	- Fastjson Version - 1.2.73
 	- Flaky Test(s) - Issue1780_JSONObject#test_for_issue, Issue1780_Module#test_for_issue
 	- Context input: JSONObject ;
 	*/
