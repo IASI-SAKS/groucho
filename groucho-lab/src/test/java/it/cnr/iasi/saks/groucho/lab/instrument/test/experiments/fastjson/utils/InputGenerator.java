@@ -6,8 +6,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.primitives.Ints;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1254.WriteDuplicateType;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1273.Issue2447;
+import com.google.common.collect.ArrayListMultimap;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -168,6 +170,36 @@ public class InputGenerator {
         return cartMap;
     }
 
+    /* Generates an ArrayListMultimap with random elements */
+    public static ArrayListMultimap<String, Integer> generateArrayListMultimap(byte[] array) {
+
+        ArrayListMultimap<String, Integer> multimap = ArrayListMultimap.create();
+        HashMap<String, String> jsonKeys = generateSimpleHashMap(array);
+        List<String> keysAsArray = new ArrayList<>(jsonKeys.keySet());
+
+        //Number of ArrayListMultimap elements
+        int mapElements = new Random().nextInt(10);
+
+        for (int i = 0; i < mapElements; i++){
+            //generate a random key from context
+            Random r = new Random();
+            String key = jsonKeys.get(keysAsArray.get(r.nextInt(keysAsArray.size())));
+
+            //generate random elements
+            int intElements = new Random().nextInt(10);
+            int[] params = new int[intElements];
+
+            for (int j = 0; j < intElements; j++){
+                int randomInteger = new Random().nextInt(1000);
+                params[j] = randomInteger;
+            }
+            multimap.putAll(key, Ints.asList(params));
+        }
+
+        System.out.println("... input generation done!");
+        return multimap;
+    }
+
     /* Generates a DianDianCart with a random id */
     public static WriteDuplicateType.DianDianCart generateDianDianCart(byte[] array){
 
@@ -264,6 +296,7 @@ public class InputGenerator {
 
         return randomKey;
     }
+
 
         //Retrieves leaf nodes
         public static HashMap<String,String> createHashMap(Object input, String k, HashMap<String,String> map) throws org.json.JSONException {

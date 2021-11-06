@@ -17,16 +17,12 @@
  */
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import it.cnr.iasi.saks.groucho.common.Context;
 import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1273.*;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.utils.InputGenerator;
-import it.cnr.iasi.saks.groucho.performanceOverheadTest.TestGovernanceManager_ActivationWithProbability;
 
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
@@ -157,6 +153,36 @@ public class FastjsonInvivoTestClassV1273 {
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("Issue1780_Module#test_for_issue failed.");
+		}
+		finally {
+			shield.applyRollback(contextData);
+		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	/*
+	- Fastjson Version - 1.2.73
+	- Flaky Test(s) - ArrayListMultimapTest#test_for_multimap
+	- Context input: MultiMap;
+	*/
+	public boolean invivoTestMultiMap(Context c) {
+		this.configure();
+		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
+
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+
+		try {
+			shield.applyCheckpoint(contextData);
+			ArrayListMultimapTest unitTest = new ArrayListMultimapTest();
+			unitTest.configure(InputGenerator.generateArrayListMultimap(contextData));
+			unitTest.test_for_multimap();
+			System.out.println("ArrayListMultimapTest#test_for_multimap passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("ArrayListMultimapTest#test_for_multimap failed.");
 		}
 		finally {
 			shield.applyRollback(contextData);
