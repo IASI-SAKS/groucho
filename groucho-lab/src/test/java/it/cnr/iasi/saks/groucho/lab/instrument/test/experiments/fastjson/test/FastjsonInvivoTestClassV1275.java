@@ -20,9 +20,11 @@ package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 import it.cnr.iasi.saks.groucho.common.Context;
 import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1275.Issue2428;
+import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1275.TypeUtilsTest;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.utils.InputGenerator;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class FastjsonInvivoTestClassV1275 {
@@ -52,6 +54,31 @@ public class FastjsonInvivoTestClassV1275 {
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("Issue2428#test_for_issue failed.");
+		}
+		finally {
+			shield.applyRollback(contextData);
+		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoTypeUtils(Context c) {
+		this.configure();
+		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
+
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+
+		try {
+			shield.applyCheckpoint(contextData);
+			TypeUtilsTest unitTest = new TypeUtilsTest();
+			unitTest.configure(InputGenerator.generateDate());
+			unitTest.test_cast_to_Timestamp_1970_01_01_00_00_00();
+			System.out.println("TypeUtilsTest#test_cast_to_Timestamp_1970_01_01_00_00_00 passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("TypeUtilsTest#test_cast_to_Timestamp_1970_01_01_00_00_00 failed.");
 		}
 		finally {
 			shield.applyRollback(contextData);
