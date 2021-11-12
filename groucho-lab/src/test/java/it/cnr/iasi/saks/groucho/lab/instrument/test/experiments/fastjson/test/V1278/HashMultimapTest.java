@@ -3,13 +3,13 @@ package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashMultimap;
-import junit.framework.TestCase;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Iterator;
 import java.util.Set;
 
-public class HashMultimapTest extends TestCase {
+public class HashMultimapTest {
 
     HashMultimap map;
 
@@ -31,7 +31,7 @@ public class HashMultimapTest extends TestCase {
         String expected = buildExpected(this.map);
         System.out.println("Expected: ");
         System.out.println(expected);
-        assertEquals(expected, json);
+        Assert.assertEquals(expected, json);
     }
 
     public String buildExpected(HashMultimap multimap){
