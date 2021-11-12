@@ -1,4 +1,3 @@
-/*Fastjson V 1.2.73*/
 package com.alibaba.json.bvt.guava;
 
 import com.alibaba.fastjson.JSON;

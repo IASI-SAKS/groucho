@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.HashMultimap;
 import com.google.common.primitives.Ints;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1254.WriteDuplicateType;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1273.Issue1363;
@@ -115,7 +116,7 @@ public class InputGenerator {
 
         while (entries.hasNext()) {
             Map.Entry<String, JsonNode> entry = (Map.Entry<String, JsonNode>) entries.next();
-            map.put(entry.getKey(), entry.getValue());
+            map.put(entry.getKey(), entry.getValue().toString());
         }
 
         System.out.println("... input generation done!");
@@ -200,6 +201,33 @@ public class InputGenerator {
 
         System.out.println("... input generation done!");
         return multimap;
+    }
+
+    //Geneate HashMultimap from json object
+    public static HashMultimap<String, String> generateHashMultimap(byte[] array) throws JsonProcessingException {
+
+        HashMultimap<String, String> hashmultimap = HashMultimap.create();
+        HashMap<String,String> leafnodes = generateHashMap(array);
+        Iterator<?> keys = leafnodes.keySet().iterator();
+        while (keys.hasNext()){
+            String key = keys.next().toString();
+            String value = leafnodes.get(key).toString();
+            hashmultimap.put(key,value);
+        }
+        return hashmultimap;
+    }
+
+    //Geneate HashMultimap from json object leaf nodes
+    public static HashMultimap<String, String> generateSimpleHashMultimap(byte[] array) {
+        HashMultimap<String, String> hashmultimap = HashMultimap.create();
+        HashMap<String,String> leafnodes = generateSimpleHashMap(array);
+        Iterator<?> keys = leafnodes.keySet().iterator();
+        while (keys.hasNext()){
+            String key = keys.next().toString();
+            String value = leafnodes.get(key);
+            hashmultimap.put(key,value);
+        }
+        return hashmultimap;
     }
 
     /* Generates a DianDianCart with a random id */
