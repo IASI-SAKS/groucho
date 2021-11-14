@@ -1,25 +1,33 @@
-package com.alibaba.json.bvt.parser.deser;
+package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1273;
+
+import com.alibaba.fastjson.JSON;
+import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import org.junit.Assert;
-import junit.framework.TestCase;
+public class SqlDateDeserializerTest2 {
 
-import com.alibaba.fastjson.JSON;
+    java.util.Date d;
 
-public class SqlDateDeserializerTest2 extends TestCase {
-    protected void setUp() throws Exception {
+    public SqlDateDeserializerTest2(){
         JSON.defaultTimeZone = TimeZone.getTimeZone("Asia/Shanghai");
         JSON.defaultLocale = Locale.CHINA;
+        this.d = new java.util.Date();
     }
-    
-    
-    public void test_sqlDate() throws Exception {
-        java.util.Date date = new java.util.Date();
-        long millis = date.getTime();
+
+    public void configure(java.util.Date d){
+        this.d = d;
+    }
+
+    @Test
+    public void test_sqlDate() {
+        long millis = this.d.getTime();
         long millis2 = (millis / 1000)  * 1000;
         
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", JSON.defaultLocale);

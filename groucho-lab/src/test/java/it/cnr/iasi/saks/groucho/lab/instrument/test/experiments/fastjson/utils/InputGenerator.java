@@ -28,6 +28,12 @@ public class InputGenerator {
         return new Date();
     }
 
+    /* Generates a simple sql date */
+    public static java.util.Date generateSqlDate(){
+        System.out.println("... input generation done!");
+        return new java.util.Date();
+    }
+
     /* Generates a simple Timezone */
     public static TimeZone generateTimeZone(){
         TimeZone tz = TimeZone.getDefault();
