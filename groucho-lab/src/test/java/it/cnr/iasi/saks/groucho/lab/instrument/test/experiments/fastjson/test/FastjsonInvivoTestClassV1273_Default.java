@@ -27,6 +27,8 @@ import com.alibaba.json.bvt.issue_1700.Issue1780_Module;
 import com.alibaba.json.bvt.writeClassName.V1273.WriteDuplicateType;
 import it.cnr.iasi.saks.groucho.common.Context;
 import com.alibaba.json.bvt.parser.deser.SqlDateDeserializerTest2;
+import com.alibaba.json.bvt.issue_1900.Issue1972;
+
 
 
 import java.util.ArrayList;
@@ -140,6 +142,14 @@ public class FastjsonInvivoTestClassV1273_Default {
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("SqlDateDeserializerTest2#test_sqlDate failed.");
+		}
+		try {
+			Issue1972 unitTest = new Issue1972();
+			unitTest.test_for_issue();
+			System.out.println("Issue1972#test_for_issue passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("Issue1972#test_for_issue failed.");
 		}
 		setExitStatus();
 		return getExitStatus();

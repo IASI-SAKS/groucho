@@ -295,6 +295,36 @@ public class FastjsonInvivoTestClassV1273 {
 	}
 
 	/*
+- Fastjson Version - 1.2.73
+- Flaky Test(s) - SqlDateDeserializerTest2#test_sqlDate
+- Context input: java.util.Date d;
+*/
+	public boolean invivo1972(Context c) {
+		this.configure();
+		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
+
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		try {
+			shield.applyCheckpoint(contextData);
+			Issue1972 unitTest = new Issue1972();
+			unitTest.configure(InputGenerator.generateAlibabaJSONObject(contextData));
+			unitTest.test_for_issue();
+			System.out.println("Issue1972#test_for_issue passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("Issue1972#test_for_issue failed.");
+		}
+		finally {
+			shield.applyRollback(contextData);
+		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
+
+	/*
 	- Fastjson Version - 1.2.73
 	- Flaky Test(s) - Issue1492#test_for_issue
 	- Context input: JSONObject, JSONArray;

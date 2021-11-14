@@ -1,4 +1,3 @@
-/* Fastjon V. 1.2.73*/
 package com.alibaba.json.bvt.issue_1900;
 
 import com.alibaba.fastjson.JSONArray;
