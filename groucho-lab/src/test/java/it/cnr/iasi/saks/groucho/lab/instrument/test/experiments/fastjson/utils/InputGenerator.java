@@ -237,6 +237,24 @@ public class InputGenerator {
         return multimap;
     }
 
+    //Generate nested set from leaf nodes
+    public static HashSet<Map.Entry<String, Map.Entry<String, String>>> generateNestedSet(byte[] array) throws JsonProcessingException {
+        HashSet<Map.Entry<String, Map.Entry<String, String>>> nestedSet = new HashSet<>();
+        HashMap<String,String> leafnodes = generateSimpleHashMap(array);
+        Iterator<?> keys = leafnodes.keySet().iterator();
+        while (keys.hasNext()){
+            String key = keys.next().toString();
+            String value = leafnodes.get(key);
+            AbstractMap.SimpleEntry<String, String> sEntry =  new AbstractMap.SimpleEntry<>(key, value);
+            Random r = new Random();
+            char c = (char)(r.nextInt(26)+'a');
+            nestedSet.add(new AbstractMap.SimpleEntry<>(Character.toString(c), sEntry));
+        }
+        return nestedSet;
+    }
+
+
+
     //Geneate HashMultimap from json object
     public static HashMultimap<String, String> generateHashMultimap(byte[] array) throws JsonProcessingException {
 

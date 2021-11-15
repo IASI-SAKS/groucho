@@ -28,8 +28,7 @@ import com.alibaba.json.bvt.writeClassName.V1273.WriteDuplicateType;
 import it.cnr.iasi.saks.groucho.common.Context;
 import com.alibaba.json.bvt.parser.deser.SqlDateDeserializerTest2;
 import com.alibaba.json.bvt.issue_1900.Issue1972;
-
-
+import com.alibaba.json.bvt.JSONObjectTest_readObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -150,6 +149,14 @@ public class FastjsonInvivoTestClassV1273_Default {
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("Issue1972#test_for_issue failed.");
+		}
+		try {
+			JSONObjectTest_readObject unitTest = new JSONObjectTest_readObject();
+			unitTest.test_6();
+			System.out.println("JSONObjectTest_readObject#test_6 passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("JSONObjectTest_readObject#test_6 failed.");
 		}
 		setExitStatus();
 		return getExitStatus();
