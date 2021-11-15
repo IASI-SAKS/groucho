@@ -48,13 +48,19 @@ public class InputGenerator {
         return l;
     }
 
-
-
-    // Generates a simple alibaba JSON Object (leaf nodes)
+    // Generates alibaba JSON Object
     public static JSONObject generateAlibabaJSONObject(byte[] array) {
         String text = "";
         text =  new String(array);
         JSONObject alibabaJsonObject = JSON.parseObject(text);
+        return alibabaJsonObject;
+    }
+
+    // Generates a simple alibaba JSON Object (leaf nodes)
+    public static JSONObject generateSimpleAlibabaJSONObject(byte[] array) {
+        String text = "";
+        text =  new String(array);
+        JSONObject alibabaJsonObject = new JSONObject();
         HashMap<String,String> leafnodes = generateSimpleHashMap(array);
         Iterator<?> keys = leafnodes.keySet().iterator();
         while (keys.hasNext()){

@@ -309,7 +309,7 @@ public class FastjsonInvivoTestClassV1273 {
 		try {
 			shield.applyCheckpoint(contextData);
 			Issue1972 unitTest = new Issue1972();
-			unitTest.configure(InputGenerator.generateAlibabaJSONObject(contextData));
+			unitTest.configure(InputGenerator.generateSimpleAlibabaJSONObject(contextData));
 			unitTest.test_for_issue();
 			System.out.println("Issue1972#test_for_issue passed.");
 		}catch(Throwable t){
@@ -322,6 +322,36 @@ public class FastjsonInvivoTestClassV1273 {
 		setExitStatus();
 		return getExitStatus();
 	}
+
+	/*
+- Fastjson Version - 1.2.73
+- Flaky Test(s) - JSONObjectTest_readObject#test_6
+- Context input: java.util.Date d;
+*/
+	public boolean readObject(Context c) {
+		this.configure();
+		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
+
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		try {
+			shield.applyCheckpoint(contextData);
+			JSONObjectTest_readObject unitTest = new JSONObjectTest_readObject();
+			unitTest.configure(InputGenerator.generateAlibabaJSONObject(contextData));
+			unitTest.test_6();
+			System.out.println("JSONObjectTest_readObject#test_6 passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("JSONObjectTest_readObject#test_6 failed.");
+		}
+		finally {
+			shield.applyRollback(contextData);
+		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
 
 
 	/*
