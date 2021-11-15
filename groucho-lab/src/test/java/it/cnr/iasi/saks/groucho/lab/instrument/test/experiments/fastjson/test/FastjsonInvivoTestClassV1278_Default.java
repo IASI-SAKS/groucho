@@ -19,6 +19,7 @@ package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 
 import it.cnr.iasi.saks.groucho.common.Context;
 import com.alibaba.json.bvt.guava.HashMultimapTest;
+import com.alibaba.json.bvt.issue_1500.Issue1584;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,14 @@ public class FastjsonInvivoTestClassV1278_Default {
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("HashMultimapTest#test_for_multimap failed.");
+		}
+		try {
+			Issue1584 unitTest = new Issue1584();
+			unitTest.test_for_issue();
+			System.out.println("Issue1584#test_for_issue passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("Issue1584#test_for_issue failed.");
 		}
 		setExitStatus();
 		return getExitStatus();

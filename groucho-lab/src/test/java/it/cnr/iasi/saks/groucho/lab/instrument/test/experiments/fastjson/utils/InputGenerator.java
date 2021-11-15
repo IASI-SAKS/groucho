@@ -48,7 +48,14 @@ public class InputGenerator {
         return l;
     }
 
-    // Generates alibaba JSON Object
+    // Generates a string representation of a JSON Object
+    public static String generateString(byte[] array) {
+        String text = new String(array);
+        System.out.println("... input generation done!");
+        return text;
+    }
+
+    // Generates an alibaba JSON Object
     public static JSONObject generateAlibabaJSONObject(byte[] array) {
         String text = "";
         text =  new String(array);
@@ -58,8 +65,6 @@ public class InputGenerator {
 
     // Generates a simple alibaba JSON Object (leaf nodes)
     public static JSONObject generateSimpleAlibabaJSONObject(byte[] array) {
-        String text = "";
-        text =  new String(array);
         JSONObject alibabaJsonObject = new JSONObject();
         HashMap<String,String> leafnodes = generateSimpleHashMap(array);
         Iterator<?> keys = leafnodes.keySet().iterator();

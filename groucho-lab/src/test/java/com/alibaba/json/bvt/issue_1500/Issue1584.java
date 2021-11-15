@@ -1,4 +1,3 @@
-/*Fastjson V 1.2.73*/
 package com.alibaba.json.bvt.issue_1500;
 
 import clojure.lang.Obj;
