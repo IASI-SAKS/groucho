@@ -22,6 +22,7 @@ import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1278.HashMultimapTest;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1278.Issue1584;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1278.Issue3082;
+import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1278.MaxBufSizeTest;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.utils.InputGenerator;
 
 import java.util.ArrayList;
@@ -50,6 +51,31 @@ public class FastjsonInvivoTestClassV1278 {
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("HashMultimapTest#test_for_multimap failed.");
+		}
+		finally {
+			shield.applyRollback(contextData);
+		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoInvivoBufSize(Context c) {
+		this.configure();
+		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
+
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+
+		try {
+			shield.applyCheckpoint(contextData);
+			MaxBufSizeTest unitTest = new MaxBufSizeTest();
+			unitTest.configure(InputGenerator.generateSerializeWriter(contextData));
+			unitTest.test_max_buf();
+			System.out.println("MaxBufSizeTest#test_max_buf passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("MaxBufSizeTest#test_max_buf failed.");
 		}
 		finally {
 			shield.applyRollback(contextData);

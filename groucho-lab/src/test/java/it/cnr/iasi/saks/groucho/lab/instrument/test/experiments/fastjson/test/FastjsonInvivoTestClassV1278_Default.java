@@ -20,6 +20,7 @@ package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 import it.cnr.iasi.saks.groucho.common.Context;
 import com.alibaba.json.bvt.guava.HashMultimapTest;
 import com.alibaba.json.bvt.issue_1500.Issue1584;
+import com.alibaba.json.bvt.serializer.MaxBufSizeTest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,14 @@ public class FastjsonInvivoTestClassV1278_Default {
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("Issue1584#test_for_issue failed.");
+		}
+		try {
+			MaxBufSizeTest unitTest = new MaxBufSizeTest();
+			unitTest.test_max_buf();
+			System.out.println("MaxBufSizeTest#test_max_buf passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("MaxBufSizeTest#test_max_buf failed.");
 		}
 		setExitStatus();
 		return getExitStatus();
