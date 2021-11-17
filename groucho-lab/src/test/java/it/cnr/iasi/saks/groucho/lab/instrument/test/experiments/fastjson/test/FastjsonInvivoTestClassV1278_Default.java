@@ -21,6 +21,7 @@ import it.cnr.iasi.saks.groucho.common.Context;
 import com.alibaba.json.bvt.guava.HashMultimapTest;
 import com.alibaba.json.bvt.issue_1500.Issue1584;
 import com.alibaba.json.bvt.serializer.MaxBufSizeTest;
+import com.alibaba.json.bvt.asm.SortFieldTest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +66,14 @@ public class FastjsonInvivoTestClassV1278_Default {
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("MaxBufSizeTest#test_max_buf failed.");
+		}
+		try {
+			SortFieldTest unitTest = new SortFieldTest();
+			unitTest.test_0();
+			System.out.println("invivoSortField#test_0 passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("invivoSortField#test_0 failed.");
 		}
 		setExitStatus();
 		return getExitStatus();

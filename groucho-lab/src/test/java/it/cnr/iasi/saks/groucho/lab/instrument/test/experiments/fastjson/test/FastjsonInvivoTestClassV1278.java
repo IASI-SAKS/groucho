@@ -23,6 +23,8 @@ import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1278.Issue1584;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1278.Issue3082;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1278.MaxBufSizeTest;
+import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1278.SortFieldTest;
+
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.utils.InputGenerator;
 
 import java.util.ArrayList;
@@ -109,6 +111,30 @@ public class FastjsonInvivoTestClassV1278 {
 		return getExitStatus();
 	}
 
+	public boolean invivoSortField(Context c) {
+		this.configure();
+		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
+
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+
+		try {
+			shield.applyCheckpoint(contextData);
+			SortFieldTest unitTest = new SortFieldTest();
+			unitTest.configure(InputGenerator.generateAlibabaJSONObject(contextData));
+			unitTest.test_1();
+			System.out.println("invivoSortField#test_1 passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("invivoSortField#test_1 failed.");
+		}
+		finally {
+			shield.applyRollback(contextData);
+		}
+		setExitStatus();
+		return getExitStatus();
+	}
 
 	public boolean invivo3082(Context c) {
 		this.configure();
