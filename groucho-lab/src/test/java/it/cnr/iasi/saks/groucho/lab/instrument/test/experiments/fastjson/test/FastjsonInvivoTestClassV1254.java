@@ -137,32 +137,7 @@ public class FastjsonInvivoTestClassV1254 {
 		Date input = InputGenerator.generateDate();
 
 		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
-		try {
-			shield.applyCheckpoint(input);
-			Issue1298 unitTest = new Issue1298();
-			unitTest.configure(input);
-			unitTest.test_for_issue();
-			System.out.println("Issue1298#test_for_issue passed.");
-		}catch(Throwable t){
-			System.out.println(t.getMessage());
-			System.out.println("Issue1298#test_for_issue failed.");
-		}
-		finally {
-			shield.applyRollback(input);
-		}
-		try {
-			shield.applyCheckpoint(input);
-			Issue1298 unitTest = new Issue1298();
-			unitTest.configure(input);
-			unitTest.test_for_issue_1();
-			System.out.println("Issue1298#test_for_issue_1 passed.");
-		}catch(Throwable t){
-			System.out.println(t.getMessage());
-			System.out.println("Issue1298#test_for_issue_1  failed.");
-		}
-		finally {
-			shield.applyRollback(input);
-		}
+
 		try {
 			shield.applyCheckpoint(input);
 			Issue1977 unitTest = new Issue1977();
@@ -255,6 +230,47 @@ public class FastjsonInvivoTestClassV1254 {
 			shield.applyRollback(input);
 		}
 	}
+
+	public boolean invivo1298(Context c) {
+		this.configure();
+		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
+
+		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
+
+		String mName = this.getCurrentMethodName();
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+
+		System.out.println("["+mName+"] Testing invivo ...");
+		try {
+			shield.applyCheckpoint(contextData);
+			Issue1298 unitTest = new Issue1298();
+			unitTest.configure(InputGenerator.generateAlibabaJSONObject(contextData));
+			unitTest.test_for_issue();
+			System.out.println("Issue1298#test_for_issue passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("Issue1298#test_for_issue failed.");
+		}finally {
+			shield.applyRollback(contextData);
+		}
+		try {
+			shield.applyCheckpoint(contextData);
+			Issue1298 unitTest = new Issue1298();
+			//unitTest.configure(InputGenerator.generateAlibabaJSONObject(contextData));
+			unitTest.test_for_issue_1();
+			System.out.println("Issue1298#test_for_issue_1 passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("Issue1298#test_for_issue_1  failed.");
+		}finally {
+			shield.applyRollback(contextData);
+		}
+
+		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
+		setExitStatus();
+		return getExitStatus();
+	}
+
 
 	/*
 	- Fastjson Version - 1.2.54

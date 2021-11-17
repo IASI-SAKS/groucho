@@ -25,12 +25,26 @@ public class Issue1298 {
     String formattedDate;
     String formattedDate_1;
 
+    JSONObject object;
+    JSONObject object_1;
+
+
     public Issue1298() {
+        this.object = new JSONObject();
+        this.object_1 = new JSONObject();
+
         this.formattedDate = "2017-06-29T08:06:30.000+05:30";
         this.formattedDate_1 = "2017-08-15 20:00:00.000";
+
+        object.put("date", formattedDate);
+        object_1.put("date", formattedDate_1);
     }
 
-    public void configure(Date d){
+    public void configure(JSONObject o){
+
+        this.object = o;
+        this.object_1 = o;
+        Date d = new Date();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         this.formattedDate = sdf.format(d);
@@ -38,19 +52,18 @@ public class Issue1298 {
         SimpleDateFormat sdf_1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         this.formattedDate_1 = sdf_1.format(d);
 
+        object.put("date", formattedDate);
+        object_1.put("date", formattedDate_1);
+
         System.out.println("Configuration done.");
     }
 
     @Test
     public void test_for_issue() throws Exception {
-        JSONObject object = new JSONObject();
-
-        object.put("date", formattedDate);
 
         Date date = object.getObject("date", Date.class);
-
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+        //sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         String expected = "\"" + sdf.format(date) + "+08:00\""; // +08:00 is Asia/Shanghai GMT Offset
 
         Assert.assertEquals(expected, JSON.toJSONString(date, SerializerFeature.UseISO8601DateFormat));
@@ -58,14 +71,11 @@ public class Issue1298 {
 
     @Test
     public void test_for_issue_1() throws Exception {
-        JSONObject object = new JSONObject();
 
-        object.put("date", formattedDate_1);
-
-        Date date = object.getObject("date", Date.class);
+        Date date = object_1.getObject("date", Date.class);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+        //sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         String expected = "\"" + sdf.format(date) + "+08:00\""; // +08:00 is Asia/Shanghai GMT Offset
 
         Assert.assertEquals(expected, JSON.toJSONString(date, SerializerFeature.UseISO8601DateFormat));
