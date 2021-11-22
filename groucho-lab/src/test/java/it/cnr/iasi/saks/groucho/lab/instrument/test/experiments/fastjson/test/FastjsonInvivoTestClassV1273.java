@@ -269,7 +269,7 @@ public class FastjsonInvivoTestClassV1273 {
 	- Flaky Test(s) - Issue1177_1#test_for_issue
 	- Context input: JSONObject ;
 	*/
-	public boolean invivoTest1177(Context c) {
+	public boolean invivoTest1177_1(Context c) {
 		this.configure();
 		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
 
@@ -280,7 +280,7 @@ public class FastjsonInvivoTestClassV1273 {
 		try {
 			shield.applyCheckpoint(contextData);
 			Issue1177_1 unitTest = new Issue1177_1();
-			unitTest.configure(InputGenerator.generateJSONObject(0, contextData));
+			unitTest.configure(InputGenerator.generateAlibabaJSONObject(contextData));
 			unitTest.test_for_issue();
 			System.out.println("Issue1177_1#test_for_issue passed.");
 		}catch(Throwable t){
