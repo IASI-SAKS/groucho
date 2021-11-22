@@ -63,7 +63,7 @@ public class Issue1298 {
 
         Date date = object.getObject("date", Date.class);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        //sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         String expected = "\"" + sdf.format(date) + "+08:00\""; // +08:00 is Asia/Shanghai GMT Offset
 
         Assert.assertEquals(expected, JSON.toJSONString(date, SerializerFeature.UseISO8601DateFormat));
@@ -75,7 +75,7 @@ public class Issue1298 {
         Date date = object_1.getObject("date", Date.class);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        //sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         String expected = "\"" + sdf.format(date) + "+08:00\""; // +08:00 is Asia/Shanghai GMT Offset
 
         Assert.assertEquals(expected, JSON.toJSONString(date, SerializerFeature.UseISO8601DateFormat));
