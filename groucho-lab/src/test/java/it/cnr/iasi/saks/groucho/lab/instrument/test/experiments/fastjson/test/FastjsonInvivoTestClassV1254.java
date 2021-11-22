@@ -20,7 +20,9 @@ package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.gson.JsonObject;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.utils.*;
 import it.cnr.iasi.saks.groucho.common.Context;
 import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
@@ -85,21 +87,20 @@ public class FastjsonInvivoTestClassV1254 {
 	- Flaky Test(s) - Issue1480#test_for_issue
 	- Context input: HashMap<String, String>
 	*/
-	public boolean invivoParseMap(Context c) throws JsonProcessingException {
+	public boolean invivo1480(Context c) throws JsonProcessingException {
 		this.configure();
 		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
-		HashMap<String, String> contextMap = InputGenerator.generateSimpleHashMap(contextData);
-
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
+		JSONObject contextObj = InputGenerator.generateAlibabaJSONObject(contextData);
 
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
 		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
 
 		try {
-			shield.applyCheckpoint(contextData);
+			shield.applyCheckpoint(contextObj);
+
 			Issue1480 unitTest = new Issue1480();
-			unitTest.configure(contextMap);
+			unitTest.configure(contextObj);
 			unitTest.test_for_issue();
 			System.out.println("Issue1480#test_for_issue passed.");
 		}catch(Throwable t){
@@ -108,7 +109,6 @@ public class FastjsonInvivoTestClassV1254 {
 		}finally {
 			shield.applyRollback(contextData);
 		}
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
 		setExitStatus();
 		return getExitStatus();
 	}
