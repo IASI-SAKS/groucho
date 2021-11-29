@@ -1,23 +1,16 @@
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.utils;
 
-import clojure.lang.Obj;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializeWriter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.HashMultimap;
 import com.google.common.primitives.Ints;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1254.WriteDuplicateType;
-import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1273.Issue1363;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1273.Issue2447;
 import com.google.common.collect.ArrayListMultimap;
-import org.junit.Assert;
-
-import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -50,14 +43,6 @@ public class InputGenerator {
         Locale l = Locale.getDefault();
         System.out.println("... input generation done!");
         return l;
-    }
-
-    /* Generates a SerializerWriter */
-    public static SerializeWriter generateSerializeWriter(byte[] array){
-        int size = array.length;
-        SerializeWriter writer = new SerializeWriter(null, size);
-        System.out.println("... input generation done!");
-        return writer;
     }
 
     // Generates a string representation of a JSON Object
@@ -148,8 +133,7 @@ public class InputGenerator {
         return randomJa;
     }
 
-
-    /* Generates a HashMap from a JSONObject (depth 1) */
+    /* Generates a HashMap<String String> from a JSONObject (depth 1) */
     public static HashMap<String, String> generateHashMap(byte[] array) throws JsonProcessingException {
         String text = new String(array);
 

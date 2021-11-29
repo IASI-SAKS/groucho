@@ -26,6 +26,7 @@ import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1278.SortFieldTest;
 
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.utils.InputGenerator;
+import com.alibaba.fastjson.serializer.SerializeWriter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,18 +62,19 @@ public class FastjsonInvivoTestClassV1278 {
 		return getExitStatus();
 	}
 
-	public boolean invivoInvivoBufSize(Context c) {
+	public boolean invivoMaxBufSize(Context c) {
 		this.configure();
-		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
+		SerializeWriter sw = (SerializeWriter) c.getInstrumentedObject();
 
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
 		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
 
 		try {
-			shield.applyCheckpoint(contextData);
+			shield.applyCheckpoint(sw);
 			MaxBufSizeTest unitTest = new MaxBufSizeTest();
-			unitTest.configure(InputGenerator.generateSerializeWriter(contextData));
+
+			unitTest.configure(sw);
 			unitTest.test_max_buf();
 			System.out.println("MaxBufSizeTest#test_max_buf passed.");
 		}catch(Throwable t){
@@ -80,7 +82,7 @@ public class FastjsonInvivoTestClassV1278 {
 			System.out.println("MaxBufSizeTest#test_max_buf failed.");
 		}
 		finally {
-			shield.applyRollback(contextData);
+			shield.applyRollback(sw);
 		}
 		setExitStatus();
 		return getExitStatus();
