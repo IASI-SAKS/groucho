@@ -279,7 +279,7 @@ public class FastjsonInvivoTestClassV1254 {
 	- Flaky Test(s) - WriteDuplicateType
 	- Context input: LinkedHashMap<String, HashMap<String, Object>>
 	*/
-	public boolean invivoCartMap(Context c) throws InvocationTargetException{
+	public boolean invivoWriteDuplicateType(Context c) throws InvocationTargetException, JsonProcessingException {
 		this.configure();
 		byte[] contextData = (byte[]) c.getOtherReferencesInContext().get(0);
 
@@ -288,7 +288,7 @@ public class FastjsonInvivoTestClassV1254 {
 
 		System.out.println("["+mName+"] Testing invivo ...");
 		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
-		LinkedHashMap<String, HashMap<String, Object>> cartMap = InputGenerator.generateCartMap(contextData);
+		LinkedHashMap<String, HashMap<String, Object>> cartMap = InputGenerator.generateLinkedHashMapOfHashMap(contextData);
 
 		try {
 			shield.applyCheckpoint(cartMap);
@@ -343,11 +343,11 @@ public class FastjsonInvivoTestClassV1254 {
 	}
 
 	/*
-	- Fastjson Version - 1.2.54
-	- Class Under Test - JSONPath
-	- Method Under Test - set() (?)
-	- Context input: HashMap<String, String>
-	*/
+        - Fastjson Version - 1.2.54
+        - Class Under Test - JSONPath
+        - Method Under Test - set() (?)
+        - Context input: HashMap<String, String>
+        */
 	public boolean invivoJSONPath(Context c) throws InvocationTargetException, JsonProcessingException {
 		this.configure();
 

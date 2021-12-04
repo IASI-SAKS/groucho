@@ -388,7 +388,7 @@ public class FastjsonInvivoTestClassV1273 {
 	- Flaky Test(s) - WriteDuplicateType#test_dupType
 	- Context input: LinkedHashMap<String, JSONObject>
 	*/
-	public boolean invivoDupType(Context c) throws InvocationTargetException{
+	public boolean invivoWriteDuplicateType(Context c) throws InvocationTargetException{
 		this.configure();
 		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
 		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
@@ -398,7 +398,7 @@ public class FastjsonInvivoTestClassV1273 {
 		try {
 			shield.applyCheckpoint(contextData);
 			WriteDuplicateType unitTest = new WriteDuplicateType();
-			unitTest.configure(InputGenerator.generateSimpleCartMap(contextData));
+			unitTest.configure(InputGenerator.generateLinkedHashMapOfJSONObject(contextData));
 			unitTest.test_dupType();
 			System.out.println("WriteDuplicateType#test_dupType passed.");
 		}catch(Throwable t){

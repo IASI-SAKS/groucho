@@ -44,7 +44,7 @@ public class FastjsonInvivoTestClassV1254_Default {
 
 	private static List<String> FAILED_TESTS = new ArrayList<String>();
 
-	private boolean inVivoTestDefault(Context c) {
+	public boolean inVivoTestDefault(Context c) {
 		this.configure();
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");

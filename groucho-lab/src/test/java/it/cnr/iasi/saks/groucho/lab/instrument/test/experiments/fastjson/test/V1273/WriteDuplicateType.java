@@ -4,6 +4,7 @@ package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -16,7 +17,7 @@ public class WriteDuplicateType {
     LinkedHashMap<String, JSONObject> cartMap;
 
     public WriteDuplicateType(){
-        this.cartMap = new LinkedHashMap<String, JSONObject>();
+        this.cartMap = new LinkedHashMap();
     }
 
     public void configure(LinkedHashMap<String, JSONObject> c){
@@ -27,6 +28,9 @@ public class WriteDuplicateType {
     @Test
     public void test_dupType() throws Exception {
 
+        com.alibaba.json.bvt.writeClassName.V1254.WriteDuplicateType.DianDianCart cart = new com.alibaba.json.bvt.writeClassName.V1254.WriteDuplicateType.DianDianCart();
+        cart.setId(1001);
+
         LinkedHashMap<String, JSONObject> cartMap = this.cartMap;
 
         JSONObject obj = new JSONObject();
@@ -34,19 +38,29 @@ public class WriteDuplicateType {
         obj.put(JSON.DEFAULT_TYPE_KEY, "com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart");
         cartMap.put("1001", obj);
 
-        Iterator<?> keys = this.cartMap.keySet().iterator();
+        String text1 = JSON.toJSONString(cartMap, SerializerFeature.WriteClassName);
+        String expected = "{\"@type\":\"java.util.LinkedHashMap\",";
 
-        String expected = "{\"@type\":\"java.util.LinkedHashMap\"";
+        Iterator<?> keys = this.cartMap.keySet().iterator();
 
         while (keys.hasNext()) {
             String key = (String) keys.next();
-            expected = expected + ",\"" + key + "\""
-                    + ":{\"@type\":\"com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart\",\"id\":"
-                    + Integer.valueOf(key) + "}";
+            if(cartMap.get(key) instanceof JSONObject){
+                JSONObject jo =cartMap.get(key);
+                jo.put(JSON.DEFAULT_TYPE_KEY, "com.alibaba.fastjson.JSONObject");
+              }
         }
-        expected =  expected + "}";
 
-        String text1 = JSON.toJSONString(cartMap, SerializerFeature.WriteClassName);
+        ObjectMapper om = new ObjectMapper();
+        String cartMapAsString = om.writeValueAsString(cartMap);
+        //Remove initial parenthesis
+        expected = expected + cartMapAsString.substring(1);
+
+        System.out.println("Expected: ");
+        System.out.println(expected);
+        System.out.println("Actual: ");
+        System.out.println(text1);
+
         Assert.assertEquals(expected, text1);
 
     }

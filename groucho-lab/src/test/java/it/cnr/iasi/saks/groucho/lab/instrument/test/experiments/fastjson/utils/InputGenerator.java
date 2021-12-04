@@ -73,7 +73,7 @@ public class InputGenerator {
         return alibabaJsonObject;
     }
 
-    // Generates a JSON Object
+    // Generates an org.JSON.JSONObject (0 = simple, 1 = nested)
      public static org.json.JSONObject generateJSONObject(int type, byte[] array) {
 
         String text = "";
@@ -154,6 +154,51 @@ public class InputGenerator {
         return map;
     }
 
+
+    /* Generates a LinkedHashMap<String, JSONObject> from a JSONObject (depth 1)
+    * It encodes the JSON.DEFAULT_TYPE_KEY information needed
+    *  */
+    public static LinkedHashMap<String, JSONObject> generateLinkedHashMapOfJSONObject(byte[] array) throws JsonProcessingException {
+        String text = new String(array);
+        JSONObject alibabaJsonObject = JSON.parseObject(text);
+
+        LinkedHashMap map = new LinkedHashMap<String,JSONObject>();
+
+
+        Iterator<?> keys = alibabaJsonObject.keySet().iterator();
+        while (keys.hasNext()){
+            String key = keys.next().toString();
+            if(alibabaJsonObject.get(key) instanceof  JSONObject){
+                JSONObject value = (JSONObject) alibabaJsonObject.get(key);
+                map.put(key,value);
+            }
+        }
+        System.out.println("... input generation done!");
+        return map;
+    }
+
+    public static  LinkedHashMap<String, HashMap<String, Object>> generateLinkedHashMapOfHashMap(byte[] array) throws JsonProcessingException {
+        String text = new String(array);
+        JSONObject alibabaJsonObject = JSON.parseObject(text);
+
+        LinkedHashMap map = new  LinkedHashMap<String, HashMap<String, Object>>();
+        HashMap<String, Object> hm = new HashMap<>();
+
+        Iterator<?> keys = alibabaJsonObject.keySet().iterator();
+        while (keys.hasNext()){
+            String key = keys.next().toString();
+            if(alibabaJsonObject.get(key) instanceof  JSONObject){
+                JSONObject value = (JSONObject) alibabaJsonObject.get(key);
+                value.put(JSON.DEFAULT_TYPE_KEY, "com.alibaba.fastjson.JSONObject");
+                hm.put(key,value);
+                hm.put(JSON.DEFAULT_TYPE_KEY, "com.alibaba.fastjson.JSONObject");
+            }
+        }
+        map.put("id", hm);
+        System.out.println("... input generation done!");
+        return map;
+    }
+
     /* Generates a HashMap containing the textual representation of a JSON Object leaf nodes */
     public static HashMap<String, String> generateSimpleHashMap(byte[] array) {
         String text = new String(array);
@@ -165,42 +210,6 @@ public class InputGenerator {
 
         System.out.println("... input generation done!");
         return map;
-    }
-
-    /* Generates a cartMap containing zero or more elements */
-    public static LinkedHashMap<String, HashMap<String, Object>> generateCartMap(byte[] array) {
-        LinkedHashMap<String, HashMap<String, Object>> cartMap = new LinkedHashMap<String, HashMap<String, Object>>();
-
-        int elements = (int) (Math.random() * 5);
-
-        for(int i = 0; i < elements; i++){
-            HashMap<String, Object> obj = new HashMap<String, Object>();
-            WriteDuplicateType.DianDianCart ddc = generateDianDianCart(array);
-            obj.put("id", ddc.getId());
-            obj.put(JSON.DEFAULT_TYPE_KEY, "com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart");
-            cartMap.put(String.valueOf(ddc.getId()), obj);
-        }
-
-        System.out.println("... input generation done!");
-        return cartMap;
-    }
-
-    /* Generates a simple cartMap containing zero or more elements */
-    public static LinkedHashMap<String, JSONObject> generateSimpleCartMap(byte[] array) {
-        LinkedHashMap<String, JSONObject> cartMap = new LinkedHashMap<String, JSONObject>();
-
-        int elements = (int) (Math.random() * 5);
-
-        for(int i = 0; i < elements; i++){
-            WriteDuplicateType.DianDianCart ddc = generateDianDianCart(array);
-            JSONObject obj = new JSONObject();
-            obj.put(JSON.DEFAULT_TYPE_KEY, "com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart");
-            obj.put("id", ddc.getId());
-            cartMap.put(String.valueOf(ddc.getId()), obj);
-        }
-
-        System.out.println("... input generation done!");
-        return cartMap;
     }
 
     /* Generates an ArrayListMultimap with random elements */

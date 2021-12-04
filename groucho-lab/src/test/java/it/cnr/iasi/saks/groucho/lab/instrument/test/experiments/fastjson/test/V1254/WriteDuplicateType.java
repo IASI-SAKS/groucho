@@ -4,6 +4,7 @@ package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;
@@ -49,25 +50,33 @@ public class WriteDuplicateType {
 
     @Test
     public void test_dupType2() throws Exception {
+
+        com.alibaba.json.bvt.writeClassName.V1254.WriteDuplicateType.DianDianCart cart = new com.alibaba.json.bvt.writeClassName.V1254.WriteDuplicateType.DianDianCart();
+        cart.setId(1001);
+
         LinkedHashMap<String, HashMap<String, Object>> cartMap = this.cartMap;
-        HashMap<String, Object> obj = new HashMap<String, Object>();
+        HashMap<String, Object> obj = new HashMap<>();
         obj.put("id", 1001);
         obj.put(JSON.DEFAULT_TYPE_KEY, "com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart");
         cartMap.put("1001", obj);
 
         String text1 = JSON.toJSONString(cartMap, SerializerFeature.WriteClassName);
 
-        Iterator<?> keys = this.cartMap.keySet().iterator();
 
-        String expected = "{\"@type\":\"java.util.LinkedHashMap\"";
+        LinkedHashMap<String, HashMap<String, Object>> expectedCartMap = cartMap;
 
-        while (keys.hasNext()) {
-            String key = (String) keys.next();
-            expected = expected + ",\"" + key + "\""
-             + ":{\"@type\":\"com.alibaba.json.bvt.writeClassName.WriteDuplicateType$DianDianCart\",\"id\":"
-             + Integer.valueOf(key) + "}";
-        }
-        expected =  expected + "}";
+        String expected = "{\"@type\":\"java.util.LinkedHashMap\",";
+
+        ObjectMapper om = new ObjectMapper();
+        String cartMapAsString = om.writeValueAsString(expectedCartMap);
+        //Remove initial parenthesis
+        expected = expected + cartMapAsString.substring(1);
+
+        System.out.println("Expected: ");
+        System.out.println(expected);
+        System.out.println("Actual: ");
+        System.out.println(text1);
+
 
         Assert.assertEquals(expected, text1);
     }
