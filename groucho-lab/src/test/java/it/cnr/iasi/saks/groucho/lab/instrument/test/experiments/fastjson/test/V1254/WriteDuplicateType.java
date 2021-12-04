@@ -62,13 +62,10 @@ public class WriteDuplicateType {
 
         String text1 = JSON.toJSONString(cartMap, SerializerFeature.WriteClassName);
 
-
-        LinkedHashMap<String, HashMap<String, Object>> expectedCartMap = cartMap;
-
         String expected = "{\"@type\":\"java.util.LinkedHashMap\",";
 
         ObjectMapper om = new ObjectMapper();
-        String cartMapAsString = om.writeValueAsString(expectedCartMap);
+        String cartMapAsString = om.writeValueAsString(expected);
         //Remove initial parenthesis
         expected = expected + cartMapAsString.substring(1);
 
@@ -76,8 +73,6 @@ public class WriteDuplicateType {
         System.out.println(expected);
         System.out.println("Actual: ");
         System.out.println(text1);
-
-
         Assert.assertEquals(expected, text1);
     }
 

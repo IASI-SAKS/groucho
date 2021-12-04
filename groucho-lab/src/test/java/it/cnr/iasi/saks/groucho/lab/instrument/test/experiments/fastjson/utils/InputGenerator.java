@@ -155,9 +155,7 @@ public class InputGenerator {
     }
 
 
-    /* Generates a LinkedHashMap<String, JSONObject> from a JSONObject (depth 1)
-    * It encodes the JSON.DEFAULT_TYPE_KEY information needed
-    *  */
+    /* Generates a LinkedHashMap<String, JSONObject> from a JSONObject (depth 1) */
     public static LinkedHashMap<String, JSONObject> generateLinkedHashMapOfJSONObject(byte[] array) throws JsonProcessingException {
         String text = new String(array);
         JSONObject alibabaJsonObject = JSON.parseObject(text);
@@ -177,6 +175,9 @@ public class InputGenerator {
         return map;
     }
 
+    /* Generates aLinkedHashMap<String, HashMap<String, Object>> from a JSONObject (depth 1)
+       It encodes the JSON.DEFAULT_TYPE_KEY
+     */
     public static  LinkedHashMap<String, HashMap<String, Object>> generateLinkedHashMapOfHashMap(byte[] array) throws JsonProcessingException {
         String text = new String(array);
         JSONObject alibabaJsonObject = JSON.parseObject(text);
