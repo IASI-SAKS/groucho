@@ -17,7 +17,7 @@
  */
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson;
 
-import it.cnr.iasi.saks.jvmserializers.MyFastJSONArrayDatabind;
+import it.cnr.iasi.saks.groucho.performanceOverheadTest.TestGovernanceManager_ActivationWithProbability;
 import it.cnr.iasi.saks.jvmserializers.MyFastJSONDatabind;
 import org.junit.Test;
 import java.io.IOException;
@@ -26,6 +26,7 @@ import serializers.*;
 public class BenchmarkDriver_IT extends MediaItemBenchmark {
 	@Test
 	public void runBench() throws IOException, InterruptedException {
+		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
 		System.out.println("Running BenchmarkDriver_IT.");
 		TestGroups groups = new TestGroups();
 		addTests(groups);
