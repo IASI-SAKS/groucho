@@ -17,10 +17,13 @@
  */
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.JSONSerializer;
 import it.cnr.iasi.saks.groucho.common.Context;
 import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1251.DateParseTest9;
+import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1251.Issue1769;
+import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1251.JSONFieldTest5;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1251.JSONSerializerTest2;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.utils.InputGenerator;
 
@@ -58,7 +61,7 @@ public class FastjsonInvivoTestClassV1251 {
 		return getExitStatus();
 	}
 
-	public boolean invivoDateParseTest9(Context c) {
+	/*public boolean invivoDateParseTest9(Context c) {
 		this.configure();
 
 		String mName = this.getCurrentMethodName();
@@ -76,7 +79,34 @@ public class FastjsonInvivoTestClassV1251 {
 		}
 		setExitStatus();
 		return getExitStatus();
+	}*/
+
+	public boolean invivoJSONFieldTest5(Context c) {
+		this.configure();
+		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
+		JSONObject contextObj = InputGenerator.generateAlibabaJSONObject(contextData);
+
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		try {
+			shield.applyCheckpoint(contextObj);
+			JSONFieldTest5 unitTest = new JSONFieldTest5();
+			unitTest.configure(contextObj);
+			unitTest.test_jsonField();
+			System.out.println("JSONFieldTest5#test_jsonField passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("JSONFieldTest5#test_jsonField failed.");
+		}finally {
+			shield.applyRollback(contextObj);
+		}
+		setExitStatus();
+		return getExitStatus();
 	}
+
+
+
 
 
 	private String getCurrentMethodName() {
