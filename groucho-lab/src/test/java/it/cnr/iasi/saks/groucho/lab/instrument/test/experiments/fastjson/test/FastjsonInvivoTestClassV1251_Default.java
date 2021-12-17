@@ -17,6 +17,7 @@
  */
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 
+import com.alibaba.json.bvt.parser.deser.date.DateParseTest9;
 import com.alibaba.json.bvt.serializer.JSONSerializerTest2;
 import it.cnr.iasi.saks.groucho.common.Context;
 import java.util.ArrayList;
@@ -43,6 +44,14 @@ public class FastjsonInvivoTestClassV1251_Default {
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("JSONSerializerTest2#test_0 failed.");
+		}
+		try {
+			DateParseTest9 unitTest = new DateParseTest9();
+			unitTest.test_date();
+			System.out.println("DateParseTest9#test_0 passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("DateParseTest9#test_0 failed.");
 		}
 		setExitStatus();
 		return getExitStatus();

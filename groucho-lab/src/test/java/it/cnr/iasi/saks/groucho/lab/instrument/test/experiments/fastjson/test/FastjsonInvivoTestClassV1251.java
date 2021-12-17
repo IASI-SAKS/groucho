@@ -17,11 +17,12 @@
  */
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 
-
 import com.alibaba.fastjson.serializer.JSONSerializer;
 import it.cnr.iasi.saks.groucho.common.Context;
 import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
+import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1251.DateParseTest9;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1251.JSONSerializerTest2;
+import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.utils.InputGenerator;
 
 import java.util.*;
 
@@ -57,7 +58,25 @@ public class FastjsonInvivoTestClassV1251 {
 		return getExitStatus();
 	}
 
+	public boolean invivoDateParseTest9(Context c) {
+		this.configure();
 
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+
+		try {
+			DateParseTest9 unitTest = new DateParseTest9();
+			unitTest.configure(InputGenerator.generateDate());
+			unitTest.test_date();
+			System.out.println("DateParseTest9#test_for_issue passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("DateParseTest9#test_for_issue failed.");
+		}
+		setExitStatus();
+		return getExitStatus();
+	}
 
 
 	private String getCurrentMethodName() {
