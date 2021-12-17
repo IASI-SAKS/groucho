@@ -46,15 +46,7 @@ public class FastjsonInvivoTestClassV1251_Default {
 			System.out.println(t.getMessage());
 			System.out.println("JSONSerializerTest2#test_0 failed.");
 		}
-		try {
-			DateParseTest9 unitTest = new DateParseTest9();
-			unitTest.test_date();
-			System.out.println("DateParseTest9#test_0 passed.");
-		}catch(Throwable t){
-			System.out.println(t.getMessage());
-			System.out.println("DateParseTest9#test_0 failed.");
-		}
-		try {
+	    try {
 			JSONFieldTest5 unitTest = new JSONFieldTest5();
 			unitTest.test_jsonField();
 			System.out.println("JSONFieldTest5#test_jsonField passed.");

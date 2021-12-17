@@ -21,65 +21,37 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.JSONSerializer;
 import it.cnr.iasi.saks.groucho.common.Context;
 import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
-import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1251.DateParseTest9;
-import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1251.Issue1769;
-import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1251.JSONFieldTest5;
-import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1251.JSONSerializerTest2;
+
+import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1257.DateParseTest9;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.utils.InputGenerator;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class FastjsonInvivoTestClassV1251 {
+public class FastjsonInvivoTestClassV1257 {
 
 	private static boolean EXIT_STATUS = false;
 
 	private static List<String> FAILED_TESTS = new ArrayList<String>();
 
 
-	public boolean invivoJsonSerializerTest2(Context c) {
+	public boolean invivoDateParseTest9(Context c) {
 		this.configure();
-		JSONSerializer js = (JSONSerializer) c.getInstrumentedObject();
 
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
 		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
 
 		try {
-			shield.applyCheckpoint(js);
-			JSONSerializerTest2 unitTest = new JSONSerializerTest2();
-			unitTest.configure(js);
-			unitTest.test_0();
-			System.out.println("JSONSerializerTest2#test_0 passed.");
+			DateParseTest9 unitTest = new DateParseTest9();
+			unitTest.configure(InputGenerator.generateDate());
+			unitTest.setUp();
+			unitTest.test_dates_different_timeZones();
+			unitTest.tearDown();
+			System.out.println("DateParseTest9#test_dates_different_timeZones passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
-			System.out.println("JSONSerializerTest2#test_0 failed.");
-		}
-		finally {
-			shield.applyRollback(js);
-		}
-		setExitStatus();
-		return getExitStatus();
-	}
-
-	public boolean invivoJSONFieldTest5(Context c) {
-		this.configure();
-		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
-		JSONObject contextObj = InputGenerator.generateAlibabaJSONObject(contextData);
-
-		String mName = this.getCurrentMethodName();
-		System.out.println("["+mName+"] Testing invivo ...");
-		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
-		try {
-			shield.applyCheckpoint(contextObj);
-			JSONFieldTest5 unitTest = new JSONFieldTest5();
-			unitTest.configure(contextObj);
-			unitTest.test_jsonField();
-			System.out.println("JSONFieldTest5#test_jsonField passed.");
-		}catch(Throwable t){
-			System.out.println(t.getMessage());
-			System.out.println("JSONFieldTest5#test_jsonField failed.");
-		}finally {
-			shield.applyRollback(contextObj);
+			System.out.println("DateParseTest9#test_dates_different_timeZones failed.");
 		}
 		setExitStatus();
 		return getExitStatus();
