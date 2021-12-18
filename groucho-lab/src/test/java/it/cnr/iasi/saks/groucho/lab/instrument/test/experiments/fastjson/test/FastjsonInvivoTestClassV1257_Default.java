@@ -18,8 +18,6 @@
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 
 import com.alibaba.json.bvt.parser.deser.date.DateParseTest9;
-import com.alibaba.json.bvt.serializer.JSONFieldTest5;
-import com.alibaba.json.bvt.serializer.JSONSerializerTest2;
 import it.cnr.iasi.saks.groucho.common.Context;
 
 import java.util.ArrayList;
@@ -46,14 +44,6 @@ public class FastjsonInvivoTestClassV1257_Default {
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("DateParseTest9#test_dates_different_timeZones failed.");
-		}
-		try {
-			JSONFieldTest5 unitTest = new JSONFieldTest5();
-			unitTest.test_jsonField();
-			System.out.println("JSONFieldTest5#test_jsonField passed.");
-		}catch(Throwable t){
-			System.out.println(t.getMessage());
-			System.out.println("JSONFieldTest5#test_jsonField failed.");
 		}
 		setExitStatus();
 		return getExitStatus();
