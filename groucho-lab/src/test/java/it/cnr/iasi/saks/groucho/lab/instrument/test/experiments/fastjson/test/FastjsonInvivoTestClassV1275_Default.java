@@ -17,6 +17,7 @@
  */
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 
+import com.alibaba.json.bvt.bug.Bug_for_xiayucai2012;
 import it.cnr.iasi.saks.groucho.common.Context;
 import com.alibaba.json.bvt.issue_2400.Issue2428;
 import com.alibaba.json.bvt.parser.TypeUtilsTest;
@@ -54,6 +55,14 @@ public class FastjsonInvivoTestClassV1275_Default {
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("TypeUtilsTest#test_cast_to_Timestamp_1970_01_01_00_00_00 failed.");
+		}
+		try {
+			Bug_for_xiayucai2012 unitTest = new Bug_for_xiayucai2012();
+			unitTest.test_for_xiayucai2012();
+			System.out.println("Bug_for_xiayucai2012#test_for_xiayucai2012 passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("Bug_for_xiayucai2012#test_for_xiayucai2012 failed.");
 		}
 		setExitStatus();
 		return getExitStatus();
