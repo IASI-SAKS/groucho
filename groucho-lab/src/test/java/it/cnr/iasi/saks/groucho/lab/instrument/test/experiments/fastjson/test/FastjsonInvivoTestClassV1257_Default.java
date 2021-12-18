@@ -39,7 +39,9 @@ public class FastjsonInvivoTestClassV1257_Default {
 		System.out.println("["+mName+"] Testing invivo ...");
 		try {
 			DateParseTest9 unitTest = new DateParseTest9();
+			unitTest.setUp();
 			unitTest.test_dates_different_timeZones();
+			unitTest.tearDown();
 			System.out.println("DateParseTest9#test_dates_different_timeZones passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
