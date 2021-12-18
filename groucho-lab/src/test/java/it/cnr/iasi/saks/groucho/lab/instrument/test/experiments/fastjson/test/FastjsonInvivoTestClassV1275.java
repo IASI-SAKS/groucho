@@ -19,10 +19,7 @@ package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 
 import it.cnr.iasi.saks.groucho.common.Context;
 import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
-import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1275.Bug_for_xiayucai2012;
-import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1275.Issue1493;
-import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1275.Issue2428;
-import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1275.TypeUtilsTest;
+import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1275.*;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.utils.InputGenerator;
 
 import java.util.ArrayList;
@@ -76,6 +73,23 @@ public class FastjsonInvivoTestClassV1275 {
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("Bug_for_xiayucai2012#test_for_xiayucai2012 failed.");
+		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoBug_for_issue_447(Context c) {
+		this.configure();
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		try {
+			Bug_for_issue_447 unitTest = new Bug_for_issue_447();
+			unitTest.configure(InputGenerator.generateDate());
+			unitTest.test_for_issue();
+			System.out.println("Bug_for_issue_447#test_for_issue passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("Bug_for_issue_447#test_for_issue failed.");
 		}
 		setExitStatus();
 		return getExitStatus();

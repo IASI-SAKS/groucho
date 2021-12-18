@@ -17,6 +17,7 @@
  */
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 
+import com.alibaba.json.bvt.bug.Bug_for_issue_447;
 import com.alibaba.json.bvt.bug.Bug_for_xiayucai2012;
 import com.alibaba.json.bvt.issue_1400.Issue1493;
 import it.cnr.iasi.saks.groucho.common.Context;
@@ -72,6 +73,14 @@ public class FastjsonInvivoTestClassV1275_Default {
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("Issue1493#test_for_issue failed.");
+		}
+		try {
+			Bug_for_issue_447 unitTest = new Bug_for_issue_447();
+			unitTest.test_for_issue();
+			System.out.println("Bug_for_issue_447#test_for_issue passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("Bug_for_issue_447#test_for_issue failed.");
 		}
 		setExitStatus();
 		return getExitStatus();
