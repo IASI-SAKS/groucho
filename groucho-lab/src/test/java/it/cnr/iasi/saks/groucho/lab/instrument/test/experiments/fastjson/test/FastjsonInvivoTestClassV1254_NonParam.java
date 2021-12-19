@@ -38,13 +38,13 @@ import java.util.*;
  * This class runs InVivo the original flaky test(s) of FastJson V.1.2.54
  * */
 
-public class FastjsonInvivoTestClassV1254_Default {
+public class FastjsonInvivoTestClassV1254_NonParam {
 
 	private static boolean EXIT_STATUS = false;
 
 	private static List<String> FAILED_TESTS = new ArrayList<String>();
 
-	public boolean inVivoTestDefault(Context c) {
+	public boolean invivoJSONPParseTest2(Context c) {
 		this.configure();
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
@@ -56,6 +56,14 @@ public class FastjsonInvivoTestClassV1254_Default {
 			System.out.println(t.getMessage());
 			System.out.println("JSONPParseTest2#test_f failed.");
 		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoJSONPParseTest3(Context c) {
+		this.configure();
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
 		try {
 			JSONPParseTest3 unitTest = new JSONPParseTest3();
 			unitTest.test_f();
@@ -64,46 +72,14 @@ public class FastjsonInvivoTestClassV1254_Default {
 			System.out.println(t.getMessage());
 			System.out.println("JSONPParseTest3#test_f failed.");
 		}
-		try {
-			Issue1480 unitTest = new Issue1480();
-			unitTest.test_for_issue();
-			System.out.println("Issue1480#test_for_issue passed.");
-		}catch(Throwable t){
-			System.out.println(t.getMessage());
-			System.out.println("Issue1480#test_for_issue failed.");
-		}
-		try {
-			Issue1298 unitTest = new Issue1298();
-			unitTest.test_for_issue();
-			System.out.println("Issue1298#test_for_issue passed.");
-		}catch(Throwable t){
-			System.out.println(t.getMessage());
-			System.out.println("Issue1298#test_for_issue failed.");
-		}
-		try {
-			Issue1298 unitTest = new Issue1298();
-			unitTest.test_for_issue_1();
-			System.out.println("Issue1298#test_for_issue_1 passed.");
-		}catch(Throwable t){
-			System.out.println(t.getMessage());
-			System.out.println("Issue1298#test_for_issue_1 failed.");
-		}
-		try {
-			Issue1977 unitTest = new Issue1977();
-			unitTest.test_for_issue();
-			System.out.println("Issue1977#test_for_issue passed.");
-		}catch(Throwable t){
-			System.out.println(t.getMessage());
-			System.out.println("Issue1977#test_for_issue failed.");
-		}
-		try {
-			DateTest unitTest = new DateTest();
-			unitTest.test_date();
-			System.out.println("DateTest#test_date passed.");
-		}catch(Throwable t){
-			System.out.println(t.getMessage());
-			System.out.println("DateTest#test_date failed.");
-		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoDateTest5_iso8601(Context c) {
+		this.configure();
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
 		try {
 			DateTest5_iso8601 unitTest = new DateTest5_iso8601();
 			unitTest.test_date();
@@ -112,6 +88,94 @@ public class FastjsonInvivoTestClassV1254_Default {
 			System.out.println(t.getMessage());
 			System.out.println("DateTest5_iso8601#test_date failed.");
 		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoIssue1480(Context c) {
+		this.configure();
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		try {
+			Issue1480 unitTest = new Issue1480();
+			unitTest.test_for_issue();
+			System.out.println("Issue1480#test_for_issue passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("Issue1480#test_for_issue failed.");
+		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoIssue1298(Context c) {
+		this.configure();
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		try {
+			Issue1298 unitTest = new Issue1298();
+			unitTest.test_for_issue();
+			System.out.println("Issue1298#test_for_issue passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("Issue1298#test_for_issue failed.");
+		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoIssue1298_1(Context c) {
+		this.configure();
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		try {
+			Issue1298 unitTest = new Issue1298();
+			unitTest.test_for_issue_1();
+			System.out.println("Issue1298#test_for_issue_1 passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("Issue1298#test_for_issue_1 failed.");
+		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoIssue1977(Context c) {
+		this.configure();
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		try {
+			Issue1977 unitTest = new Issue1977();
+			unitTest.test_for_issue();
+			System.out.println("Issue1977#test_for_issue passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("Issue1977#test_for_issue failed.");
+		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoDateTest(Context c) {
+		this.configure();
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		try {
+			DateTest unitTest = new DateTest();
+			unitTest.test_date();
+			System.out.println("DateTest#test_date passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("DateTest#test_date failed.");
+		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoDateTest4_indian(Context c) {
+		this.configure();
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
 		try {
 			DateTest4_indian unitTest = new DateTest4_indian();
 			unitTest.test_date();
@@ -120,6 +184,14 @@ public class FastjsonInvivoTestClassV1254_Default {
 			System.out.println(t.getMessage());
 			System.out.println("DateTest4_indian#test_date failed.");
 		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoIssue1679(Context c) {
+		this.configure();
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
 		try {
 			Issue1679 unitTest = new Issue1679();
 			unitTest.test_for_issue();
@@ -128,6 +200,15 @@ public class FastjsonInvivoTestClassV1254_Default {
 			System.out.println(t.getMessage());
 			System.out.println("Issue1679#test_for_issue failed.");
 		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoDateTest_tz(Context c) {
+		this.configure();
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+
 		try {
 			DateTest_tz unitTest = new DateTest_tz();
 			unitTest.test_codec();
@@ -136,6 +217,14 @@ public class FastjsonInvivoTestClassV1254_Default {
 			System.out.println(t.getMessage());
 			System.out.println("DateTest_tz#test_codec failed.");
 		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoDefaultExtJSONParser_parseArray(Context c) {
+		this.configure();
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
 		try {
 			DefaultExtJSONParser_parseArray unitTest = new DefaultExtJSONParser_parseArray();
 			unitTest.test_8();
@@ -144,6 +233,14 @@ public class FastjsonInvivoTestClassV1254_Default {
 			System.out.println(t.getMessage());
 			System.out.println("DefaultExtJSONParser_parseArray#test_8 failed.");
 		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoWriteDuplicateType(Context c) {
+		this.configure();
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
 		try {
 			WriteDuplicateType unitTest = new WriteDuplicateType();
 			unitTest.test_dupType2();
@@ -152,6 +249,30 @@ public class FastjsonInvivoTestClassV1254_Default {
 			System.out.println(t.getMessage());
 			System.out.println("WriteDuplicateType#test_dupType2 failed.");
 		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoDefaultExtJSONParser_parseArray_8(Context c) {
+		this.configure();
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		try {
+			DefaultExtJSONParser_parseArray unitTest = new DefaultExtJSONParser_parseArray();
+			unitTest.test_8();
+			System.out.println("DefaultExtJSONParser_parseArray#test_8 passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("DefaultExtJSONParser_parseArray#test_8 failed.");
+		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoDefaultExtJSONParser_parseArray_7(Context c) {
+		this.configure();
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
 		try {
 			DefaultExtJSONParser_parseArray unitTest = new DefaultExtJSONParser_parseArray();
 			unitTest.test_7();
@@ -160,6 +281,14 @@ public class FastjsonInvivoTestClassV1254_Default {
 			System.out.println(t.getMessage());
 			System.out.println("DefaultExtJSONParser_parseArray#test_7 failed.");
 		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoIssue1177_2(Context c) {
+		this.configure();
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
 		try {
 			Issue1177_2 unitTest = new Issue1177_2();
 			unitTest.test_for_issue();
@@ -171,6 +300,8 @@ public class FastjsonInvivoTestClassV1254_Default {
 		setExitStatus();
 		return getExitStatus();
 	}
+
+
 
 	private String getCurrentMethodName() {
 		String nameofCurrMethod = Thread.currentThread().getStackTrace()[2].getMethodName();

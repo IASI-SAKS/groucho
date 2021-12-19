@@ -17,32 +17,49 @@
  */
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 
+import com.alibaba.json.bvt.serializer.JSONFieldTest5;
+import com.alibaba.json.bvt.serializer.JSONSerializerTest2;
 import it.cnr.iasi.saks.groucho.common.Context;
-import com.alibaba.json.bvt.bug.Bug_for_smoothrat6;
 import java.util.ArrayList;
 import java.util.List;
 
 /*
- * This class runs InVivo the original flaky test(s) of FastJson V.1.2.62
+ * This class runs InVivo the original flaky test(s) of FastJson V.1.2.51
  * */
 
-public class FastjsonInvivoTestClassV1262_Default {
+public class FastjsonInvivoTestClassV1251_NonParam {
 
 	private static boolean EXIT_STATUS = false;
 
 	private static List<String> FAILED_TESTS = new ArrayList<String>();
 
-	public boolean inVivoTestDefault(Context c) {
+	public boolean invivoJsonSerializerTest2(Context c) {
 		this.configure();
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
-			try {
-			Bug_for_smoothrat6 unitTest = new Bug_for_smoothrat6();
-			unitTest.test_set();
-			System.out.println("Bug_for_smoothrat6#test_set passed.");
+		try {
+			JSONSerializerTest2 unitTest = new JSONSerializerTest2();
+			unitTest.test_0();
+			System.out.println("JSONSerializerTest2#test_0 passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
-			System.out.println("Bug_for_smoothrat6#test_set failed.");
+			System.out.println("JSONSerializerTest2#test_0 failed.");
+		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoJSONFieldTest5(Context c) {
+		this.configure();
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		try {
+			JSONFieldTest5 unitTest = new JSONFieldTest5();
+			unitTest.test_jsonField();
+			System.out.println("JSONFieldTest5#test_jsonField passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("JSONFieldTest5#test_jsonField failed.");
 		}
 		setExitStatus();
 		return getExitStatus();

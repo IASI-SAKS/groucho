@@ -17,12 +17,10 @@
  */
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.google.gson.JsonObject;
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.utils.*;
 import it.cnr.iasi.saks.groucho.common.Context;
 import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
@@ -35,25 +33,15 @@ public class FastjsonInvivoTestClassV1254 {
 
 	private static List<String> FAILED_TESTS = new ArrayList<String>();
 
-	/*
-	- Fastjson Version - 1.2.54
-	- Context input: byte[] array
-	- Flaky Test(s) - JSONPParseTest2, JSONPParseTest3
-	*/
-	public boolean invivoJSONParse(Context c) throws InvocationTargetException{
-		this.configure();
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
-		byte[] input =  (byte[]) c.getOtherReferencesInContext().get(0);
-		testJSONParse(input);
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
-		setExitStatus();
-		return getExitStatus();
-	}
+	public boolean invivoJSONPParseTest2(Context c) {
 
-	private void testJSONParse(byte[] input) {
+		this.configure();
+		byte[] input =  (byte[]) c.getOtherReferencesInContext().get(0);
+
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
 		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+
 		try {
 			shield.applyCheckpoint(input);
 			JSONPParseTest2 unitTest = new JSONPParseTest2();
@@ -66,6 +54,19 @@ public class FastjsonInvivoTestClassV1254 {
 		}finally {
 			shield.applyRollback(input);
 		}
+
+		setExitStatus();
+		return getExitStatus();
+	}
+
+
+	public boolean invivoJSONPParseTest3(Context c) {
+		this.configure();
+		byte[] input =  (byte[]) c.getOtherReferencesInContext().get(0);
+
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
 		try {
 			shield.applyCheckpoint(input);
 			JSONPParseTest3 unitTest = new JSONPParseTest3();
@@ -78,16 +79,12 @@ public class FastjsonInvivoTestClassV1254 {
 		}finally {
 			shield.applyRollback(input);
 		}
+
+		setExitStatus();
+		return getExitStatus();
 	}
 
-	/*
-	- Fastjson Version - 1.2.54
-	- Class Under Test - JSON
-	- Method Under Test - parseObject()
-	- Flaky Test(s) - Issue1480#test_for_issue
-	- Context input: HashMap<String, String>
-	*/
-	public boolean invivo1480(Context c) throws JsonProcessingException {
+	public boolean invivoIssue1480(Context c) {
 		this.configure();
 		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
 		JSONObject contextObj = InputGenerator.generateAlibabaJSONObject(contextData);
@@ -98,7 +95,6 @@ public class FastjsonInvivoTestClassV1254 {
 
 		try {
 			shield.applyCheckpoint(contextObj);
-
 			Issue1480 unitTest = new Issue1480();
 			unitTest.configure(contextObj);
 			unitTest.test_for_issue();
@@ -113,29 +109,12 @@ public class FastjsonInvivoTestClassV1254 {
 		return getExitStatus();
 	}
 
-	/*
-	- Fastjson Version - 1.2.54
-	- Context input: Date
-	- Flaky Test(s) - Issue1298#test_for_issue,  Issue1298#test_for_issue_1,
-					  Issue1977#test_for_issue, DateTest#test_date,
-					  DateTest5_iso8601#test_date, DateTest4_indian#test_date,
-					  Issue1679#test_for_issue, DateTest_tz#test_codec,
-					  DefaultExtJSONParser_parseArray#test_8
-	*/
-	public boolean invivoTestDate(Context c) {
+	public boolean invivoIssue1977(Context c) {
 		this.configure();
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
-		testDate();
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
-		setExitStatus();
-		return getExitStatus();
-	}
-
-	private void testDate() {
-		String mName = this.getCurrentMethodName();
-		System.out.println("["+mName+"] Testing invivo ...");
 		Date input = InputGenerator.generateDate();
 
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
 		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
 
 		try {
@@ -144,13 +123,25 @@ public class FastjsonInvivoTestClassV1254 {
 			unitTest.configure(input);
 			unitTest.test_for_issue();
 			System.out.println("Issue1977#test_for_issue passed.");
-		}catch(Throwable t){
+		} catch (Throwable t) {
 			System.out.println(t.getMessage());
 			System.out.println("Issue1977#test_for_issue failed.");
-		}
-		finally {
+		} finally {
 			shield.applyRollback(input);
 		}
+
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoDateTest(Context c) {
+		this.configure();
+		Date input = InputGenerator.generateDate();
+
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+
 		try {
 			shield.applyCheckpoint(input);
 			DateTest unitTest = new DateTest();
@@ -164,6 +155,19 @@ public class FastjsonInvivoTestClassV1254 {
 		finally {
 			shield.applyRollback(input);
 		}
+
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoDateTest5_iso8601(Context c) {
+		this.configure();
+		Date input = InputGenerator.generateDate();
+
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+
 		try {
 			shield.applyCheckpoint(input);
 			DateTest5_iso8601 unitTest = new DateTest5_iso8601();
@@ -177,6 +181,19 @@ public class FastjsonInvivoTestClassV1254 {
 		finally {
 			shield.applyRollback(input);
 		}
+
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoDateTest4_indian(Context c) {
+		this.configure();
+		Date input = InputGenerator.generateDate();
+
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+
 		try {
 			shield.applyCheckpoint(input);
 			DateTest4_indian unitTest = new DateTest4_indian();
@@ -190,6 +207,19 @@ public class FastjsonInvivoTestClassV1254 {
 		finally {
 			shield.applyRollback(input);
 		}
+
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoIssue1679(Context c) {
+		this.configure();
+		Date input = InputGenerator.generateDate();
+
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+
 		try {
 			shield.applyCheckpoint(input);
 			Issue1679 unitTest = new Issue1679();
@@ -203,6 +233,19 @@ public class FastjsonInvivoTestClassV1254 {
 		finally {
 			shield.applyRollback(input);
 		}
+
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoDateTest_tz(Context c) {
+		this.configure();
+		Date input = InputGenerator.generateDate();
+
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+
 		try {
 			shield.applyCheckpoint(input);
 			DateTest_tz unitTest = new DateTest_tz();
@@ -216,6 +259,18 @@ public class FastjsonInvivoTestClassV1254 {
 		finally {
 			shield.applyRollback(input);
 		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoDefaultExtJSONParser_parseArray_8(Context c) {
+		this.configure();
+		Date input = InputGenerator.generateDate();
+
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+
 		try {
 			shield.applyCheckpoint(input);
 			DefaultExtJSONParser_parseArray unitTest = new DefaultExtJSONParser_parseArray();
@@ -229,12 +284,12 @@ public class FastjsonInvivoTestClassV1254 {
 		finally {
 			shield.applyRollback(input);
 		}
+		setExitStatus();
+		return getExitStatus();
 	}
 
 	public boolean invivo1298(Context c) {
 		this.configure();
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
-
 		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
 
 		String mName = this.getCurrentMethodName();
@@ -253,10 +308,25 @@ public class FastjsonInvivoTestClassV1254 {
 		}finally {
 			shield.applyRollback(contextData);
 		}
+
+		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivo1298_1(Context c) {
+		this.configure();
+		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
+
+		String mName = this.getCurrentMethodName();
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+
+		System.out.println("["+mName+"] Testing invivo ...");
+
 		try {
 			shield.applyCheckpoint(contextData);
 			Issue1298 unitTest = new Issue1298();
-			//unitTest.configure(InputGenerator.generateAlibabaJSONObject(contextData));
+			unitTest.configure(InputGenerator.generateAlibabaJSONObject(contextData));
 			unitTest.test_for_issue_1();
 			System.out.println("Issue1298#test_for_issue_1 passed.");
 		}catch(Throwable t){
@@ -271,24 +341,15 @@ public class FastjsonInvivoTestClassV1254 {
 		return getExitStatus();
 	}
 
-
-	/*
-	- Fastjson Version - 1.2.54
-	- Class Under Test - JSON
-	- Method Under Test - toJSONString()
-	- Flaky Test(s) - WriteDuplicateType
-	- Context input: LinkedHashMap<String, HashMap<String, Object>>
-	*/
-	public boolean invivoWriteDuplicateType(Context c) throws InvocationTargetException, JsonProcessingException {
+	public boolean invivoWriteDuplicateType(Context c) throws JsonProcessingException {
 		this.configure();
 		byte[] contextData = (byte[]) c.getOtherReferencesInContext().get(0);
+		LinkedHashMap<String, HashMap<String, Object>> cartMap = InputGenerator.generateLinkedHashMapOfHashMap(contextData);
 
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
 		String mName = this.getCurrentMethodName();
 
 		System.out.println("["+mName+"] Testing invivo ...");
 		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
-		LinkedHashMap<String, HashMap<String, Object>> cartMap = InputGenerator.generateLinkedHashMapOfHashMap(contextData);
 
 		try {
 			shield.applyCheckpoint(cartMap);
@@ -303,21 +364,12 @@ public class FastjsonInvivoTestClassV1254 {
 		finally {
 			shield.applyRollback(cartMap);
 		}
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
 		setExitStatus();
 		return getExitStatus();
 	}
 
-	/*
-	- Fastjson Version - 1.2.54
-	- Class Under Test - DefaultJSONParser
-	- Method Under Test - parseArray()
-	- Context input: String representation of an array
-	*/
-	public boolean invivoParseArray(Context c) throws JsonProcessingException {
+	public boolean invivoDefaultExtJSONParser_parseArray_7(Context c) {
 		this.configure();
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(0);
-
 		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
 
 		String mName = this.getCurrentMethodName();
@@ -337,18 +389,11 @@ public class FastjsonInvivoTestClassV1254 {
 			shield.applyRollback(contextData);
 		}
 
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
 		setExitStatus();
 		return getExitStatus();
 	}
 
-	/*
-        - Fastjson Version - 1.2.54
-        - Class Under Test - JSONPath
-        - Method Under Test - set() (?)
-        - Context input: HashMap<String, String>
-        */
-	public boolean invivoJSONPath(Context c) throws InvocationTargetException, JsonProcessingException {
+	public boolean invivoJSONPath(Context c) {
 		this.configure();
 
 		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
@@ -373,7 +418,6 @@ public class FastjsonInvivoTestClassV1254 {
 			shield.applyRollback(objectMap);
 		}
 
-		TestGovernanceManager_ActivationWithProbability.setActivationProbability(1);
 		setExitStatus();
 		return getExitStatus();
 	}

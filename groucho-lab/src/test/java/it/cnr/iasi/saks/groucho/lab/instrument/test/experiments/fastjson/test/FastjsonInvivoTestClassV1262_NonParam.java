@@ -17,35 +17,32 @@
  */
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 
-import com.alibaba.json.bvt.parser.deser.date.DateParseTest9;
 import it.cnr.iasi.saks.groucho.common.Context;
-
+import com.alibaba.json.bvt.bug.Bug_for_smoothrat6;
 import java.util.ArrayList;
 import java.util.List;
 
 /*
- * This class runs InVivo the original flaky test(s) of FastJson V.1.2.57
+ * This class runs InVivo the original flaky test(s) of FastJson V.1.2.62
  * */
 
-public class FastjsonInvivoTestClassV1257_Default {
+public class FastjsonInvivoTestClassV1262_NonParam {
 
 	private static boolean EXIT_STATUS = false;
 
 	private static List<String> FAILED_TESTS = new ArrayList<String>();
 
-	public boolean inVivoTestDefault(Context c) {
+	public boolean invivoBug_for_smoothrat6(Context c) {
 		this.configure();
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
-		try {
-			DateParseTest9 unitTest = new DateParseTest9();
-			unitTest.setUp();
-			unitTest.test_dates_different_timeZones();
-			unitTest.tearDown();
-			System.out.println("DateParseTest9#test_dates_different_timeZones passed.");
+			try {
+			Bug_for_smoothrat6 unitTest = new Bug_for_smoothrat6();
+			unitTest.test_set();
+			System.out.println("Bug_for_smoothrat6#test_set passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
-			System.out.println("DateParseTest9#test_dates_different_timeZones failed.");
+			System.out.println("Bug_for_smoothrat6#test_set failed.");
 		}
 		setExitStatus();
 		return getExitStatus();

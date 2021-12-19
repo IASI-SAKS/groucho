@@ -45,9 +45,9 @@ public class FastjsonInvivoTestClassV1257 {
 		try {
 			DateParseTest9 unitTest = new DateParseTest9();
 			unitTest.configure(InputGenerator.generateDate());
-			unitTest.setUp();
+			//unitTest.setUp();
 			unitTest.test_dates_different_timeZones();
-			unitTest.tearDown();
+			//unitTest.tearDown();
 			System.out.println("DateParseTest9#test_dates_different_timeZones passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());

@@ -31,7 +31,7 @@ public class FastjsonInvivoTestClassV1262 {
 
 	private static List<String> FAILED_TESTS = new ArrayList<String>();
 
-	public boolean invivoTestSmoothrat(Context c) {
+	public boolean invivoBug_for_smoothrat6(Context c) {
 		this.configure();
 		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
 
