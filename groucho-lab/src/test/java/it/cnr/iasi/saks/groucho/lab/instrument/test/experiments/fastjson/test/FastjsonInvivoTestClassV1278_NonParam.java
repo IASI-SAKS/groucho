@@ -17,6 +17,7 @@
  */
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 
+import com.alibaba.json.bvt.issue_3000.Issue3082;
 import it.cnr.iasi.saks.groucho.common.Context;
 import com.alibaba.json.bvt.guava.HashMultimapTest;
 import com.alibaba.json.bvt.issue_1500.Issue1584;
@@ -31,13 +32,13 @@ import java.util.List;
  * */
 
 
-public class FastjsonInvivoTestClassV1278_Default {
+public class FastjsonInvivoTestClassV1278_NonParam {
 
 	private static boolean EXIT_STATUS = false;
 
 	private static List<String> FAILED_TESTS = new ArrayList<String>();
 
-	public boolean inVivoTestDefault(Context c) {
+	public boolean invivoHashMultimapTest(Context c) {
 		this.configure();
 
 		String mName = this.getCurrentMethodName();
@@ -51,6 +52,35 @@ public class FastjsonInvivoTestClassV1278_Default {
 			System.out.println(t.getMessage());
 			System.out.println("HashMultimapTest#test_for_multimap failed.");
 		}
+
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoIssue3082(Context c) {
+		this.configure();
+
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+
+		try {
+			Issue3082 unitTest = new Issue3082();
+			unitTest.test_for_issue();
+			System.out.println("Issue3082#test_for_issue passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("Issue3082#test_for_issue failed.");
+		}
+
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoIssue1584(Context c) {
+		this.configure();
+
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
 		try {
 			Issue1584 unitTest = new Issue1584();
 			unitTest.test_for_issue();
@@ -59,6 +89,16 @@ public class FastjsonInvivoTestClassV1278_Default {
 			System.out.println(t.getMessage());
 			System.out.println("Issue1584#test_for_issue failed.");
 		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoMaxBufSizeTest(Context c) {
+		this.configure();
+
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+
 		try {
 			MaxBufSizeTest unitTest = new MaxBufSizeTest();
 			unitTest.test_max_buf();
@@ -78,6 +118,25 @@ public class FastjsonInvivoTestClassV1278_Default {
 		setExitStatus();
 		return getExitStatus();
 	}
+
+	public boolean invivoSortFieldTest(Context c) {
+		this.configure();
+
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+
+		try {
+			SortFieldTest unitTest = new SortFieldTest();
+			unitTest.test_0();
+			System.out.println("invivoSortField#test_0 passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("invivoSortField#test_0 failed.");
+		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
 
 	private String getCurrentMethodName() {
 		String nameofCurrMethod = Thread.currentThread().getStackTrace()[2].getMethodName();
