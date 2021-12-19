@@ -32,12 +32,7 @@ public class FastjsonInvivoTestClassV1273 {
 
 	private static List<String> FAILED_TESTS = new ArrayList<String>();
 
-	/*
-	- Fastjson Version - 1.2.73
-	- Flaky Test(s) - Issue2447#test_for_issue, Issue2447#test_for_issue2
-	- Context input: VO, VO2;
-	*/
-	public boolean invivoTestVO(Context c) {
+	public boolean invivoIssue2447(Context c) {
 		this.configure();
 		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
 
@@ -58,6 +53,18 @@ public class FastjsonInvivoTestClassV1273 {
 		finally {
 			shield.applyRollback(contextData);
 		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoIssue2447_2(Context c) {
+		this.configure();
+		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
+
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+
 		try {
 			shield.applyCheckpoint(contextData);
 			Issue2447 unitTest = new Issue2447();
@@ -75,61 +82,60 @@ public class FastjsonInvivoTestClassV1273 {
 		return getExitStatus();
 	}
 
-	/*
-	- Fastjson Version - 1.2.73
-	- Flaky Test(s) - Issue2447JSONPath_reverse_test#ttest_reserve,
-				  Issue2447JSONPath_reverse_test#ttest_reserve3
-	- Context input: String text;
-	*/
-    public boolean invivoPathReverse(Context c) throws JsonProcessingException {
-        this.configure();
-        byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
-        String mName = this.getCurrentMethodName();
-        System.out.println("["+mName+"] Testing invivo ...");
-        RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
-
-        try {
-            shield.applyCheckpoint(contextData);
-            JSONPath_reverse_test unitTest = new JSONPath_reverse_test();
-            unitTest.configureSimple(InputGenerator.generateJSONObject(0, contextData));
-            unitTest.test_reserve();
-            System.out.println("JSONPath_reverse_test#test_reserve passed.");
-        }catch(Throwable t){
-            System.out.println(t.getMessage());
-            System.out.println("JSONPath_reverse_test#test_reserve failed.");
-        }
-        finally {
-            shield.applyRollback(contextData);
-        }
-        try {
-            shield.applyCheckpoint(contextData);
-            JSONPath_reverse_test unitTest = new JSONPath_reverse_test();
-            unitTest.configureNested(InputGenerator.generateJSONObject(1, contextData));
-            unitTest.test_reserve3();
-            System.out.println("JSONPath_reverse_test#test_reserve3 passed.");
-        }catch(Throwable t){
-            System.out.println(t.getMessage());
-            System.out.println("JSONPath_reverse_test#test_reserve3 failed.");
-        }
-        finally {
-            shield.applyRollback(contextData);
-        }
-        setExitStatus();
-        return getExitStatus();
-    }
-
-	/*
-	- Fastjson Version - 1.2.73
-	- Flaky Test(s) - Issue1363#test_for_issue,
-				  Issue1363#test_for_issue_1
-	*/
-	public boolean invivo1363(Context c) throws JsonProcessingException {
+	public boolean invivoJSONPath_reverse_test(Context c) throws JsonProcessingException {
 		this.configure();
 		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
 		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
 
+		try {
+			shield.applyCheckpoint(contextData);
+			JSONPath_reverse_test unitTest = new JSONPath_reverse_test();
+			unitTest.configureSimple(InputGenerator.generateJSONObject(0, contextData));
+			unitTest.test_reserve();
+			System.out.println("JSONPath_reverse_test#test_reserve passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("JSONPath_reverse_test#test_reserve failed.");
+		}
+		finally {
+			shield.applyRollback(contextData);
+		}
+
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoJSONPath_reverse_test_3(Context c) throws JsonProcessingException {
+		this.configure();
+		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		try {
+			shield.applyCheckpoint(contextData);
+			JSONPath_reverse_test unitTest = new JSONPath_reverse_test();
+			unitTest.configureNested(InputGenerator.generateJSONObject(1, contextData));
+			unitTest.test_reserve3();
+			System.out.println("JSONPath_reverse_test#test_reserve3 passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("JSONPath_reverse_test#test_reserve3 failed.");
+		}
+		finally {
+			shield.applyRollback(contextData);
+		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivo1363(Context c) throws JsonProcessingException {
+		this.configure();
+		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
 		try {
 			shield.applyCheckpoint(contextData);
 			Issue1363 unitTest = new Issue1363();
@@ -142,6 +148,19 @@ public class FastjsonInvivoTestClassV1273 {
 			System.out.println(t.getMessage());
 			System.out.println("Issue1363#test_for_issue failed.");
 		}
+		finally {
+			shield.applyRollback(contextData);
+		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivo1363_1(Context c) throws JsonProcessingException {
+		this.configure();
+		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
 		try {
 			shield.applyCheckpoint(contextData);
 			Issue1363 unitTest =  new Issue1363();
@@ -161,12 +180,7 @@ public class FastjsonInvivoTestClassV1273 {
 		return getExitStatus();
 	}
 
-	/*
-	- Fastjson Version - 1.2.73
-	- Flaky Test(s) - Issue1780_JSONObject#test_for_issue, Issue1780_Module#test_for_issue
-	- Context input: JSONObject ;
-	*/
-	public boolean invivoTest1780(Context c) {
+	public boolean invivoIssue1780_JSONObject(Context c) {
 		this.configure();
 		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
 
@@ -187,6 +201,17 @@ public class FastjsonInvivoTestClassV1273 {
 		finally {
 			shield.applyRollback(contextData);
 		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoIssue1780_Module(Context c) {
+		this.configure();
+		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
+
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
 		try {
 			shield.applyCheckpoint(contextData);
 			Issue1780_Module unitTest = new Issue1780_Module();
@@ -204,12 +229,7 @@ public class FastjsonInvivoTestClassV1273 {
 		return getExitStatus();
 	}
 
-	/*
-	- Fastjson Version - 1.2.73
-	- Flaky Test(s) - ArrayListMultimapTest#test_for_multimap
-	- Context input: MultiMap;
-	*/
-	public boolean invivoTestMultiMap(Context c) {
+	public boolean invivoArrayListMultimapTest(Context c) {
 		this.configure();
 		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
 
@@ -234,12 +254,7 @@ public class FastjsonInvivoTestClassV1273 {
 		return getExitStatus();
 	}
 
-	/*
-	- Fastjson Version - 1.2.73
-	- Flaky Test(s) - SqlDateDeserializerTest2#test_sqlDate
-	- Context input: java.util.Date d;
-	*/
-	public boolean invivoTestSqlDate(Context c) {
+	public boolean invivoSqlDateDeserializerTest2(Context c) {
 		this.configure();
 		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
 
@@ -264,12 +279,8 @@ public class FastjsonInvivoTestClassV1273 {
 		return getExitStatus();
 	}
 
-	/*
-	- Fastjson Version - 1.2.73
-	- Flaky Test(s) - Issue1177_1#test_for_issue
-	- Context input: JSONObject ;
-	*/
-	public boolean invivoTest1177_1(Context c) {
+
+	public boolean invivoIssue1177_1(Context c) {
 		this.configure();
 		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
 
@@ -294,12 +305,7 @@ public class FastjsonInvivoTestClassV1273 {
 		return getExitStatus();
 	}
 
-	/*
-- Fastjson Version - 1.2.73
-- Flaky Test(s) - SqlDateDeserializerTest2#test_sqlDate
-- Context input: java.util.Date d;
-*/
-	public boolean invivo1972(Context c) {
+	public boolean invivoIssue1972(Context c) {
 		this.configure();
 		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
 
@@ -323,12 +329,7 @@ public class FastjsonInvivoTestClassV1273 {
 		return getExitStatus();
 	}
 
-	/*
-- Fastjson Version - 1.2.73
-- Flaky Test(s) - JSONObjectTest_readObject#test_6
-- Context input: java.util.Date d;
-*/
-	public boolean readObject(Context c) {
+	public boolean invivoJSONObjectTest_readObject(Context c) {
 		this.configure();
 		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
 
@@ -352,42 +353,30 @@ public class FastjsonInvivoTestClassV1273 {
 		return getExitStatus();
 	}
 
+	public boolean invivoIssue1492(Context c) throws InvocationTargetException{
+		this.configure();
+		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
 
-
-	/*
-	- Fastjson Version - 1.2.73
-	- Flaky Test(s) - Issue1492#test_for_issue
-	- Context input: JSONObject, JSONArray;
-	*/
-		public boolean invivoJsonObjArr(Context c) throws InvocationTargetException{
-			this.configure();
-			byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
-			RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
-
-			String mName = this.getCurrentMethodName();
-			System.out.println("["+mName+"] Testing invivo ...");
-			try {
-				shield.applyCheckpoint(contextData);
-				Issue1492 unitTest = new Issue1492();
-				unitTest.configure(InputGenerator.generateRandomJSONObject(contextData), InputGenerator.generateJSONArray(contextData));
-				unitTest.test_for_issue();
-				System.out.println("Issue1492#test_for_issue passed.");
-			}catch(Throwable t){
-				System.out.println(t.getMessage());
-				System.out.println("Issue1492#test_for_issue failed.");
-			}
-			finally {
-				shield.applyRollback(contextData);
-			}
-			setExitStatus();
-			return getExitStatus();
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		try {
+			shield.applyCheckpoint(contextData);
+			Issue1492 unitTest = new Issue1492();
+			unitTest.configure(InputGenerator.generateRandomJSONObject(contextData), InputGenerator.generateJSONArray(contextData));
+			unitTest.test_for_issue();
+			System.out.println("Issue1492#test_for_issue passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("Issue1492#test_for_issue failed.");
 		}
+		finally {
+			shield.applyRollback(contextData);
+		}
+		setExitStatus();
+		return getExitStatus();
+	}
 
-	/*
-	- Fastjson Version - 1.2.73
-	- Flaky Test(s) - WriteDuplicateType#test_dupType
-	- Context input: LinkedHashMap<String, JSONObject>
-	*/
 	public boolean invivoWriteDuplicateType(Context c) throws InvocationTargetException{
 		this.configure();
 		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
