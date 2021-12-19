@@ -31,11 +31,7 @@ public class FastjsonInvivoTestClassV1275 {
 
 	private static List<String> FAILED_TESTS = new ArrayList<String>();
 
-	/*
-	- Fastjson Version - 1.2.75
-	- Flaky Test(s) - Issue2428#test_for_issue
-	*/
-	public boolean invivoTest2428(Context c) {
+	public boolean invivoIssue2428(Context c) {
 		this.configure();
 		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
 
@@ -84,6 +80,7 @@ public class FastjsonInvivoTestClassV1275 {
 		System.out.println("["+mName+"] Testing invivo ...");
 		try {
 			Bug_for_issue_447 unitTest = new Bug_for_issue_447();
+			//unitTest.setUp();
 			unitTest.configure(InputGenerator.generateDate());
 			unitTest.test_for_issue();
 			System.out.println("Bug_for_issue_447#test_for_issue passed.");

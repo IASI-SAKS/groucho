@@ -76,6 +76,7 @@ public class FastjsonInvivoTestClassV1275_Default {
 		}
 		try {
 			Bug_for_issue_447 unitTest = new Bug_for_issue_447();
+			//Setup
 			unitTest.test_for_issue();
 			System.out.println("Bug_for_issue_447#test_for_issue passed.");
 		}catch(Throwable t){

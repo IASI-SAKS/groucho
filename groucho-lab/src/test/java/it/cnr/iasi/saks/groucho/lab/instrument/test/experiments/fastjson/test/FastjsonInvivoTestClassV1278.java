@@ -37,7 +37,7 @@ public class FastjsonInvivoTestClassV1278 {
 
 	private static List<String> FAILED_TESTS = new ArrayList<String>();
 
-	public boolean invivoTestMultimap(Context c) {
+	public boolean invivoHashMultimapTest(Context c) {
 		this.configure();
 		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
 
@@ -62,7 +62,7 @@ public class FastjsonInvivoTestClassV1278 {
 		return getExitStatus();
 	}
 
-	public boolean invivoMaxBufSize(Context c) {
+	public boolean invivoMaxBufSizeTest(Context c) {
 		this.configure();
 		SerializeWriter sw = (SerializeWriter) c.getInstrumentedObject();
 
@@ -88,7 +88,7 @@ public class FastjsonInvivoTestClassV1278 {
 		return getExitStatus();
 	}
 
-	public boolean invivo1584(Context c) {
+	public boolean invivoIssue1584(Context c) {
 		this.configure();
 		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
 
@@ -113,7 +113,7 @@ public class FastjsonInvivoTestClassV1278 {
 		return getExitStatus();
 	}
 
-	public boolean invivoSortField(Context c) {
+	public boolean invivoSortFieldTest(Context c) {
 		this.configure();
 		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
 
@@ -138,7 +138,7 @@ public class FastjsonInvivoTestClassV1278 {
 		return getExitStatus();
 	}
 
-	public boolean invivo3082(Context c) {
+	public boolean invivoIssue3082(Context c) {
 		this.configure();
 		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
 
@@ -163,7 +163,6 @@ public class FastjsonInvivoTestClassV1278 {
 		return getExitStatus();
 	}
 
-
 	private String getCurrentMethodName() {
 		String nameofCurrMethod = Thread.currentThread().getStackTrace()[2].getMethodName();
 		return nameofCurrMethod;
@@ -173,7 +172,6 @@ public class FastjsonInvivoTestClassV1278 {
 		setExitStatus();
 		FAILED_TESTS.clear();
 	}
-
 
 	public synchronized static boolean getExitStatus(){
 		return EXIT_STATUS;
