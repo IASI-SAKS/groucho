@@ -13,7 +13,7 @@ import com.alibaba.fastjson.JSONObject;
 
 
 public class Bug_for_xiayucai2012 extends TestCase {
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         JSON.defaultTimeZone = TimeZone.getTimeZone("Asia/Shanghai");
         JSON.defaultLocale = Locale.CHINA;
     }

@@ -23,6 +23,7 @@ import com.alibaba.json.bvt.guava.HashMultimapTest;
 import com.alibaba.json.bvt.issue_1500.Issue1584;
 import com.alibaba.json.bvt.serializer.MaxBufSizeTest;
 import com.alibaba.json.bvt.asm.SortFieldTest;
+import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,16 +44,19 @@ public class FastjsonInvivoTestClassV1278_NonParam {
 
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		HashMultimapTest unitTest = new HashMultimapTest();
 
 		try {
-			HashMultimapTest unitTest = new HashMultimapTest();
+			shield.applyCheckpoint(unitTest);
 			unitTest.test_for_multimap();
 			System.out.println("HashMultimapTest#test_for_multimap passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("HashMultimapTest#test_for_multimap failed.");
+		}finally {
+			shield.applyRollback(unitTest);
 		}
-
 		setExitStatus();
 		return getExitStatus();
 	}
@@ -62,16 +66,19 @@ public class FastjsonInvivoTestClassV1278_NonParam {
 
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		Issue3082 unitTest = new Issue3082();
 
 		try {
-			Issue3082 unitTest = new Issue3082();
+			shield.applyCheckpoint(unitTest);
 			unitTest.test_for_issue();
 			System.out.println("Issue3082#test_for_issue passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("Issue3082#test_for_issue failed.");
+		}finally {
+			shield.applyRollback(unitTest);
 		}
-
 		setExitStatus();
 		return getExitStatus();
 	}
@@ -81,13 +88,18 @@ public class FastjsonInvivoTestClassV1278_NonParam {
 
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		Issue1584 unitTest = new Issue1584();
+
 		try {
-			Issue1584 unitTest = new Issue1584();
+			shield.applyCheckpoint(unitTest);
 			unitTest.test_for_issue();
 			System.out.println("Issue1584#test_for_issue passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("Issue1584#test_for_issue failed.");
+		}finally {
+			shield.applyRollback(unitTest);
 		}
 		setExitStatus();
 		return getExitStatus();
@@ -98,22 +110,18 @@ public class FastjsonInvivoTestClassV1278_NonParam {
 
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		MaxBufSizeTest unitTest = new MaxBufSizeTest();
 
 		try {
-			MaxBufSizeTest unitTest = new MaxBufSizeTest();
+			shield.applyCheckpoint(unitTest);
 			unitTest.test_max_buf();
 			System.out.println("MaxBufSizeTest#test_max_buf passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("MaxBufSizeTest#test_max_buf failed.");
-		}
-		try {
-			SortFieldTest unitTest = new SortFieldTest();
-			unitTest.test_0();
-			System.out.println("invivoSortField#test_0 passed.");
-		}catch(Throwable t){
-			System.out.println(t.getMessage());
-			System.out.println("invivoSortField#test_0 failed.");
+		}finally {
+			shield.applyRollback(unitTest);
 		}
 		setExitStatus();
 		return getExitStatus();
@@ -124,14 +132,18 @@ public class FastjsonInvivoTestClassV1278_NonParam {
 
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		SortFieldTest unitTest = new SortFieldTest();
 
 		try {
-			SortFieldTest unitTest = new SortFieldTest();
+			shield.applyCheckpoint(unitTest);
 			unitTest.test_0();
 			System.out.println("invivoSortField#test_0 passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("invivoSortField#test_0 failed.");
+		}finally {
+			shield.applyRollback(unitTest);
 		}
 		setExitStatus();
 		return getExitStatus();

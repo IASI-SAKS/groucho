@@ -19,6 +19,8 @@ package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 
 import it.cnr.iasi.saks.groucho.common.Context;
 import com.alibaba.json.bvt.bug.Bug_for_smoothrat6;
+import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,13 +38,18 @@ public class FastjsonInvivoTestClassV1262_NonParam {
 		this.configure();
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
-			try {
-			Bug_for_smoothrat6 unitTest = new Bug_for_smoothrat6();
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		Bug_for_smoothrat6 unitTest = new Bug_for_smoothrat6();
+
+		try {
+			shield.applyCheckpoint(unitTest);
 			unitTest.test_set();
 			System.out.println("Bug_for_smoothrat6#test_set passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("Bug_for_smoothrat6#test_set failed.");
+		}finally {
+			shield.applyRollback(unitTest);
 		}
 		setExitStatus();
 		return getExitStatus();
