@@ -19,6 +19,7 @@ package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 
 import com.alibaba.json.bvt.parser.deser.date.DateParseTest9;
 import it.cnr.iasi.saks.groucho.common.Context;
+import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,15 +38,19 @@ public class FastjsonInvivoTestClassV1257_NonParam {
 		this.configure();
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		DateParseTest9 unitTest = new DateParseTest9();
 		try {
-			DateParseTest9 unitTest = new DateParseTest9();
-			//unitTest.setUp();
+			shield.applyCheckpoint(unitTest);
+			unitTest.setUp();
 			unitTest.test_dates_different_timeZones();
-			//unitTest.tearDown();
+			unitTest.tearDown();
 			System.out.println("DateParseTest9#test_dates_different_timeZones passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("DateParseTest9#test_dates_different_timeZones failed.");
+		}finally {
+			shield.applyRollback(unitTest);
 		}
 		setExitStatus();
 		return getExitStatus();
