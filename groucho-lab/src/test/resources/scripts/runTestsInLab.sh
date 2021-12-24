@@ -1,10 +1,22 @@
 #!/bin/bash
-TEST="com.alibaba.json.bvt.serializer.JSONSerializerTest2"
-VERSION="1.2.54"
+VERSION="" 
+TEST=""
+
+start=$(date)
+echo "Running script in: " $PWD
+echo "Start time : " $start
+echo "Start time : " $start &>>CassiaInLab-$VERSION.txt
+
 for i in {1..10000}
 do 
-echo " " &>>inLab-$VERSION-$TEST.txt
-echo "Run N.$i" &>>inLab-$VERSION-$TEST.txt
-mvn -Dtest=$TEST test &>>inLab-$VERSION-$TEST.txt
+echo " " &>>CassiaInLab-$VERSION.txt
+echo "Run N.$i" &>>CassiaInLab-$VERSION.txt
+echo "Run N.$i" 
+mvn -Dtest=$TEST  -Dmaven.test.failure.ignore=true test -DreuseForks=false -DuseUnlimitedThreads=false &>>CassiaInLab-$VERSION.txt
 done
+
+end=$(date)
+echo "End time : " $end &>>CassiaInLab-$VERSION.txt
+echo "End time : " $end
+
 exit 0
