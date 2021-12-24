@@ -19,11 +19,7 @@ package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 
 import it.cnr.iasi.saks.groucho.common.Context;
 import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
-import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1278.HashMultimapTest;
-import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1278.Issue1584;
-import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1278.Issue3082;
-import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1278.MaxBufSizeTest;
-import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1278.SortFieldTest;
+import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1278.*;
 
 import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.utils.InputGenerator;
 import com.alibaba.fastjson.serializer.SerializeWriter;
@@ -83,6 +79,31 @@ public class FastjsonInvivoTestClassV1278 {
 		}
 		finally {
 			shield.applyRollback(sw);
+		}
+		setExitStatus();
+		return getExitStatus();
+	}
+
+	public boolean invivoIssue1368(Context c) {
+		this.configure();
+		byte[] contextData =  (byte[]) c.getOtherReferencesInContext().get(0);
+
+		String mName = this.getCurrentMethodName();
+		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+
+		try {
+			shield.applyCheckpoint(contextData);
+			Issue1368 unitTest = new Issue1368();
+			//unitTest.configure(InputGenerator.generateAlibabaJSONObject(contextData));
+			unitTest.test_for_issue();
+			System.out.println("Issue1368#test_for_issue passed.");
+		}catch(Throwable t){
+			System.out.println(t.getMessage());
+			System.out.println("Issue1368#test_for_issue failed.");
+		}
+		finally {
+			shield.applyRollback(contextData);
 		}
 		setExitStatus();
 		return getExitStatus();
