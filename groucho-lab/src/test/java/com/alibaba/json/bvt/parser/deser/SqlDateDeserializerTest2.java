@@ -11,7 +11,7 @@ import junit.framework.TestCase;
 import com.alibaba.fastjson.JSON;
 
 public class SqlDateDeserializerTest2 extends TestCase {
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         JSON.defaultTimeZone = TimeZone.getTimeZone("Asia/Shanghai");
         JSON.defaultLocale = Locale.CHINA;
     }

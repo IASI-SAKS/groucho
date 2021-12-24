@@ -15,19 +15,21 @@ import junit.framework.TestCase;
 public class JSONSerializerTest2 extends TestCase {
 
     public void test_0() throws Exception {
+        System.out.println("Running test_0");
         JSONSerializer serializer = new JSONSerializer();
 
         int size = JSONSerializerMapTest.size(serializer.getMapping());
         serializer.config(SerializerFeature.WriteEnumUsingToString, false);
         serializer.config(SerializerFeature.WriteEnumUsingName, false);
         serializer.write(Type.A);
-
         Assert.assertTrue(size < JSONSerializerMapTest.size(serializer.getMapping()));
 
         Assert.assertEquals(Integer.toString(Type.A.ordinal()), serializer.getWriter().toString());
     }
 
     public void test_1() throws Exception {
+        System.out.println("Running test_1");
+
         JSONSerializer serializer = new JSONSerializer();
         serializer.config(SerializerFeature.WriteEnumUsingToString, false);
         serializer.config(SerializerFeature.WriteEnumUsingName, false);
@@ -40,6 +42,8 @@ public class JSONSerializerTest2 extends TestCase {
     }
 
     public void test_2() throws Exception {
+        System.out.println("Running test_2");
+
         JSONSerializer serializer = new JSONSerializer();
         serializer.write(new C());
 
@@ -47,6 +51,8 @@ public class JSONSerializerTest2 extends TestCase {
     }
 
     public void test_3() throws Exception {
+        System.out.println("Running test_3");
+
         JSONSerializer serializer = new JSONSerializer();
         serializer.config(SerializerFeature.WriteEnumUsingToString, true);
         serializer.write(new A(Type.B));

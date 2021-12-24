@@ -23,6 +23,8 @@ import com.alibaba.json.bvt.issue_1400.Issue1493;
 import it.cnr.iasi.saks.groucho.common.Context;
 import com.alibaba.json.bvt.issue_2400.Issue2428;
 import com.alibaba.json.bvt.parser.TypeUtilsTest;
+import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,14 +42,18 @@ public class FastjsonInvivoTestClassV1275_NonParam {
 		this.configure();
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		Issue2428 unitTest = new Issue2428();
 
 		try {
-			Issue2428 unitTest = new Issue2428();
+			shield.applyCheckpoint(unitTest);
 			unitTest.test_for_issue();
 			System.out.println("Issue2428#test_for_issue passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("Issue2428#test_for_issue failed.");
+		}finally {
+			shield.applyRollback(unitTest);
 		}
 		setExitStatus();
 		return getExitStatus();
@@ -58,14 +64,18 @@ public class FastjsonInvivoTestClassV1275_NonParam {
 
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		TypeUtilsTest unitTest = new TypeUtilsTest();
 
 		try {
-			TypeUtilsTest unitTest = new TypeUtilsTest();
+			shield.applyCheckpoint(unitTest);
 			unitTest.test_cast_to_Timestamp_1970_01_01_00_00_00();
 			System.out.println("TypeUtilsTest#test_cast_to_Timestamp_1970_01_01_00_00_00 passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("TypeUtilsTest#test_cast_to_Timestamp_1970_01_01_00_00_00 failed.");
+		}finally {
+			shield.applyRollback(unitTest);
 		}
 
 		setExitStatus();
@@ -74,17 +84,21 @@ public class FastjsonInvivoTestClassV1275_NonParam {
 
 	public boolean invivoBug_for_xiayucai2012(Context c) {
 		this.configure();
-
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		Bug_for_xiayucai2012 unitTest = new Bug_for_xiayucai2012();
 
 		try {
-			Bug_for_xiayucai2012 unitTest = new Bug_for_xiayucai2012();
+			shield.applyCheckpoint(unitTest);
+			unitTest.setUp();
 			unitTest.test_for_xiayucai2012();
 			System.out.println("Bug_for_xiayucai2012#test_for_xiayucai2012 passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("Bug_for_xiayucai2012#test_for_xiayucai2012 failed.");
+		}finally {
+			shield.applyRollback(unitTest);
 		}
 
 		setExitStatus();
@@ -96,14 +110,19 @@ public class FastjsonInvivoTestClassV1275_NonParam {
 
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		Issue1493 unitTest = new Issue1493();
 
 		try {
-			Issue1493 unitTest = new Issue1493();
+			shield.applyCheckpoint(unitTest);
+			unitTest.setUp();
 			unitTest.test_for_issue();
 			System.out.println("Issue1493#test_for_issue passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("Issue1493#test_for_issue failed.");
+		}finally {
+			shield.applyRollback(unitTest);
 		}
 		setExitStatus();
 		return getExitStatus();
@@ -111,17 +130,20 @@ public class FastjsonInvivoTestClassV1275_NonParam {
 
 	public boolean invivoBug_for_issue_447(Context c) {
 		this.configure();
-
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		Bug_for_issue_447 unitTest = new Bug_for_issue_447();
 		try {
-			Bug_for_issue_447 unitTest = new Bug_for_issue_447();
-			//Setup
+			shield.applyCheckpoint(unitTest);
+			unitTest.setUp();
 			unitTest.test_for_issue();
 			System.out.println("Bug_for_issue_447#test_for_issue passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("Bug_for_issue_447#test_for_issue failed.");
+		}finally {
+			shield.applyRollback(unitTest);
 		}
 		setExitStatus();
 		return getExitStatus();

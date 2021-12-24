@@ -12,7 +12,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 public class Issue1493 extends TestCase {
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         JSON.defaultTimeZone = TimeZone.getTimeZone("Asia/Shanghai");
         JSON.defaultLocale = Locale.CHINA;
     }

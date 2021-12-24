@@ -20,6 +20,8 @@ package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 import com.alibaba.json.bvt.serializer.JSONFieldTest5;
 import com.alibaba.json.bvt.serializer.JSONSerializerTest2;
 import it.cnr.iasi.saks.groucho.common.Context;
+import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,13 +39,17 @@ public class FastjsonInvivoTestClassV1251_NonParam {
 		this.configure();
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		JSONSerializerTest2 unitTest = new JSONSerializerTest2();
 		try {
-			JSONSerializerTest2 unitTest = new JSONSerializerTest2();
+			shield.applyCheckpoint(unitTest);
 			unitTest.test_0();
 			System.out.println("JSONSerializerTest2#test_0 passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("JSONSerializerTest2#test_0 failed.");
+		}finally {
+			shield.applyCheckpoint(unitTest);
 		}
 		setExitStatus();
 		return getExitStatus();
@@ -53,13 +59,17 @@ public class FastjsonInvivoTestClassV1251_NonParam {
 		this.configure();
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		JSONFieldTest5 unitTest = new JSONFieldTest5();
 		try {
-			JSONFieldTest5 unitTest = new JSONFieldTest5();
+			shield.applyCheckpoint(unitTest);
 			unitTest.test_jsonField();
 			System.out.println("JSONFieldTest5#test_jsonField passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("JSONFieldTest5#test_jsonField failed.");
+		}finally {
+			shield.applyRollback(unitTest);
 		}
 		setExitStatus();
 		return getExitStatus();

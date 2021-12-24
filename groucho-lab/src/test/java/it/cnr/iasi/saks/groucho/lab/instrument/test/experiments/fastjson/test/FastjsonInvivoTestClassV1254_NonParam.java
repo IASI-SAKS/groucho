@@ -31,6 +31,7 @@ import com.alibaba.json.bvt.serializer.date.DateTest4_indian;
 import com.alibaba.json.bvt.serializer.date.DateTest5_iso8601;
 import com.alibaba.json.bvt.writeClassName.V1254.WriteDuplicateType;
 import it.cnr.iasi.saks.groucho.common.Context;
+import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
 
 import java.util.*;
 
@@ -48,13 +49,17 @@ public class FastjsonInvivoTestClassV1254_NonParam {
 		this.configure();
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		JSONPParseTest2 unitTest = new JSONPParseTest2();
 		try {
-			JSONPParseTest2 unitTest = new JSONPParseTest2();
+			shield.applyCheckpoint(unitTest);
 			unitTest.test_f();
 			System.out.println("JSONPParseTest2#test_f passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("JSONPParseTest2#test_f failed.");
+		}finally {
+			shield.applyRollback(unitTest);
 		}
 		setExitStatus();
 		return getExitStatus();
@@ -64,13 +69,18 @@ public class FastjsonInvivoTestClassV1254_NonParam {
 		this.configure();
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		JSONPParseTest3 unitTest = new JSONPParseTest3();
+
 		try {
-			JSONPParseTest3 unitTest = new JSONPParseTest3();
+			shield.applyCheckpoint(unitTest);
 			unitTest.test_f();
 			System.out.println("JSONPParseTest3#test_f passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("JSONPParseTest3#test_f failed.");
+		}finally {
+			shield.applyRollback(unitTest);
 		}
 		setExitStatus();
 		return getExitStatus();
@@ -80,13 +90,18 @@ public class FastjsonInvivoTestClassV1254_NonParam {
 		this.configure();
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		DateTest5_iso8601 unitTest = new DateTest5_iso8601();
+
 		try {
-			DateTest5_iso8601 unitTest = new DateTest5_iso8601();
+			shield.applyCheckpoint(unitTest);
 			unitTest.test_date();
 			System.out.println("DateTest5_iso8601#test_date passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("DateTest5_iso8601#test_date failed.");
+		}finally {
+			shield.applyRollback(unitTest);
 		}
 		setExitStatus();
 		return getExitStatus();
@@ -96,13 +111,18 @@ public class FastjsonInvivoTestClassV1254_NonParam {
 		this.configure();
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		Issue1480 unitTest = new Issue1480();
+
 		try {
-			Issue1480 unitTest = new Issue1480();
+			shield.applyCheckpoint(unitTest);
 			unitTest.test_for_issue();
 			System.out.println("Issue1480#test_for_issue passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("Issue1480#test_for_issue failed.");
+		}finally {
+			shield.applyRollback(unitTest);
 		}
 		setExitStatus();
 		return getExitStatus();
@@ -112,13 +132,18 @@ public class FastjsonInvivoTestClassV1254_NonParam {
 		this.configure();
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		Issue1298 unitTest = new Issue1298();
+
 		try {
-			Issue1298 unitTest = new Issue1298();
+			shield.applyCheckpoint(unitTest);
 			unitTest.test_for_issue();
 			System.out.println("Issue1298#test_for_issue passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("Issue1298#test_for_issue failed.");
+		}finally {
+			shield.applyRollback(unitTest);
 		}
 		setExitStatus();
 		return getExitStatus();
@@ -128,13 +153,18 @@ public class FastjsonInvivoTestClassV1254_NonParam {
 		this.configure();
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		Issue1298 unitTest = new Issue1298();
+
 		try {
-			Issue1298 unitTest = new Issue1298();
+			shield.applyCheckpoint(unitTest);
 			unitTest.test_for_issue_1();
 			System.out.println("Issue1298#test_for_issue_1 passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("Issue1298#test_for_issue_1 failed.");
+		}finally {
+			shield.applyRollback(unitTest);
 		}
 		setExitStatus();
 		return getExitStatus();
@@ -144,13 +174,18 @@ public class FastjsonInvivoTestClassV1254_NonParam {
 		this.configure();
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		Issue1977 unitTest = new Issue1977();
+
 		try {
-			Issue1977 unitTest = new Issue1977();
+			shield.applyCheckpoint(unitTest);
 			unitTest.test_for_issue();
 			System.out.println("Issue1977#test_for_issue passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("Issue1977#test_for_issue failed.");
+		}finally {
+			shield.applyRollback(unitTest);
 		}
 		setExitStatus();
 		return getExitStatus();
@@ -160,13 +195,18 @@ public class FastjsonInvivoTestClassV1254_NonParam {
 		this.configure();
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		DateTest unitTest = new DateTest();
+
 		try {
-			DateTest unitTest = new DateTest();
+			shield.applyCheckpoint(unitTest);
 			unitTest.test_date();
 			System.out.println("DateTest#test_date passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("DateTest#test_date failed.");
+		}finally {
+			shield.applyRollback(unitTest);
 		}
 		setExitStatus();
 		return getExitStatus();
@@ -176,13 +216,18 @@ public class FastjsonInvivoTestClassV1254_NonParam {
 		this.configure();
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		DateTest4_indian unitTest = new DateTest4_indian();
+
 		try {
-			DateTest4_indian unitTest = new DateTest4_indian();
+			shield.applyCheckpoint(unitTest);
 			unitTest.test_date();
 			System.out.println("DateTest4_indian#test_date passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("DateTest4_indian#test_date failed.");
+		}finally {
+			shield.applyRollback(unitTest);
 		}
 		setExitStatus();
 		return getExitStatus();
@@ -192,13 +237,18 @@ public class FastjsonInvivoTestClassV1254_NonParam {
 		this.configure();
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		Issue1679 unitTest = new Issue1679();
+
 		try {
-			Issue1679 unitTest = new Issue1679();
+			shield.applyCheckpoint(unitTest);
 			unitTest.test_for_issue();
 			System.out.println("Issue1679#test_for_issue passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("Issue1679#test_for_issue failed.");
+		}finally {
+			shield.applyRollback(unitTest);
 		}
 		setExitStatus();
 		return getExitStatus();
@@ -208,14 +258,18 @@ public class FastjsonInvivoTestClassV1254_NonParam {
 		this.configure();
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		DateTest_tz unitTest = new DateTest_tz();
 
 		try {
-			DateTest_tz unitTest = new DateTest_tz();
+			shield.applyCheckpoint(unitTest);
 			unitTest.test_codec();
 			System.out.println("DateTest_tz#test_codec passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("DateTest_tz#test_codec failed.");
+		}finally {
+			shield.applyRollback(unitTest);
 		}
 		setExitStatus();
 		return getExitStatus();
@@ -225,13 +279,18 @@ public class FastjsonInvivoTestClassV1254_NonParam {
 		this.configure();
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		DefaultExtJSONParser_parseArray unitTest = new DefaultExtJSONParser_parseArray();
+
 		try {
-			DefaultExtJSONParser_parseArray unitTest = new DefaultExtJSONParser_parseArray();
+			shield.applyCheckpoint(unitTest);
 			unitTest.test_8();
 			System.out.println("DefaultExtJSONParser_parseArray#test_8 passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("DefaultExtJSONParser_parseArray#test_8 failed.");
+		}finally {
+			shield.applyRollback(unitTest);
 		}
 		setExitStatus();
 		return getExitStatus();
@@ -241,13 +300,18 @@ public class FastjsonInvivoTestClassV1254_NonParam {
 		this.configure();
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		WriteDuplicateType unitTest = new WriteDuplicateType();
+
 		try {
-			WriteDuplicateType unitTest = new WriteDuplicateType();
+			shield.applyCheckpoint(unitTest);
 			unitTest.test_dupType2();
 			System.out.println("WriteDuplicateType#test_dupType2 passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("WriteDuplicateType#test_dupType2 failed.");
+		}finally {
+			shield.applyRollback(unitTest);
 		}
 		setExitStatus();
 		return getExitStatus();
@@ -257,13 +321,18 @@ public class FastjsonInvivoTestClassV1254_NonParam {
 		this.configure();
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		DefaultExtJSONParser_parseArray unitTest = new DefaultExtJSONParser_parseArray();
+
 		try {
-			DefaultExtJSONParser_parseArray unitTest = new DefaultExtJSONParser_parseArray();
+			shield.applyCheckpoint(unitTest);
 			unitTest.test_8();
 			System.out.println("DefaultExtJSONParser_parseArray#test_8 passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("DefaultExtJSONParser_parseArray#test_8 failed.");
+		}finally {
+			shield.applyRollback(unitTest);
 		}
 		setExitStatus();
 		return getExitStatus();
@@ -273,13 +342,18 @@ public class FastjsonInvivoTestClassV1254_NonParam {
 		this.configure();
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		DefaultExtJSONParser_parseArray unitTest = new DefaultExtJSONParser_parseArray();
+
 		try {
-			DefaultExtJSONParser_parseArray unitTest = new DefaultExtJSONParser_parseArray();
+			shield.applyCheckpoint(unitTest);
 			unitTest.test_7();
 			System.out.println("DefaultExtJSONParser_parseArray#test_7 passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("DefaultExtJSONParser_parseArray#test_7 failed.");
+		}finally {
+			shield.applyRollback(unitTest);
 		}
 		setExitStatus();
 		return getExitStatus();
@@ -289,8 +363,10 @@ public class FastjsonInvivoTestClassV1254_NonParam {
 		this.configure();
 		String mName = this.getCurrentMethodName();
 		System.out.println("["+mName+"] Testing invivo ...");
+		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
+		Issue1177_2 unitTest = new Issue1177_2();
+
 		try {
-			Issue1177_2 unitTest = new Issue1177_2();
 			unitTest.test_for_issue();
 			System.out.println("Issue1177_2#test_for_issue passed.");
 		}catch(Throwable t){
