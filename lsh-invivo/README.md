@@ -7,6 +7,7 @@
  
 2. Install Python 3.5 or higher:
    - `sudo apt-get install python3.5`
+   - `sudo apt-get install python3-pip`
 
 3. Install the additional python packages required:
    - `pip install -r requirements.txt`
