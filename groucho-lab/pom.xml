@@ -238,6 +238,12 @@
 			<version>2.4.0</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>5.2.5.RELEASE</version>
+			<scope>test</scope>
+		</dependency>
 
 	</dependencies>
 
