@@ -27,6 +27,10 @@ public class JSONSerializerTest2 {
      this.serializer = js;
     }
 
+    public JSONSerializer getSerializer(){
+        return this.serializer;
+    }
+
     @Test
     public void test_0() throws Exception {
 

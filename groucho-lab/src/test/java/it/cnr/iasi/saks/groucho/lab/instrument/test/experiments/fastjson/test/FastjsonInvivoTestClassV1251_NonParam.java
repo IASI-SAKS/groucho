@@ -17,8 +17,9 @@
  */
 package it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test;
 
+import com.alibaba.fastjson.serializer.JSONSerializer;
 import com.alibaba.json.bvt.serializer.JSONFieldTest5;
-import com.alibaba.json.bvt.serializer.JSONSerializerTest2;
+import it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.test.V1251.JSONSerializerTest2;
 import it.cnr.iasi.saks.groucho.common.Context;
 import it.cnr.iasi.saks.groucho.isolation.RuntimeEnvironmentShield;
 
@@ -42,14 +43,15 @@ public class FastjsonInvivoTestClassV1251_NonParam {
 		RuntimeEnvironmentShield shield = new RuntimeEnvironmentShield();
 		JSONSerializerTest2 unitTest = new JSONSerializerTest2();
 		try {
-			shield.applyCheckpoint(unitTest);
+			shield.applyCheckpoint(unitTest.getSerializer());
 			unitTest.test_0();
 			System.out.println("JSONSerializerTest2#test_0 passed.");
 		}catch(Throwable t){
 			System.out.println(t.getMessage());
 			System.out.println("JSONSerializerTest2#test_0 failed.");
-		}finally {
-			shield.applyCheckpoint(unitTest);
+		}
+		finally {
+			shield.applyRollback(unitTest.getSerializer());
 		}
 		setExitStatus();
 		return getExitStatus();
