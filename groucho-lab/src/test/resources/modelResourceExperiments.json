@@ -1,5 +1,6 @@
 {
-  "lst" : [ {
+  "lst" : [
+  {
     "className" : "org.apache.jcs.engine.memory.lru.LRUMemoryCache",
     "methodName" : "update",
     "annotation" : {
