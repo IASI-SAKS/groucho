@@ -125,4 +125,21 @@ TBD
  Also, please note that this profile relies on two [fat-jars](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/groucho-lab/src/test/resources/lib/fat-jars/) of the libraries ``jcs`` and ``oscache``. They have been [instrmented offline](https://www.jacoco.org/jacoco/trunk/doc/offline.html) by means of Jacoco CLI (0.8.5).
  
  
-    
+How to launch the Fastjson experiment
+-------
+### 1) Running the tests In-House
+To run the [original tests](https://github.com/IASI-SAKS/groucho/tree/master/groucho-lab/src/test/java/it/cnr/iasi/saks/groucho/lab/instrument/test/experiments/fastjson/originalTest) of [Fastjson](https://github.com/alibaba/fastjson) In-House:
+1. Specify the Fastjson version to be tested in the [pom.xml](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/pom.xml) of groucho-lab;
+2. Run ``mvn package``;
+3. Configure the [runTestsInLab.sh](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/src/test/resources/scripts/runTestsInLab.sh) script, making sure to specify the test class to be run; 
+4. Run the ``runTestsInLab.sh`` script from the ``groucho-lab`` folder;
+
+Note that the script will run the test class 10000 times. You can also use ``mvn test -Dtest=<TestClassName>`` to execute all the tests in the class only once.
+
+### 2) Running the tests In-Vivo
+Each [Non-Parametric](https://github.com/IASI-SAKS/groucho/tree/master/groucho-lab/src/test/java/it/cnr/iasi/saks/groucho/lab/instrument/test/experiments/fastjson/test) and each parametric [Parametric](https://github.com/IASI-SAKS/groucho/tree/master/groucho-lab/src/test/java/it/cnr/iasi/saks/groucho/lab/instrument/test/experiments/fastjson/test) In-Vivo test class groups the In-Vivo tests for a specific version of Fastjson. To run either the Non-Parametric or the Parametric tests In-Vivo you must:
+1. Specify the Fastjson version to be tested in the [pom.xml](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/pom.xml) of groucho-lab;
+2. Run ``mvn package``;
+3. Specify the media file to be passed as input to the benchmark for the serialization/deserialization operations in [BenchmarkDriver_IT](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/src/test/java/it/cnr/iasi/saks/groucho/lab/instrument/test/experiments/fastjson/BenchmarkDriver_IT.java). 
+4. Specify the ``invivoTestClass`` and the relative ``invivoTest`` to be run in the [modelResourceFlakinessExperiments.json](https://github.com/IASI-SAKS/groucho/blob/master/groucho-lab/src/test/resources/modelResourceFlakinessExperiments.json) configuration file;
+5. Start the In-Vivo test run with ``mvn verify -PbenchmarkProfile``.
