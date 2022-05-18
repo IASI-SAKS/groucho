@@ -38,9 +38,20 @@ public class LSHInvivoJepWorker implements Runnable, StateObserver, StateObserve
 		
 	@Override
 	public void run() {
+		StateObserverFactory soFactory = null;
+		try {
+			JEP_WORKER_LOCK.lock();
+			soFactory = new StateObserverFactory();
+		} catch (LSHException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			this.isAlive = false;
+		} finally {
+			JEP_WORKER_LOCK.unlock();
+		}
+		
 		while (this.isAlive) {
 			try {
-				StateObserverFactory soFactory = StateObserverFactory.getInstance();
 				StateObserver stateObserver = soFactory.getStateObserver();
 
 				while (!this.waitingRequests.isEmpty()) {
@@ -86,12 +97,25 @@ public class LSHInvivoJepWorker implements Runnable, StateObserver, StateObserve
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 		}
+		
+		try {
+			JEP_WORKER_LOCK.lock();
+			soFactory.disposeFactoryState();
+		} catch (LSHException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JEP_WORKER_LOCK.unlock();
+		}
+		
 	}
 	
 	public void stopWorker() {
+		JEP_WORKER_LOCK.lock();
 		this.isAlive = false;
+System.out.println("JEP Worker will stop soon ...");
+		JEP_WORKER_LOCK.unlock();
 	}
 
 	@Override
