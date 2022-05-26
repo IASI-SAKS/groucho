@@ -306,6 +306,9 @@
 					</argLine>
 					<excludes>
 						<exclude>it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.oscache.testIssueCache236.**</exclude>
+						<exclude>it.cnr.iasi.saks.groucho.lab.instrument.test.experiments.fastjson.**</exclude>
+						<exclude>it.cnr.iasi.saks.groucho.lab.instrument.test.json.**</exclude>
+						<exclude>com.alibaba.json.bvt.**</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
