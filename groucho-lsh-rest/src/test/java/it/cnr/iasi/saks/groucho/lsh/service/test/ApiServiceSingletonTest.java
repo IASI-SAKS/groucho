@@ -19,15 +19,17 @@ package it.cnr.iasi.saks.groucho.lsh.service.test;
 
 import org.junit.Test;
 import org.springframework.http.ResponseEntity;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 
-import it.cnr.iasi.saks.groucho.lsh.StateObserverFactory;
+import it.cnr.iasi.saks.groucho.lsh.ConcurrentStateObserverFactory;
 import it.cnr.iasi.saks.groucho.lsh.exceptions.LSHException;
 import it.cnr.iasi.saks.groucho.lsh.service.IsunknownApiService;
 import it.cnr.iasi.saks.groucho.lsh.service.MarkApiService;
 import it.cnr.iasi.saks.groucho.lsh.service.impl.IsunknownApiServiceImpl;
 import it.cnr.iasi.saks.groucho.lsh.service.impl.MarkApiServiceImpl;
+import it.cnr.iasi.saks.groucho.lsh.tests.util.ConcurrentStateObserverFactoryNoSingleton;
 
 public class ApiServiceSingletonTest {
 
@@ -50,11 +52,19 @@ public class ApiServiceSingletonTest {
 		
 	@BeforeClass
 	public static void purgeSignleton() throws LSHException{
-		StateObserverFactory soFactory = StateObserverFactory.getInstance();
+		// this is to force the reset of any previous instance of ConcurrentStateObserverFactory
+		ConcurrentStateObserverFactoryNoSingleton.resetFactory();
+		
+		ConcurrentStateObserverFactory soFactory = ConcurrentStateObserverFactory.getInstance();
 		soFactory.getStateObserver().resetStateObserver();
 		soFactory.getStateObserverLSH().resetStateObserver();
 	}
 	
+	@AfterClass
+	public static void cleanUp() throws LSHException {
+		ConcurrentStateObserverFactoryNoSingleton.resetFactory();
+	}
+
 	@Test
 	public void thisIsATest() throws LSHException {
 		if (DUMMY_CARVED_STATE_KNOWN) {
