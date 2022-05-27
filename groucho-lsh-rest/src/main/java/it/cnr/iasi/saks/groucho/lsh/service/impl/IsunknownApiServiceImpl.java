@@ -20,6 +20,7 @@ package it.cnr.iasi.saks.groucho.lsh.service.impl;
 import it.cnr.iasi.saks.groucho.lsh.StateObserver;
 import it.cnr.iasi.saks.groucho.lsh.StateObserverFactory;
 import it.cnr.iasi.saks.groucho.lsh.StateObserverLSH;
+import it.cnr.iasi.saks.groucho.lsh.ConcurrentStateObserverFactory;
 import it.cnr.iasi.saks.groucho.lsh.exceptions.LSHException;
 import it.cnr.iasi.saks.groucho.lsh.rest.api.impl.IsunknownApiController;
 //import it.cnr.iasi.saks.groucho.lsh.factoryOLD.StateObserverFactoryOLD;
@@ -44,7 +45,8 @@ public class IsunknownApiServiceImpl implements IsunknownApiService {
         // TODO if 400 error return httpstatus4
         boolean response;
         try {
-    		StateObserverFactory soFactory = StateObserverFactory.getInstance();
+//    		StateObserverFactory soFactory = StateObserverFactory.getInstance();
+    		ConcurrentStateObserverFactory soFactory = ConcurrentStateObserverFactory.getInstance();
     	    StateObserver stateObserver = soFactory.getStateObserver();
 
             response = stateObserver.isStateUnknown(body);
@@ -61,7 +63,8 @@ public class IsunknownApiServiceImpl implements IsunknownApiService {
         // TODO if 400 error return httpstatus4
         boolean response;
         try {
-    		StateObserverFactory soFactory = StateObserverFactory.getInstance();
+//    		StateObserverFactory soFactory = StateObserverFactory.getInstance();
+    		ConcurrentStateObserverFactory soFactory = ConcurrentStateObserverFactory.getInstance();
     	    StateObserverLSH stateObserverLSH = soFactory.getStateObserverLSH();
 
             response = stateObserverLSH.isStateUnknown(stateStringLSH);
