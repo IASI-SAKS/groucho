@@ -15,10 +15,14 @@ public class LSHInvivoJepWorker implements Runnable, StateObserver, StateObserve
 	private static Lock JEP_WORKER_LOCK = new ReentrantLock();
 //	private HashMap<Condition,ConditionPair> waitingConditions;
 	private ConcurrentLinkedQueue<ConditionToken> waitingRequests;
+
 	private boolean isStateUnknownLastResult;
 	private boolean isAlive;
 	
 	private Condition workerCondition;
+	private Condition stoppingCondition;
+	
+	private static int TIMEOUT = 20000;
 	
 	private volatile boolean resultFetched;
 //	private volatile boolean isResultReady;
@@ -26,13 +30,14 @@ public class LSHInvivoJepWorker implements Runnable, StateObserver, StateObserve
 	
 	public LSHInvivoJepWorker() {
 		this.workerCondition = JEP_WORKER_LOCK.newCondition();
+		this.stoppingCondition = JEP_WORKER_LOCK.newCondition();
 		
 		this.resultFetched = false;
 //		this.isResultReady=false;
 		this.isWorking=false;
 
 		this.waitingRequests = new ConcurrentLinkedQueue<ConditionToken>();
-		
+
 		this.isAlive = true;
 	}
 		
@@ -42,6 +47,7 @@ public class LSHInvivoJepWorker implements Runnable, StateObserver, StateObserve
 		try {
 			JEP_WORKER_LOCK.lock();
 			soFactory = new StateObserverFactory();
+			this.isWorking = true;
 		} catch (LSHException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -85,7 +91,7 @@ public class LSHInvivoJepWorker implements Runnable, StateObserver, StateObserve
 
 				JEP_WORKER_LOCK.lock();
 				try {
-					this.workerCondition.awaitNanos(20000);
+					this.workerCondition.awaitNanos(TIMEOUT);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -99,23 +105,37 @@ public class LSHInvivoJepWorker implements Runnable, StateObserver, StateObserve
 			}
 		}
 		
+// Dispose the JEP Instance		
 		try {
 			JEP_WORKER_LOCK.lock();
 			soFactory.disposeFactoryState();
+System.out.println("Facory Disposed");
 		} catch (LSHException e) {
+System.out.println("Facory have been disposed abnormally!!");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
+			this.isWorking = false;
+			this.stoppingCondition.signalAll();
 			JEP_WORKER_LOCK.unlock();
-		}
-		
+		}		
 	}
 	
 	public void stopWorker() {
 		JEP_WORKER_LOCK.lock();
 		this.isAlive = false;
 System.out.println("JEP Worker will stop soon ...");
-		JEP_WORKER_LOCK.unlock();
+		try {
+// Waiting that the JEP Instance have been actually disposed		
+//			this.stoppingCondition.awaitNanos(TIMEOUT);
+			while (this.isWorking) this.stoppingCondition.await();
+System.out.println("... done!");
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JEP_WORKER_LOCK.unlock();			
+		}
 	}
 
 	@Override
