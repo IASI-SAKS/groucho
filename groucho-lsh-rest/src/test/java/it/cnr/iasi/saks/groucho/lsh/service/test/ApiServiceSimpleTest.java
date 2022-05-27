@@ -21,6 +21,8 @@ import org.junit.Test;
 import org.springframework.http.ResponseEntity;
 import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Ignore;
 
 import it.cnr.iasi.saks.groucho.lsh.exceptions.LSHException;
 import it.cnr.iasi.saks.groucho.lsh.service.IsunknownApiService;
@@ -48,6 +50,7 @@ public class ApiServiceSimpleTest {
 		this.resetService = new ResetApiServiceImpl();
 	}
 
+	@Before
 	@After
 	public void cleanUp() throws LSHException {
 		ConcurrentStateObserverFactoryNoSingleton.resetFactory();
@@ -86,6 +89,20 @@ public class ApiServiceSimpleTest {
 		Assert.assertTrue(condition);
 	}
 
+	@Ignore
+	@Test
+	public void unknownStateMultipleChecksTest() throws LSHException {
+		ResponseEntity<Boolean> response = this.resetService.resetStateObserver();
+		boolean condition = response.getBody();
+		Assert.assertTrue(condition);
+		
+		for (int i=0; i<5; i++){
+			response = this.isunknownService.isStateUnknown(DUMMY_CARVED_STATE_5);
+			condition = response.getBody();
+			Assert.assertTrue(condition);
+		}
+	}
+
 	@Test
 	public void unknownStateTestLSH() throws LSHException {
 		this.markService.markStateLSH(FAKE_LSH_STRING);
@@ -97,5 +114,19 @@ public class ApiServiceSimpleTest {
 		response = this.isunknownService.isStateUnknownLSH(FAKE_LSH_STRING);
 		condition = response.getBody();
 		Assert.assertTrue(condition);
+	}
+
+	@Ignore
+	@Test
+	public void unknownStateMultipleChecksTestLSH() throws LSHException {
+		ResponseEntity<Boolean> response = this.resetService.resetStateObserver();
+		boolean condition = response.getBody();
+		Assert.assertTrue(condition);
+		
+		for (int i=0; i<5; i++) {
+			response = this.isunknownService.isStateUnknownLSH(FAKE_LSH_STRING);
+			condition = response.getBody();
+			Assert.assertTrue(condition);
+		}
 	}
 }
