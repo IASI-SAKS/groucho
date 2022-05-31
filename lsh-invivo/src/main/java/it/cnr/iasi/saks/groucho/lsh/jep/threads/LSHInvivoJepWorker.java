@@ -58,6 +58,9 @@ public class LSHInvivoJepWorker implements Runnable, StateObserver, StateObserve
 		
 		while (this.isAlive) {
 			try {
+// This is not fully correct!! Here we do not distinguish between StateObserver and StateObserverLSH, but we always bind the former.
+// It currently works because we know that the implementation of the factory will always return the same instance for both the cases
+// ... but maybe this is not what we always want! 
 				StateObserver stateObserver = soFactory.getStateObserver();
 
 				while (!this.waitingRequests.isEmpty()) {
