@@ -22,13 +22,10 @@ import it.cnr.iasi.saks.groucho.lsh.jep.LSHInvivoJep;
 
 public class StateObserverFactory {
 		
-	private StateObserver so = null;
-	
-	private StateObserverLSH soLSH = null;
+	private LSHInvivoJep so = null;	
 			
 	public StateObserverFactory() throws LSHException {
 		this.so = new LSHInvivoJep();
-		this.soLSH = new LSHInvivoJep();		
 	}
 
 	public StateObserver getStateObserver() {
@@ -39,12 +36,10 @@ public class StateObserverFactory {
 		this.disposeFactoryState();
 		
 		this.so = new LSHInvivoJep();
-		this.soLSH = new LSHInvivoJep();		
 	}
 
 	public void disposeFactoryState() throws LSHException {
 		this.disposeStateObserver();
-		this.disposeStateObserverLSH();
 	}
 
 	protected void disposeStateObserver() throws LSHException {
@@ -58,14 +53,13 @@ public class StateObserverFactory {
 	}
 
 	public StateObserverLSH getStateObserverLSH() {
-		return this.soLSH;
+		return this.so;
 	}
 
 	protected void disposeStateObserverLSH() throws LSHException {
-		if (this.soLSH != null) {
-			((LSHInvivoJep)this.soLSH).detachJEP();
-		}	
+		this.disposeStateObserver();
 	}
+	
 	public StateObserverLSH getFreshStateObserverLSH() throws LSHException {
 		return new LSHInvivoJep();		
 	}
