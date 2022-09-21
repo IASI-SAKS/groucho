@@ -19,6 +19,7 @@
 
 import os
 import sys
+import argparse
 from collections import defaultdict
 from pickle import dump, load
 
@@ -76,9 +77,11 @@ def LSH_candidates(bucket, signature, b, r, n):
     i = 0
     while i < n:  # for each band
         column = signature[i:i + r]
-        column_signature = xxhash.xxh64(str(column), seed=0).intdigest()
+        #column_signature = xxhash.xxh64(str(column), seed=0).intdigest()
+        aux_column_signature = xxhash.xxh64(str(column), seed=0).intdigest()
 
-        for tc_ID in bucket[i][column_signature]:
+        #for tc_ID in bucket[i][column_signature]:
+        for tc_ID in bucket[i][aux_column_signature]:
             candidates.add(tc_ID)
 
         i += r  # next band
@@ -95,17 +98,17 @@ def init_bucket(r, n):
     return bucket
 
 
-def add_to_bucket(tc_ID, signatures, bucket, b, r, n):
+def add_to_bucket(tc_ID, bucket, signature, b, r, n):
     i = 0
     while i < n:  # for each band
-        column = signatures[i:i + r]
+        column = signature[i:i + r]
         column_signature = xxhash.xxh64(str(column), seed=0).intdigest()
 
         bucket[i][column_signature].add(tc_ID)
 
         i += r  # next band
 
-
+    
 def get_signature(state, shingling=True):
     if shingling:
         # shingling
@@ -118,45 +121,11 @@ def get_signature(state, shingling=True):
         state_ = state[:].split()
         sig = state_minhashing(set(state_), hashes)
     return sig
+
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-
-def invivo_gov(state):    
-    state_signature = get_signature(state)  # computes the minhashing signature of the state representation
-    add_to_bucket(state_count, state_signature, bucket, b, r, n)  # adds the state signature to the LSH bucket
-    sim_cand = LSH_candidates(bucket, state_signature, b, r, n)  # queries the LSH bucket with the signature just added
-    if len(sim_cand) == 1:  # there is no collision and in-vivo test session should be run
-        return 1
-    elif len(sim_cand) > 1:
-        return 0  # the newly added state is similar (above the defined threshold) to previously seen states
-
-
-
-if __name__ == '__main__':
-
-    usage = """
-        USAGE: python py/lshinvivo.py <state_representation>
-        OPTIONS: <state_representation>: a string representing the state of an object.
-        """
-
-    if len(sys.argv) != 2:
-        print("Wrong input.")
-        print(usage)
-        exit()
-
-    state = sys.argv[1]
-
-
-    # FAST parameters
-    k, n, r, b = 5, 100, 10, 10  # (1/b)^(1/r) -> (1/10)^(1/10) -> Sim threshold = 0.79
-    k, n, r, b = 5, 10, 5, 2  # (1/b)^(1/r) -> (1/2)^(1/5) -> Sim threshold = 0.87
-
-    bucket_data_file = "bucket.data"
-    hashes_data_file = "hashes.data"
-    countstates_data_file = "count.data"
-
-    hashes = [hash_family(i) for i in range(n)]
-    
+# AUX
+def load_data():
     if os.path.exists(bucket_data_file):
         with open(bucket_data_file, "rb") as bucket_in:
             bucket = load(bucket_in)
@@ -165,12 +134,63 @@ if __name__ == '__main__':
     else:        
         bucket = init_bucket(r, n)
         state_count = 0
+    return bucket, state_count
 
-    run_invivo = invivo_gov(state)
-    state_count += 1
-    print(run_invivo)
-
+def save_data():
+    # Saving 'bucket' and 'state_count'
     with open(bucket_data_file, "wb") as bucket_out:
         dump(bucket, bucket_out)    
     with open(countstates_data_file, "wb") as count_out:
         dump(state_count, count_out)
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# invivo_gov
+def invivo_gov(state, query_only=False):
+    run_invivo = 1
+    state_signature = get_signature(state)  # computes the minhashing signature of the state representation
+    sim_cand = LSH_candidates(bucket, state_signature, b, r, n)  # queries the LSH bucket with the signature just added
+
+    if len(sim_cand) > 0:  # the newly added state is similar (above the defined threshold) to previously seen states
+        run_invivo = 0
+    
+    if not query_only:
+        add_to_bucket(state_count, bucket, state_signature, b, r, n)  # adds the state signature to the LSH bucket
+    
+    return run_invivo
+
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# CONFIG
+
+# FAST parameters
+#k, n, r, b = 5, 100, 10, 10  # (1/b)^(1/r) -> (1/10)^(1/10) -> Sim threshold = 0.79
+k, n, r, b = 5, 10, 5, 2  # (1/b)^(1/r) -> (1/2)^(1/5) -> Sim threshold = 0.87
+
+bucket_data_file = "bucket.data"
+hashes_data_file = "hashes.data"
+countstates_data_file = "count.data"
+
+hashes = [hash_family(i) for i in range(n)]
+
+
+
+if __name__ == '__main__':
+    bucket, state_count = load_data()    
+
+    # Parsing Arguments
+    parser = argparse.ArgumentParser(description='The LSH-based invivo governance decides whether or not to recommend an invivo session based on the similarity between the provided <state> and previously-seen states. The return code "0" means that an invivo session is *not* recommended, whereas the return code 1 means that an invivo session is recommended for the given <state>.')
+    parser.add_argument('state', nargs=1, 
+                        help='A string representation of the <state> to be queried or inserted into the LSH bucket.')
+    parser.add_argument('-q', '--query-only', dest='query_only', action='store_true',
+                        help='Reports if an invivo session would be recommended for a given <state> without adding it to the LSH bucket. 0 = invivo session *not* recommended. 1 = invivo session recommended.')
+    args = parser.parse_args()
+
+    state = args.state[0]
+    query_only = args.query_only
+    run_invivo = invivo_gov(state, query_only)
+    if not query_only:
+        state_count += 1
+    
+    print(run_invivo)
+    
+    save_data()
