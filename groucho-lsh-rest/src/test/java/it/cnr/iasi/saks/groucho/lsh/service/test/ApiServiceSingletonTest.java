@@ -65,7 +65,7 @@ public class ApiServiceSingletonTest {
 		ConcurrentStateObserverFactoryNoSingleton.resetFactory();
 	}
 
-	@Test
+	@Test(timeout= 5000)
 	public void thisIsATest() throws LSHException {
 		if (DUMMY_CARVED_STATE_KNOWN) {
 			this.dummyCarvedStateKnown();
@@ -76,7 +76,7 @@ public class ApiServiceSingletonTest {
 		}
 	}
 
-	@Test
+	@Test(timeout= 5000)
 	public void thisIsAnotherTest() throws LSHException {
 		if (DUMMY_CARVED_STATE_KNOWN) {
 			this.dummyCarvedStateKnown();
@@ -87,7 +87,7 @@ public class ApiServiceSingletonTest {
 		}
 	}
 	
-	@Test
+	@Test(timeout= 5000)
 	public void thisIsAnLSHTest() throws LSHException {
 		if (FAKE_LSH_STRING_KNOWN) {
 			this.fakeLSHStringKnown();
@@ -98,7 +98,7 @@ public class ApiServiceSingletonTest {
 		}
 	}
 
-	@Test
+	@Test(timeout= 5000)
 	public void thisIsAnotherLSHTest() throws LSHException {
 		if (FAKE_LSH_STRING_KNOWN) {
 			this.fakeLSHStringKnown();

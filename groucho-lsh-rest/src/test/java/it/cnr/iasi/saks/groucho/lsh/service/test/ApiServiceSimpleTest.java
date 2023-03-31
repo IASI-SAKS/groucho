@@ -56,7 +56,7 @@ public class ApiServiceSimpleTest {
 		ConcurrentStateObserverFactoryNoSingleton.resetFactory();
 	}
 
-	@Test
+	@Test(timeout= 5000)
 	public void knownStateTest() throws LSHException {
 		this.markService.markState(DUMMY_CARVED_STATE_5);
 
@@ -66,7 +66,7 @@ public class ApiServiceSimpleTest {
 		Assert.assertFalse(condition);
 	}
 
-	@Test
+	@Test(timeout= 5000)
 	public void knownStateTestLSH() throws LSHException {
 		this.markService.markStateLSH(FAKE_LSH_STRING);
 
@@ -76,7 +76,7 @@ public class ApiServiceSimpleTest {
 		Assert.assertFalse(condition);
 	}
 
-	@Test
+	@Test(timeout= 5000)
 	public void unknownStateTest() throws LSHException {
 		this.markService.markState(DUMMY_CARVED_STATE_5);
 
@@ -90,7 +90,7 @@ public class ApiServiceSimpleTest {
 	}
 
 	@Ignore
-	@Test
+	@Test(timeout= 5000)
 	public void unknownStateMultipleChecksTest() throws LSHException {
 		ResponseEntity<Boolean> response = this.resetService.resetStateObserver();
 		boolean condition = response.getBody();
@@ -103,7 +103,7 @@ public class ApiServiceSimpleTest {
 		}
 	}
 
-	@Test
+	@Test(timeout= 5000)
 	public void unknownStateTestLSH() throws LSHException {
 		this.markService.markStateLSH(FAKE_LSH_STRING);
 
@@ -117,7 +117,7 @@ public class ApiServiceSimpleTest {
 	}
 
 	@Ignore
-	@Test
+	@Test(timeout= 5000)
 	public void unknownStateMultipleChecksTestLSH() throws LSHException {
 		ResponseEntity<Boolean> response = this.resetService.resetStateObserver();
 		boolean condition = response.getBody();
@@ -130,3 +130,4 @@ public class ApiServiceSimpleTest {
 		}
 	}
 }
+	
