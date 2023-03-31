@@ -28,7 +28,7 @@ import it.cnr.iasi.saks.groucho.lsh.jep.threads.LSHInvivoJepWorker;
 
 public class LSHInvivoJepWorkerBasicParallelTest {
 	
-	private final static int NUMBER_OF_CLENTS = 30;			
+	private final static int NUMBER_OF_CLENTS = 5000;			
 
 	@Test
 	public void simpleParallelTest() {
