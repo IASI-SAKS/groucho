@@ -57,7 +57,6 @@ public class LSHInvivoJepWorker implements Runnable, StateObserver, StateObserve
 		}
 		
 		while (this.isAlive) {
-			try {
 // This is not fully correct!! Here we do not distinguish between StateObserver and StateObserverLSH, but we always bind the former.
 // It currently works because we know that the implementation of the factory will always return the same instance for both the cases
 // ... but maybe this is not what we always want! 
@@ -66,14 +65,19 @@ public class LSHInvivoJepWorker implements Runnable, StateObserver, StateObserve
 				while (!this.waitingRequests.isEmpty()) {
 					ConditionToken token = this.waitingRequests.remove();
 
-					if (token.isIsStateUnknownConditionPair()) {
-						String carvedState = token.getCarvedStateConditionPair();
-						this.isStateUnknownLastResult = stateObserver.isStateUnknown(carvedState);
-					} else if (token.isMarkStateConditionPair()) {
-						String carvedState = token.getCarvedStateConditionPair();
-						stateObserver.markState(carvedState);
-					} else if (token.isResetStateObserverConditionPair()) {
-						stateObserver.resetStateObserver();
+					try {
+						if (token.isIsStateUnknownConditionPair()) {
+							String carvedState = token.getCarvedStateConditionPair();
+							this.isStateUnknownLastResult = stateObserver.isStateUnknown(carvedState);
+						} else if (token.isMarkStateConditionPair()) {
+							String carvedState = token.getCarvedStateConditionPair();
+							stateObserver.markState(carvedState);
+						} else if (token.isResetStateObserverConditionPair()) {
+							stateObserver.resetStateObserver();
+						}
+					} catch (LSHException e) {
+						token.setResultCorrupted(e);
+						e.printStackTrace();
 					}
 
 					JEP_WORKER_LOCK.lock();
@@ -101,11 +105,6 @@ public class LSHInvivoJepWorker implements Runnable, StateObserver, StateObserve
 				} finally {
 					JEP_WORKER_LOCK.unlock();
 				}
-
-			} catch (LSHException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 		
 // Dispose the JEP Instance		
@@ -188,6 +187,7 @@ System.out.println("... done!");
 	}
 
 	private boolean requesterSyncronizationLogic(ConditionToken token) throws LSHException {
+//		private boolean requesterSyncronizationLogic(ConditionToken token) {
 		boolean result=false;
 		
 		Condition c = token.getWaitingCondition();
@@ -200,13 +200,13 @@ System.out.println("... done!");
 			if (token.isIsStateUnknownConditionPair()) {
 				result = this.isStateUnknownLastResult;
 			}
-			this.resultFetched=true;
-			c.signal();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			result = false;
 		} finally {
+			this.resultFetched=true;
+			c.signal();
 			JEP_WORKER_LOCK.unlock();
 		}
 
