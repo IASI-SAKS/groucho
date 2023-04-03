@@ -18,16 +18,19 @@
 package it.cnr.iasi.saks.groucho.lsh.service.test;
 
 import org.junit.Test;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 
-import it.cnr.iasi.saks.groucho.lsh.StateObserverFactory;
+import it.cnr.iasi.saks.groucho.lsh.ConcurrentStateObserverFactory;
 import it.cnr.iasi.saks.groucho.lsh.exceptions.LSHException;
 import it.cnr.iasi.saks.groucho.lsh.service.IsunknownApiService;
 import it.cnr.iasi.saks.groucho.lsh.service.MarkApiService;
 import it.cnr.iasi.saks.groucho.lsh.service.impl.IsunknownApiServiceImpl;
 import it.cnr.iasi.saks.groucho.lsh.service.impl.MarkApiServiceImpl;
+import it.cnr.iasi.saks.groucho.lsh.tests.util.ConcurrentStateObserverFactoryNoSingleton;
 
 public class ApiServiceSingletonTest {
 
@@ -43,20 +46,28 @@ public class ApiServiceSingletonTest {
 	private volatile static boolean DUMMY_CARVED_STATE_KNOWN = false;
 	private volatile static boolean FAKE_LSH_STRING_KNOWN = false;
 	
-	public ApiServiceSingletonTest() throws LSHException{
+	public ApiServiceSingletonTest(){
 		this.isunknownService = new IsunknownApiServiceImpl();
 		this.markService = new MarkApiServiceImpl();
 	}
 		
 	@BeforeClass
 	public static void purgeSignleton() throws LSHException{
-		StateObserverFactory soFactory = StateObserverFactory.getInstance();
+		// this is to force the reset of any previous instance of ConcurrentStateObserverFactory
+		ConcurrentStateObserverFactoryNoSingleton.resetFactory();
+		
+		ConcurrentStateObserverFactory soFactory = ConcurrentStateObserverFactory.getInstance();
 		soFactory.getStateObserver().resetStateObserver();
 		soFactory.getStateObserverLSH().resetStateObserver();
 	}
 	
+	@AfterClass
+	public static void cleanUp() throws LSHException {
+		ConcurrentStateObserverFactoryNoSingleton.resetFactory();
+	}
+
 	@Test
-	public void thisIsATest() throws LSHException {
+	public void thisIsATest() {
 		if (DUMMY_CARVED_STATE_KNOWN) {
 			this.dummyCarvedStateKnown();
 		}
@@ -67,7 +78,7 @@ public class ApiServiceSingletonTest {
 	}
 
 	@Test
-	public void thisIsAnotherTest() throws LSHException {
+	public void thisIsAnotherTest() {
 		if (DUMMY_CARVED_STATE_KNOWN) {
 			this.dummyCarvedStateKnown();
 		}
@@ -78,7 +89,7 @@ public class ApiServiceSingletonTest {
 	}
 	
 	@Test
-	public void thisIsAnLSHTest() throws LSHException {
+	public void thisIsAnLSHTest() {
 		if (FAKE_LSH_STRING_KNOWN) {
 			this.fakeLSHStringKnown();
 		}
@@ -89,7 +100,7 @@ public class ApiServiceSingletonTest {
 	}
 
 	@Test
-	public void thisIsAnotherLSHTest() throws LSHException {
+	public void thisIsAnotherLSHTest() {
 		if (FAKE_LSH_STRING_KNOWN) {
 			this.fakeLSHStringKnown();
 		}
@@ -99,50 +110,66 @@ public class ApiServiceSingletonTest {
 		}
 	}
 		
-	private void dummyCarvedStateKnown() throws LSHException{
+	private void dummyCarvedStateKnown(){
 		this.markService.markState(DUMMY_CARVED_STATE_5);
 		
-		ResponseEntity<Boolean> response = this.isunknownService.isStateUnknown(DUMMY_CARVED_STATE_5);		
+		ResponseEntity<Boolean> response = this.isunknownService.isStateUnknown(DUMMY_CARVED_STATE_5);
+		Assert.assertEquals(HttpStatus.OK,response.getStatusCode());
+		
 		boolean condition = response.getBody();
 		Assert.assertFalse(condition);
 		
 		response = this.isunknownService.isStateUnknown(DUMMY_CARVED_STATE);		
+		Assert.assertEquals(HttpStatus.OK,response.getStatusCode());
+		
 		condition = response.getBody();
 		Assert.assertFalse(condition);
 	}
 	
-	private void dummyCarvedStateBecomesKnown() throws LSHException{		
+	private void dummyCarvedStateBecomesKnown(){		
 		this.markService.markState(DUMMY_CARVED_STATE);
 		
 		ResponseEntity<Boolean> response = this.isunknownService.isStateUnknown(DUMMY_CARVED_STATE);		
+		Assert.assertEquals(HttpStatus.OK,response.getStatusCode());
+		
 		boolean condition = response.getBody();
 		Assert.assertFalse(condition);
 		
 		response = this.isunknownService.isStateUnknown(DUMMY_CARVED_STATE_5);		
+		Assert.assertEquals(HttpStatus.OK,response.getStatusCode());
+		
 		condition = response.getBody();
 		Assert.assertTrue(condition);
 	}
 		
-	private void fakeLSHStringKnown() throws LSHException{
+	private void fakeLSHStringKnown(){
 		this.markService.markState(ANOTHER_FAKE_LSH_STRING);
 		
 		ResponseEntity<Boolean> response = this.isunknownService.isStateUnknown(ANOTHER_FAKE_LSH_STRING);		
+		Assert.assertEquals(HttpStatus.OK,response.getStatusCode());
+		
 		boolean condition = response.getBody();
 		Assert.assertFalse(condition);
 		
 		response = this.isunknownService.isStateUnknown(FAKE_LSH_STRING);		
+		Assert.assertEquals(HttpStatus.OK,response.getStatusCode());
+		
 		condition = response.getBody();
 		Assert.assertFalse(condition);
 	}
 	
-	private void fakeLSHStringBecomesKnown() throws LSHException{		
+	private void fakeLSHStringBecomesKnown(){		
 		this.markService.markState(FAKE_LSH_STRING);
 		
 		ResponseEntity<Boolean> response = this.isunknownService.isStateUnknown(FAKE_LSH_STRING);		
+		Assert.assertEquals(HttpStatus.OK,response.getStatusCode());
+		
 		boolean condition = response.getBody();
 		Assert.assertFalse(condition);
 		
 		response = this.isunknownService.isStateUnknown(ANOTHER_FAKE_LSH_STRING);		
+		Assert.assertEquals(HttpStatus.OK,response.getStatusCode());
+		
 		condition = response.getBody();
 		Assert.assertTrue(condition);
 	}

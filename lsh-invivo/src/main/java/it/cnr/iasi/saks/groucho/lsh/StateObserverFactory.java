@@ -21,27 +21,31 @@ import it.cnr.iasi.saks.groucho.lsh.exceptions.LSHException;
 import it.cnr.iasi.saks.groucho.lsh.jep.LSHInvivoJep;
 
 public class StateObserverFactory {
-	
-	protected static StateObserverFactory soFactory = null;
-	
-	private static StateObserver so = null;
-	
-	private static StateObserverLSH soLSH = null;
+		
+	private LSHInvivoJep so = null;	
 			
-	protected StateObserverFactory() throws LSHException {
-		so = new LSHInvivoJep();
-		soLSH = new LSHInvivoJep();
+	public StateObserverFactory() throws LSHException {
+		this.so = new LSHInvivoJep();
 	}
 
-	public synchronized static StateObserverFactory getInstance() throws LSHException {
-		if (soFactory == null) {
-			soFactory = new StateObserverFactory();
-		}
-		return soFactory;
-	}
-	
 	public StateObserver getStateObserver() {
-		return so;
+		return this.so;
+	}
+
+	public void refreshFactoryState() throws LSHException {
+		this.disposeFactoryState();
+		
+		this.so = new LSHInvivoJep();
+	}
+
+	public void disposeFactoryState() throws LSHException {
+		this.disposeStateObserver();
+	}
+
+	protected void disposeStateObserver() throws LSHException {
+		if (this.so != null) {
+			((LSHInvivoJep)this.so).detachJEP();
+		}
 	}
 
 	public StateObserver getFreshStateObserver() throws LSHException {
@@ -49,10 +53,15 @@ public class StateObserverFactory {
 	}
 
 	public StateObserverLSH getStateObserverLSH() {
-		return soLSH;
+		return this.so;
 	}
 
+	protected void disposeStateObserverLSH() throws LSHException {
+		this.disposeStateObserver();
+	}
+	
 	public StateObserverLSH getFreshStateObserverLSH() throws LSHException {
 		return new LSHInvivoJep();		
 	}
+	
 }

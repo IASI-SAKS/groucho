@@ -1,55 +1,40 @@
-/* 
- * This file is part of the GROUCHO project.
- * 
- * GROUCHO is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * 
- * GROUCHO is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with GROUCHO.  If not, see <https://www.gnu.org/licenses/>
- *
- */
-package it.cnr.iasi.saks.groucho.lsh.tests;
+package it.cnr.iasi.saks.groucho.lsh.rest.api.test;
 
+import javax.xml.ws.Response;
+
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.Assert;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import it.cnr.iasi.saks.groucho.lsh.exceptions.LSHException;
-import it.cnr.iasi.saks.groucho.lsh.jep.LSHInvivoJep;
+import it.cnr.iasi.saks.groucho.lsh.rest.api.impl.IsunknownApiController;
 
-public class SimpleLSHInvivoJepTest {
+public class SimpleRestAPITest_IT {
 
-	private LSHInvivoJep obs; 
 	private final String DUMMY_CARVED_STATE = "{dummy-->[]%fieldBoolean-->true%fieldChar-->d%fieldInt-->-1%fieldObject-->[]%fieldString-->deafult%otherDummy-->[]}";
 	private final String DUMMY_CARVED_STATE_5 = "{dummy-->{dc-->{dummy-->{dc-->{dummy-->[]%fieldBoolean-->true%fieldChar-->d%fieldInt-->-1%fieldObject-->[]%fieldString-->deafult%otherDummy-->[]}%myList-->{elementData-->[çççç]%size-->5}%mySimpleState-->999%v-->{capacityIncrement-->0%elementCount-->5%elementData-->[10ç20ç30ç40ç50]}%words-->{capacityIncrement-->0%elementCount-->2%elementData-->[FooçBoo]}}%fieldBoolean-->true%fieldChar-->d%fieldInt-->-1%fieldObject-->{}%fieldString-->deafult%otherDummy-->{fieldBooleanOther-->false%fieldCharOther-->c%fieldEnum-->three%fieldIntOther-->88%fieldStringOther-->thisIsFoo}}%myList-->{elementData-->[{fieldBooleanOther-->false%fieldCharOther-->c%fieldEnum-->three%fieldIntOther-->88%fieldStringOther-->thisIsFoo}ç{fieldBooleanOther-->false%fieldCharOther-->c%fieldEnum-->three%fieldIntOther-->88%fieldStringOther-->thisIsFoo}ç{fieldBooleanOther-->false%fieldCharOther-->c%fieldEnum-->three%fieldIntOther-->88%fieldStringOther-->thisIsFoo}ç{fieldBooleanOther-->false%fieldCharOther-->c%fieldEnum-->three%fieldIntOther-->88%fieldStringOther-->thisIsFoo}ç{fieldBooleanOther-->false%fieldCharOther-->c%fieldEnum-->three%fieldIntOther-->88%fieldStringOther-->thisIsFoo}]%size-->5}%mySimpleState-->999%v-->{capacityIncrement-->0%elementCount-->5%elementData-->[10ç20ç30ç40ç50]}%words-->{capacityIncrement-->0%elementCount-->2%elementData-->[FooçBoo]}}%fieldBoolean-->true%fieldChar-->d%fieldInt-->-1%fieldObject-->{}%fieldString-->deafult%otherDummy-->{fieldBooleanOther-->false%fieldCharOther-->c%fieldEnum-->three%fieldIntOther-->88%fieldStringOther-->thisIsFoo}}";
 
-	public SimpleLSHInvivoJepTest() throws LSHException{		
-		System.out.println(System.getProperty("java.library.path"));
+	private final String FAKE_LSH_STRING = "9832ndnkjsao8792932jdlaksnlk7aè";
 
-		this.obs = new LSHInvivoJep();		
-		this.obs.resetStateObserver();
-	}
-	
-	
-	@Test
-	public void basicTest() throws LSHException{
-		this.obs.markState(DUMMY_CARVED_STATE_5);
-		boolean condition = this.obs.isStateUnknown(DUMMY_CARVED_STATE_5);
-//		this.obs.detachJEP();
-		
-		Assert.assertFalse(condition);
-	}
+	private MockMvc mockMvc;
+	private Response response;
+	 
+//	@Before
+//    public void setUp() {
+//        mockMvc = MockMvcBuilders.standaloneSetup(IsunknownApiController.class).build();
+//    }
+//	
+//	 @Test
+//	    public void testHome() throws Exception {
+//	        mockMvc.perform(MockMvcRequestBuilders.get("/isunknown").param("value", FAKE_LSH_STRING))
+//	                .andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.content().string(Boolean.TRUE.toString()));
+//	 
+//	 }
 
 	@Test
-	public void anotherBasicTest() throws LSHException{
-		boolean condition = this.obs.isStateUnknown(DUMMY_CARVED_STATE);
-//		this.obs.detachJEP();
-		Assert.assertTrue(condition);
+    public void warningMessage() throws Exception {
+		System.err.println("****************************************\n********** REMEMBER TO IMPLEMENT THE INTEGRATION TESTS IN THE CLASS: " + SimpleRestAPITest_IT.class.getCanonicalName() + " **********\n****************************************");
 	}
 }

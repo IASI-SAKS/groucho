@@ -20,6 +20,7 @@ package it.cnr.iasi.saks.groucho.lsh.service.impl;
 import it.cnr.iasi.saks.groucho.lsh.StateObserver;
 import it.cnr.iasi.saks.groucho.lsh.StateObserverFactory;
 import it.cnr.iasi.saks.groucho.lsh.StateObserverLSH;
+import it.cnr.iasi.saks.groucho.lsh.ConcurrentStateObserverFactory;
 import it.cnr.iasi.saks.groucho.lsh.exceptions.LSHException;
 //import it.cnr.iasi.saks.groucho.lsh.factoryOLD.StateObserverFactoryOLD;
 import it.cnr.iasi.saks.groucho.lsh.service.ResetApiService;
@@ -41,7 +42,8 @@ public class ResetApiServiceImpl implements ResetApiService {
         // TODO impl instead
         // TODO if 400 error return httpstatus
         try {
-    		StateObserverFactory soFactory = StateObserverFactory.getInstance();
+//    		StateObserverFactory soFactory = StateObserverFactory.getInstance();
+    		ConcurrentStateObserverFactory soFactory = ConcurrentStateObserverFactory.getInstance();
     	    StateObserver stateObserver = soFactory.getStateObserver();
     	    StateObserverLSH stateObserverLSH = soFactory.getStateObserverLSH();
 

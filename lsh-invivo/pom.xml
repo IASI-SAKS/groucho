@@ -154,11 +154,13 @@
 <!-- 							<workingDirectory>${basedir}/target/xxhash</workingDirectory> -->
 							<arguments>
 								<argument>install</argument>
+<!-- It looks that "-b" option became DEPRECATED with PIP version 20.2 (2020-07-29) -->                            
 <!-- 								<argument>-b${basedir}/target/xxhash</argument> -->
 <!-- 								<argument>- -prefix=${jep-inst-path}</argument> -->
 <!-- About the next line please consider ISSUE#17  on GitHub at: https://github.com/IASI-SAKS/groucho/issues/17-->
 <!-- 	                        <argument>-REMOVE_THIS_SPACE-system</argument> -->                                
-								<argument>-b${jep-path}</argument>
+<!-- It looks that "-b" option became DEPRECATED with PIP version 20.2 (2020-07-29) -->                            
+<!-- 								<argument>-b${jep-path}</argument> -->
 								<argument>-t${jep-inst-path}</argument>
 								<argument>jep</argument>
 							</arguments>
@@ -175,11 +177,13 @@
 <!-- 							<workingDirectory>${basedir}/target/xxhash</workingDirectory> -->
 							<arguments>
 								<argument>install</argument>
+<!-- It looks that "-b" option became DEPRECATED with PIP version 20.2 (2020-07-29) -->                            
 <!-- 								<argument>-b${basedir}/target/xxhash</argument> -->
 <!-- 								<argument>- -prefix=${jep-inst-path}</argument> -->
 <!-- About the next line please consider ISSUE#17  on GitHub at: https://github.com/IASI-SAKS/groucho/issues/17-->
-<!-- 	                        <argument>-REMOVE_THIS_SPACE-system</argument> -->                                
-								<argument>-b${xxhash-path}</argument>
+<!-- 	                        <argument>-REMOVE_THIS_SPACE-system</argument> -->    
+<!-- It looks that "-b" option became DEPRECATED with PIP version 20.2 (2020-07-29) -->                            
+<!--								<argument>-b${xxhash-path}</argument> -->
 								<argument>-t${jep-inst-path}</argument>
 								<argument>xxhash</argument>
 							</arguments>
