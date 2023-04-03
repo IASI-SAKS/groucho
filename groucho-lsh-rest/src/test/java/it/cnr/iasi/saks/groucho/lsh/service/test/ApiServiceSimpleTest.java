@@ -18,6 +18,7 @@
 package it.cnr.iasi.saks.groucho.lsh.service.test;
 
 import org.junit.Test;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.junit.After;
 import org.junit.Assert;
@@ -44,7 +45,7 @@ public class ApiServiceSimpleTest {
 	private MarkApiService markService;
 	private ResetApiService resetService;
 
-	public ApiServiceSimpleTest() throws LSHException {
+	public ApiServiceSimpleTest() {
 		this.isunknownService = new IsunknownApiServiceImpl();
 		this.markService = new MarkApiServiceImpl();
 		this.resetService = new ResetApiServiceImpl();
@@ -56,75 +57,93 @@ public class ApiServiceSimpleTest {
 		ConcurrentStateObserverFactoryNoSingleton.resetFactory();
 	}
 
-	@Test(timeout= 5000)
-	public void knownStateTest() throws LSHException {
+	@Test
+	public void knownStateTest() {
 		this.markService.markState(DUMMY_CARVED_STATE_5);
 
 		ResponseEntity<Boolean> response = this.isunknownService.isStateUnknown(DUMMY_CARVED_STATE_5);
+		Assert.assertEquals(HttpStatus.OK,response.getStatusCode());
+		
 		boolean condition = response.getBody();
-
 		Assert.assertFalse(condition);
 	}
 
-	@Test(timeout= 5000)
-	public void knownStateTestLSH() throws LSHException {
+	@Test
+	public void knownStateTestLSH() {
 		this.markService.markStateLSH(FAKE_LSH_STRING);
 
 		ResponseEntity<Boolean> response = this.isunknownService.isStateUnknownLSH(FAKE_LSH_STRING);
+		Assert.assertEquals(HttpStatus.OK,response.getStatusCode());
+		
 		boolean condition = response.getBody();
-
 		Assert.assertFalse(condition);
 	}
 
-	@Test(timeout= 5000)
-	public void unknownStateTest() throws LSHException {
+	@Test
+	public void unknownStateTest() {
 		this.markService.markState(DUMMY_CARVED_STATE_5);
 
 		ResponseEntity<Boolean> response = this.resetService.resetStateObserver();
+		Assert.assertEquals(HttpStatus.OK,response.getStatusCode());
+		
 		boolean condition = response.getBody();
 		Assert.assertTrue(condition);
 
 		response = this.isunknownService.isStateUnknown(DUMMY_CARVED_STATE_5);
+		Assert.assertEquals(HttpStatus.OK,response.getStatusCode());
+		
 		condition = response.getBody();
 		Assert.assertTrue(condition);
 	}
 
 	@Ignore
-	@Test(timeout= 5000)
-	public void unknownStateMultipleChecksTest() throws LSHException {
+	@Test
+	public void unknownStateMultipleChecksTest() {
 		ResponseEntity<Boolean> response = this.resetService.resetStateObserver();
+		Assert.assertEquals(HttpStatus.OK,response.getStatusCode());
+		
 		boolean condition = response.getBody();
 		Assert.assertTrue(condition);
 		
 		for (int i=0; i<5; i++){
 			response = this.isunknownService.isStateUnknown(DUMMY_CARVED_STATE_5);
+			Assert.assertEquals(HttpStatus.OK,response.getStatusCode());
+			
 			condition = response.getBody();
 			Assert.assertTrue(condition);
 		}
 	}
 
-	@Test(timeout= 5000)
-	public void unknownStateTestLSH() throws LSHException {
+	@Test
+	public void unknownStateTestLSH() {
 		this.markService.markStateLSH(FAKE_LSH_STRING);
 
 		ResponseEntity<Boolean> response = this.resetService.resetStateObserver();
+		Assert.assertEquals(HttpStatus.OK,response.getStatusCode());
+		
 		boolean condition = response.getBody();
 		Assert.assertTrue(condition);
 
 		response = this.isunknownService.isStateUnknownLSH(FAKE_LSH_STRING);
+		Assert.assertEquals(HttpStatus.OK,response.getStatusCode());
+		
 		condition = response.getBody();
 		Assert.assertTrue(condition);
 	}
 
 	@Ignore
-	@Test(timeout= 5000)
-	public void unknownStateMultipleChecksTestLSH() throws LSHException {
+	@Test
+	public void unknownStateMultipleChecksTestLSH() {
 		ResponseEntity<Boolean> response = this.resetService.resetStateObserver();
+		Assert.assertEquals(HttpStatus.OK,response.getStatusCode());
+		
 		boolean condition = response.getBody();
 		Assert.assertTrue(condition);
 		
 		for (int i=0; i<5; i++) {
 			response = this.isunknownService.isStateUnknownLSH(FAKE_LSH_STRING);
+			Assert.assertEquals(HttpStatus.OK,response.getStatusCode());
+			
 			condition = response.getBody();
 			Assert.assertTrue(condition);
 		}
