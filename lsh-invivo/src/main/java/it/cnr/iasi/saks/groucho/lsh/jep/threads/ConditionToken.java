@@ -2,11 +2,17 @@ package it.cnr.iasi.saks.groucho.lsh.jep.threads;
 
 import java.util.concurrent.locks.Condition;
 
+import it.cnr.iasi.saks.groucho.lsh.exceptions.LSHException;
+
 public class ConditionToken {
 	private String carvedState;
 	private String stateObserverOperation;
 	
 	private volatile boolean isResultReady;
+	private volatile boolean isResultCorrupted;
+	
+	private LSHException corruptedResultException;
+	
 	private Condition waitingCondition;
 	
 	private final static String IS_STATE_UNKNOWN = "isStateUnknown";
@@ -19,6 +25,9 @@ public class ConditionToken {
 		this.carvedState = carvedState;
 		this.stateObserverOperation = stateObserverOperation;
 		this.isResultReady = false;
+		this.isResultCorrupted= false;
+		
+		this.corruptedResultException = null;
 	}
 	
 	private ConditionToken(Condition waitingCondition, String stateObserverOperation) {
@@ -60,14 +69,25 @@ public class ConditionToken {
 		return this.waitingCondition;
 	}
 	
-	public synchronized boolean isResultReady() {
+	public synchronized boolean isResultReady() throws LSHException {
+		if (this.isResultCorrupted) {
+			throw this.corruptedResultException;
+		}
 		return this.isResultReady;
 	}
 
 	public synchronized void setResultReady() {
 		this.isResultReady = true;
 	}
+
 	public synchronized void resetResultReady() {
 		this.isResultReady = false;
+		this.isResultCorrupted = false;
+		this.corruptedResultException = null;
+	}
+
+	public synchronized void setResultCorrupted(LSHException e) {
+		this.isResultCorrupted = true;
+		this.corruptedResultException = e;
 	}
 }
