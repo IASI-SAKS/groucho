@@ -4,10 +4,14 @@ import javax.xml.ws.Response;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import it.cnr.iasi.saks.groucho.lsh.rest.api.impl.IsunknownApiController;
 
@@ -21,11 +25,17 @@ public class SimpleRestAPITest_IT {
 	private MockMvc mockMvc;
 	private Response response;
 	 
-//	@Before
-//    public void setUp() {
-//        mockMvc = MockMvcBuilders.standaloneSetup(IsunknownApiController.class).build();
-//    }
-//	
+	@Before
+    public void setUp() {
+//		IsunknownApiController isUnknownApiController = new IsunknownApiController(new ObjectMapper(), new MockHttpServletRequest());
+// DELETE THE DEFAULT CONTRUCTOR IN: it.cnr.iasi.saks.groucho.lsh.rest.api.impl.IsunknownApiController
+		IsunknownApiController isUnknownApiController = new IsunknownApiController();
+		System.out.println("this is the hash code:" + isUnknownApiController.hashCode());
+		System.out.println("..done");
+//		isUnknownApiController.hashCode();
+//        mockMvc = MockMvcBuilders.standaloneSetup(isUnknownApiController).build();
+    }
+	
 //	 @Test
 //	    public void testHome() throws Exception {
 //	        mockMvc.perform(MockMvcRequestBuilders.get("/isunknown").param("value", FAKE_LSH_STRING))
