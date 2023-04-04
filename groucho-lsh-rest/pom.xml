@@ -57,8 +57,8 @@
         <spring.boot.version>2.2.6.RELEASE</spring.boot.version>
         <junit.version>4.4</junit.version>
         <lombok.version>1.18.20</lombok.version>
-	<lsh-invivo.directory>${basedir}/../lsh-invivo</lsh-invivo.directory>
-	<jep-inst-path>${lsh-invivo.directory}/target/jep-inst</jep-inst-path>
+		<lsh-invivo.directory>${basedir}/../lsh-invivo</lsh-invivo.directory>
+		<jep-inst-path>${lsh-invivo.directory}/target/jep-inst</jep-inst-path>
         <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
@@ -154,6 +154,9 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring.boot.version}</version>
 				<configuration>
+<!--  THE FOLLOWING CONFIGURATION IS IMPORTANT IN ORDER TO PACKAGE THE MODULE SO THAT IT CAN BE REUSED BY OTHER MODULES.-->
+<!--  SEE THE ANSWERS TO: https://stackoverflow.com/questions/61341102/maven-doesnt-find-imported-class-from-another-module-but-intellij-does-->
+				    <classifier>exec</classifier>
 					<environmentVariables>
 						<PYTHONPATH>${jep-inst-path}/:$PYTHONPATH</PYTHONPATH>
 					</environmentVariables>
