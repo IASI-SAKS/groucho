@@ -27,18 +27,22 @@ public class SimpleRestAPITest_IT {
 	 
 	@Before
     public void setUp() {
-//		IsunknownApiController isUnknownApiController = new IsunknownApiController(new ObjectMapper(), new MockHttpServletRequest());
 // DELETE THE DEFAULT CONTRUCTOR IN: it.cnr.iasi.saks.groucho.lsh.rest.api.impl.IsunknownApiController
-		IsunknownApiController isUnknownApiController = new IsunknownApiController();
+//		IsunknownApiController isUnknownApiController = new IsunknownApiController();
+//		System.out.println("this is the hash code:" + isUnknownApiController.hashCode());
+//		System.out.println("..done");
+		IsunknownApiController isUnknownApiController = new IsunknownApiController(new ObjectMapper(), new MockHttpServletRequest());
+		isUnknownApiController.hashCode();
 		System.out.println("this is the hash code:" + isUnknownApiController.hashCode());
 		System.out.println("..done");
-//		isUnknownApiController.hashCode();
-//        mockMvc = MockMvcBuilders.standaloneSetup(isUnknownApiController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(isUnknownApiController).build();
+		System.out.println("this is another hash code:" + mockMvc.hashCode());
+		System.out.println("..done");
     }
 	
 //	 @Test
 //	    public void testHome() throws Exception {
-//	        mockMvc.perform(MockMvcRequestBuilders.get("/isunknown").param("value", FAKE_LSH_STRING))
+//	        mockMvc.perform(MockMvcRequestBuilders.get("/groucho-state-observer/isunknown").param("value", FAKE_LSH_STRING))
 //	                .andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.content().string(Boolean.TRUE.toString()));
 //	 
 //	 }
