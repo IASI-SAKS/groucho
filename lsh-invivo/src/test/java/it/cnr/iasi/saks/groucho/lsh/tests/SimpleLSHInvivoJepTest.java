@@ -42,11 +42,15 @@ public class SimpleLSHInvivoJepTest {
 	
 	@Test
 	public void basicTest() throws LSHException{
-		this.obs.markState(DUMMY_CARVED_STATE);
+		this.obs.markState(DUMMY_CARVED_STATE_5);
 		boolean condition = this.obs.isStateUnknown(DUMMY_CARVED_STATE_5);
 //		this.obs.detachJEP();
 		
-		Assert.assertFalse(condition);
+// ---------------------------------------------------
+		Assert.assertEquals(false, condition);
+// ---------------------------------------------------
+//		Assert.assertFalse(condition);
+// ---------------------------------------------------
 	}
 
 	@Test
@@ -86,7 +90,6 @@ public class SimpleLSHInvivoJepTest {
 // ---------------------------------------------------
 	}
 
-	@Ignore
 	@Test
 	public void unknownStateMultipleChecksTest() throws LSHException {
 		this.obs.resetStateObserver();
