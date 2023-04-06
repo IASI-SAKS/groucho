@@ -96,7 +96,6 @@ public class ApiServiceSimpleTest {
 		Assert.assertTrue(condition);
 	}
 
-	@Ignore
 	@Test
 	public void unknownStateMultipleChecksTest() {
 		ResponseEntity<Boolean> response = this.resetService.resetStateObserver();
@@ -131,7 +130,6 @@ public class ApiServiceSimpleTest {
 		Assert.assertTrue(condition);
 	}
 
-	@Ignore
 	@Test
 	public void unknownStateMultipleChecksTestLSH() {
 		ResponseEntity<Boolean> response = this.resetService.resetStateObserver();
