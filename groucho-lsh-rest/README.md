@@ -1,3 +1,10 @@
+# Java Home
+
+Remember that also for this module the variable JAVA_HOME has to be defined and properly set.
+Possible hints are:
+ * Linux: ```export JAVA_HOME=`dirname $(dirname $(readlink -f $(which javac)))` ```
+ * Mc OS: ```export JAVA_HOME=$(/usr/libexec/java_home)```
+
 # Swagger generated server
 
 Spring Boot Server 
@@ -10,9 +17,12 @@ This is an example of building a swagger-enabled server in Java using the Spring
 
 The underlying library integrating swagger to SpringBoot is [springfox](https://github.com/springfox/springfox)  
 
-Start your server as an simple java application  
+Start your server as an simple java application:
+``mvn spring-boot:run``
 
-You can view the api documentation in swagger-ui by pointing to  
-http://localhost:8080/groucho-state-observer/  
+You can view the api documentation in swagger-ui by pointing to:
+ * ``http://localhost:8080/groucho-state-observer/``
 
-Change default port value in application.properties
+Change default deployment configurations of Spring-boot (e.g. the port value) in the files:
+ * [application.properties](https://github.com/IASI-SAKS/groucho/tree/master/groucho-lsh-rest/src/main/resources/application.properties)
+ * [applicationContext.xml](https://github.com/IASI-SAKS/groucho/tree/master/groucho-lsh-rest/src/main/resources/applicationContext.xml)
