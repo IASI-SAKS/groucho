@@ -32,6 +32,8 @@ public class PropertyUtil {
 	
 	public static final String LAB_INSTRUMENT_MODEL_JSON_FILE_LABEL = "groucho.lab.intrument.jsonFile";
 
+	public static final String LSH_REST_CLIENT_URL_BASE_PATH_LABEL= "groucho.lsh.rest_client.urlBasePath";
+
 	private static final String CLASS_LIST_SEPARATOR = ",";
 
 	protected static PropertyUtil INSTANCE = null;
