@@ -43,12 +43,6 @@ public class IsunknownApiController implements IsunknownApi {
 
     protected Logger logger = LoggerFactory.getLogger(IsunknownApiController.class);
 
-    // DELETE THIS CONTRUCTOR: IT WAS ADDED JUST FOR DEBBUGING PUROPOSES WHILE DEVELOPING THE FIRST PROPOSAL OF: it.cnr.iasi.saks.groucho.lsh.rest.api.test.SimpleRestAPITest_IT
-    public IsunknownApiController() {
-    	this.objectMapper = null;
-    	this.request=null;
-    }
-
     @Autowired
     public IsunknownApiController(ObjectMapper objectMapper, HttpServletRequest request) {
         this.objectMapper = objectMapper;
