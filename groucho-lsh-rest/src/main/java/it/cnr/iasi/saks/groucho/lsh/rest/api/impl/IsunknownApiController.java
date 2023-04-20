@@ -43,7 +43,6 @@ public class IsunknownApiController implements IsunknownApi {
 
     protected Logger logger = LoggerFactory.getLogger(IsunknownApiController.class);
 
-    
     @Autowired
     public IsunknownApiController(ObjectMapper objectMapper, HttpServletRequest request) {
         this.objectMapper = objectMapper;

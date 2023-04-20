@@ -55,36 +55,13 @@ public class LSHInvivoJep implements StateObserver, StateObserverLSH {
 
 	@Override
 	public boolean isStateUnknown(String carvedState) throws LSHException {
-		// Note that the parameter "foo-thisInRequiredBy-py/lshinvivo.py" is useless
-		// it is introduced here only because the current implementation of
-		// the python script: "lshinvivo.py" the first parameters is counted
-		// as the name of the script when invoked by CLI. Thus it became useless 
-		// in the current setup with JEP 
-		String[] params = { "foo-thisInRequiredBy-py/lshinvivo.py", carvedState };
-		boolean runInvivoFlag = false;
-
-		synchronized (LOCK) {
-			try {
-				this.configurePyArgv(params);
-
-//				System.out.println("**********************" + LSH_PY_SCRIPT_IN_TMP);
-				
-				JEP_INTERPRETER.runScript(LSH_PY_SCRIPT_IN_TMP);
-//				JEP_INTERPRETER.runScript(LSH_PY_SCRIPT);
-
-				runInvivoFlag = JEP_INTERPRETER.getValue(LSH_PY_SCRIPT_RESULT, Integer.class) != 0;
-			} catch (JepException e) {
-				LSHException lshEx = new LSHException(e.getMessage(), e.getCause());
-				throw lshEx;
-			}
-		}
-
-		return runInvivoFlag;
+		boolean isStateUnknownFlag = this.invokeJepInerpreter(true, carvedState);
+		return isStateUnknownFlag;
 	}
 
 	@Override
 	public void markState(String carvedState) throws LSHException {
-		this.isStateUnknown(carvedState);
+		this.invokeJepInerpreter(false, carvedState);
 	}
 
 	@Override
@@ -115,6 +92,47 @@ public class LSHInvivoJep implements StateObserver, StateObserverLSH {
 		}
 	}
 	
+	
+	private boolean invokeJepInerpreter(boolean queryMode, String carvedState) throws LSHException {
+		String[] params;
+		if (queryMode) {
+			// Note that the parameter "foo-thisInRequiredBy-py/lshinvivo.py" is useless
+			// it is introduced here only because the current implementation of
+			// the python script: "lshinvivo.py" the first parameters is counted
+			// as the name of the script when invoked by CLI. Thus it became useless 
+			// in the current setup with JEP 
+			String[] paramsQueryMode = { "foo-thisInRequiredBy-py/lshinvivo.py", "-q", carvedState };
+			params = paramsQueryMode;
+		} else {
+			// Note that the parameter "foo-thisInRequiredBy-py/lshinvivo.py" is useless
+			// it is introduced here only because the current implementation of
+			// the python script: "lshinvivo.py" the first parameters is counted
+			// as the name of the script when invoked by CLI. Thus it became useless 
+			// in the current setup with JEP 
+			String[] paramsNoQueryMode = { "foo-thisInRequiredBy-py/lshinvivo.py", carvedState };
+			params = paramsNoQueryMode;			
+		}
+		boolean runInvivoFlag = false;
+
+		synchronized (LOCK) {
+			try {
+				this.configurePyArgv(params);
+
+//				System.out.println("**********************" + LSH_PY_SCRIPT_IN_TMP);
+				
+				JEP_INTERPRETER.runScript(LSH_PY_SCRIPT_IN_TMP);
+//				JEP_INTERPRETER.runScript(LSH_PY_SCRIPT);
+
+				runInvivoFlag = JEP_INTERPRETER.getValue(LSH_PY_SCRIPT_RESULT, Integer.class) != 0;
+			} catch (JepException e) {
+				LSHException lshEx = new LSHException(e.getMessage(), e.getCause());
+				throw lshEx;
+			}
+		}
+
+		return runInvivoFlag;
+	}
+
 	private void extractPythonScripts() throws LSHException {
 //		String targetPath = System.getProperty("java.io.tmpdir");
 		if (LSH_PY_SCRIPT_IN_TMP == null) {

@@ -1,30 +1,32 @@
 package it.cnr.iasi.saks.groucho.lsh.rest.api.test;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
-import it.cnr.iasi.saks.groucho.lsh.StateObserver;
+import it.cnr.iasi.saks.groucho.lsh.StateObserverLSH;
 import it.cnr.iasi.saks.groucho.lsh.exceptions.LSHException;
 import it.cnr.iasi.saks.groucho.lsh.rest_client.StateObserverRestClientFactory;
 
-public class SimpleRestAPITest_IT {
 
-	private final String DUMMY_CARVED_STATE = "{dummy-->[]%fieldBoolean-->true%fieldChar-->d%fieldInt-->-1%fieldObject-->[]%fieldString-->deafult%otherDummy-->[]}";
-	private final String DUMMY_CARVED_STATE_5 = "{dummy-->{dc-->{dummy-->{dc-->{dummy-->[]%fieldBoolean-->true%fieldChar-->d%fieldInt-->-1%fieldObject-->[]%fieldString-->deafult%otherDummy-->[]}%myList-->{elementData-->[çççç]%size-->5}%mySimpleState-->999%v-->{capacityIncrement-->0%elementCount-->5%elementData-->[10ç20ç30ç40ç50]}%words-->{capacityIncrement-->0%elementCount-->2%elementData-->[FooçBoo]}}%fieldBoolean-->true%fieldChar-->d%fieldInt-->-1%fieldObject-->{}%fieldString-->deafult%otherDummy-->{fieldBooleanOther-->false%fieldCharOther-->c%fieldEnum-->three%fieldIntOther-->88%fieldStringOther-->thisIsFoo}}%myList-->{elementData-->[{fieldBooleanOther-->false%fieldCharOther-->c%fieldEnum-->three%fieldIntOther-->88%fieldStringOther-->thisIsFoo}ç{fieldBooleanOther-->false%fieldCharOther-->c%fieldEnum-->three%fieldIntOther-->88%fieldStringOther-->thisIsFoo}ç{fieldBooleanOther-->false%fieldCharOther-->c%fieldEnum-->three%fieldIntOther-->88%fieldStringOther-->thisIsFoo}ç{fieldBooleanOther-->false%fieldCharOther-->c%fieldEnum-->three%fieldIntOther-->88%fieldStringOther-->thisIsFoo}ç{fieldBooleanOther-->false%fieldCharOther-->c%fieldEnum-->three%fieldIntOther-->88%fieldStringOther-->thisIsFoo}]%size-->5}%mySimpleState-->999%v-->{capacityIncrement-->0%elementCount-->5%elementData-->[10ç20ç30ç40ç50]}%words-->{capacityIncrement-->0%elementCount-->2%elementData-->[FooçBoo]}}%fieldBoolean-->true%fieldChar-->d%fieldInt-->-1%fieldObject-->{}%fieldString-->deafult%otherDummy-->{fieldBooleanOther-->false%fieldCharOther-->c%fieldEnum-->three%fieldIntOther-->88%fieldStringOther-->thisIsFoo}}";
+public class SimpleLSHRestAPITest_IT {
 
-	private StateObserver obs;
+	private final String FAKE_LSH_STRING = "9832ndnkjsao8792932jdlaksnlk7aé";
+	private final String FAKE_LSH_STRING_BIS = "jkhdkabncyu87a9sncjnksajgdn11";
+
+	private StateObserverLSH obsLSH;
 	
-    public SimpleRestAPITest_IT() throws LSHException {
+    public SimpleLSHRestAPITest_IT() throws LSHException {
     	StateObserverRestClientFactory factory = new StateObserverRestClientFactory();
-    	this.obs =  factory.getStateObserver();
+    	this.obsLSH =  factory.getStateObserverLSH();
     	
-		this.obs.resetStateObserver();
+		this.obsLSH.resetStateObserver();
      }
     
 	@Test
 	public void basicTest() throws LSHException{
-		this.obs.markState(DUMMY_CARVED_STATE_5);
-		boolean condition = this.obs.isStateUnknown(DUMMY_CARVED_STATE_5);		
+		this.obsLSH.markState(FAKE_LSH_STRING_BIS);
+		boolean condition = this.obsLSH.isStateUnknown(FAKE_LSH_STRING_BIS);		
 // ---------------------------------------------------
 		Assert.assertEquals(false, condition);
 // ---------------------------------------------------
@@ -34,7 +36,7 @@ public class SimpleRestAPITest_IT {
 
 	@Test
 	public void anotherBasicTest() throws LSHException{
-		boolean condition = this.obs.isStateUnknown(DUMMY_CARVED_STATE);
+		boolean condition = this.obsLSH.isStateUnknown(FAKE_LSH_STRING_BIS);
 // ---------------------------------------------------
 		Assert.assertEquals(true, condition);
 // ---------------------------------------------------
@@ -47,18 +49,18 @@ public class SimpleRestAPITest_IT {
 	
 	@Test
 	public void knownStateTest() throws LSHException {
-		this.obs.markState(DUMMY_CARVED_STATE_5);
-		boolean condition = this.obs.isStateUnknown(DUMMY_CARVED_STATE_5);
+		this.obsLSH.markState(FAKE_LSH_STRING);
+		boolean condition = this.obsLSH.isStateUnknown(FAKE_LSH_STRING);
 		Assert.assertFalse(condition);
 	}
 
 	@Test
 	public void unknownStateTest() throws LSHException {
-		this.obs.markState(DUMMY_CARVED_STATE_5);
+		this.obsLSH.markState(FAKE_LSH_STRING);
 
-		this.obs.resetStateObserver();
+		this.obsLSH.resetStateObserver();
 
-		boolean condition = this.obs.isStateUnknown(DUMMY_CARVED_STATE_5);
+		boolean condition = this.obsLSH.isStateUnknown(FAKE_LSH_STRING);
 
 // ---------------------------------------------------
 		Assert.assertEquals(true, condition);
@@ -69,10 +71,10 @@ public class SimpleRestAPITest_IT {
 
 	@Test
 	public void unknownStateMultipleChecksTest() throws LSHException {
-		this.obs.resetStateObserver();
+		this.obsLSH.resetStateObserver();
 		
 		for (int i=0; i<5; i++){
-			boolean condition = this.obs.isStateUnknown(DUMMY_CARVED_STATE_5);
+			boolean condition = this.obsLSH.isStateUnknown(FAKE_LSH_STRING);
 
 // ---------------------------------------------------
 			Assert.assertEquals(true, condition);
