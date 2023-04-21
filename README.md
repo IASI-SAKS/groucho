@@ -72,7 +72,8 @@ Current Set of Properties
 Groucho has several configuration properties. Even though further Properties classes could be defined and used in any of the Groucho's modules, we recommend to refer (and in case modify) only the classes:
  * [it.cnr.iasi.saks.groucho.config.PropertyUtil](https://github.com/IASI-SAKS/groucho/blob/master/groucho-core/src/main/java/it/cnr/iasi/saks/groucho/config/PropertyUtil.java)
  * [it.cnr.iasi.saks.groucho.tests.util.PropertyUtilNoSingleton](https://github.com/IASI-SAKS/groucho/blob/master/groucho-core/src/test/java/it/cnr/iasi/saks/groucho/tests/util/PropertyUtilNoSingleton.java)
- both defined in the module ``grucho-core``.
+
+both defined in the module ``grucho-core``.
  
 Currently the properties supported by these classes are:
 * ``groucho.governance.manager.class``
