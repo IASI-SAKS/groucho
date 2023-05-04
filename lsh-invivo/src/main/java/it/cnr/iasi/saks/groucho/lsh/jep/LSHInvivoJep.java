@@ -92,16 +92,25 @@ public class LSHInvivoJep implements StateObserver, StateObserverLSH {
 		}
 	}
 	
+	private String escapingUnxepectedChars(String carvedState) {
+		String escapedString = carvedState.replace("'", "\"");
+
+		if (carvedState.startsWith("-")){
+			escapedString = "\""+escapedString+"\"";
+		} 
+		return escapedString;
+	}
 	
 	private boolean invokeJepInerpreter(boolean queryMode, String carvedState) throws LSHException {
 		String[] params;
+		String safeCarvedState = this.escapingUnxepectedChars(carvedState);
 		if (queryMode) {
 			// Note that the parameter "foo-thisInRequiredBy-py/lshinvivo.py" is useless
 			// it is introduced here only because the current implementation of
 			// the python script: "lshinvivo.py" the first parameters is counted
 			// as the name of the script when invoked by CLI. Thus it became useless 
 			// in the current setup with JEP 
-			String[] paramsQueryMode = { "foo-thisInRequiredBy-py/lshinvivo.py", "-q", carvedState };
+			String[] paramsQueryMode = { "foo-thisInRequiredBy-py/lshinvivo.py", "-q", safeCarvedState };
 			params = paramsQueryMode;
 		} else {
 			// Note that the parameter "foo-thisInRequiredBy-py/lshinvivo.py" is useless
@@ -109,7 +118,7 @@ public class LSHInvivoJep implements StateObserver, StateObserverLSH {
 			// the python script: "lshinvivo.py" the first parameters is counted
 			// as the name of the script when invoked by CLI. Thus it became useless 
 			// in the current setup with JEP 
-			String[] paramsNoQueryMode = { "foo-thisInRequiredBy-py/lshinvivo.py", carvedState };
+			String[] paramsNoQueryMode = { "foo-thisInRequiredBy-py/lshinvivo.py", safeCarvedState };
 			params = paramsNoQueryMode;			
 		}
 		boolean runInvivoFlag = false;
